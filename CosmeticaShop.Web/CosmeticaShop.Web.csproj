@@ -136,6 +136,8 @@
     <Content Include="assets\img\icons\facebook.png" />
     <Content Include="assets\img\icons\instagram.png" />
     <Content Include="assets\img\icons\logo-dois.png" />
+    <Content Include="assets\img\Temp\slide1.png" />
+    <Content Include="assets\img\Temp\slide2.png" />
     <Content Include="assets\js\Plugins\slick\ajax-loader.gif" />
     <Content Include="assets\js\Plugins\slick\fonts\slick.svg" />
     <Content Include="assets\js\Plugins\slick\slick-theme.css" />

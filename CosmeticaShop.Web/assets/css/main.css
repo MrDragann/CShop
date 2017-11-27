@@ -254,9 +254,24 @@ footer {
 
 
 /* Слик слайдер */
+.main-slider {
+    padding:0 50px;
+}
+
 .item-slider {
-    height: 250px !important; 
+    height: 250px !important;
     background-color: red;
-    margin:0 5px;
+    margin: 0 5px;
+}
+
+    .item-slider img {
+        width: 100%;
+    }
+
+.slick-prev, .slick-next {
+    background: #ffaecb !important;
+    border-radius: 20px;
+    width: 40px !important;
+    height: 40px !important;
 }
 /* Конец слика слайдер */
