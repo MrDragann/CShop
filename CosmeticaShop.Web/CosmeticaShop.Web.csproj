@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -127,14 +128,26 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\font.css" />
+    <Content Include="assets\css\main.css" />
+    <Content Include="assets\img\Backgound.jpg" />
+    <Content Include="assets\img\icons\big-like.png" />
+    <Content Include="assets\img\icons\cart.png" />
+    <Content Include="assets\img\icons\facebook.png" />
+    <Content Include="assets\img\icons\instagram.png" />
+    <Content Include="assets\img\icons\logo-dois.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\FuturaPTBook.otf" />
+    <Content Include="fonts\FuturaPTDemi.otf" />
+    <Content Include="fonts\FuturaPTLight.otf" />
+    <Content Include="fonts\FuturaPTMedium.otf" />
+    <Content Include="fonts\The Braggest_Demo.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -159,9 +172,12 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Partial\_Header.cshtml" />
+    <Content Include="Views\Shared\Partial\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="assets\js\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
