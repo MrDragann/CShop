@@ -136,6 +136,11 @@
     <Content Include="assets\img\icons\facebook.png" />
     <Content Include="assets\img\icons\instagram.png" />
     <Content Include="assets\img\icons\logo-dois.png" />
+    <Content Include="assets\js\Plugins\slick\ajax-loader.gif" />
+    <Content Include="assets\js\Plugins\slick\fonts\slick.svg" />
+    <Content Include="assets\js\Plugins\slick\slick-theme.css" />
+    <Content Include="assets\js\Plugins\slick\slick.css" />
+    <Content Include="assets\js\Plugins\slick\slick.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -148,6 +153,9 @@
     <Content Include="fonts\FuturaPTLight.otf" />
     <Content Include="fonts\FuturaPTMedium.otf" />
     <Content Include="fonts\The Braggest_Demo.otf" />
+    <Content Include="assets\js\Plugins\slick\fonts\slick.eot" />
+    <Content Include="assets\js\Plugins\slick\fonts\slick.ttf" />
+    <Content Include="assets\js\Plugins\slick\fonts\slick.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -177,7 +185,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="assets\js\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
