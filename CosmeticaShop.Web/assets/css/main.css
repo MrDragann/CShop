@@ -61,6 +61,26 @@ a:active {
     background-image: url('../img/icons/logo-dois.png');
     background-repeat: no-repeat;
 }
+
+
+.icon-product-cart {
+    display: inline-block;
+    cursor: pointer;
+    width: 23px;
+    height: 21px;
+    background-image: url('../img/icons/product-cart.png');
+    background-repeat: no-repeat;
+}
+
+.icon-like {
+    display: inline-block;
+    cursor: pointer;
+    width: 23px;
+    height: 21px;
+    background-image: url('../img/icons/like.png');
+    background-repeat: no-repeat;
+}
+
 /* Конец иконок */
 
 
@@ -228,8 +248,16 @@ footer {
         padding: 0 3px;
         width: calc(100% - 6px);
         background-color: #fff;
+        display:table;
     }
-
+    .brand-list .item .brand-img {
+        display:table-cell;
+        vertical-align:middle;
+    }
+    .brand-list .item img{
+     width:100%;
+     
+    }
     .brand-list .col-md-3, .product-list .col-md-3 {
         padding: 0px;
     }
@@ -241,7 +269,91 @@ footer {
         padding: 0 3px;
         width: calc(100% - 6px);
         background-color: #fff;
+        text-align: center;
+        position: relative;
+        min-height: 100%;
     }
+
+.item .product-content {
+    padding-bottom: 35px;
+}
+
+.product-content .product-description {
+    padding: 0px 11%;
+    height: 47px;
+}
+.product-content .product-description.title {
+  padding:0 26%;
+}
+
+.item .product-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 35px;
+    color: #636363;
+    font-family: FuturaPTMedium;
+    font-size: 20px;
+    padding: 0 15px;
+}
+
+.product-list .item .product-img {
+    margin: 10px 0;
+}
+
+.product-list .item .pink-text {
+    font-size: 18px;
+    color: #ffaecb;
+    font-family: FuturaPTMedium;
+}
+
+.product-list .item .grey-text {
+    font-size: 18px;
+    color: #636363;
+    font-family: FuturaPTBook;
+    text-transform: uppercase;
+}
+
+.product-list .item .grey-price {
+    font-size: 18px;
+    color: #636363;
+    font-family: FuturaPTBook;
+}
+.product-list .item .pink-price {
+    font-size: 20px;
+    color: #ff669e;
+    font-family: FuturaPTMedium;
+}
+
+.crossOut-pink {
+    position: relative;
+    font-size: 40px;
+}
+    .crossOut-pink:before {
+        border-bottom: 2px solid #ff669e;
+        position: absolute;
+        content: "";
+        width: 110%;
+        left:-2px;
+        height: 50%;
+        transform: rotate(-15deg);
+    }
+.product-list .discount {
+    position: absolute;
+    display: block;
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
+    top: 130px;
+    right: 10px;
+    border: 3px solid white;
+    background: #ffaecb;
+    color: #fff;
+    font-size: 18px;
+    font-family: FuturaPTMedium;
+    padding-top: 12px;
+}
 
 .text-description {
     font-size: 16px;
@@ -255,7 +367,7 @@ footer {
 
 /* Слик слайдер */
 .main-slider {
-    padding:0 50px;
+    padding: 0 50px;
 }
 
 .item-slider {
@@ -273,5 +385,29 @@ footer {
     border-radius: 20px;
     width: 40px !important;
     height: 40px !important;
+}
+.slick-prev-pink {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    width: 40px !important;
+    top: 150px;
+    left: -55px;
+    height: 40px !important;
+    border: none;
+    background-image: url(/assets/img/arrow-left.png);
+    background-repeat: no-repeat;
+}
+.slick-next-pink {
+    cursor: pointer;
+    float: right;
+    position: relative;
+    width: 40px !important;
+    top: -150px;
+    left: 55px;
+    height: 40px !important;
+    border: none;
+    background-image: url(/assets/img/arrow-right.png);
+    background-repeat:no-repeat;
 }
 /* Конец слика слайдер */

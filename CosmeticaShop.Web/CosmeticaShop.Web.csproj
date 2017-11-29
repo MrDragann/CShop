@@ -130,14 +130,26 @@
   <ItemGroup>
     <Content Include="assets\css\font.css" />
     <Content Include="assets\css\main.css" />
+    <Content Include="assets\img\arrow-left.png" />
+    <Content Include="assets\img\arrow-right.png" />
     <Content Include="assets\img\Backgound.jpg" />
     <Content Include="assets\img\icons\big-like.png" />
     <Content Include="assets\img\icons\cart.png" />
     <Content Include="assets\img\icons\facebook.png" />
     <Content Include="assets\img\icons\instagram.png" />
+    <Content Include="assets\img\icons\like.png" />
     <Content Include="assets\img\icons\logo-dois.png" />
+    <Content Include="assets\img\icons\product-cart.png" />
+    <Content Include="assets\img\Temp\Christina.png" />
+    <Content Include="assets\img\Temp\Jean.png" />
+    <Content Include="assets\img\Temp\Loreal.png" />
+    <Content Include="assets\img\Temp\product.png" />
+    <Content Include="assets\img\Temp\product2.png" />
+    <Content Include="assets\img\Temp\product3.png" />
     <Content Include="assets\img\Temp\slide1.png" />
     <Content Include="assets\img\Temp\slide2.png" />
+    <Content Include="assets\img\Temp\slide3.jpg" />
+    <Content Include="assets\img\Temp\slide4.jpg" />
     <Content Include="assets\js\Plugins\slick\ajax-loader.gif" />
     <Content Include="assets\js\Plugins\slick\fonts\slick.svg" />
     <Content Include="assets\js\Plugins\slick\slick-theme.css" />
