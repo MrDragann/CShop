@@ -1,0 +1,127 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!--Регистрация-->
+<div id="registration-modal" class="modal fade">
+    <div class="modal-dialog pink-modal">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                Înregistrare
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>E-mail:</label>
+                    <input type="email" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Prenume:</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Parola:</label>
+                    <input type="password" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Confirmă parola:</label>
+                    <input type="password" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Data nașterii:</label>
+                    <div class="datepicker-birth">
+                        <div class="col-md-4">
+                            <select class="form-control">
+                                <option value="" disabled selected>Ziua</option>
+                                @for (var i = 1; i < 30; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control">
+                                <option value="" disabled selected>Luna</option>
+                                @for (var i = 1; i < 12; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control">
+                                <option value="" disabled selected>Anul</option>
+                                @for (var i = 2017; i > 1900; i--)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Orașul:</label>
+                    <select class="form-control">
+                        <option>București</option>
+                        <option>C   hisinau</option>
+                        <option>chisinau</option>
+                    </select>
+
+                </div>
+            </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">               
+                <div>
+                    <input  type="checkbox" class=""/> <span class="text-12"> Am citit <a href="#" class="href-small">Politica de confidențialitate</a></span>
+                </div>
+                <div>
+                    <button type="button" class="btn-pink">Înregistrează-te</button>
+                </div>
+                <div><span data-target="#login-modal" data-dismiss="modal" data-toggle="modal" style="cursor:pointer;">Logare</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Конец регистрации-->
+
+<!--Регистрация-->
+<div id="login-modal" class="modal fade">
+    <div class="modal-dialog pink-modal">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                Logare
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+                
+                <div class="form-group">
+                    <label>E-mail:</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Parola:</label>
+                    <input type="password" class="form-control" />
+                </div>              
+            </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">              
+                <div>
+                    <button type="button" class="btn-pink">Intră</button>
+                </div>
+                <div><span data-target="#registration-modal" data-dismiss="modal" data-toggle="modal" >Logare</span>
+                <p><span class="pink-text">Restabilește parola</span></p></div>
+              
+            </div>
+        </div>
+    </div>
+</div>
+<!--Конец регистрации-->

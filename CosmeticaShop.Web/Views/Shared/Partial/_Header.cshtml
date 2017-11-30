@@ -9,17 +9,20 @@
             <span class="head-number">000-000-000-000</span>
         </div>
         <div class="col-md-4 item" align="center">
-            <span class="head-title">CosmeticaShop.ro</span>
+            <span class="head-title"><a href="@Url.Action("Index","Home")">CosmeticaShop.ro</a></span>
         </div>
         <div class="col-md-4 item">
             <div class=" pull-right">
-                <div class="head-auth"><span>Logare</span> / <span>Înregistrare</span></div>
+                <div class="head-auth"><span data-target="#login-modal" data-toggle="modal" >Logare</span> / <span data-target="#registration-modal" data-toggle="modal" >Înregistrare</span></div>
                 <i class="icon-big-like"></i>
                 <i class="icon-cart"></i>
             </div>
         </div>
     </div>
 </div>
+
+
+
 
 <div class="navbar navbar-inverse navbar-fixed-top header-menu">
     <div class="container">
@@ -35,11 +38,101 @@
         <div class="navbar-collapse collapse menu">
             <div>
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("branduri", "Index", "Home")</li>
-                    <li>@Html.ActionLink("îngrijirea feței", "Index", "Home")</li>
-                    <li>@Html.ActionLink("îngrijirea feței", "About", "Home")</li>
-                    <li>@Html.ActionLink("produse de unică folosință", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("reduceri", "Contact", "Home")</li>
+                    <li class="dropdown dropdown-large">
+                        <a class="hight-menu" data-toggle="dropdown">branduri</a>
+                        <ul class="dropdown-menu dropdown-menu-large row">                            
+                            <li >
+                                <ul>                                    
+                                    <li><a href="#">Christina Cosmetics</a></li>
+                                    <li><a href="#">Jean Destrees</a></li>
+                                    <li><a href="#">Loreal</a></li>
+                                    <li><a href="#">Maybelline</a></li>
+                                    <li><a href="#">elf cosmetics</a></li>    
+                                    <li><a href="#">Christina Cosmetics</a></li>
+                                    <li><a href="#">Jean Destrees</a></li>
+                                    <li><a href="#">Loreal</a></li>
+                                    <li><a href="#">Maybelline</a></li>
+                                    <li><a href="#">elf cosmetics</a></li>    
+                                </ul>
+                            </li>                                        
+                        </ul>
+                    </li>
+                    <li class="dropdown dropdown-large">
+                        <a class="hight-menu" data-toggle="dropdown">îngrijirea</a>
+                        <ul class="dropdown-menu dropdown-menu-large row">
+                            <li>
+                                <ul>
+                                    <li><a href="#">Christina Cosmetics</a></li>
+                                    <li><a href="#">Jean Destrees</a></li>
+                                    <li><a href="#">Loreal</a></li>
+                                    <li><a href="#">Maybelline</a></li>
+                                    <li><a href="#">elf cosmetics</a></li>
+                                    <li><a href="#">Christina Cosmetics</a></li>
+                                    <li><a href="#">Jean Destrees</a></li>
+                                    <li><a href="#">Loreal</a></li>
+                                    <li><a href="#">Maybelline</a></li>
+                                    <li><a href="#">elf cosmetics</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown dropdown-large">
+                        <a class="hight-menu" data-toggle="dropdown">îngrijirea</a>
+                        <ul class="dropdown-menu dropdown-menu-large row">
+                            <li>
+                                <ul>
+                                    <li><a href="#">Christina Cosmetics</a></li>
+                                    <li><a href="#">Jean Destrees</a></li>
+                                    <li><a href="#">Loreal</a></li>
+                                    <li><a href="#">Maybelline</a></li>
+                                    <li><a href="#">elf cosmetics</a></li>
+                                    <li><a href="#">Christina Cosmetics</a></li>
+                                    <li><a href="#">Jean Destrees</a></li>
+                                    <li><a href="#">Loreal</a></li>
+                                    <li><a href="#">Maybelline</a></li>
+                                    <li><a href="#">elf cosmetics</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown dropdown-large">
+                        <a class="hight-menu" data-toggle="dropdown">produse de unică folosință</a>
+                        <ul class="dropdown-menu dropdown-menu-large row">
+                            <li>
+                                <ul>
+                                    <li><a href="#">Christina Cosmetics</a></li>
+                                    <li><a href="#">Jean Destrees</a></li>
+                                    <li><a href="#">Loreal</a></li>
+                                    <li><a href="#">Maybelline</a></li>
+                                    <li><a href="#">elf cosmetics</a></li>
+                                    <li><a href="#">Christina Cosmetics</a></li>
+                                    <li><a href="#">Jean Destrees</a></li>
+                                    <li><a href="#">Loreal</a></li>
+                                    <li><a href="#">Maybelline</a></li>
+                                    <li><a href="#">elf cosmetics</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown dropdown-large">
+                        <a class="hight-menu" data-toggle="dropdown">reduceri</a>
+                        <ul class="dropdown-menu dropdown-menu-large row">
+                            <li>
+                                <ul>
+                                    <li><a href="#">Christina Cosmetics</a></li>
+                                    <li><a href="#">Jean Destrees</a></li>
+                                    <li><a href="#">Loreal</a></li>
+                                    <li><a href="#">Maybelline</a></li>
+                                    <li><a href="#">elf cosmetics</a></li>
+                                    <li><a href="#">Christina Cosmetics</a></li>
+                                    <li><a href="#">Jean Destrees</a></li>
+                                    <li><a href="#">Loreal</a></li>
+                                    <li><a href="#">Maybelline</a></li>
+                                    <li><a href="#">elf cosmetics</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <div class="pull-right">
@@ -51,3 +144,34 @@
 
     </div>
 </div>
+
+@*<div class="navbar navbar-inverse navbar-fixed-top header-menu">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+            <div class="navbar-collapse collapse menu">
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("branduri", "Index", "Home")</li>
+                        <li>@Html.ActionLink("îngrijirea feței", "Index", "Home")</li>
+                        <li>@Html.ActionLink("îngrijirea feței", "About", "Home")</li>
+                        <li>@Html.ActionLink("produse de unică folosință", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("reduceri", "Contact", "Home")</li>
+                    </ul>
+                </div>
+                <div class="pull-right">
+                    <div class="menu-search">
+                        <input placeholder="căutare" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>*@

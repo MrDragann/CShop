@@ -107,12 +107,18 @@ a:active {
         padding-left: 12%;
     }
 
-    .header-menu a {
+    .header-menu a.hight-menu {
         color: #636363 !important;
         font-size: 18px;
         font-family: FuturaPTBook;
         margin-top: -27px;
+        cursor: pointer;
     }
+
+        .header-menu a.hight-menu:focus {
+            color: #636363 !important;
+            background-color: transparent !important;
+        }
 
 .head {
     height: 100px;
@@ -139,6 +145,15 @@ a:active {
     position: relative;
     top: -35px;
 }
+
+    .head-title a {
+        color: #959393;
+        text-decoration: none;
+    }
+
+        .head-title a:active, head-title a:focus {
+            color: #959393;
+        }
 
 .head-auth {
     cursor: default;
@@ -248,16 +263,18 @@ footer {
         padding: 0 3px;
         width: calc(100% - 6px);
         background-color: #fff;
-        display:table;
+        display: table;
     }
-    .brand-list .item .brand-img {
-        display:table-cell;
-        vertical-align:middle;
-    }
-    .brand-list .item img{
-     width:100%;
-     
-    }
+
+        .brand-list .item .brand-img {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .brand-list .item img {
+            width: 100%;
+        }
+
     .brand-list .col-md-3, .product-list .col-md-3 {
         padding: 0px;
     }
@@ -282,9 +299,10 @@ footer {
     padding: 0px 11%;
     height: 47px;
 }
-.product-content .product-description.title {
-  padding:0 26%;
-}
+
+    .product-content .product-description.title {
+        padding: 0 26%;
+    }
 
 .item .product-footer {
     position: absolute;
@@ -320,6 +338,7 @@ footer {
     color: #636363;
     font-family: FuturaPTBook;
 }
+
 .product-list .item .pink-price {
     font-size: 20px;
     color: #ff669e;
@@ -330,15 +349,17 @@ footer {
     position: relative;
     font-size: 40px;
 }
+
     .crossOut-pink:before {
         border-bottom: 2px solid #ff669e;
         position: absolute;
         content: "";
         width: 110%;
-        left:-2px;
+        left: -2px;
         height: 50%;
         transform: rotate(-15deg);
     }
+
 .product-list .discount {
     position: absolute;
     display: block;
@@ -378,6 +399,7 @@ footer {
 
     .item-slider img {
         width: 100%;
+        height: 100%;
     }
 
 .slick-prev, .slick-next {
@@ -386,6 +408,7 @@ footer {
     width: 40px !important;
     height: 40px !important;
 }
+
 .slick-prev-pink {
     display: block;
     cursor: pointer;
@@ -398,6 +421,7 @@ footer {
     background-image: url(/assets/img/arrow-left.png);
     background-repeat: no-repeat;
 }
+
 .slick-next-pink {
     cursor: pointer;
     float: right;
@@ -408,6 +432,233 @@ footer {
     height: 40px !important;
     border: none;
     background-image: url(/assets/img/arrow-right.png);
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
 }
 /* Конец слика слайдер */
+
+/*Выпадающий список*/
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+    background-color: transparent !important;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: transparent !important;
+    color: black !important;
+}
+
+.dropdown-large {
+    position: relative !important;
+    margin: 0px 15px;
+}
+
+.dropdown-menu-large {
+    margin-left: 16px;
+    margin-right: 16px;
+    padding: 15px 10px 40px 0;
+    left: 5%;
+    top: 10px;
+    text-align: left;
+    width: 320px;
+    border: none;
+}
+
+    .dropdown-menu-large::after {
+        content: '';
+        position: absolute;
+        left: 55px;
+        top: -10px;
+        border: 5px solid transparent;
+        border-bottom: 7px solid #fff;
+    }
+
+    .dropdown-menu-large > li > ul {
+        padding: 0;
+        margin: 0;
+    }
+
+
+        .dropdown-menu-large > li > ul > li {
+            list-style: none;
+            display: inline-block;
+            width: 48%;
+        }
+
+            .dropdown-menu-large > li > ul > li > a {
+                display: block;
+                padding: 3px 10px 3px 20px;
+                clear: both;
+                line-height: 1.428571429;
+                white-space: normal;
+                font-family: FuturaPTLight;
+                font-size: 16px;
+                color: #636363;
+            }
+
+    .dropdown-menu-large > li ul > li > a:hover,
+    .dropdown-menu-large > li ul > li > a:focus {
+        text-decoration: none;
+        color: #262626;
+        background-color: #f5f5f5;
+    }
+
+    .dropdown-menu-large .disabled > a,
+    .dropdown-menu-large .disabled > a:hover,
+    .dropdown-menu-large .disabled > a:focus {
+        color: #999999;
+    }
+
+        .dropdown-menu-large .disabled > a:hover,
+        .dropdown-menu-large .disabled > a:focus {
+            text-decoration: none;
+            background-color: transparent;
+            background-image: none;
+            filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+            cursor: not-allowed;
+        }
+
+    .dropdown-menu-large .dropdown-header {
+        color: #428bca;
+        font-size: 18px;
+    }
+
+@media (max-width: 768px) {
+    .dropdown-menu-large {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+        .dropdown-menu-large > li {
+            margin-bottom: 30px;
+        }
+
+
+            .dropdown-menu-large > li:last-child {
+                margin-bottom: 0;
+            }
+
+        .dropdown-menu-large .dropdown-header {
+            padding: 3px 15px !important;
+        }
+}
+/*Конец выпадающего списка*/
+
+/*Модальные окна*/
+.pink-modal {
+    width: 345px;
+    color: #636363;
+}
+    .pink-modal .close {
+        position: absolute;
+        top: -15px;
+        width: 40px;
+        height: 40px;
+        right: -18px;
+        background-color: #ffacca;
+        opacity: 1;
+        border-radius: 20px;
+        border: 3px solid #fff;
+        color: #fff;
+    }
+        .pink-modal .close:focus, pink-modal .close:active {
+        outline:none;
+        }
+    .pink-modal .modal-content {
+        box-shadow: none;
+        border: 3px solid #ffaecb;
+    }
+
+        .pink-modal .modal-content .modal-header {
+            text-align: center;
+            font-size: 18px;
+            font-family: FuturaPTDemi;
+            border: none;
+            text-transform: uppercase;
+            padding: 10px;
+        }
+
+        .pink-modal .modal-content .modal-body {
+            border: none;
+            padding: 10px 30px;
+        }
+
+            .pink-modal .modal-content .modal-body label {
+                font-weight: normal;
+                font-size: 16px;
+                font-family: FuturaPTBook;
+            }
+
+            .pink-modal .modal-content .modal-body input, .pink-modal .modal-content .modal-body select {
+                box-shadow: none;
+                border: 1px solid #d8d8d8;
+            }
+                .pink-modal .modal-content .modal-body select {
+                    border-radius:7px;
+                    margin-bottom:10px;
+                }
+            .pink-modal .modal-content .modal-body select {
+                color: #636363;
+                font-size: 16px;
+                font-family: FuturaPTBook;
+            }
+
+                .pink-modal .modal-content .modal-body select:disabled {
+                    font-size: 16px;
+                    font-family: FuturaPTBook;
+                    color: #c1c1c1;
+                }
+
+                .pink-modal .modal-content .modal-body select.decorated option:hover {
+                    background-color: red;
+                }
+
+        .pink-modal .modal-content .modal-footer {
+            border: none;
+            padding: 5px 30px 30px 30px;
+            margin:0;
+            text-align: center;
+        }
+        .pink-modal .modal-content .modal-footer span{
+           cursor:pointer;
+        }
+        .pink-modal .modal-content .modal-footer div{ 
+            margin: 15px 0;       
+        }
+/*Конец модальных окон*/
+.btn-pink {
+    background-color: #ffaecb;
+    border-radius: 0px;
+    color: #fff;
+    box-shadow: inset 0px 0px 20px 2px rgba(0,0,0,0.08);
+    font-size: 16px;
+    font-family: FuturaPTBook;
+    font-weight: normal;
+    outline: none;
+    border: none;
+    padding: 5px 15px;
+    min-width:100px;
+}
+
+    .btn-pink:active {
+        box-shadow: inset 0px 0px 20px 2px rgba(0,0,0,0.15);
+    }
+
+.datepicker-birth .col-md-4 {
+    padding: 0 5px;
+}
+
+.text-12 {
+    font-size: 12px;
+    font-family: FuturaPTBook;
+    color: #636363;
+}
+.href-small,.href-small:hover {
+    font-size: 12px;
+    font-family: FuturaPTBook;
+    color: #636363;
+    text-decoration:underline;
+}
+.pink-text{
+    font-size: 15px;
+    color: #ffaecb;
+    font-family: FuturaPTBook;
+}
