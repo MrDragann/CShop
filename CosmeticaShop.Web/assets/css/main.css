@@ -205,6 +205,11 @@ footer {
         color: #636363;
         margin-bottom: 15px;
     }
+    footer .title  a{ 
+        color: #636363;
+        text-decoration:none;
+     
+    }
 
     footer ul {
         list-style: none;

@@ -197,6 +197,7 @@
     <Content Include="Views\Shared\Partial\_Header.cshtml" />
     <Content Include="Views\Shared\Partial\_Footer.cshtml" />
     <Content Include="Views\Shared\Popup\Authorization.cshtml" />
+    <Content Include="Views\Home\Contacts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
