@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,7 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\EnumStatusOrder.cs" />
+    <Compile Include="Enums\EnumStatusUser.cs" />
+    <Compile Include="Interfaces\IAuthCommonService.cs" />
+    <Compile Include="Models\Base\BaseModel.cs" />
+    <Compile Include="Models\Base\BaseResponse.cs" />
+    <Compile Include="Models\DictionaryModel.cs" />
+    <Compile Include="Models\User\ChangePasswordModel.cs" />
+    <Compile Include="Models\User\ModelUserBase.cs" />
+    <Compile Include="Models\User\ModelUserDetail.cs" />
+    <Compile Include="Models\User\WebUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Pagination\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
