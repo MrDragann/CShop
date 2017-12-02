@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthCommonService.cs" />
+    <Compile Include="CryptographyService.cs" />
     <Compile Include="EnumService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

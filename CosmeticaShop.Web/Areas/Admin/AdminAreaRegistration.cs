@@ -8,7 +8,7 @@ namespace CosmeticaShop.Web.Areas.Admin
         {
             get
             {
-                return "admin";
+                return "Admin";
             }
         }
 
@@ -16,8 +16,8 @@ namespace CosmeticaShop.Web.Areas.Admin
         {
             context.MapRoute(
                 name: "Admin_default",
-                url: "admin/{controller}/{action}/{id}",
-                defaults: new { action = "Index", id = UrlParameter.Optional },
+                url: "Admin/{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                 namespaces: new []{ "CosmeticaShop.Web.Areas.Admin.Controllers" }
             );
         }
