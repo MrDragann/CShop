@@ -6,14 +6,24 @@
 <div class="head">
     <div class="container">
         <div class="col-md-4 item">
-            <span class="head-number">000-000-000-000</span>
+            @if (ViewBag.Title == "Home")
+            {
+                <span class="head-number">000-000-000-000</span>
+            }
         </div>
         <div class="col-md-4 item" align="center">
-            <span class="head-title"><a href="@Url.Action("Index","Home")">CosmeticaShop.ro</a></span>
+            @if (ViewBag.Title == "Home")
+            {
+                <span class="head-title"><a href="@Url.Action("Index", "Home")">CosmeticaShop.ro</a></span>
+            }
+            else
+            {
+                <span class="head-title-pink"><a href="@Url.Action("Index", "Home")">CosmeticaShop.ro</a></span>
+            }
         </div>
         <div class="col-md-4 item">
             <div class=" pull-right">
-                <div class="head-auth"><span data-target="#login-modal" data-toggle="modal" >Logare</span> / <span data-target="#registration-modal" data-toggle="modal" >Înregistrare</span></div>
+                <div class="head-auth"><span data-target="#login-modal" data-toggle="modal">Logare</span> / <span data-target="#registration-modal" data-toggle="modal">Înregistrare</span></div>
                 <i class="icon-big-like"></i>
                 <i class="icon-cart"></i>
             </div>
@@ -40,21 +50,21 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown dropdown-large">
                         <a class="hight-menu" data-toggle="dropdown">branduri</a>
-                        <ul class="dropdown-menu dropdown-menu-large row">                            
-                            <li >
-                                <ul>                                    
+                        <ul class="dropdown-menu dropdown-menu-large row">
+                            <li>
+                                <ul>
                                     <li><a href="#">Christina Cosmetics</a></li>
                                     <li><a href="#">Jean Destrees</a></li>
                                     <li><a href="#">Loreal</a></li>
                                     <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>    
+                                    <li><a href="#">elf cosmetics</a></li>
                                     <li><a href="#">Christina Cosmetics</a></li>
                                     <li><a href="#">Jean Destrees</a></li>
                                     <li><a href="#">Loreal</a></li>
                                     <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>    
+                                    <li><a href="#">elf cosmetics</a></li>
                                 </ul>
-                            </li>                                        
+                            </li>
                         </ul>
                     </li>
                     <li class="dropdown dropdown-large">

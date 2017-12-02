@@ -10,10 +10,10 @@
     @RenderSection("Styles", required: false)
 </head>
 <body>
- @Html.Partial("~/Views/Shared/Partial/_Header.cshtml")
+    @Html.Partial("~/Views/Shared/Partial/_Header.cshtml")
     <div class="container body-content wrap">
         @RenderBody()
-      
+
 
     </div>
 
@@ -21,6 +21,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/knockout-3.4.2.js"></script>
     @RenderSection("Scripts", required: false)
     @Html.Partial("~/Views/Shared/Popup/Authorization.cshtml")
 </body>

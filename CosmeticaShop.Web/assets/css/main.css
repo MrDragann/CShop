@@ -16,6 +16,42 @@ a:active {
     color: none; /* Цвет активных ссылок */
 }
 
+a:hover {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.marginB-heigth-10 {
+    margin-bottom: 10px;
+}
+
+.padding-0 {
+    padding: 0;
+}
+
+.col-md-9-content {
+    width: 74%;
+    margin-left: 1%;
+}
+
+.default-text {
+    color: #636363;
+    font-family: FuturaPTBook;
+    font-size: 16px;
+}
+
+    .default-text.navigation a {
+        color: #636363;
+    }
+
+.pink-darkk-text {
+    color: #ff669e;
+    font-family: FuturaPTBook;
+    font-size: 16px;
+}
 /* Иконки */
 .icon-big-like {
     display: inline-block;
@@ -80,6 +116,25 @@ a:active {
     background-image: url('../img/icons/like.png');
     background-repeat: no-repeat;
 }
+
+.icon-arrow-left-mini {
+    display: inline-block;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/icons/arrow-left-mini.png');
+    background-repeat: no-repeat;
+}
+
+.icon-arrow-right-mini {
+    display: inline-block;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/icons/arrow-right-mini.png');
+    background-repeat: no-repeat;
+}
+
 
 /* Конец иконок */
 
@@ -146,14 +201,30 @@ a:active {
     top: -35px;
 }
 
-    .head-title a {
-        color: #959393;
-        text-decoration: none;
-    }
+.head-title-pink {
+    font-family: FuturaPTDemi;
+    font-size: 31px;
+    color: #ff73ab;
+    cursor: default;
+    position: relative;
+    padding-bottom: 40px;
+    top: -15px;
+    display: block;
+}
 
-        .head-title a:active, head-title a:focus {
-            color: #959393;
-        }
+.head-title a {
+    color: #959393 !important;
+    text-decoration: none;
+}
+
+.head-title-pink a, .head-title-pink a:active, .head-title-pink a:focus{
+    color: #ff73ab !important;
+    text-decoration: none;
+}
+
+.head-title a:active, head-title a:focus {
+    color: #959393 !important;
+}
 
 .head-auth {
     cursor: default;
@@ -205,11 +276,11 @@ footer {
         color: #636363;
         margin-bottom: 15px;
     }
-    footer .title  a{ 
-        color: #636363;
-        text-decoration:none;
-     
-    }
+
+        footer .title a {
+            color: #636363;
+            text-decoration: none;
+        }
 
     footer ul {
         list-style: none;
@@ -259,6 +330,7 @@ footer {
 .brand-list, .product-list {
     margin-right: 0px;
     margin-left: 0px;
+    text-align: center;
 }
 
     .brand-list .item {
@@ -287,7 +359,7 @@ footer {
     .product-list .item {
         height: 390px;
         border: 1px solid #ddd3d8;
-        margin: 5px 3px;
+        margin: 0px 3px 10px 3px;
         padding: 0 3px;
         width: calc(100% - 6px);
         background-color: #fff;
@@ -319,6 +391,10 @@ footer {
     font-family: FuturaPTMedium;
     font-size: 20px;
     padding: 0 15px;
+}
+
+.product-list .col-md-4 {
+    padding: 0px;
 }
 
 .product-list .item .product-img {
@@ -552,6 +628,7 @@ footer {
     width: 345px;
     color: #636363;
 }
+
     .pink-modal .close {
         position: absolute;
         top: -15px;
@@ -564,9 +641,11 @@ footer {
         border: 3px solid #fff;
         color: #fff;
     }
+
         .pink-modal .close:focus, pink-modal .close:active {
-        outline:none;
+            outline: none;
         }
+
     .pink-modal .modal-content {
         box-shadow: none;
         border: 3px solid #ffaecb;
@@ -596,10 +675,12 @@ footer {
                 box-shadow: none;
                 border: 1px solid #d8d8d8;
             }
-                .pink-modal .modal-content .modal-body select {
-                    border-radius:7px;
-                    margin-bottom:10px;
-                }
+
+            .pink-modal .modal-content .modal-body select {
+                border-radius: 7px;
+                margin-bottom: 10px;
+            }
+
             .pink-modal .modal-content .modal-body select {
                 color: #636363;
                 font-size: 16px;
@@ -619,15 +700,17 @@ footer {
         .pink-modal .modal-content .modal-footer {
             border: none;
             padding: 5px 30px 30px 30px;
-            margin:0;
+            margin: 0;
             text-align: center;
         }
-        .pink-modal .modal-content .modal-footer span{
-           cursor:pointer;
-        }
-        .pink-modal .modal-content .modal-footer div{ 
-            margin: 15px 0;       
-        }
+
+            .pink-modal .modal-content .modal-footer span {
+                cursor: pointer;
+            }
+
+            .pink-modal .modal-content .modal-footer div {
+                margin: 15px 0;
+            }
 /*Конец модальных окон*/
 .btn-pink {
     background-color: #ffaecb;
@@ -640,7 +723,7 @@ footer {
     outline: none;
     border: none;
     padding: 5px 15px;
-    min-width:100px;
+    min-width: 100px;
 }
 
     .btn-pink:active {
@@ -656,14 +739,189 @@ footer {
     font-family: FuturaPTBook;
     color: #636363;
 }
-.href-small,.href-small:hover {
+
+.href-small, .href-small:hover {
     font-size: 12px;
     font-family: FuturaPTBook;
     color: #636363;
-    text-decoration:underline;
+    text-decoration: underline;
 }
-.pink-text{
+
+.pink-text {
     font-size: 15px;
     color: #ffaecb;
     font-family: FuturaPTBook;
 }
+
+.white-container {
+    background-color: #fff;
+    border: 1px solid #d9cad3;
+    padding: 5px 10px;
+}
+
+    .white-container.big {
+        min-height: 550px;
+        width: 74% !important;
+        margin-left: 1%;
+        margin-bottom: 50px;
+    }
+
+    .white-container .title {
+        font-family: FuturaPTMeduim;
+        font-size: 17px;
+        color: #232323;
+        font-weight: 600;
+        padding: 15px;
+    }
+
+.block {
+    padding: 15px;
+    color: #232323;
+    font-family: FuturaPTBook;
+    font-size: 16px;
+}
+
+    .block .header {
+        font-family: FuturaPTMeduim;
+        font-size: 16px;
+        color: #232323;
+        padding: 10px 0;
+    }
+
+    .block .content {
+        margin-bottom: 20px;
+    }
+
+        .block .content.grey {
+            color: #636363;
+        }
+
+        .block .content ul {
+            padding: 0;
+        }
+
+            .block .content ul li {
+                margin: 10px 0;
+            }
+
+                .block .content ul li span.active {
+                    font-family: FuturaPTDemi;
+                }
+
+ul.menu li span {
+    cursor: pointer;
+}
+
+.map {
+    padding: 200px 0 10px 0;
+    width: 100%;
+}
+
+ul.tabs li .title-tab {
+    color: #232323;
+    font-size: 17px;
+    font-family: FuturaPTMedium;
+    cursor: pointer;
+}
+
+    ul.tabs li .title-tab:before {
+        content: '>';
+        display: inline-block;
+    }
+
+ul.tabs li .content {
+    display: none;
+    padding: 15px 15px 15px 25px;
+    margin-bottom: 0px !important;
+}
+
+/*Пагинация*/
+.pagination {
+    text-align: center;
+}
+
+    .pagination.product-list-pagination {
+        margin: 70px 0 150px 0;
+    }
+
+    .pagination .content {
+        display: inline-block;
+        margin: 0 35px;
+    }
+
+        .pagination .content .num {
+            display: table-cell;
+            text-align: center;
+            color: #fff;
+            font-size: 18px;
+            font-family: FuturaPTBook;
+            width: 25px;
+            height: 30px;
+            background-color: #636363;
+            vertical-align: middle;
+            margin: 0 5px 0 0;
+        }
+
+            .pagination .content .num.active {
+                background-color: #ffaecb;
+            }
+
+        .pagination .content .block-pagination {
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+/*Конец пагинации*/
+
+
+/*Чекбокс*/
+.sidebar-filter input[type="checkbox"] {
+    display: none;
+}
+
+
+
+    .sidebar-filter input[type="checkbox"] + label {
+        font-family: FuturaPTBook;
+        font-size: 16px;
+        color: #636363;
+        cursor: pointer;
+        font-weight: normal;
+    }
+
+input[type="checkbox"] + label span {
+    content: "";
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    margin: 0 5px 0 0;
+    background: url('../img/checkbox.png') left top no-repeat;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+
+    input[type="checkbox"]:checked + label span {
+        background-image: url('../img/checkbox-select.png');
+    }
+/*Конец чекбокса*/
+.sidebar-filter {
+    padding: 5px;
+    padding-bottom: 125px;
+}
+
+    .sidebar-filter .content {
+        padding: 5px 10px;
+    }
+
+    .sidebar-filter .title-filter {
+        font-family: FuturaPTDemi;
+        color: #636363;
+    }
+
+    .sidebar-filter li {
+        margin-bottom: 15px;
+    }

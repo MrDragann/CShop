@@ -1,0 +1,100 @@
+﻿
+@{
+    Layout = null;
+}
+
+<script>
+    var OpenTab = function (element) {
+        var contnet = $(element).next();
+        if (contnet.css("display") === 'none') {
+            contnet.css("display", "block");
+        }
+        else {
+            contnet.css("display", "none");
+        }
+    };
+</script>
+
+<div class="title">
+    Informație
+</div>
+
+<div class="block">
+    <ul class="tabs">
+        <li>
+            <div class="title-tab" data-bind="click:OpenTab.bind($data,$element)">
+            Returns Policy
+            </div>
+            <div class="content">
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return, 
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+            </div>
+        </li>
+        <li>
+            <div class="title-tab"  data-bind="click:OpenTab.bind($data,$element)">
+                Sephora.com Purchases
+            </div>
+            <div class="content">
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+        
+            </div>
+        </li>
+        <li>
+            <div class="title-tab"  data-bind="click:OpenTab.bind($data,$element)">
+                Sephora.com Returns by Mail
+            </div>
+            <div class="content">
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+            </div>
+        </li>
+        <li>
+            <div class="title-tab" data-bind="click:OpenTab.bind($data,$element)">
+                Sephora.com Returns to a Store Location
+            </div>
+            <div class="content">
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+            </div>
+        </li>
+        <li>
+            <div class="title-tab" data-bind="click:OpenTab.bind($data,$element)">
+                Gift Returns
+            </div>
+            <div class="content">
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+            </div>
+        </li>
+        <li>
+            <div class="title-tab" data-bind="click:OpenTab.bind($data,$element)">
+                Sephora In-store Purchases & Sephora inside JCPenney Purchases
+            </div>
+            <div class="content">
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+            </div>
+        </li>
+        <li>
+            <div class="title-tab" data-bind="click:OpenTab.bind($data,$element)">
+                Canadian and International Returns
+            </div>
+            <div class="content">
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+                If you are not completely satisfied with a Sephora purchase or gift for any reason, please review our return,
+                refund, and exchange policies below for Sephora.com purchases and in-store purchases. Products must be returned in new or gently used condition.
+            </div>
+        </li>
+      
+    </ul>
+
+</div>

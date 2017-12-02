@@ -2,6 +2,68 @@
 @{
     ViewBag.Title = "Contacts";
 }
+@section Scripts {
+<script src="~/assets/js/Knockout-Extanstion/tab-knockout.js"></script>
+<script src="~/assets/js/Contacts/ViewModel.js"></script>
 
-<h2>Contacts</h2>
 
+    <script>
+
+        var ViewModel = new Contacts.ViewModel();
+        ko.applyBindings(ViewModel);    
+    </script>
+}
+
+<div class="col-md-12 white-container marginB-heigth-10">
+    <div class="default-text navigation">
+        <a href="@Url.Action("Index","Home")"> Principală </a> > <a href="@Url.Action("Contacts","Home")"> <span class="pink-darkk-text">Contacte</span></a>
+    </div>
+</div>
+
+<div class="col-md-3 white-container" data-bind="with:ViewModel">
+
+    <div class="block">
+        <div class="content grey">
+            <ul class="menu">
+                <li>
+                    <span data-bind="css:{active:StatePage()===ConstStatePage.Contacte},click:StatePage.bind($data,ConstStatePage.Contacte)">Contacte</span>
+                </li>
+                <li>
+                    <span data-bind="css:{active:StatePage()===ConstStatePage.DespreNoi},click:StatePage.bind($data,ConstStatePage.DespreNoi)">Despre noi</span>
+                </li>
+                <li>
+                    <span data-bind="css:{active:StatePage()===ConstStatePage.Informație},click:StatePage.bind($data,ConstStatePage.Informație)">Informație</span>
+                </li>
+                <li>
+                    <span data-bind="css:{active:StatePage()===ConstStatePage.VânzărAangro},click:StatePage.bind($data,ConstStatePage.VânzărAangro)">Vânzări angro</span>
+                </li>
+                <li>
+                    <span data-bind="css:{active:StatePage()===ConstStatePage.Rechizite},click:StatePage.bind($data,ConstStatePage.Rechizite)">Rechizite</span>
+                </li>
+                <li>
+                    <span data-bind="css:{active:StatePage()===ConstStatePage.LivrareReturnare},click:StatePage.bind($data,ConstStatePage.LivrareReturnare)">Livrare și returnare</span>
+                </li>
+                <li>
+                    <span data-bind="css:{active:StatePage()===ConstStatePage.Politica},click:StatePage.bind($data,ConstStatePage.Politica)">Politica de confidențialitate</span>
+                </li>
+                <li>
+                    <span data-bind="css:{active:StatePage()===ConstStatePage.OfertaPublică},click:StatePage.bind($data,ConstStatePage.OfertaPublică)">Oferta publică</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-9 white-container big" data-bind="with:ViewModel">
+    <!--ko if:StatePage() === ConstStatePage.Contacte -->
+@Html.Partial("~/Views/Shared/Partial/Contacts/Contacts.cshtml")
+    <!--/ko-->
+
+
+    <!--ko if:StatePage() === ConstStatePage.DespreNoi -->
+    @Html.Partial("~/Views/Shared/Partial/Contacts/Despre_Noi.cshtml")
+    <!--/ko-->
+    <!--ko if:StatePage() === ConstStatePage.Informație -->
+    @Html.Partial("~/Views/Shared/Partial/Contacts/Informație.cshtml")
+    <!--/ko-->
+</div>

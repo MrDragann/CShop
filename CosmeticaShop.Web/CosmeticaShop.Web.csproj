@@ -122,6 +122,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -133,6 +134,10 @@
     <Content Include="assets\img\arrow-left.png" />
     <Content Include="assets\img\arrow-right.png" />
     <Content Include="assets\img\Backgound.jpg" />
+    <Content Include="assets\img\checkbox-select.png" />
+    <Content Include="assets\img\checkbox.png" />
+    <Content Include="assets\img\icons\arrow-left-mini.png" />
+    <Content Include="assets\img\icons\arrow-right-mini.png" />
     <Content Include="assets\img\icons\big-like.png" />
     <Content Include="assets\img\icons\cart.png" />
     <Content Include="assets\img\icons\facebook.png" />
@@ -150,6 +155,8 @@
     <Content Include="assets\img\Temp\slide2.png" />
     <Content Include="assets\img\Temp\slide3.jpg" />
     <Content Include="assets\img\Temp\slide4.jpg" />
+    <Content Include="assets\js\Contacts\ViewModel.js" />
+    <Content Include="assets\js\Knockout-Extanstion\tab-knockout.js" />
     <Content Include="assets\js\Plugins\slick\ajax-loader.gif" />
     <Content Include="assets\js\Plugins\slick\fonts\slick.svg" />
     <Content Include="assets\js\Plugins\slick\slick-theme.css" />
@@ -178,6 +185,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.4.2.debug.js" />
+    <Content Include="Scripts\knockout-3.4.2.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -198,6 +207,10 @@
     <Content Include="Views\Shared\Partial\_Footer.cshtml" />
     <Content Include="Views\Shared\Popup\Authorization.cshtml" />
     <Content Include="Views\Home\Contacts.cshtml" />
+    <Content Include="Views\Shared\Partial\Contacts\Contacts.cshtml" />
+    <Content Include="Views\Shared\Partial\Contacts\Despre_Noi.cshtml" />
+    <Content Include="Views\Shared\Partial\Contacts\Informație.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
