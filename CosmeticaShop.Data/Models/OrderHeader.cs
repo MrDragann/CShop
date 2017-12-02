@@ -50,7 +50,7 @@ namespace CosmeticaShop.Data.Models
         /// <summary>
         /// Связь с таблицей товаров заказов
         /// </summary>
-        public List<OrderProduct> OrderProduct { get; set; }
+        public List<OrderProduct> OrderProducts { get; set; }
         /// <summary>
         /// Заказчик
         /// </summary>

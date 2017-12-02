@@ -64,6 +64,15 @@ namespace CosmeticaShop.Data
             mb.Entity<User>().Property(_ => _.Email).IsRequired();
             mb.Entity<User>().Property(_ => _.PasswordHash).IsRequired();
 
+            // связь 1к1 с адресом
+            mb.Entity<User>().HasRequired(x => x.UserAddress).WithRequiredPrincipal(ad => ad.User);
+
+            #endregion
+
+            #region UserAddress
+
+            mb.Entity<UserAddress>().HasKey(x => x.UserId);
+            
             #endregion
 
             #region Role
@@ -77,11 +86,14 @@ namespace CosmeticaShop.Data
             
             mb.Entity<Product>().Property(_ => _.Name).HasMaxLength(128);
             mb.Entity<Product>().Property(_ => _.KeyUrl).HasMaxLength(128);
-            
+
+            mb.Entity<Product>().HasOptional(x=>x.Brand).WithMany(x=>x.Products).HasForeignKey(x=>x.BrandId);
+            mb.Entity<Product>().HasOptional(x=>x.Category).WithMany(x=>x.Products).HasForeignKey(x=>x.CategoryId);
+
             #endregion
 
             #region Category
-            
+
             mb.Entity<Category>().Property(_ => _.Name).HasMaxLength(128);
             mb.Entity<Category>().Property(_ => _.KeyUrl).HasMaxLength(128);
 
@@ -93,6 +105,14 @@ namespace CosmeticaShop.Data
 
             mb.Entity<OrderHeader>().Property(_ => _.Address).HasMaxLength(512);
 
+            mb.Entity<OrderHeader>().HasRequired(x=>x.User).WithMany(x=>x.OrderHeaders).HasForeignKey(x=>x.UserId);
+
+            #endregion
+
+            #region OrderProduct
+            
+            mb.Entity<OrderProduct>().HasRequired(x => x.Order).WithMany(x => x.OrderProducts).HasForeignKey(x => x.OrderId);
+            mb.Entity<OrderProduct>().HasRequired(x => x.Product).WithMany(x => x.OrderProducts).HasForeignKey(x => x.ProductId);
 
             #endregion
 

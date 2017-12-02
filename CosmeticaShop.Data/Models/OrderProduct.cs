@@ -23,6 +23,10 @@ namespace CosmeticaShop.Data.Models
         /// </summary>
         public int OrderId { get; set; }
         /// <summary>
+        /// Ид товара
+        /// </summary>
+        public int ProductId { get; set; }
+        /// <summary>
         /// Количество
         /// </summary>
         public int Quantity { get; set; }
@@ -38,10 +42,6 @@ namespace CosmeticaShop.Data.Models
         /// Сумма для платежа
         /// </summary>
         public decimal Amount { get; set; }
-        /// <summary>
-        /// Ид продукта
-        /// </summary>
-        public Guid ProductId { get; set; }
         /// <summary>
         /// Признак удаления
         /// </summary>

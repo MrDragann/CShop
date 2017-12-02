@@ -59,6 +59,11 @@ namespace CosmeticaShop.Data.Models
         public List<Role> Roles { get; set; }
 
         /// <summary>
+        /// Связь с адресом пользователя
+        /// </summary>
+        public UserAddress UserAddress { get; set; }
+
+        /// <summary>
         /// Связь с заказами
         /// </summary>
         public List<OrderHeader> OrderHeaders { get; set; } 
