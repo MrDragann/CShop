@@ -73,6 +73,11 @@ namespace CosmeticaShop.Data.Models
         /// </summary>
         public List<WishList> WishLists { get; set; }
 
+        /// <summary>
+        /// Связь с списком отзывов
+        /// </summary>
+        public List<ProductReview> ProductReviews { get; set; }
+
         #endregion
     }
 }

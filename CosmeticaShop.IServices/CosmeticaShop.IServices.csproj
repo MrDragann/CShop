@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Enums\EnumStatusOrder.cs" />
     <Compile Include="Enums\EnumStatusUser.cs" />
+    <Compile Include="Enums\EnumUserRole.cs" />
     <Compile Include="Interfaces\IAuthCommonService.cs" />
     <Compile Include="Models\Auth\AuthorizationAttribute.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />

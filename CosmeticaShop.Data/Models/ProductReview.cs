@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CosmeticaShop.Data.Models
 {
-    public class WishList
+    public class ProductReview
     {
         #region [ Свойства ]
 
@@ -28,8 +28,12 @@ namespace CosmeticaShop.Data.Models
         /// <summary>
         /// Дата добавления
         /// </summary>
-        //todo:а нужна ли?
         public DateTime DateCreate { get; set; }
+
+        /// <summary>
+        /// Содержание
+        /// </summary>
+        public string Content { get; set; }
 
         #endregion
 

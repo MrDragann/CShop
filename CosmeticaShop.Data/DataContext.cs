@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -77,6 +78,8 @@ namespace CosmeticaShop.Data
 
             #region Role
 
+            mb.Entity<Role>().HasKey(_=>_.Id);
+            mb.Entity<Role>().Property(_ => _.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             mb.Entity<Role>().Property(_ => _.Name).HasMaxLength(128);
             mb.Entity<Role>().Property(_ => _.Name).IsRequired();
 
@@ -113,6 +116,22 @@ namespace CosmeticaShop.Data
             
             mb.Entity<OrderProduct>().HasRequired(x => x.Order).WithMany(x => x.OrderProducts).HasForeignKey(x => x.OrderId);
             mb.Entity<OrderProduct>().HasRequired(x => x.Product).WithMany(x => x.OrderProducts).HasForeignKey(x => x.ProductId);
+
+            #endregion
+
+            #region WishList
+
+            mb.Entity<WishList>().HasRequired(x => x.User).WithMany(x => x.WishLists).HasForeignKey(x => x.UserId);
+            mb.Entity<WishList>().HasRequired(x => x.Product).WithMany(x => x.WishLists).HasForeignKey(x => x.ProductId);
+
+            #endregion
+
+            #region ProductReview
+
+            mb.Entity<ProductReview>().Property(_ => _.Content).HasMaxLength(1024);
+
+            mb.Entity<ProductReview>().HasRequired(x => x.User).WithMany(x => x.ProductReviews).HasForeignKey(x => x.UserId);
+            mb.Entity<ProductReview>().HasRequired(x => x.Product).WithMany(x => x.ProductReviews).HasForeignKey(x => x.ProductId);
 
             #endregion
 
