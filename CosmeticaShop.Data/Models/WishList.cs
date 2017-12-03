@@ -8,12 +8,17 @@ namespace CosmeticaShop.Data.Models
 {
     public class WishList
     {
-        #region
+        #region [ Свойства ]
 
         /// <summary>
         /// Ид
         /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Ид пользователя
+        /// </summary>
+        public int UserId { get; set; }
 
         /// <summary>
         /// Ид товара
@@ -36,9 +41,9 @@ namespace CosmeticaShop.Data.Models
         public Product Product { get; set; }
 
         /// <summary>
-        /// Связь с пользователями
+        /// Связь с пользователем
         /// </summary>
-        public List<User> Users { get; set; }
+        public User User { get; set; }
 
         #endregion
     }

@@ -28,17 +28,29 @@ namespace CosmeticaShop.IServices.Models.User
 		/// Список Id ролей пользователя
 		/// </summary>
 		public List<Guid> RolesId { get; set; }
-		/// <summary>
-		/// Телефон
-		/// </summary>
-		public string Phone { get; set; }
-		/// <summary>
-		/// Адрес доставки
-		/// </summary>
-		public string DeliveryAddress { get; set; }
-		/// <summary>
-		/// Дата рождения
-		/// </summary>
-		public DateTime DateBirth { get; set; }
+
+	    /// <summary>
+	    /// Страна
+	    /// </summary>
+	    public string Country { get; set; }
+
+	    /// <summary>
+	    /// Город
+	    /// </summary>
+	    public string City { get; set; }
+
+	    /// <summary>
+	    /// Адрес
+	    /// </summary>
+	    public string Address { get; set; }
+
+	    /// <summary>
+	    /// Телефон
+	    /// </summary>
+	    public string Phone { get; set; }
+        /// <summary>
+        /// Дата рождения
+        /// </summary>
+        public DateTime? DateBirth { get; set; }
 	}
 }

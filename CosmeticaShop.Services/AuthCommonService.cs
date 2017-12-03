@@ -73,9 +73,19 @@ namespace CosmeticaShop.Services
                     var user = new User
                     {
                         Email = model.Email,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
                         PasswordHash = model.Password,
+                        DateBirth = model.DateBirth,
                         ConfirmationToken = token,
-                        Status = (int)EnumStatusUser.New
+                        Status = (int)EnumStatusUser.New,
+                        UserAddress = new UserAddress
+                        {
+                            Country = model.Country,
+                            City = model.City,
+                            Address = model.Address,
+                            Phone = model.Phone
+                        }
                     };
 
                     db.Users.Add(user);
