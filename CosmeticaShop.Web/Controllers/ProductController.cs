@@ -8,8 +8,19 @@ namespace CosmeticaShop.Web.Controllers
 {
     public class ProductController : Controller
     {
-        // GET: Product
+        /// <summary>
+        /// Страница с списоком товаров
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
+        {
+            return View();
+        }
+        /// <summary>
+        /// Детальная страница товара
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Details()
         {
             return View();
         }

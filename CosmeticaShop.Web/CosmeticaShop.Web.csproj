@@ -214,6 +214,7 @@
     <Content Include="Views\Shared\Partial\Contacts\Despre_Noi.cshtml" />
     <Content Include="Views\Shared\Partial\Contacts\Informație.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
