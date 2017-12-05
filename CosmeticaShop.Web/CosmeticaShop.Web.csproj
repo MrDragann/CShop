@@ -132,6 +132,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\FavoritesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1696,7 +1697,9 @@
     <Content Include="assets\img\icons\instagram.png" />
     <Content Include="assets\img\icons\like.png" />
     <Content Include="assets\img\icons\logo-dois.png" />
+    <Content Include="assets\img\icons\pink-like.png" />
     <Content Include="assets\img\icons\product-cart.png" />
+    <Content Include="assets\img\icons\very-big-pink-like.png" />
     <Content Include="assets\img\Temp\Christina.png" />
     <Content Include="assets\img\Temp\Jean.png" />
     <Content Include="assets\img\Temp\Loreal.png" />
@@ -1914,6 +1917,7 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Favorites\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
