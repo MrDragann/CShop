@@ -27,8 +27,9 @@ ul {
 .marginB-heigth-10 {
     margin-bottom: 10px;
 }
-
-.padding-0 {
+.margin-bottom-30 {
+    margin-bottom: 30px;
+}.padding-0 {
     padding: 0;
 }
 
@@ -1342,3 +1343,165 @@ button.slick-next {
         top: -45px;
         padding: 30px;
     }
+
+.form-order {
+    padding: 5px 50px 5px 70px;
+}
+    .form-order.cabinet {
+        padding: 0 !important;
+    }
+    .form-order .item-form {
+        font-size: 17px;
+        font-family: FuturaPTBook;
+        color: #232323;
+    }
+.form-order .item-form .title-item-form {
+    font-size: 17px;
+    font-family: FuturaPTMedium;
+    color: #232323;
+    padding:15px 5px;
+}
+    .form-order .item-form .title-item-form.thanks-title {
+        padding: 0;
+    }
+    .form-order .item-form label {
+        font-size: 16px;
+        font-family: FuturaPTBook;
+        color: #636363;
+        padding: 0 15px;
+    }
+    .form-order .item-form input {
+        font-size: 16px;
+        font-family: FuturaPTBook;
+        color: #636363;
+        padding: 0 15px;
+        border-radius: 7px;
+        border: 1px solid #d8d8d8;
+    }
+        .form-order .item-form input:focus {
+            box-shadow: 0 0 4px 0px hsla(332, 50%, 49%, 0.45);
+        }
+
+    .form-order .item-form .address-form {
+        padding:0;
+    }
+    .cabinet .item-form .form-group {
+        margin-bottom:0px;
+    }
+.cabinet .datepicker-birth {
+    padding: 0px 0px 0px 10px;
+}
+    .cabinet .datepicker-birth select {
+        padding: 4px 0px;
+        font-size: 16px;
+        font-family: FuturaPTBook;
+        color: #636363;
+    }
+    .cabinet .datepicker-birth select:focus {
+        box-shadow: 0 0 4px 0px hsla(332, 50%, 49%, 0.45);
+        outline: none;
+        border: 1px solid #d8d8d8;        
+    }
+.cabinet .footer.item-form {
+    padding: 50px;
+}
+.cabinet .item-form .title {
+    padding:15px 5px;
+}
+.count-cart {
+    display: block;
+    position: absolute;
+    width: 23px;
+    height: 23px;
+    background-color: #ff669e;
+    border-radius: 15px;
+    border: 2px solid #fff;
+    top: 11px;
+    right: 23px;
+    text-align: center;
+    font-size: 15px;
+    color: #fff;
+    padding-bottom: 0px;
+    font-family: FuturaPTMeduim;
+}
+.dropdown-cart {
+    display:none;   
+    position: absolute;
+    background-color: #fff;
+    left: -80px;
+    top: 40px;
+    z-index: 99999;
+    width: 115%;
+}
+    .dropdown-cart::after {
+        content: '';
+        position: absolute;
+        right: 21px;
+        top: -10px;
+        border: 5px solid transparent;
+        border-bottom: 7px solid #fff;
+        display: block;
+    }
+    .dropdown-cart .title {
+        text-align: center;
+        color: #636363;
+        font-size: 16px;
+        font-family: FuturaPTMeduim;
+        border-bottom: 1px solid #cbcbcb;
+        padding: 5px;
+        margin: 0 2%;
+        font-weight: 600;
+        width: 95%;
+    }
+    .dropdown-cart .footer {
+     padding:25px 0;
+    }
+        .dropdown-cart .footer .info {
+            color: #636363;
+            font-size: 16px;
+            font-family: FuturaPTBook;
+            margin-left: 4%;
+            width: 54%;
+        }
+        .dropdown-cart .footer .value {
+            color: #636363;
+            font-size: 16px;
+            font-weight:bold;
+            font-family: FuturaPTMeduim;
+        }
+        .dropdown-cart .footer .item-btn {
+            width: 100%;
+            margin: 5px 0;
+        }
+        .dropdown-cart .footer a:hover, .dropdown-cart .footer a:focus .dropdown-cart .footer a:active .dropdown-cart .footer a:visited {
+            color: #fff;
+        }
+    .dropdown-cart .dropdown-item-cart {
+        border-bottom: 1px solid #cbcbcb;
+        padding: 10px 0px;
+        margin: 10px 2%;
+        width: 95%;
+    }
+    .dropdown-cart .dropdown-item-cart .img {
+        padding:0;
+    }
+    .dropdown-cart .dropdown-item-cart img{
+        width:100%;
+    }
+    .dropdown-cart .dropdown-item-cart .content {
+        padding:0;
+    }
+    .dropdown-cart .dropdown-item-cart .info {
+        padding: 0;
+    }
+    .dropdown-cart .dropdown-item-cart .title-product {
+        color: #414141;
+        font-size: 15px;
+        font-family: FuturaPTMeduim;
+        font-weight: bold;
+    }
+#dropdown-cart-head {
+    display: inline-block;
+    height: 85px;
+    width: 65px;
+}

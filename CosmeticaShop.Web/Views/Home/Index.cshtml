@@ -39,9 +39,11 @@
     <div class="row brand-list">
         <div class="col-md-3">
             <div class="item">
-                <div class="brand-img">
-                    <img src="~/assets/img/Temp/Jean.png" />
-                </div>
+                <a href="@Url.Action("Index","Product")">
+                    <div class="brand-img">
+                        <img src="~/assets/img/Temp/Jean.png" />
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col-md-3 ">
@@ -74,18 +76,24 @@
         <div class="col-md-3">
             <div class="item">
                 <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                        <div class="discount">reducere -35%</div>
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
+                    <a href="@Url.Action("Details","Product")">
+                        <div class="product-img">
+                            <img src="~/assets/img/Temp/product3.png" />
+                            <div class="discount">reducere -35%</div>
+                        </div>
+                    </a>
+                    <a href="@Url.Action("Details","Product")">
+                        <div class="product-description title">
+                            <span class="pink-text">
+                                elf cosmetics
+                            </span>
+                        </div>
+                    </a>
+                    <a href="@Url.Action("Details","Product")">
+                        <div class="product-description">
+                            <span class="grey-text">illuminating eye cream</span>
+                        </div>
+                    </a>
                     <div class="product-description">
                         <span class="grey-price crossOut-pink ">150 lei</span>
                         <div>

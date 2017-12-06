@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="row">
+    <div class="col-md-12 white-container marginB-heigth-10">
+        <div class="default-text navigation">
+            <a href="@Url.Action("Index","Home")"> Principală </a> >  <span class="pink-darkk-text">Plasează comanda</span></a>
+        </div>
+    </div>
+</div>
+
+<div class="row margin-bottom-30">
+    <div class="col-md-12 white-container">
+        <div class="row">
+            <div class="form-order">
+
+                @*<div class="item-form col-md-12" align="center">
+                    <div class="title-item-form thanks-title">Vă mulțumim pentru comandă!</div>
+                </div>
+                <div class="item-form col-md-12" align="center">
+                    <div class="title-item-form">Comanda nr.1111111 va fi procesată și confirmată prin email.</div>
+                </div>
+                <div class="item-form col-md-12" align="center">
+                    <div class="title-item-form" style="padding:20px;"><a href="@Url.Action("Index","Home")" class="btn-pink">Pagina principală</a></div>
+              
+                </div>*@
+
+
+                <form>
+                    <div class="item-form">
+                        <div class="title-item-form">Adresa de e-mail pentru confirmarea comenzii:</div>
+                        <div class="form-group col-md-12 row">
+                            <div>
+                                <label>E-mail</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input name="Email" type="email" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item-form">
+                        <div class="title-item-form">Adresa de livrare:</div>
+                        <div class="form-group row col-md-12">
+                            <div class="address-form col-md-3">
+                                <div>
+                                    <label>Țara:</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input name="Country" type="email" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="address-form col-md-3">
+                                <div>
+                                    <label>Orașul:</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input name="Town" type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="address-form col-md-3">
+                                <div>
+                                    <label>Adresa:</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input name="Adresa:" type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="address-form col-md-3">
+                                <div>
+                                    <label>Telefon:</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input name="Phone" type="text" class="form-control" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="item-form">
+                        <div class="title-item-form">Modalitatea de livrare:</div>
+                        <div class="form-group col-md-12 info-form">
+                            <div class="margin-bottom-10">Curier - <span class="pink-darkk-text">GRATIS</span></div>
+                            <div>Condițiile de livrare:</div>
+                            <div>Due to high volume, your order might experience up to 8 business days delay. Flash 2 Day shipping might experience a 1 business day delay. 2 Day, 1 Day and Flash 1 Day shipping will not be affected.</div>
+                        </div>
+                    </div>
+
+                    <div class="item-form">
+                        <div class="title-item-form">Modalitatea de plată:</div>
+                        <div class="form-group col-md-12 info-form">
+                            <div>
+                                Cash la livrare
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item-form col-md-12">
+                        <div class="title-item-form " align="center">Suma totală spre plată 450 lei.</div>
+                       
+                    </div>
+
+                    <div class="item-form footer col-md-12">
+                        <div class="col-md-offset-5">
+                            <button class="btn-pink">Confirmă comanda</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+

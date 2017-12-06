@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="col-md-12 white-container marginB-heigth-10">
+    <div class="default-text navigation">
+        <a href="@Url.Action("Index","Home")"> Principală </a> > <a href="@Url.Action("Index","Cabinet")"> <span class="pink-darkk-text">Profilul meu</span></a>
+    </div>
+</div>
+
+<div class="col-md-3 white-container">
+
+    <div class="block">
+        <div class="content grey">
+            <ul class="menu">
+                <li>
+                    <span class="active">Datele personale</span>
+                </li>
+                <li>
+                    <span>Comenzile mele</span>
+                </li>               
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-9 white-container big" data-bind="with:ViewModel">
+    <div class="title">
+        Datele personale
+    </div>
+    <form class="form-order cabinet">
+        <div class="col-md-4  item-form">
+            <div class="form-group">
+                <div>
+                    <label>Nume:</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="Name" type="text" class="form-control" />
+                </div>
+            </div>
+           
+            <div class="form-group">
+                <div>
+                    <label>Prenume:</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="LastName" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <label>E-mail</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="Email" type="email" class="form-control" />
+                </div>
+            </div>                 
+        </div>
+        <div class="col-md-4 col-md-offset-1  item-form">
+            <div class="form-group">
+                <div>
+                    <label>Parola nouă:</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="Password" type="password" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label>Confirmă parola:</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="ConfrimPassword" type="password" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <label>Data nașterii:</label>
+                </div>
+                <div class="datepicker-birth">
+                    <div class="col-md-4">
+                        <select class="form-control">
+                            <option value="" disabled selected>Ziua</option>
+                            @for (var i = 1; i < 30; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control">
+                            <option value="" disabled selected>Luna</option>
+                            @for (var i = 1; i < 12; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control">
+                            <option value="" disabled selected>Anul</option>
+                            @for (var i = 2017; i > 1900; i--)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+     
+        </div>
+  
+        <div class="col-md-4  item-form">
+            <div class="title">
+                Adresa de livrare:
+            </div>
+            <div class="form-group">
+                <div>
+                    <label>Țara:</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="Country" type="text" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label>Orașul:</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="Town" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <label>Adresa:</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="Address" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <label>Telefon:</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="Phone" type="text" class="form-control" />
+                </div>
+            </div>
+           
+        </div>
+
+        <div class="col-md-11 footer item-form" align="center">
+            <button type="submit" class="btn-pink">Salvează</button>
+        </div>
+    </form>
+
+   
+
+</div>
