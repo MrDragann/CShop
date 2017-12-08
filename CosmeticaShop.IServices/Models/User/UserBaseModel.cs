@@ -11,7 +11,7 @@ namespace CosmeticaShop.IServices.Models.User
 		/// <summary>
 		/// Ид пользователя
 		/// </summary>
-		public int Id { get; set; }
+		public Guid Id { get; set; }
 		/// <summary>
 		/// Почта пользователя
 		/// </summary>

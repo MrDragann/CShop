@@ -13,7 +13,7 @@ namespace CosmeticaShop.Data.Models
         /// <summary>
         /// Ид
         /// </summary>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         
         /// <summary>
         /// Почта пользователя

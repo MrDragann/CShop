@@ -78,11 +78,11 @@
     <Compile Include="Interfaces\IAuthCommonService.cs" />
     <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
+    <Compile Include="Models\Base\BaseFilter.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Brand\BrandModel.cs" />
     <Compile Include="Models\Responses\BaseResponse.cs" />
     <Compile Include="Models\DictionaryModel.cs" />
-    <Compile Include="Models\Requests\PaginationFilterRequest.cs" />
     <Compile Include="Models\Requests\PaginationRequest.cs" />
     <Compile Include="Models\Responses\PaginationResponse.cs" />
     <Compile Include="Models\User\ChangePasswordModel.cs" />

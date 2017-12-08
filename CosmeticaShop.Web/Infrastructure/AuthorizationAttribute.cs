@@ -16,7 +16,7 @@ namespace CosmeticaShop.Web.Infrastructure
             Roles = string.Join(",", roles);
         }
 
-        private WebUser user => new WebUser();
+        private WebUser _user => new WebUser();
 
         /// <summary>
         /// Допустимые роли
@@ -29,13 +29,13 @@ namespace CosmeticaShop.Web.Infrastructure
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            if (!user.IsAuthorized)
+            if (!_user.IsAuthorized)
                 return false;
 
-            _userRoles = user.Roles;
+            _userRoles = _user.Roles;
 
-            if (!_userRoles.Any())
-                return false;
+            //if (!_userRoles.Any())
+            //    return false;
 
             _allowedRoles = Roles.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
             

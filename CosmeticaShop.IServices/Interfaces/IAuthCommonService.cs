@@ -44,7 +44,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="token">Токен</param>
         /// <param name="email">Почта</param>
         /// <returns></returns>
-        BaseResponse<int> ConfrimUser(Guid token, string email);
+        BaseResponse<Guid> ConfrimUser(Guid token, string email);
 
         /// <summary>
         /// Сгенерировать токен пользователю
@@ -53,7 +53,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="userId">Ид пользователя</param>
         /// <param name="isExpireDate">Установить токену срок действия</param>
         /// <returns></returns>
-        BaseResponse<Guid?> GenerateToken(string email, int? userId = null, bool isExpireDate = true);
+        BaseResponse<Guid?> GenerateToken(string email, Guid? userId = null, bool isExpireDate = true);
 
         /// <summary>
         /// Обновление пароля пользователя

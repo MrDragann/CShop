@@ -16,7 +16,7 @@ namespace CosmeticaShop.IServices.Models.Requests
         /// </summary>
         public int? Take { get; set; }
 
-        public IQueryable<TQuery> Filter<TQuery>(IQueryable<TQuery> query)
+        public IQueryable<TQuery> Load<TQuery>(IQueryable<TQuery> query)
         {
             if (Skip.HasValue)
                 query = query.Skip(Skip.Value);

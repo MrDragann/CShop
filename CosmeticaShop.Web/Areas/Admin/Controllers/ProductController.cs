@@ -8,9 +8,11 @@ using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.Services;
+using CosmeticaShop.Web.Infrastructure;
 
 namespace CosmeticaShop.Web.Areas.Admin.Controllers
 {
+    [Authorization]
     public class ProductController : Controller
     {
         #region [ Сервисы ]
@@ -50,6 +52,23 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             if (response.IsSuccess)
                 return RedirectToAction("Brands");
             return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml",(BaseResponse<BrandModel>) response);
+        }
+
+        public ActionResult EditBrand(int id)
+        {
+            var model = _productService.GetBrandModel(id);
+            if(model.IsSuccess)
+                return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml", model);
+            return RedirectToAction("Brands");
+        }
+
+        [HttpPost]
+        public ActionResult EditBrand(BrandModel model)
+        {
+            var response = _productService.AddBrand(model);
+            if (response.IsSuccess)
+                return RedirectToAction("Brands");
+            return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml", (BaseResponse<BrandModel>)response);
         }
 
         #endregion

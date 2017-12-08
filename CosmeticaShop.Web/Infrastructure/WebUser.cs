@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 
 namespace CosmeticaShop.Web.Infrastructure
@@ -26,7 +27,7 @@ namespace CosmeticaShop.Web.Infrastructure
         /// <summary>
         /// Ид пользователя
         /// </summary>
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         /// <summary>
         /// Почта пользователя
         /// </summary>

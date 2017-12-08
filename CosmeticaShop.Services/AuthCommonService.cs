@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
 using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
-using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.User;
 
@@ -74,6 +70,7 @@ namespace CosmeticaShop.Services
 
                     var user = new User
                     {
+                        Id = Guid.NewGuid(),
                         Email = model.Email,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
@@ -156,7 +153,7 @@ namespace CosmeticaShop.Services
         /// <param name="token">Токен</param>
         /// <param name="email">Почта</param>
         /// <returns></returns>
-        public BaseResponse<int> ConfrimUser(Guid token, string email)
+        public BaseResponse<Guid> ConfrimUser(Guid token, string email)
         {
             using (var db = new DataContext())
             {
@@ -167,9 +164,9 @@ namespace CosmeticaShop.Services
                     user.ConfirmationToken = null;
                     user.TokenExpireDate = null;
                     db.SaveChanges();
-                    return new BaseResponse<int>(EnumResponseStatus.Success, "Успешно", user.Id);
+                    return new BaseResponse<Guid>(EnumResponseStatus.Success, "Успешно", user.Id);
                 }
-                return new BaseResponse<int>(EnumResponseStatus.Error);
+                return new BaseResponse<Guid>(EnumResponseStatus.Error);
             }
         }
         /// <summary>
@@ -210,7 +207,7 @@ namespace CosmeticaShop.Services
         /// <param name="userId">Ид пользователя</param>
         /// <param name="isExpireDate">Установить токену срок действия</param>
         /// <returns></returns>
-        public BaseResponse<Guid?> GenerateToken(string email, int? userId = null, bool isExpireDate = true)
+        public BaseResponse<Guid?> GenerateToken(string email, Guid? userId = null, bool isExpireDate = true)
         {
             using (var db = new DataContext())
             {
