@@ -7,13 +7,13 @@ namespace CosmeticaShop.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class sitePagesliderTables : IMigrationMetadata
+    public sealed partial class easyDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(sitePagesliderTables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(easyDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712080014087_sitePage-slider-Tables"; }
+            get { return "201712082032061_easyDB"; }
         }
         
         string IMigrationMetadata.Source

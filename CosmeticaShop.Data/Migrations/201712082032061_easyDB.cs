@@ -12,8 +12,12 @@ namespace CosmeticaShop.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                        KeyUrl = c.String(),
+                        Name = c.String(maxLength: 128),
+                        KeyUrl = c.String(maxLength: 128),
+                        PhotoUrl = c.String(maxLength: 128),
+                        IsActive = c.Boolean(nullable: false),
+                        SeoKeywords = c.String(maxLength: 256),
+                        SeoDescription = c.String(maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -29,6 +33,10 @@ namespace CosmeticaShop.Data.Migrations
                         Description = c.String(),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Discount = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        PhotoUrl = c.String(maxLength: 128),
+                        IsActive = c.Boolean(nullable: false),
+                        SeoKeywords = c.String(maxLength: 256),
+                        SeoDescription = c.String(maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Brands", t => t.BrandId)
@@ -44,6 +52,11 @@ namespace CosmeticaShop.Data.Migrations
                         ParentId = c.Int(),
                         Name = c.String(maxLength: 128),
                         KeyUrl = c.String(maxLength: 128),
+                        Priority = c.Int(),
+                        PhotoUrl = c.String(maxLength: 128),
+                        IsActive = c.Boolean(nullable: false),
+                        SeoKeywords = c.String(maxLength: 256),
+                        SeoDescription = c.String(maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Categories", t => t.ParentId)
@@ -73,7 +86,7 @@ namespace CosmeticaShop.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        UserId = c.Int(nullable: false),
+                        UserId = c.Guid(nullable: false),
                         DateCreate = c.DateTime(nullable: false),
                         Status = c.Int(nullable: false),
                         Address = c.String(maxLength: 512),
@@ -88,7 +101,7 @@ namespace CosmeticaShop.Data.Migrations
                 "dbo.Users",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        Id = c.Guid(nullable: false),
                         Email = c.String(nullable: false, maxLength: 128),
                         PasswordHash = c.String(nullable: false, maxLength: 128),
                         FirstName = c.String(maxLength: 128),
@@ -97,6 +110,7 @@ namespace CosmeticaShop.Data.Migrations
                         DateBirth = c.DateTime(),
                         ConfirmationToken = c.Guid(),
                         TokenExpireDate = c.DateTime(),
+                        PhotoUrl = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -105,7 +119,7 @@ namespace CosmeticaShop.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        UserId = c.Int(nullable: false),
+                        UserId = c.Guid(nullable: false),
                         ProductId = c.Int(nullable: false),
                         DateCreate = c.DateTime(nullable: false),
                         Content = c.String(maxLength: 1024),
@@ -129,7 +143,7 @@ namespace CosmeticaShop.Data.Migrations
                 "dbo.UserAddresses",
                 c => new
                     {
-                        UserId = c.Int(nullable: false),
+                        UserId = c.Guid(nullable: false),
                         Country = c.String(),
                         City = c.String(),
                         Address = c.String(),
@@ -144,7 +158,7 @@ namespace CosmeticaShop.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        UserId = c.Int(nullable: false),
+                        UserId = c.Guid(nullable: false),
                         ProductId = c.Int(nullable: false),
                         DateCreate = c.DateTime(nullable: false),
                     })
@@ -155,11 +169,37 @@ namespace CosmeticaShop.Data.Migrations
                 .Index(t => t.ProductId);
             
             CreateTable(
+                "dbo.SitePages",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        Title = c.String(maxLength: 128),
+                        Content = c.String(),
+                        ExtraContent = c.String(),
+                        SeoKeywords = c.String(maxLength: 256),
+                        SeoDescription = c.String(maxLength: 256),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Sliders",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        SitePage = c.Int(nullable: false),
+                        DateCreate = c.DateTime(nullable: false),
+                        Priority = c.Int(),
+                        PhotoUrl = c.String(maxLength: 128),
+                        IsActive = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.RoleUsers",
                 c => new
                     {
                         Role_Id = c.Int(nullable: false),
-                        User_Id = c.Int(nullable: false),
+                        User_Id = c.Guid(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Role_Id, t.User_Id })
                 .ForeignKey("dbo.Roles", t => t.Role_Id, cascadeDelete: true)
@@ -198,6 +238,8 @@ namespace CosmeticaShop.Data.Migrations
             DropIndex("dbo.Products", new[] { "CategoryId" });
             DropIndex("dbo.Products", new[] { "BrandId" });
             DropTable("dbo.RoleUsers");
+            DropTable("dbo.Sliders");
+            DropTable("dbo.SitePages");
             DropTable("dbo.WishLists");
             DropTable("dbo.UserAddresses");
             DropTable("dbo.Roles");

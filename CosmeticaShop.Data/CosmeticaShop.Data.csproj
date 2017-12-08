@@ -50,13 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext.cs" />
-    <Compile Include="Migrations\201712021932120_easy-DB.cs" />
-    <Compile Include="Migrations\201712021932120_easy-DB.Designer.cs">
-      <DependentUpon>201712021932120_easy-DB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712080014087_sitePage-slider-Tables.cs" />
-    <Compile Include="Migrations\201712080014087_sitePage-slider-Tables.Designer.cs">
-      <DependentUpon>201712080014087_sitePage-slider-Tables.cs</DependentUpon>
+    <Compile Include="Migrations\201712082032061_easyDB.cs" />
+    <Compile Include="Migrations\201712082032061_easyDB.Designer.cs">
+      <DependentUpon>201712082032061_easyDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Brand.cs" />
@@ -79,11 +75,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201712021932120_easy-DB.resx">
-      <DependentUpon>201712021932120_easy-DB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712080014087_sitePage-slider-Tables.resx">
-      <DependentUpon>201712080014087_sitePage-slider-Tables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201712082032061_easyDB.resx">
+      <DependentUpon>201712082032061_easyDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
