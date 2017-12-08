@@ -14,7 +14,7 @@ namespace CosmeticaShop.Data.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(CosmeticaShop.Data.DataContext context)
+        protected override void Seed(DataContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -25,6 +25,11 @@ namespace CosmeticaShop.Data.Migrations
             //      p => p.Id,
             //      new Role { Id = 1, Name = "User" },
             //      new Role { Id = 2, Name = "Admin" }
+            //    );
+
+            //context.SitePages.AddOrUpdate(
+            //      p => p.Id,
+            //      new SitePage { Id = 1, Title = "CosmeticaShop.ro" }
             //    );
         }
     }

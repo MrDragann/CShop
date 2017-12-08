@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CosmeticaShop.IServices.Models.Base;
+using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.User;
 
 namespace CosmeticaShop.IServices.Interfaces
@@ -27,7 +28,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// </summary>
         /// <param name="email">Почта</param>
         /// <param name="passwordHash">Пароль пользователя</param>
-        BaseResponse<ModelUserBase> Login(string email, string passwordHash);
+        BaseResponse<UserBaseModel> Login(string email, string passwordHash);
 
         /// <summary>
         /// Регистрация пользователя
@@ -35,7 +36,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="model">Модель пользователя</param>
         /// <param name="token">Токен для потверждения</param>
         /// <returns></returns>
-        BaseResponse Register(ModelUserDetail model, Guid token);
+        BaseResponse Register(UserDetailModel model, Guid token);
 
         /// <summary>
         /// Подтверждение аккаунта пользователя
@@ -75,7 +76,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        BaseResponse ConfrimRegisterUser(ModelUserDetail model);
+        BaseResponse ConfrimRegisterUser(UserDetailModel model);
 
         #endregion
     }

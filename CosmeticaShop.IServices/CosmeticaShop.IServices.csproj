@@ -69,23 +69,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\EnumDirectoryType.cs" />
+    <Compile Include="Enums\EnumResponseStatus.cs" />
+    <Compile Include="Enums\EnumSitePage.cs" />
     <Compile Include="Enums\EnumStatusOrder.cs" />
     <Compile Include="Enums\EnumStatusUser.cs" />
     <Compile Include="Enums\EnumUserRole.cs" />
     <Compile Include="Interfaces\IAuthCommonService.cs" />
-    <Compile Include="Models\Auth\AuthorizationAttribute.cs" />
+    <Compile Include="Interfaces\ICategoryService.cs" />
+    <Compile Include="Interfaces\IProductService.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
-    <Compile Include="Models\Base\BaseResponse.cs" />
+    <Compile Include="Models\Brand\BrandModel.cs" />
+    <Compile Include="Models\Responses\BaseResponse.cs" />
     <Compile Include="Models\DictionaryModel.cs" />
+    <Compile Include="Models\Requests\PaginationFilterRequest.cs" />
+    <Compile Include="Models\Requests\PaginationRequest.cs" />
+    <Compile Include="Models\Responses\PaginationResponse.cs" />
     <Compile Include="Models\User\ChangePasswordModel.cs" />
-    <Compile Include="Models\User\ModelUserBase.cs" />
-    <Compile Include="Models\User\ModelUserDetail.cs" />
-    <Compile Include="Models\User\WebUser.cs" />
+    <Compile Include="Models\User\UserBaseModel.cs" />
+    <Compile Include="Models\User\UserDetailModel.cs" />
+    <Compile Include="Models\User\UserLoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Pagination\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

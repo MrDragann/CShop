@@ -4,8 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CosmeticaShop.IServices.Interfaces;
+using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.User;
 using CosmeticaShop.Services;
+using CosmeticaShop.Services.Static;
+using CosmeticaShop.Web.Infrastructure;
 
 namespace CosmeticaShop.Web.Areas.Admin.Controllers
 {
@@ -13,37 +16,44 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
     {
         private IAuthCommonService _authCommonService = new AuthCommonService();
 
-        // GET: Admin/Home
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            var model = new ModelUserDetail
-            {
-                Email = "testshop2018@gmail.com",
-                FirstName = "Максим",
-                LastName = "Звинаревский",
-                Country = "ПМР",
-                City = "Тирасполь",
-                Address = "Краснодонская 82 кв.88",
-                Phone = "Galaxy S3",
-                Password = "maniac",
-                DateBirth = DateTime.Now.AddDays(-10).AddYears(-20),
-                RegistrationDate = DateTime.Now
-            };
-            model.Password = model.Password.GetHashString();
-            var token = Guid.NewGuid();
-            var registeredStatus = _authCommonService.Register(model, token);
-            if (registeredStatus.IsSuccess)
-            {
+            var user = new WebUser();
+            if (user.IsAdmin)
+                return RedirectToAction("Index", "Dashboard");
 
-                var mailResponse = _authCommonService.SendMail("Подтвердите регистрацию", model.Email, $@"Для завершения регистрации перейдите по 
-                 <a href='{Url.Action("Confrimed", "Home", new { token = token, email = model.Email }, Request.Url.Scheme)}'
-                 title='Подтвердить регистрацию'>ссылке</a>");
-                if (mailResponse.IsSuccess)
+            return View(new UserLoginModel());
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Index(UserLoginModel model)
+        {
+            var passwordHash = model.Password.GetHashString();
+
+            var loginStatus = _authCommonService.Login(model.Email, passwordHash);
+            if (loginStatus.IsSuccess)
+            {
+                var webUser = new WebUser
                 {
-                    return Json(mailResponse);
-                }
+                    UserId = loginStatus.Value.Id,
+                    Email = loginStatus.Value.Email,
+                    Roles = loginStatus.Value.Roles,
+                    IsAuthorized = true
+                };
+                HttpContext.Session["UserSession"] = webUser;
+                var returnUrl = HttpContext.Request.UrlReferrer.AbsoluteUri.Replace("/Admin/Home/Index?returnUrl=", "");
+                return Redirect(returnUrl);
             }
-            return View();
+            return View(new UserLoginModel());
+        }
+
+        [AllowAnonymous]
+        public ActionResult LogOut()
+        {
+            HttpContext.Session.Remove("UserSession");
+            return RedirectToAction("Index");
         }
     }
 }

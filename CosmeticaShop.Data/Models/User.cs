@@ -49,6 +49,11 @@ namespace CosmeticaShop.Data.Models
         /// </summary>
         public DateTime? TokenExpireDate { get; set; }
 
+        /// <summary>
+        /// Url изображения
+        /// </summary>
+        public string PhotoUrl { get; set; }
+
         #endregion
 
         #region [ Связанные объекты ]

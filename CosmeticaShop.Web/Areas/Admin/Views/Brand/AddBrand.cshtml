@@ -1,0 +1,152 @@
+﻿@model CosmeticaShop.IServices.Models.Responses.BaseResponse<CosmeticaShop.IServices.Models.Brand.BrandModel>
+@{
+    ViewBag.Title = (Model.Value.Id == 0 ? "Добавление" : "Редактирование") + " бренда";
+}
+
+@section breadcrumb
+{
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="">CosmeticaShop</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Бренды</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">@(Model.Value.Id==0?"Добавление":"Редактирование")</span>
+        </li>
+    </ul>
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span>@((Model.Value.Id==0?"Добавление":"Редактирование")+" бренда")</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#brand" data-toggle="tab">
+                                Бренд
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#seo" data-toggle="tab">
+                                Seo
+                            </a>
+                        </li>
+                    </ul>
+                    @using (Html.BeginForm("AddBrand", "Product", new { Area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-body form-horizontal">
+                            <div class="tab-content">
+                                <input name="Id" type="hidden" value="@Model.Value.Id">
+                                <input maxlength="128" id="key_url" name="KeyUrl" type="hidden" value="@Model.Value.KeyUrl">
+                                <div class="tab-pane fade active in" id="brand">
+                                    <div class="form-group form-md-line-input">
+                                        <label class="col-md-2 control-label" for="Name">Наименование</label>
+                                        <div class="col-md-10">
+                                            <input maxlength="128" class="form-control input-lg" id="Name" name="Name" required="required" type="text" value="@Model.Value.Name">
+                                            <div class="form-control-focus">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label class="control-label col-md-2" for="Photo">Фото</label>
+                                        <div class="col-md-8">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 100%; height: 160px;">
+                                                    @if (!string.IsNullOrEmpty(Model.Value.PhotoUrl))
+                                                    {
+                                                        <img src="@Model.Value.PhotoUrl" />
+                                                    }
+                                                </div>
+                                                <div>
+                                                    <span class="btn blue btn-file">
+                                                        <span class="fileinput-new">
+                                                            Выберите изображение
+                                                        </span>
+                                                        <span class="fileinput-exists">
+                                                            Изменить
+                                                        </span>
+                                                        <input type="file" id="PhotoFile" name="PhotoFile">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput">
+                                                        Удалить
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group form-md-checkboxes">
+                                        <label class="col-md-2 control-label">Видимость</label>
+                                        <div class="col-md-10">
+                                            <div class="md-checkbox">
+                                                @Html.CheckBoxFor(x => x.Value.IsActive, new { @class = "md-check", @id = "IsActive", Name = "IsActive" })
+                                                <label for="IsActive">
+                                                    <span class="inc"></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span>
+                                                    Отображать
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-pane fade" id="seo">
+                                    <div class="form-group form-md-line-input">
+                                        <label class="col-md-2 control-label" for="SeoKeywords">Keywords</label>
+                                        <div class="col-md-10">
+                                            <textarea maxlength="256" class="form-control" id="SeoKeywords" name="SeoKeywords" rows="3" placeholder="">@Model.Value.SeoKeywords</textarea>
+                                            <div class="form-control-focus">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label class="col-md-2 control-label" for="SeoDescription">Description</label>
+                                        <div class="col-md-10">
+                                            <textarea maxlength="256" class="form-control" id="SeoDescription" name="SeoDescription" rows="3" placeholder="">@Model.Value.SeoDescription</textarea>
+                                            <div class="form-control-focus">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="submit" id="save-changes" class="btn blue">Сохранить</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+<script src="~/Scripts/jquery.liTranslit.js"></script>
+    @if (!Model.IsSuccess)
+    {
+        <script>bootbox.alert('@Model.Message')</script>
+    }
+    <script>
+        $(function() {
+            $('#Name').liTranslit({
+        elAlias: $('#key_url'),
+                reg: '" "="-"'
+            });
+        });
+    </script>
+}

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CosmeticaShop.Data.Models.Seo;
 
 namespace CosmeticaShop.Data.Models
 {
-    public class Product
+    public class Product : SeoTags
     {
         #region [ Свойства ]
 
@@ -49,6 +50,16 @@ namespace CosmeticaShop.Data.Models
         /// Скидка на товар
         /// </summary>
         public decimal Discount { get; set; }
+
+        /// <summary>
+        /// Url изображения
+        /// </summary>
+        public string PhotoUrl { get; set; }
+
+        /// <summary>
+        /// Видимость
+        /// </summary>
+        public bool IsActive { get; set; }
 
         #endregion
 

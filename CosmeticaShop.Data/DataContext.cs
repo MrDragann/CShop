@@ -53,6 +53,16 @@ namespace CosmeticaShop.Data
         /// </summary>
         public DbSet<WishList> WishLists { get; set; }
 
+        /// <summary>
+        /// Таблица страниц сайта
+        /// </summary>
+        public DbSet<SitePage> SitePages { get; set; }
+
+        /// <summary>
+        /// Таблица слайдов
+        /// </summary>
+        public DbSet<Slider> Sliders { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder mb)
         {
             #region User
@@ -61,6 +71,7 @@ namespace CosmeticaShop.Data
             mb.Entity<User>().Property(_ => _.PasswordHash).HasMaxLength(128);
             mb.Entity<User>().Property(_ => _.FirstName).HasMaxLength(128);
             mb.Entity<User>().Property(_ => _.LastName).HasMaxLength(128);
+            mb.Entity<User>().Property(_ => _.PhotoUrl).HasMaxLength(128);
 
             mb.Entity<User>().Property(_ => _.Email).IsRequired();
             mb.Entity<User>().Property(_ => _.PasswordHash).IsRequired();
@@ -89,6 +100,9 @@ namespace CosmeticaShop.Data
             
             mb.Entity<Product>().Property(_ => _.Name).HasMaxLength(128);
             mb.Entity<Product>().Property(_ => _.KeyUrl).HasMaxLength(128);
+            mb.Entity<Product>().Property(_ => _.PhotoUrl).HasMaxLength(128);
+            mb.Entity<Product>().Property(_ => _.SeoDescription).HasMaxLength(256);
+            mb.Entity<Product>().Property(_ => _.SeoKeywords).HasMaxLength(256);
 
             mb.Entity<Product>().HasOptional(x=>x.Brand).WithMany(x=>x.Products).HasForeignKey(x=>x.BrandId);
             mb.Entity<Product>().HasOptional(x=>x.Category).WithMany(x=>x.Products).HasForeignKey(x=>x.CategoryId);
@@ -99,8 +113,38 @@ namespace CosmeticaShop.Data
 
             mb.Entity<Category>().Property(_ => _.Name).HasMaxLength(128);
             mb.Entity<Category>().Property(_ => _.KeyUrl).HasMaxLength(128);
+            mb.Entity<Category>().Property(_ => _.PhotoUrl).HasMaxLength(128);
+            mb.Entity<Category>().Property(_ => _.SeoDescription).HasMaxLength(256);
+            mb.Entity<Category>().Property(_ => _.SeoKeywords).HasMaxLength(256);
 
             mb.Entity<Category>().HasOptional(x => x.Parent).WithMany(x => x.ChildCategories).HasForeignKey(x => x.ParentId);
+
+            #endregion
+
+            #region Brand
+
+            mb.Entity<Brand>().Property(_ => _.Name).HasMaxLength(128);
+            mb.Entity<Brand>().Property(_ => _.KeyUrl).HasMaxLength(128);
+            mb.Entity<Brand>().Property(_ => _.PhotoUrl).HasMaxLength(128);
+            mb.Entity<Brand>().Property(_ => _.SeoDescription).HasMaxLength(256);
+            mb.Entity<Brand>().Property(_ => _.SeoKeywords).HasMaxLength(256);
+
+            #endregion
+
+            #region SitePage
+
+            mb.Entity<SitePage>().HasKey(_ => _.Id);
+            mb.Entity<SitePage>().Property(_ => _.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            mb.Entity<SitePage>().Property(_ => _.Title).HasMaxLength(128);
+            mb.Entity<SitePage>().Property(_ => _.SeoDescription).HasMaxLength(256);
+            mb.Entity<SitePage>().Property(_ => _.SeoKeywords).HasMaxLength(256);
+
+            #endregion
+
+            #region Slider
+
+            mb.Entity<Slider>().Property(_ => _.PhotoUrl).HasMaxLength(128);
 
             #endregion
 

@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CosmeticaShop.Data.Models.Seo;
 
 namespace CosmeticaShop.Data.Models
 {
-    
-
     /// <summary>
     /// Таблица брендов
     /// </summary>
-    public class Brand
+    public class Brand : SeoTags
     {
         #region [ Свойства ]
 
@@ -29,6 +28,16 @@ namespace CosmeticaShop.Data.Models
         /// Url бренда
         /// </summary>
         public string KeyUrl { get; set; }
+
+        /// <summary>
+        /// Url изображения
+        /// </summary>
+        public string PhotoUrl { get; set; }
+
+        /// <summary>
+        /// Видимость
+        /// </summary>
+        public bool IsActive { get; set; }
 
         #endregion
 

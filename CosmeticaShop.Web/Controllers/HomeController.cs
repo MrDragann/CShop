@@ -5,8 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Base;
+using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.User;
 using CosmeticaShop.Services;
+using CosmeticaShop.Services.Static;
+using CosmeticaShop.Web.Infrastructure;
 
 namespace CosmeticaShop.Web.Controllers
 {
@@ -29,7 +32,7 @@ namespace CosmeticaShop.Web.Controllers
         /// <param name="model">Модель пользователя</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Login(ModelUserBase model)
+        public ActionResult Login(UserBaseModel model)
         {
             var passwordHash = model.Password.GetHashString();
 
@@ -59,7 +62,7 @@ namespace CosmeticaShop.Web.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Register(ModelUserDetail model)
+        public ActionResult Register(UserDetailModel model)
         {
 
             model.Password = model.Password.GetHashString();
@@ -85,7 +88,7 @@ namespace CosmeticaShop.Web.Controllers
         /// <param name="email">Почта пользователя</param>
         public ActionResult Confrimed(Guid token, string email)
         {
-            if (token == Guid.Empty)
+            if (token != Guid.Empty)
             {
                 var response = _authCommonService.ConfrimUser(token, email);
                 if (response.IsSuccess)
@@ -100,7 +103,7 @@ namespace CosmeticaShop.Web.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost]
-        public ActionResult ConfrimedRegister(ModelUserDetail model)
+        public ActionResult ConfrimedRegister(UserDetailModel model)
         {
             var response = _authCommonService.ConfrimRegisterUser(model);
             return Json(response);

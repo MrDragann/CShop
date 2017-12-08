@@ -4,11 +4,13 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Base;
+using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.User;
 
 namespace CosmeticaShop.Services
@@ -42,9 +44,9 @@ namespace CosmeticaShop.Services
                     user.TokenExpireDate = null;
                     user.PasswordHash = passwordHash;
                     db.SaveChanges();
-                    return new BaseResponse(0, "Пароль успешно изменен");
+                    return new BaseResponse(EnumResponseStatus.Success, "Пароль успешно изменен");
                 }
-                return new BaseResponse(1);
+                return new BaseResponse(EnumResponseStatus.Error);
             }
         }
 
@@ -54,21 +56,21 @@ namespace CosmeticaShop.Services
         /// <param name="model">Модель пользователя</param>
         /// <param name="token">Токен для потверждения</param>
         /// <returns></returns>
-        public BaseResponse Register(ModelUserDetail model, Guid token)
+        public BaseResponse Register(UserDetailModel model, Guid token)
         {
             try
             {
                 using (var db = new DataContext())
                 {
                     if (string.IsNullOrEmpty(model.Email))
-                        return new BaseResponse(1, "Email не может быть пустым");
+                        return new BaseResponse(EnumResponseStatus.ValidationError, "Email не может быть пустым");
 
 
                     if (db.Users.Any(x => x.Email == model.Email))
-                        return new BaseResponse(1, "Пользователь с таким адресом электронной почты уже существует");
+                        return new BaseResponse(EnumResponseStatus.ValidationError, "Пользователь с таким адресом электронной почты уже существует");
 
                     if (string.IsNullOrEmpty(model.Password))
-                        return new BaseResponse(1, "Пароль не может быть пустым");
+                        return new BaseResponse(EnumResponseStatus.ValidationError, "Пароль не может быть пустым");
 
                     var user = new User
                     {
@@ -95,7 +97,7 @@ namespace CosmeticaShop.Services
             }
             catch (Exception ex)
             {
-                return new BaseResponse(1, ex.Message);
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
             }
         }
 
@@ -104,26 +106,27 @@ namespace CosmeticaShop.Services
         /// </summary>
         /// <param name="email">Почта</param>
         /// <param name="passwordHash">Пароль пользователя</param>
-        public BaseResponse<ModelUserBase> Login(string email, string passwordHash)
+        public BaseResponse<UserBaseModel> Login(string email, string passwordHash)
         {
             using (var db = new DataContext())
             {
-                var user = db.Users.FirstOrDefault(_ => _.Email == email && _.PasswordHash == passwordHash);
+                var user = db.Users.Include(x => x.Roles).FirstOrDefault(_ => _.Email == email && _.PasswordHash == passwordHash);
                 if (user != null)
                 {
                     if (user.Status != (int)EnumStatusUser.Active)
-                        return new BaseResponse<ModelUserBase>(1, "Пользователь не активирован");
-                    var webUser = new ModelUserBase
+                        return new BaseResponse<UserBaseModel>(EnumResponseStatus.ValidationError, "Пользователь не активирован");
+                    var webUser = new UserBaseModel
                     {
                         Id = user.Id,
                         Email = user.Email,
                         FirstName = user.FirstName,
-                        LastName = user.LastName
+                        LastName = user.LastName,
+                        Roles = user.Roles.Select(x => x.Name).ToList()
                     };
 
-                    return new BaseResponse<ModelUserBase>(webUser);
+                    return new BaseResponse<UserBaseModel>(webUser);
                 }
-                return new BaseResponse<ModelUserBase>(2, "Введен неверный Email или пароль");
+                return new BaseResponse<UserBaseModel>(EnumResponseStatus.ValidationError, "Введен неверный Email или пароль");
             }
         }
 
@@ -141,9 +144,9 @@ namespace CosmeticaShop.Services
                 var user = db.Users.FirstOrDefault(_ => _.Email == email && _.ConfirmationToken == token && _.TokenExpireDate > DateTime.Now);
                 if (user != null)
                 {
-                    return new BaseResponse(0);
+                    return new BaseResponse(EnumResponseStatus.Success);
                 }
-                return new BaseResponse(1);
+                return new BaseResponse(EnumResponseStatus.Error);
             }
         }
 
@@ -164,9 +167,9 @@ namespace CosmeticaShop.Services
                     user.ConfirmationToken = null;
                     user.TokenExpireDate = null;
                     db.SaveChanges();
-                    return new BaseResponse<int>(0, "Успешно", user.Id);
+                    return new BaseResponse<int>(EnumResponseStatus.Success, "Успешно", user.Id);
                 }
-                return new BaseResponse<int>(1);
+                return new BaseResponse<int>(EnumResponseStatus.Error);
             }
         }
         /// <summary>
@@ -174,7 +177,7 @@ namespace CosmeticaShop.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public BaseResponse ConfrimRegisterUser(ModelUserDetail model)
+        public BaseResponse ConfrimRegisterUser(UserDetailModel model)
         {
             try
             {
@@ -189,14 +192,14 @@ namespace CosmeticaShop.Services
                         user.LastName = model.LastName;
                         user.DateBirth = model.DateBirth;
                         db.SaveChanges();
-                        return new BaseResponse(0, "Успешно");
+                        return new BaseResponse(EnumResponseStatus.Success, "Успешно");
                     }
-                    return new BaseResponse(1);
+                    return new BaseResponse(EnumResponseStatus.Error);
                 }
             }
             catch (Exception ex)
             {
-                return new BaseResponse(2, ex.Message);
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
             }
         }
 
@@ -221,7 +224,7 @@ namespace CosmeticaShop.Services
                     db.SaveChanges();
                     return new BaseResponse<Guid?>(user.ConfirmationToken);
                 }
-                return new BaseResponse<Guid?>(1);
+                return new BaseResponse<Guid?>(EnumResponseStatus.Error);
             }
         }
 
@@ -242,11 +245,11 @@ namespace CosmeticaShop.Services
                 msg.IsBodyHtml = true;
                 var smtp = new SmtpClient();
                 smtp.Send(msg);
-                return new BaseResponse(0, "Письмо успешно отправлено");
+                return new BaseResponse(EnumResponseStatus.Success, "Письмо успешно отправлено");
             }
             catch (Exception ex)
             {
-                return new BaseResponse(1, ex.Message);
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
             }
         }
         #endregion
