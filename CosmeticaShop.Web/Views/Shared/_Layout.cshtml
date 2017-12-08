@@ -24,5 +24,16 @@
     <script src="~/Scripts/knockout-3.4.2.js"></script>
     @RenderSection("Scripts", required: false)
     @Html.Partial("~/Views/Shared/Popup/Authorization.cshtml")
+    <script>
+        $("#dropdown-cart-head").mouseover(function () {
+            $("#dropdown-cart").css("display", "block");
+        });
+        $("#dropdown-cart-head").mouseleave(function () {
+            $("#dropdown-cart").css("display", "none");
+        });
+
+
+    </script>
 </body>
 </html>
+

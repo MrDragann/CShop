@@ -132,8 +132,12 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Controllers\CabinetController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\FavoritesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1766,7 +1770,9 @@
     <Content Include="assets\img\icons\instagram.png" />
     <Content Include="assets\img\icons\like.png" />
     <Content Include="assets\img\icons\logo-dois.png" />
+    <Content Include="assets\img\icons\pink-like.png" />
     <Content Include="assets\img\icons\product-cart.png" />
+    <Content Include="assets\img\icons\very-big-pink-like.png" />
     <Content Include="assets\img\Temp\Christina.png" />
     <Content Include="assets\img\Temp\Jean.png" />
     <Content Include="assets\img\Temp\Loreal.png" />
@@ -1993,6 +1999,11 @@
     <Content Include="Views\Shared\Partial\Contacts\Despre_Noi.cshtml" />
     <Content Include="Views\Shared\Partial\Contacts\Informație.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Favorites\Index.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Cabinet\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
