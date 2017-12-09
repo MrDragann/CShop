@@ -40,7 +40,7 @@ namespace CosmeticaShop.Web.Infrastructure
             _allowedRoles = Roles.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
             
             //проверка пользователя на существование роли
-            if (!_userRoles.Intersect(_allowedRoles.Where(x => !string.IsNullOrEmpty(x))).Any())
+            if (_allowedRoles.Any(x => _userRoles.Contains(x)))
                 return false;
 
             return true;

@@ -1,0 +1,89 @@
+﻿.showPagesCounts {
+    width: 80px;
+    display: inline-block;
+}
+
+.PageCount {
+    border: none !important;
+    top: 5px !important;
+    color: black !important;
+}
+
+    .PageCount:hover {
+        background-color: transparent !important;
+    }
+
+.table-button {
+    cursor: pointer;
+}
+
+.table-element-button {
+    width: 22%;
+}
+
+.arrow-up {
+    margin-left: 5px;
+    left: 15px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #2f2f2f;
+    position: relative;
+    cursor: pointer;
+    bottom: 18px;
+    opacity: 0.2;
+}
+
+.arrow-down {
+    margin-left: 5px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #2f2f2f;
+    cursor: pointer;
+    bottom: -10px;
+    position: relative;
+    opacity: 0.2;
+}
+
+.active {
+    opacity: 1;
+    border-bottom-color: #1E90FF;
+    border-top-color: #1E90FF;
+}
+
+.btn {
+    border-color: #ccc !important;
+}
+
+.portlet-title {
+    border-bottom: 1px solid #eef1f5;
+}
+.table-caption {
+    font-weight: 700!important;
+    font-size: 16px;
+}
+.table-border {
+    padding: 15px;
+    border: 1px solid #e7ecf1!important;
+    border-top-color: rgb(231, 236, 241);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgb(231, 236, 241);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgb(231, 236, 241);
+    border-left-color: rgb(231, 236, 241);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+}
+.table-tools {
+    margin: 5px !important;
+}
+
+.actions {
+    float: right;
+}

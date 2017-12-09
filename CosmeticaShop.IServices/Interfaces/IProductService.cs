@@ -22,7 +22,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        PaginationResponse<BrandModel> GetFilteredProducts(PaginationRequest<BaseFilter> request);
+        PaginationResponse<BrandModel> GetFilteredBrands(PaginationRequest<BaseFilter> request);
 
         /// <summary>
         /// Добавить бренд
@@ -44,6 +44,13 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="model"></param>
         /// <returns></returns>
         BaseResponse<BrandModel> EditBrand(BrandModel model);
+
+        /// <summary>
+        /// Удалить бренд
+        /// </summary>
+        /// <param name="brandId">Ид бренда</param>
+        /// <returns></returns>
+        BaseResponse DeleteBrand(int brandId);
 
         #endregion
 

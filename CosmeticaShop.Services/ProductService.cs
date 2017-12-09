@@ -45,7 +45,7 @@ namespace CosmeticaShop.Services
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public PaginationResponse<BrandModel> GetFilteredProducts(PaginationRequest<BaseFilter> request)
+        public PaginationResponse<BrandModel> GetFilteredBrands(PaginationRequest<BaseFilter> request)
         {
             using (var db = new DataContext())
             {
@@ -180,6 +180,33 @@ namespace CosmeticaShop.Services
                 {
                     return new BaseResponse<BrandModel>(EnumResponseStatus.Exception, ex.Message);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Удалить бренд
+        /// </summary>
+        /// <param name="brandId">Ид бренда</param>
+        /// <returns></returns>
+        public BaseResponse DeleteBrand(int brandId)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var brand = db.Brands.FirstOrDefault(x => x.Id == brandId);
+                    if (brand == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Бренд не найден");
+
+                    db.Brands.Remove(brand);
+                    db.SaveChanges();
+                    FileManager.DeleteFile(EnumDirectoryType.Brand, fileName: brand.PhotoUrl);
+                    return new BaseResponse(EnumResponseStatus.Success, "Товар успешно удален");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
             }
         }
 

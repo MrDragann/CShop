@@ -3,5 +3,75 @@
     ViewBag.Title = "Brands";
 }
 
-<h2>Brands</h2>
+@section scripts{
+    <script src="~/Areas/Admin/assets/js/Form/Brand/BrandModel.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Brand/BrandFormModel.js"></script>
+    <script>
+        var params = {};
+        params.UrlLoadItems = '@Url.Action("GetFilteredBrands","Product")';
+        params.UrlDelete = '@Url.Action("DeleteBrand","Product")';
+        var FormModel = new Brand.BrandFormModel(params);
+    </script>
+}
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered" data-bind="with:FormModel">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings font-green"></i>
+                    <span class="caption-subject font-green sbold uppercase">Список брендов</span>
+                </div>
+                <div class="actions" data-bind="with:Filter">
+                    
+                    <div class="btn-group btn-group-devided">
+                        <div class="input-group" style="width: 300px;">
+                            <input data-bind="value:Term" type="text" class="form-control" />
+                            <span class="input-group-btn">
+                                <button data-bind="click:FormModel.TableRefresh" class="btn btn-success" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="portlet-body" data-bind="with:Table">
+                <div class="table-scrollable">
+                    <table class="table table-hover table-light">
+                        <thead>
+                        <tr>
+                            <th> # </th>
+                            <th></th>
+                            <th>Наименование</th>
+                            <th>Видимость</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody data-bind="foreach:Items">
+                        <tr>
+                            <td data-bind="text:Id"></td>
+                            <td>
+                                <img data-bind="attr:{src:PhotoUrl()}" width="80">
+                            </td>
+                            <td data-bind="text:Name"></td>
+                            <td>
+                                <i data-bind="css:(IsActive()?'fa-check':'fa-close')" class="fa false-icon"></i>
+                            </td>
+                            <td>
+                                <a data-bind="attr:{href:'@Url.Action("EditBrand","Product")/'+Id()}" class="fa fa-pencil btn btn-sm blue"></a>
+                                <button data-bind="click:FormModel.DeleteBrand.bind(FormModel)" type="button" class="fa fa-remove btn btn-sm red"></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pagination data-bind="Component:Pagination"></pagination>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
 

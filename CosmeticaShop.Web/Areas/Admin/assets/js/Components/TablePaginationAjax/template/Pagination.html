@@ -1,0 +1,66 @@
+﻿<div class="row">
+    <!--ko if:Count()==0-->
+        <div data-bind="text:localize().noItems"></div>
+    <!--/ko-->
+    <div class="col-md-5">
+        <label data-bind="text: localize().pageSize"></label>
+        <select class="form-control showPagesCounts " data-bind="options: showPagesCounts, selectedOptions: pageSize, event:{change:ToPage.bind($data,1)}"></select>
+    </div>
+    <div class="col-md-7" style="text-align:right;">
+        <ul class="pagination">
+            <!--ko if:maxPage()>1-->
+            <!--ko if:currentPage()!=1-->
+            <li class="prev">
+                <a data-bind="click:ToPage.bind($data,currentPage()-1),attr:{title:localize().back}">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            </li>
+            <!--/ko-->
+            <!--ko if:currentPage()==1-->
+            <li class="prev disabled">
+                <a>
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            </li>
+            <!--/ko-->
+            <!--ko foreach:ko.utils.range(1, maxPage())-->
+            <!--ko if:$data == $parent.currentPage()-->
+            <li class="active">
+                <a data-bind="text:$data">1</a>
+            </li>
+            <!--/ko-->
+            <!--ko if: $data != $parent.currentPage() &&( $data == 1|| $data == $parent.maxPage() || ($data > $parent.currentPage() - 5 && $data < $parent.currentPage() + 5) ) -->
+            <li>
+                <a data-bind="text: $data, click:$parent.ToPage.bind($parent,$data)">2</a>
+            </li>
+            <!--/ko-->
+            <!--ko if: $data ==$parent.currentPage() - 6 || $data == $parent.currentPage() + 6 -->
+            <li>
+                <a>...</a>
+            </li>
+            <!--/ko-->
+            <!--/ko-->
+            <!--ko if:currentPage()!=maxPage()-->
+            <li class="next">
+                <a data-bind="click:ToPage.bind($data,currentPage()+1),attr:{title:localize().next}">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+            <!--/ko-->
+            <!--ko if:currentPage()==maxPage()-->
+            <li class="next disabled">
+                <a>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+            <!--/ko-->
+            <!--/ko-->
+        </ul>
+        <!--<button class="btn btn-default" data-bind="click:FormModel.Table.Refresh.bind(FormModel.Table)">
+            <i class="icon-refresh"></i>
+        </button>-->
+    </div>
+</div>
+
+
+

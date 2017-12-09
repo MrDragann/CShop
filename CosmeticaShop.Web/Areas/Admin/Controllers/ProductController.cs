@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
+using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.Services;
 using CosmeticaShop.Web.Infrastructure;
@@ -39,6 +40,13 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             return View("~/Areas/Admin/Views/Brand/Brands.cshtml");
         }
 
+        [HttpPost]
+        public ActionResult GetFilteredBrands(PaginationRequest<BaseFilter> request)
+        {
+            var response = _productService.GetFilteredBrands(request);
+            return Json(response);
+        }
+
         public ActionResult AddBrand()
         {
             var model = new BaseResponse<BrandModel>(new BrandModel());
@@ -69,6 +77,13 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             if (response.IsSuccess)
                 return RedirectToAction("Brands");
             return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml", (BaseResponse<BrandModel>)response);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteBrand(int brandId)
+        {
+            var response = _productService.DeleteBrand(brandId);
+            return Json(response);
         }
 
         #endregion
