@@ -1801,6 +1801,9 @@
     <Content Include="assets\js\Plugins\slick\slick-theme.css" />
     <Content Include="assets\js\Plugins\slick\slick.css" />
     <Content Include="assets\js\Plugins\slick\slick.js" />
+    <Content Include="assets\js\Plugins\slick\slickInit.js" />
+    <Content Include="assets\js\Product\ProductDetailModel.js" />
+    <Content Include="assets\js\Product\ProductDetailViewModel.js" />
     <Content Include="assets\js\Product\ProductModel.js" />
     <Content Include="assets\js\Product\ProductViewModel.js" />
     <Content Include="assets\js\User\UserModel.js" />

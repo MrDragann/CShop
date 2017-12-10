@@ -111,23 +111,32 @@
             <div class="col-md-4">
                 <div class="item">
                     <div class="product-content">
-                        <div class="product-img">
-                            <img data-bind="attr:{src:PhotoUrl}" />
-                            <!--ko if:Discount()!==0-->
-                            <div class="discount">reducere - <span data-bind="text:Discount">35%</span></div>
-                            <!--/ko-->
-                        </div>
-                        <div class="product-description title">
-                            <span class="pink-text" data-bind="text:Name">
-                         
-                            </span>
-                        </div>
+                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                            <div class="product-img">
+                                <img data-bind="attr:{src:PhotoUrl}" />
+                                <!--ko if:Discount()!==0-->
+                                <div class="discount">
+                                    reducere - <span data-bind="text:Discount">35%</span>
+                                </div>
+                                <!--/ko-->
+                            </div>
+                        </a>
+                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                            <div class="product-description title">
+                                <span class="pink-text" data-bind="text:Name">
+
+                                </span>
+                            </div>
+                        </a>
+                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                            <div class="product-description">
+                                <span class="grey-text" data-bind="text:Description"></span>
+                            </div>
+                        </a>
+
                         <div class="product-description">
-                            <span class="grey-text"  data-bind="text:Discount"></span>
-                        </div>
-                        <div class="product-description">
                             <!--ko if:Discount()!==0-->
-                            <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>                          
+                            <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>
                             <div>
                                 <span class="pink-price" data-bind="text:Discount()+' lei'"></span>
                             </div>
