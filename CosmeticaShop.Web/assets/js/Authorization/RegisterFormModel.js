@@ -61,7 +61,7 @@
     * Получить дату из 3 полей
     */
     Authorization.RegisterFormModel.prototype.RetrieveDate = function () {
-        var date = new Date(this.DateYear(), this.DateMonth(), this.DateDay())
+        var date = new Date(this.DateYear(), this.DateMonth(), this.DateDay());
         if (date) {
             return { IsSuccess: true, Value: date.toISOString() };
         }

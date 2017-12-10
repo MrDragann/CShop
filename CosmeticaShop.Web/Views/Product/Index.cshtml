@@ -2,7 +2,18 @@
 @{
     ViewBag.Title = "Index";
 }
+@section Scripts {
 
+    <script src="~/assets/js/Product/ProductModel.js"></script>
+    <script src="~/assets/js/Product/ProductViewModel.js"></script>
+    <script>
+        var params = {};
+        urlAddProductCart = '@Url.Action("AddInCart","Product")';
+        urlAddProductWish = '@Url.Action("AddInWish","Product")';
+        var ViewModel = new Product.ProductViewModel(params);
+
+    </script>
+}
 
 
 <div class="col-md-12 white-container marginB-heigth-10">
@@ -14,87 +25,130 @@
 
 <div class="col-md-3 white-container" data-bind="with:ViewModel">
 
-  
-            <ul class="sidebar-filter">
-                <li>
-                    <div class="title-filter">
-                        Brandul produsului
-                    </div>
-                    <div class="content">
-                        <div>
-                            <input type="checkbox" id="brand1" name="cc" />
-                            <label for="brand1"><span></span>Jean Destrees</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="brand2" name="cc" />
-                            <label for="brand2"><span></span>Christina Cosmetics</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="brand3" name="cc" />
-                            <label for="brand3"><span></span>elf cosmetics</label>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="title-filter">
-                        Tipul produsului
-                    </div>
-                    <div class="content">
-                        <div>
-                            <input type="checkbox" id="Tipul1" name="Tipul" />
-                            <label for="Tipul1"><span></span>Cremă</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="Tipul2" name="Tipul" />
-                            <label for="Tipul2"><span></span>Mască</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="Tipul3" name="Tipul" />
-                            <label for="Tipul3"><span></span>Cremă</label>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="title-filter">
-                        Îngrijirea
-                    </div>
-                    <div class="content">
-                        <div>
-                            <input type="checkbox" id="Îngrijirea1" name="Îngrijirea" />
-                            <label for="Îngrijirea1"><span></span>Feței</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="Îngrijirea2" name="Îngrijirea" />
-                            <label for="Îngrijirea2"><span></span>Corpului</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="Îngrijirea3" name="Îngrijirea" />
-                            <label for="Îngrijirea3"><span></span>Părului</label>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="title-filter">
-                        Proprietăți
-                    </div>
-                    <div class="content">
-                        <div>
-                            <input type="checkbox" id="Proprietăți1" name="Proprietăți" />
-                            <label for="Proprietăți1"><span></span>Anti-age</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="Proprietăți2" name="Proprietăți" />
-                            <label for="Proprietăți2"><span></span>Curățare</label>
-                        </div>                    
-                    </div>
-                </li>
-            </ul>
-        </div>
+
+    <ul class="sidebar-filter">
+        <li>
+            <div class="title-filter">
+                Brandul produsului
+            </div>
+            <div class="content">
+                <div>
+                    <input type="checkbox" id="brand1" name="cc" />
+                    <label for="brand1"><span></span>Jean Destrees</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="brand2" name="cc" />
+                    <label for="brand2"><span></span>Christina Cosmetics</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="brand3" name="cc" />
+                    <label for="brand3"><span></span>elf cosmetics</label>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="title-filter">
+                Tipul produsului
+            </div>
+            <div class="content">
+                <div>
+                    <input type="checkbox" id="Tipul1" name="Tipul" />
+                    <label for="Tipul1"><span></span>Cremă</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="Tipul2" name="Tipul" />
+                    <label for="Tipul2"><span></span>Mască</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="Tipul3" name="Tipul" />
+                    <label for="Tipul3"><span></span>Cremă</label>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="title-filter">
+                Îngrijirea
+            </div>
+            <div class="content">
+                <div>
+                    <input type="checkbox" id="Îngrijirea1" name="Îngrijirea" />
+                    <label for="Îngrijirea1"><span></span>Feței</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="Îngrijirea2" name="Îngrijirea" />
+                    <label for="Îngrijirea2"><span></span>Corpului</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="Îngrijirea3" name="Îngrijirea" />
+                    <label for="Îngrijirea3"><span></span>Părului</label>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="title-filter">
+                Proprietăți
+            </div>
+            <div class="content">
+                <div>
+                    <input type="checkbox" id="Proprietăți1" name="Proprietăți" />
+                    <label for="Proprietăți1"><span></span>Anti-age</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="Proprietăți2" name="Proprietăți" />
+                    <label for="Proprietăți2"><span></span>Curățare</label>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
 
 
 
 <div class="col-md-9 padding-0 col-md-9-content">
-    <div class="product-list">
+    <div class="product-list" data-bind="with:ViewModel">
+
+        @*<div class="product-list-content" data-bind="foreach:Products">
+            <div class="col-md-4">
+                <div class="item">
+                    <div class="product-content">
+                        <div class="product-img">
+                            <img data-bind="attr:{src:PhotoUrl}" />
+                            <!--ko if:Discount()!==0-->
+                            <div class="discount">reducere - <span data-bind="text:Discount">35%</span></div>
+                            <!--/ko-->
+                        </div>
+                        <div class="product-description title">
+                            <span class="pink-text" data-bind="text:Name">
+                         
+                            </span>
+                        </div>
+                        <div class="product-description">
+                            <span class="grey-text"  data-bind="text:Discount"></span>
+                        </div>
+                        <div class="product-description">
+                            <!--ko if:Discount()!==0-->
+                            <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>                          
+                            <div>
+                                <span class="pink-price" data-bind="text:Discount()+' lei'"></span>
+                            </div>
+                            <!--/ko-->
+                            <!--ko if:Discount()===0-->
+                            <span class="grey-price" data-bind="text:Price()+' lei'"></span>
+                            <!--/ko-->
+                        </div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="pull-left" data-bind="click:AddProductWish">
+                            <i class="icon-like"></i>
+                        </div>
+                        <div class="pull-right" data-bind="click:AddProductCart">
+                            <span style="cursor: pointer;">iau!</span> <i class="icon-product-cart"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
         <div class="product-list-content">
             <div class="col-md-4">
                 <div class="item">
@@ -649,34 +703,34 @@
                 </div>
             </div>
         </div>
-        
-            <div class="pagination product-list-pagination">
-                <span class="prev icon-arrow-left-mini"></span>
-                <div class="content">
-                    <div class="block-pagination">
-                        <span class="num">1</span>
-                    </div>
-                    <div class="block-pagination">
-                        <span class="num">2</span>
-                    </div>
-                    <div class="block-pagination">
-                        <span class="num">3</span>
-                    </div>
-                    <div class="block-pagination">
-                        <span class="num active">4</span>
-                    </div>
-                    <div class="block-pagination">
-                        <span class="num">5</span>
-                    </div>
-                    <div class="block-pagination">
-                        <span class="num">6</span>
-                    </div>
-                    <div class="block-pagination">
-                        <span class="num">7</span>
-                    </div>
+
+        <div class="pagination product-list-pagination">
+            <span class="prev icon-arrow-left-mini"></span>
+            <div class="content">
+                <div class="block-pagination">
+                    <span class="num">1</span>
                 </div>
-                <span class="next icon-arrow-right-mini"></span>
+                <div class="block-pagination">
+                    <span class="num">2</span>
+                </div>
+                <div class="block-pagination">
+                    <span class="num">3</span>
+                </div>
+                <div class="block-pagination">
+                    <span class="num active">4</span>
+                </div>
+                <div class="block-pagination">
+                    <span class="num">5</span>
+                </div>
+                <div class="block-pagination">
+                    <span class="num">6</span>
+                </div>
+                <div class="block-pagination">
+                    <span class="num">7</span>
+                </div>
             </div>
-      
+            <span class="next icon-arrow-right-mini"></span>
+        </div>
+
     </div>
 </div>
