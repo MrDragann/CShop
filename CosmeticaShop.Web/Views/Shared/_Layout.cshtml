@@ -22,6 +22,17 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/knockout-3.4.2.js"></script>
+    <script src="~/assets/js/User/UserModel.js"></script>
+    <script src="~/assets/js/Authorization/RegisterFormModel.js"></script>
+    <script src="~/assets/js/Authorization/AuthorizationFormModel.js"></script>
+    <script>
+        var paramsRegister = {}
+        paramsRegister.UrlRegister = '@Url.Action("Register","Home")';
+        var RegisterFormModel = new Authorization.RegisterFormModel(paramsRegister);
+        var paramsLogin = {}
+        paramsLogin.UrlLogin = '@Url.Action("Login","Home")';
+        var AuthorizationFormModel = new Authorization.AuthorizationFormModel(paramsLogin);
+    </script>
     @RenderSection("Scripts", required: false)
     @Html.Partial("~/Views/Shared/Popup/Authorization.cshtml")
     <script>
@@ -31,8 +42,8 @@
         $("#dropdown-cart-head").mouseleave(function () {
             $("#dropdown-cart").css("display", "none");
         });
-
-
+        
+        ko.applyBindings();    
     </script>
 </body>
 </html>

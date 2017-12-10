@@ -22,8 +22,15 @@
             }
         </div>
         <div class="col-md-4 item">
-            <div class=" pull-right">
+            <div class=" pull-right"> 
+                @if (!User.IsAuthorized)
+                {
                 <div class="head-auth"><span data-target="#login-modal" data-toggle="modal">Logare</span> / <span data-target="#registration-modal" data-toggle="modal">Înregistrare</span></div>
+                }
+                else
+                {
+                    <div class="head-auth"><a href="@Url.Action("Index","Cabinet")" >Birou privat</a> / <a href="@Url.Action("LogOut","Home")">Ieșire</a></div>
+                }
                 <a href="@Url.Action("Index","Favorites")">
                     <i class="icon-big-like"></i>
                 </a>

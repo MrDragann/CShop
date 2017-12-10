@@ -143,6 +143,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\AuthorizationAttribute.cs" />
+    <Compile Include="Infrastructure\AuthorizationAttributePublic.cs" />
     <Compile Include="Infrastructure\AuthorizeViewPage.cs" />
     <Compile Include="Infrastructure\ConstRoles.cs" />
     <Compile Include="Infrastructure\WebUser.cs" />
@@ -1789,6 +1790,8 @@
     <Content Include="assets\img\Temp\slide2.png" />
     <Content Include="assets\img\Temp\slide3.jpg" />
     <Content Include="assets\img\Temp\slide4.jpg" />
+    <Content Include="assets\js\Authorization\AuthorizationFormModel.js" />
+    <Content Include="assets\js\Authorization\RegisterFormModel.js" />
     <Content Include="assets\js\Contacts\ViewModel.js" />
     <Content Include="assets\js\Knockout-Extanstion\tab-knockout.js" />
     <Content Include="assets\js\Plugins\slick\ajax-loader.gif" />
@@ -1796,6 +1799,7 @@
     <Content Include="assets\js\Plugins\slick\slick-theme.css" />
     <Content Include="assets\js\Plugins\slick\slick.css" />
     <Content Include="assets\js\Plugins\slick\slick.js" />
+    <Content Include="assets\js\User\UserModel.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />

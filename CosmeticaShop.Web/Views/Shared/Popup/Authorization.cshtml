@@ -4,7 +4,7 @@
 }
 
 <!--Регистрация-->
-<div id="registration-modal" class="modal fade">
+<div id="registration-modal" class="modal fade" data-bind="with:RegisterFormModel">
     <div class="modal-dialog pink-modal">
         <div class="modal-content">
             <!-- Заголовок модального окна -->
@@ -13,32 +13,36 @@
                 Înregistrare
             </div>
             <!-- Основное содержимое модального окна -->
-            <div class="modal-body">
+            <div class="modal-body" data-bind="with:UserModel">
+                <!--ko if:$parent.IsSuccessRegister()-->
+                <label>Înregistrarea a avut succes, o scrisoare de confirmare a fost trimisă la oficiul poștal</label>
+                <!--/ko-->
+                <!--ko ifnot:$parent.IsSuccessRegister()-->
                 <div class="form-group">
                     <label>E-mail:</label>
-                    <input type="email" class="form-control" />
+                    <input type="email"  data-bind="textInput:Email" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label>Name:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text"  data-bind="textInput:Name" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label>Prenume:</label>
-                    <input type="text" class="form-control" />
+                    <input type="text"  data-bind="textInput:LastName" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label>Parola:</label>
-                    <input type="password" class="form-control" />
+                    <input type="password"  data-bind="textInput:Password" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label>Confirmă parola:</label>
-                    <input type="password" class="form-control" />
+                    <input type="password"  data-bind="textInput:$parent.ConfrimPassword" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label>Data nașterii:</label>
                     <div class="datepicker-birth">
                         <div class="col-md-4">
-                            <select class="form-control">
+                            <select class="form-control" data-bind="value:$parent.DateDay">
                                 <option value="" disabled selected>Ziua</option>
                                 @for (var i = 1; i < 30; i++)
                                 {
@@ -47,7 +51,7 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <select class="form-control">
+                            <select class="form-control" data-bind="value:$parent.DateMonth">
                                 <option value="" disabled selected>Luna</option>
                                 @for (var i = 1; i < 12; i++)
                                 {
@@ -56,7 +60,7 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <select class="form-control">
+                            <select class="form-control" data-bind="value:$parent.DateYear">
                                 <option value="" disabled selected>Anul</option>
                                 @for (var i = 2017; i > 1900; i--)
                                 {
@@ -68,23 +72,29 @@
                 </div>
                 <div class="form-group">
                     <label>Orașul:</label>
-                    <select class="form-control">
+                    <select class="form-control" data-bind="value:Town">
                         <option>București</option>
                         <option>C   hisinau</option>
                         <option>chisinau</option>
                     </select>
 
                 </div>
+                <!--/ko-->
             </div>
             <!-- Футер модального окна -->
-            <div class="modal-footer">               
+            <div class="modal-footer">   
+                <!--ko ifnot:IsSuccessRegister()-->
+                <div class="p-error" data-bind="text:ErrorMessage"></div>
+
                 <div>
                     <input  type="checkbox" class=""/> <span class="text-12"> Am citit <a href="#" class="href-small">Politica de confidențialitate</a></span>
                 </div>
                 <div>
-                    <button type="button" class="btn-pink">Înregistrează-te</button>
+                    <button type="button"  data-bind="click:Register" class="btn-pink">Înregistrează-te</button>
                 </div>
+                <!--/ko-->
                 <div><span data-target="#login-modal" data-dismiss="modal" data-toggle="modal" style="cursor:pointer;">Logare</span></div>
+
             </div>
         </div>
     </div>
@@ -92,7 +102,7 @@
 <!--Конец регистрации-->
 
 <!--Вход-->
-<div id="login-modal" class="modal fade">
+<div id="login-modal" class="modal fade" data-bind="with:AuthorizationFormModel">
     <div class="modal-dialog pink-modal">
         <div class="modal-content">
             <!-- Заголовок модального окна -->
@@ -101,21 +111,22 @@
                 Logare
             </div>
             <!-- Основное содержимое модального окна -->
-            <div class="modal-body">
+            <div class="modal-body" data-bind="with:UserModel">
                 
                 <div class="form-group">
                     <label>E-mail:</label>
-                    <input type="text" class="form-control" />
+                    <input type="email" data-bind="textInput:Email" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label>Parola:</label>
-                    <input type="password" class="form-control" />
+                    <input type="password" data-bind="textInput:Password" class="form-control" />
                 </div>              
             </div>
             <!-- Футер модального окна -->
-            <div class="modal-footer">              
+            <div class="modal-footer">     
+                <div class="p-error" data-bind="text:ErrorMessage"></div>
                 <div>
-                    <button type="button" class="btn-pink">Intră</button>
+                    <button type="button" data-bind="click:Login" class="btn-pink">Intră</button>
                 </div>
                 <div><span data-target="#registration-modal" data-dismiss="modal" data-toggle="modal" >Logare</span>
                 <p><span class="pink-text">Restabilește parola</span></p></div>

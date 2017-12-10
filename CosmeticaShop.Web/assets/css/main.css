@@ -23,7 +23,10 @@ a:hover {
 ul {
     list-style: none;
 }
-
+.p-error {
+    font-family: FuturaPTBook;
+    color:red;
+}
 .marginB-heigth-10 {
     margin-bottom: 10px;
 }
@@ -265,15 +268,15 @@ ul {
     color: #959393 !important;
 }
 
-.head-auth {
+.head-auth,.head-auth a {
     cursor: default;
     display: inline-block;
     font-size: 16px;
-    color: #fda6c5;
+    color: #fda6c5 !important;
     font-family: FuturaPTBook;
 }
 
-    .head-auth span {
+    .head-auth span, .head-auth a {
         cursor: pointer;
     }
 
