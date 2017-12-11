@@ -52,5 +52,19 @@ namespace CosmeticaShop.IServices.Models.User
         /// Дата рождения
         /// </summary>
         public DateTime? DateBirth { get; set; }
-	}
+
+        /// <summary>
+        /// Дата день
+        /// </summary>
+        public int? DateDay { get; set; }
+        /// <summary>
+        /// Дата месяц
+        /// </summary>
+        public int? DateMonth { get; set; }
+        /// <summary>
+        /// Дата год
+        /// </summary>
+        public int? DateYear { get; set; }
+
+    }
 }

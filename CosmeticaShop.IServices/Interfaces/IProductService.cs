@@ -1,4 +1,5 @@
-﻿using CosmeticaShop.IServices.Models.Base;
+﻿using System;
+using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
@@ -9,7 +10,13 @@ namespace CosmeticaShop.IServices.Interfaces
     {
         #region [ Публичная ]
 
-
+        /// <summary>
+        /// Добавить товар в желаемое
+        /// </summary>
+        /// <param name="productId">Ид товара</param>
+        /// <param name="userId">Ид пользователя</param>
+        /// <returns></returns>
+        BaseResponse AddProductInWish(int productId, Guid userId);
 
         #endregion
 

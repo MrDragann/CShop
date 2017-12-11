@@ -1807,6 +1807,8 @@
     <Content Include="assets\img\Temp\slide4.jpg" />
     <Content Include="assets\js\Authorization\AuthorizationFormModel.js" />
     <Content Include="assets\js\Authorization\RegisterFormModel.js" />
+    <Content Include="assets\js\Cabinet\PersonalFormModel.js" />
+    <Content Include="assets\js\Common\DateSelect.js" />
     <Content Include="assets\js\Contacts\ViewModel.js" />
     <Content Include="assets\js\Knockout-Extanstion\tab-knockout.js" />
     <Content Include="assets\js\Plugins\slick\ajax-loader.gif" />
@@ -1814,12 +1816,18 @@
     <Content Include="assets\js\Plugins\slick\slick-theme.css" />
     <Content Include="assets\js\Plugins\slick\slick.css" />
     <Content Include="assets\js\Plugins\slick\slick.js" />
+    <Content Include="assets\js\Plugins\slick\slickInit.js" />
+    <Content Include="assets\js\Product\ProductDetailModel.js" />
+    <Content Include="assets\js\Product\ProductDetailViewModel.js" />
+    <Content Include="assets\js\Product\ProductModel.js" />
+    <Content Include="assets\js\Product\ProductViewModel.js" />
     <Content Include="assets\js\User\UserModel.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\FuturaPTBook.otf" />

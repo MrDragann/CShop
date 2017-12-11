@@ -52,12 +52,14 @@
   <ItemGroup>
     <Compile Include="AuthCommonService.cs" />
     <Compile Include="CategoryService.cs" />
+    <Compile Include="OrderService.cs" />
     <Compile Include="Static\CryptographyService.cs" />
     <Compile Include="Static\EnumService.cs" />
     <Compile Include="Static\FileManager.cs" />
     <Compile Include="ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Static\StringHelper.cs" />
+    <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

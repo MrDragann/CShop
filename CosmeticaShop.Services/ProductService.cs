@@ -17,8 +17,39 @@ namespace CosmeticaShop.Services
         #region [ Публичная часть ]
 
         #region [ Товары ]
-
-
+        /// <summary>
+        /// Добавить товар в желаемое
+        /// </summary>
+        /// <param name="productId">Ид товара</param>
+        /// <param name="userId">Ид пользователя</param>
+        /// <returns></returns>
+        public BaseResponse AddProductInWish(int productId, Guid userId)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var product = db.Products.FirstOrDefault(x => x.Id == productId);
+                    if (product == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Товар не был найден");
+                    var user = db.Users.FirstOrDefault(x => x.Id == userId);
+                    if (user == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Пользователь не был найден");
+                    db.WishLists.Add(new WishList()
+                    {
+                        UserId = user.Id,
+                        ProductId = product.Id,
+                        DateCreate = DateTime.Now
+                    });
+                    db.SaveChanges();
+                    return new BaseResponse(EnumResponseStatus.Success,"Товар успешно добавлен в желаемое");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
 
         #endregion
 

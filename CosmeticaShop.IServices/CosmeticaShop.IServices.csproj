@@ -81,7 +81,9 @@
     <Compile Include="Enums\EnumUserRole.cs" />
     <Compile Include="Interfaces\IAuthCommonService.cs" />
     <Compile Include="Interfaces\ICategoryService.cs" />
+    <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
+    <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Models\Base\BaseFilter.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Brand\BrandModel.cs" />
