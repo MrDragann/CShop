@@ -34,6 +34,10 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -81,6 +85,8 @@
     <Compile Include="Models\Base\BaseFilter.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Brand\BrandModel.cs" />
+    <Compile Include="Models\Category\CategoryEditModel.cs" />
+    <Compile Include="Models\Category\CategoryModel.cs" />
     <Compile Include="Models\Responses\BaseResponse.cs" />
     <Compile Include="Models\DictionaryModel.cs" />
     <Compile Include="Models\Requests\PaginationRequest.cs" />

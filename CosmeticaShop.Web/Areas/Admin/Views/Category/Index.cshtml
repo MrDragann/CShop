@@ -1,0 +1,145 @@
+﻿@using Newtonsoft.Json
+@model List<CosmeticaShop.IServices.Models.Category.CategoryModel>
+@{
+    ViewBag.Title = "Категории";
+}
+@section styles
+{
+    <link href="~/Areas/Admin/assets/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+    <style>
+        #tree_1 .main-category {
+            font-size: 20px;
+            color: #666666;
+        }
+
+        #tree_1 .faq-category {
+            font-size: 16px;
+            color: #666666;
+        }
+
+        #tree_1 .faq-page {
+            font-size: 16px;
+            color: #333333;
+            color: blue;
+        }
+
+        #tree_1 .faq-page.faq-hidden {
+            color: red;
+        }
+        .jstree-anchor:hover{
+            background:#e7f4f9;
+            border-radius:2px;
+            box-shadow:inset 0 0 1px #ccc
+        }
+    </style>
+}
+@section breadcrumb
+{
+    <ul class="page-breadcrumb breadcrumb">
+    <li>
+        <a href="">CosmeticaShop</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <span class="active">Категории</span>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <span class="active">Дерево</span>
+    </li>
+</ul>
+}
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light bordered" data-bind="with:FormModel">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green sbold uppercase">Дерево категорий</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-success" href="@Url.Action("AddCategory", "Category")">
+                        <i class="fa fa-plus"></i>
+                        <span class="hidden-480">
+                            Добавить
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tree-demo jstree jstree-1 jstree-default" role="tree">
+                    <ul class="jstree-container-ul jstree-children">
+                        @*@SubMenu(Model.JeanDestreesHome, EnumCategoryType.Home, true)*@
+                        <!--ko template:{name: 'category-submenu-template', foreach: Categories} -->
+                        <!--/ko-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/html" id="category-submenu-template">
+        <!--ko if: ChildCategories && ChildCategories().length>0-->
+        <li role="treeitem" class="jstree-node main-category" data-bind="css:{'jstree-open':!IsClosed(),'jstree-closed':IsClosed()}" aria-expanded="true">
+            <!--ko text:console.log($parent)-->
+            <!--/ko-->
+            <i class="jstree-icon jstree-ocl" data-bind="click:FormModel.CollapseChildrens.bind($data)"></i>
+            <a title="редактировать" data-bind="attr:{'href':'@Url.Action("EditCategory","Category")/'+Id(),'id':'category-'+Id(),'data-Id':'category-'+Id()}" aria-expanded="true" class="jstree-anchor dropdown-toggle" data-toggle="dropdown">
+                <i class="jstree-icon jstree-themeicon icon-layers jstree-themeicon-custom" style="left: -7px;"></i>
+                <span data-bind="text:Name()"></span>
+            </a>
+            <span class="glyphicon glyphicon-arrow-up" data-bind="click:FormModel.UpCategoryPriority.bind(FormModel,$data),visible:$index() != 0" style="cursor:pointer;"></span>
+            <!--ko if: ParentId() -->
+            <span class="glyphicon glyphicon-arrow-down" data-bind="click:FormModel.DownCategoryPriority.bind(FormModel,$data),visible:$index() != $parent.ChildCategories().length-1" style="cursor:pointer;"></span>
+            <!--/ko-->
+            <!--ko ifnot: ParentId() -->
+            <span class="glyphicon glyphicon-arrow-down" data-bind="click:FormModel.DownCategoryPriority.bind(FormModel,$data),visible:$index() != $parent.Categories().length-1" style="cursor:pointer;"></span>
+            <!--/ko-->
+            <ul class="jstree-children">
+                <!--ko if: ChildCategories && ChildCategories().length>0-->
+                <!--ko template:{name: 'category-submenu-template', foreach: ChildCategories} -->
+                <!--/ko-->
+                <!--/ko-->
+            </ul>
+        </li>
+
+        <!--/ko-->
+        <!--ko ifnot: ChildCategories && ChildCategories().length>0-->
+        <!--ko ifnot: ParentId() -->
+        <li class="jstree-node jstree-leaf main-category" data-bind="css:{'jstree-last':$index() == $parent.Categories().length-1}">
+            <i class="jstree-icon jstree-ocl"></i>
+            <a class="jstree-anchor" title="редактировать" data-bind="attr:{'href':'@Url.Action("EditCategory","Category")/'+Id(),'id':'category-'+Id(),'data-Id':'category-'+Id()}">
+                <i class="icon-layers" style="margin-right: 13px;left: -3px;"></i><span data-bind="text:Name()"></span>
+            </a>
+            <span class="glyphicon glyphicon-arrow-up" data-bind="click:FormModel.UpCategoryPriority.bind(FormModel,$data),visible:$index() != 0" style="cursor:pointer;"></span>
+            <span class="glyphicon glyphicon-arrow-down" data-bind="click:FormModel.DownCategoryPriority.bind(FormModel,$data),visible:$index() != $parent.Categories().length-1" style="cursor:pointer;"></span>
+        </li>
+        <!--/ko-->
+        <!--ko if: ParentId() -->
+        <li class="jstree-node jstree-leaf faq-category" data-bind="css:{'jstree-last':$index() == ($parent.ChildCategories().length-1)}">
+            <i class="jstree-icon jstree-ocl"></i>
+            <a class="jstree-anchor" title="редактировать" data-bind="attr:{'href':'@Url.Action("EditCategory","Category")/'+Id(),'id':'category-'+Id(),'data-Id':'category-'+Id()}">
+                <i class="icon-layers" style="margin-right: 8px;"></i><span data-bind="text:Name()"></span>
+            </a>
+            <span class="glyphicon glyphicon-arrow-up" data-bind="click:FormModel.UpCategoryPriority.bind(FormModel,$data),visible:$index() != 0" style="cursor:pointer;"></span>
+            <span class="glyphicon glyphicon-arrow-down" data-bind="click:FormModel.DownCategoryPriority.bind(FormModel,$data),visible:$index() != ($parent.ChildCategories().length-1)" style="cursor:pointer;"></span>
+        </li>
+        <!--/ko-->
+        <!--/ko-->
+
+    </script>
+<script src="~/Areas/Admin/assets/js/Form/Category/CategoryModel.js"></script>
+<script src="~/Areas/Admin/assets/js/Form/Category/CategoryFormModel.js"></script>
+    <script>
+        var params = {};
+        params.Categories = @Html.Raw(JsonConvert.SerializeObject(Model));
+        params.UrlRefresh = '@Url.Action("GetAllCategories", "Category")';
+        params.UrlUpPriority = '@Url.Action("UpCategoryPriority", "Category")';
+        params.UrlDownPriority = '@Url.Action("DownCategoryPriority","Category")';
+        var FormModel = new Category.CategoryFormModel(params);
+    </script>
+}

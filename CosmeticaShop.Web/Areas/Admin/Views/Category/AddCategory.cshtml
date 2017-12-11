@@ -1,0 +1,107 @@
+﻿@using Newtonsoft.Json
+@model CosmeticaShop.IServices.Models.Category.CategoryEditModel
+@{
+    ViewBag.Title = (Model.Category.Id == 0 ? "Добавление" : "Редактирование") + " категории";
+}
+
+@section breadcrumb
+{
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="">CosmeticaShop</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Категории</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">@(Model.Category.Id==0?"Добавление":"Редактирование")</span>
+        </li>
+    </ul>
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green sbold uppercase">@((Model.Category.Id==0?"Добавление":"Редактирование")+" категории")</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#category" data-toggle="tab">
+                                Категория
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="form-body form-horizontal" data-bind="with:FormModel.Category">
+                        <div class="tab-content">
+                            <input maxlength="128" id="key_url" name="KeyUrl" type="hidden" data-bind="value:KeyUrl">
+                            <div class="tab-pane fade active in" id="category">
+                                <div class="form-group form-md-line-input">
+                                    <label class="col-md-2 control-label" for="Name">Наименование</label>
+                                    <div class="col-md-10">
+                                        <input data-bind="value:Name" maxlength="128" class="form-control input-lg" id="Name" name="Name" required="required" type="text">
+                                        <div class="form-control-focus">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Родительская категория</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control select2" data-bind="options: FormModel.Categories,optionsText: 'Name',optionsValue: 'Id', value: ParentId"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-md-checkboxes">
+                                    <label class="col-md-2 control-label">Видимость</label>
+                                    <div class="col-md-10">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" data-bind="checked:IsActive" class="md-check" id="IsActive" name="IsActive"/>
+                                            <label for="IsActive">
+                                                <span class="inc"></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span>
+                                                Отображать
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button data-bind="click:FormModel.SaveChanges.bind(FormModel)" type="button" id="save-changes" class="btn blue">Сохранить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.liTranslit.js"></script>
+<script src="~/Areas/Admin/assets/js/Form/Category/CategoryModel.js"></script>
+<script src="~/Areas/Admin/assets/js/Form/Category/CategoryEditFormModel.js"></script>
+    <script>
+        $(function() {
+            $('#Name').liTranslit({
+                elAlias: $('#key_url'),
+                reg: '" "="-"'
+            });
+        });
+        var params = {};
+        params.Model = @Html.Raw(JsonConvert.SerializeObject(Model));
+        params.UrlSaveChanges = '@Url.Action("UpdateCategory","Category")';
+        params.UrlBackToList = '@Url.Action("Index","Category")';
+        var FormModel = new Category.CategoryEditFormModel(params);
+    </script>
+}
