@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
+using CosmeticaShop.IServices.Models.Product;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
 
@@ -22,6 +24,45 @@ namespace CosmeticaShop.IServices.Interfaces
 
         #region [ Адмиистративная ]
 
+        #region [ Товары ]
+
+        /// <summary>
+        /// Получить отфильтрованный список товаров
+        /// </summary>
+        /// <param name="request">фильтр</param>
+        /// <returns></returns>
+        PaginationResponse<ProductEditModel> GetFilteredProducts(PaginationRequest<BaseFilter> request);
+
+        /// <summary>
+        /// Получить модель товара для редактирования
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        BaseResponse<ProductEditModel> GetProductModel(int productId);
+
+        /// <summary>
+        /// Создать товар
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        BaseResponse<int> AddProduct(ProductEditModel model);
+
+        /// <summary>
+        /// Редактировать товар
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        BaseResponse<int> EditProduct(ProductEditModel model);
+
+        /// <summary>
+        /// Удалить товар
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        BaseResponse DeleteProduct(int productId);
+
+            #endregion
+
         #region [ Бренды ]
 
         /// <summary>
@@ -30,6 +71,12 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         PaginationResponse<BrandModel> GetFilteredBrands(PaginationRequest<BaseFilter> request);
+
+        /// <summary>
+        /// Получить список всех брендов с базовой инфой
+        /// </summary>
+        /// <returns></returns>
+        List<BaseModel> GetAllBrandsBase();
 
         /// <summary>
         /// Добавить бренд

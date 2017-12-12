@@ -7,7 +7,7 @@ using CosmeticaShop.Data.Models.Seo;
 
 namespace CosmeticaShop.Data.Models
 {
-    public class Category:SeoTags
+    public class Category
     {
         #region [ Свойства ]
 
@@ -35,12 +35,7 @@ namespace CosmeticaShop.Data.Models
         /// Приоритет
         /// </summary>
         public int? Priority { get; set; }
-
-        /// <summary>
-        /// Url изображения
-        /// </summary>
-        public string PhotoUrl { get; set; }
-
+        
         /// <summary>
         /// Видимость
         /// </summary>

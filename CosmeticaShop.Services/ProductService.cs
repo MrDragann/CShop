@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
@@ -6,6 +7,7 @@ using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
+using CosmeticaShop.IServices.Models.Product;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.Services.Static;
@@ -65,7 +67,169 @@ namespace CosmeticaShop.Services
 
         #region [ Товары ]
 
+        /// <summary>
+        /// Получить отфильтрованный список товаров
+        /// </summary>
+        /// <param name="request">фильтр</param>
+        /// <returns></returns>
+        public PaginationResponse<ProductEditModel> GetFilteredProducts(PaginationRequest<BaseFilter> request)
+        {
+            using (var db = new DataContext())
+            {
+                var query = db.Products.AsNoTracking()
+                    .OrderByDescending(x => x.DateCreate) as IQueryable<Product>;
 
+                //if (request.CategoryId.HasValue)
+                //    query = query.Where(x => x.CategoryId == request.CategoryId.Value);
+                if (!string.IsNullOrWhiteSpace(request.Filter.Term))
+                    query = query.Where(x => x.Name.ToLower().Contains(request.Filter.Term.ToLower()));
+                var model = new PaginationResponse<ProductEditModel> { Count = query.Count() };
+                if (request.Skip.HasValue)
+                    query = query.Skip(request.Skip.Value);
+                if (request.Take.HasValue)
+                    query = query.Take(request.Take.Value);
+                model.Items = query.Select(x => new ProductEditModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    PhotoUrl = x.PhotoUrl,
+                    DateCreate = x.DateCreate,
+                    KeyUrl = x.KeyUrl,
+                    IsActive = x.IsActive
+                }).ToList();
+                return model;
+            }
+        }
+        /// <summary>
+        /// Получить модель товара для редактирования
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public BaseResponse<ProductEditModel> GetProductModel(int productId)
+        {
+            using (var db = new DataContext())
+            {
+                var product = db.Products.AsNoTracking().Where(x => x.Id == productId)
+                    .Select(x => new ProductEditModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Description = x.Description,
+                        PhotoUrl = x.PhotoUrl,
+                        SeoDescription = x.SeoDescription,
+                        SeoKeywords = x.SeoKeywords,
+                        IsActive = x.IsActive
+                    }).FirstOrDefault();
+                if (product == null)
+                    return new BaseResponse<ProductEditModel>(EnumResponseStatus.Error, "Товар не найден", new ProductEditModel());
+
+                return new BaseResponse<ProductEditModel>(EnumResponseStatus.Success, product);
+            }
+        }
+        /// <summary>
+        /// Создать товар
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public BaseResponse<int> AddProduct(ProductEditModel model)
+        {
+            try
+            {
+                if (model.PhotoFile == null)
+                    return new BaseResponse<int>(EnumResponseStatus.ValidationError, "Изображение не выбрано");
+
+                using (var db = new DataContext())
+                {
+                    var allKeyUrls = db.Products.AsNoTracking().Select(x => x.KeyUrl).ToList();
+                    var newProduct = new Product
+                    {
+                        Name = model.Name,
+                        Description = model.Description,
+                        DateCreate = DateTime.Now,
+                        IsActive = model.IsActive,
+                        SeoDescription = model.SeoDescription,
+                        SeoKeywords = model.SeoKeywords,
+                        KeyUrl = StringHelper.GetUrl(model.KeyUrl, allKeyUrls)
+                    };
+                    db.Products.Add(newProduct);
+
+                    db.SaveChanges();
+                    newProduct.PhotoUrl = FileManager.SaveImage(model.PhotoFile, EnumDirectoryType.Product,
+                        Guid.NewGuid().ToString(), newProduct.Id.ToString());
+                    db.SaveChanges();
+                    return new BaseResponse<int>(EnumResponseStatus.Success, "Товар успешно сохранен", newProduct.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<int>(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Редактировать товар
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public BaseResponse<int> EditProduct(ProductEditModel model)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var old = db.Products.FirstOrDefault(x => x.Id == model.Id);
+                    if (old == null)
+                        return new BaseResponse<int>(EnumResponseStatus.Error, "Товар не найден");
+
+                    var allKeyUrls = db.Products.Where(x => x.Id != model.Id).Select(x => x.KeyUrl).ToList();
+
+                    old.Name = model.Name;
+                    old.SeoDescription = model.SeoDescription;
+                    old.SeoKeywords = model.SeoKeywords;
+                    old.IsInStock = model.IsInStock;
+                    old.IsActive = model.IsActive;
+                    old.KeyUrl = StringHelper.GetUrl(model.KeyUrl, allKeyUrls);
+                    old.Description = model.Description;
+
+                    if (model.PhotoFile != null)
+                    {
+                        FileManager.DeleteFile(EnumDirectoryType.Product, old.Id.ToString(), old.PhotoUrl);
+                        old.PhotoUrl = FileManager.SaveImage(model.PhotoFile, EnumDirectoryType.Product,
+                            Guid.NewGuid().ToString(), old.Id.ToString());
+                    }
+                    db.SaveChanges();
+                    return new BaseResponse<int>(EnumResponseStatus.Success, "Товар успешно изменен",old.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<int>(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Удалить товар
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public BaseResponse DeleteProduct(int productId)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var product = db.Products.FirstOrDefault(x => x.Id == productId);
+                    if (product == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Товар не найден");
+                    db.Products.Remove(product);
+                    db.SaveChanges();
+                    FileManager.DeleteDirectory(EnumDirectoryType.Product, product.Id.ToString());
+                    return new BaseResponse(EnumResponseStatus.Success, "Товар успешно удален");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
 
         #endregion
 
@@ -99,6 +263,23 @@ namespace CosmeticaShop.Services
                     PhotoUrl = x.PhotoUrl
                 }).ToList();
                 return model;
+            }
+        }
+
+        /// <summary>
+        /// Получить список всех брендов с базовой инфой
+        /// </summary>
+        /// <returns></returns>
+        public List<BaseModel> GetAllBrandsBase()
+        {
+            using (var db = new DataContext())
+            {
+                var brands = db.Brands.AsNoTracking().Select(x => new BaseModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList();
+                return brands;
             }
         }
 

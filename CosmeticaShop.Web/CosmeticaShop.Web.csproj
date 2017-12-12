@@ -1769,6 +1769,9 @@
     <Content Include="Areas\Admin\assets\global\scripts\datatable.min.js" />
     <Content Include="Areas\Admin\assets\js\Enums\EnumResponseStatus.js" />
     <Content Include="Areas\Admin\assets\js\Form\Base\BaseFilterModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Product\ProductEditFormModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Product\ProductFormModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Product\ProductModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Category\CategoryFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Category\CategoryEditFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Category\CategoryModel.js" />

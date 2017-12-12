@@ -63,6 +63,11 @@ namespace CosmeticaShop.Data
         /// </summary>
         public DbSet<Slider> Sliders { get; set; }
 
+        /// <summary>
+        /// Таблица тегов товаров
+        /// </summary>
+        public DbSet<ProductTag> ProductTags { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder mb)
         {
             #region User
@@ -105,7 +110,18 @@ namespace CosmeticaShop.Data
             mb.Entity<Product>().Property(_ => _.SeoKeywords).HasMaxLength(256);
 
             mb.Entity<Product>().HasOptional(x=>x.Brand).WithMany(x=>x.Products).HasForeignKey(x=>x.BrandId);
-            mb.Entity<Product>().HasOptional(x=>x.Category).WithMany(x=>x.Products).HasForeignKey(x=>x.CategoryId);
+            mb.Entity<Product>().HasMany(p => p.Categories).WithMany(c => c.Products)
+                .Map(t => t.MapLeftKey("ProductId").MapRightKey("CategoryId").ToTable("ProductCategories"));
+            mb.Entity<Product>().HasMany(p => p.ProductTags).WithMany(c => c.Products)
+                .Map(t => t.MapLeftKey("ProductId").MapRightKey("ProductTagId").ToTable("ProductProductTags"));
+
+            #endregion
+
+            #region ProductTag
+
+            mb.Entity<ProductTag>().HasKey(_ => _.Id);
+            mb.Entity<ProductTag>().Property(_ => _.Name).HasMaxLength(128);
+            mb.Entity<ProductTag>().Property(_ => _.Name).IsRequired();
 
             #endregion
 
@@ -113,9 +129,6 @@ namespace CosmeticaShop.Data
 
             mb.Entity<Category>().Property(_ => _.Name).HasMaxLength(128);
             mb.Entity<Category>().Property(_ => _.KeyUrl).HasMaxLength(128);
-            mb.Entity<Category>().Property(_ => _.PhotoUrl).HasMaxLength(128);
-            mb.Entity<Category>().Property(_ => _.SeoDescription).HasMaxLength(256);
-            mb.Entity<Category>().Property(_ => _.SeoKeywords).HasMaxLength(256);
 
             mb.Entity<Category>().HasOptional(x => x.Parent).WithMany(x => x.ChildCategories).HasForeignKey(x => x.ParentId);
 

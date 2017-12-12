@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CosmeticaShop.Data.Models.Seo;
+using System.Web;
 
-namespace CosmeticaShop.Data.Models
+namespace CosmeticaShop.IServices.Models.Product
 {
-    public class Product : SeoTags
+    public class ProductEditModel
     {
         #region [ Свойства ]
 
@@ -25,7 +25,7 @@ namespace CosmeticaShop.Data.Models
         /// Дата создания
         /// </summary>
         public DateTime DateCreate { get; set; }
-        
+
         /// <summary>
         /// Наименование
         /// </summary>
@@ -36,6 +36,10 @@ namespace CosmeticaShop.Data.Models
         /// </summary>
         public string KeyUrl { get; set; }
 
+        public string SeoKeywords { get; set; }
+
+        public string SeoDescription { get; set; }
+
         /// <summary>
         /// Описание
         /// </summary>
@@ -45,9 +49,8 @@ namespace CosmeticaShop.Data.Models
         /// Цена
         /// </summary>
         public decimal Price { get; set; }
-
         /// <summary>
-        /// Скидка на товар (в процентах)
+        /// Скидка на товар
         /// </summary>
         public decimal Discount { get; set; }
 
@@ -66,39 +69,17 @@ namespace CosmeticaShop.Data.Models
         /// </summary>
         public bool IsActive { get; set; }
 
-        #endregion
-
-        #region [ Связанные объекты]
+        /// <summary>
+        /// Список Ид категорий
+        /// </summary>
+        public List<int> CategoriesId { get; set; }
 
         /// <summary>
-        /// Связь с таблицей товаров заказов
+        /// Список Ид тегов
         /// </summary>
-        public List<OrderProduct> OrderProducts { get; set; }
+        public List<int> TagsId { get; set; }
 
-        /// <summary>
-        /// Связь с брендом
-        /// </summary>
-        public Brand Brand { get; set; }
-
-        /// <summary>
-        /// Связь со списком категорий
-        /// </summary>
-        public List<Category> Categories { get; set; }
-
-        /// <summary>
-        /// Связь с списком желаемого
-        /// </summary>
-        public List<WishList> WishLists { get; set; }
-
-        /// <summary>
-        /// Связь с списком отзывов
-        /// </summary>
-        public List<ProductReview> ProductReviews { get; set; }
-
-        /// <summary>
-        /// Список тегов
-        /// </summary>
-        public List<ProductTag> ProductTags { get; set; }
+        public HttpPostedFileBase PhotoFile { get; set; }
 
         #endregion
     }

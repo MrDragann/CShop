@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
+using CosmeticaShop.IServices.Models.Product;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.Services;
@@ -19,6 +20,7 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         #region [ Сервисы ]
 
         private IProductService _productService = new ProductService();
+        private ICategoryService _categoryService = new CategoryService();
 
         #endregion
 
@@ -30,7 +32,32 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
 
         public ActionResult AddProduct()
         {
-            return View();
+            var model = new ProductEditViewModel
+            {
+                Product = new ProductEditModel(),
+                Brands = _productService.GetAllBrandsBase(),
+                Categories = _categoryService.GetBaseProductCategories()
+            };
+            return View(model);
+        }
+
+        public ActionResult EditProduct(int id)
+        {
+            var model = new ProductEditViewModel
+            {
+                Product = _productService.GetProductModel(id).Value,
+                Brands = _productService.GetAllBrandsBase(),
+                Categories = _categoryService.GetBaseProductCategories()
+            };
+            return View("~/Areas/Admin/Views/Product/AddProduct.cshtml",model);
+        }
+
+        [ValidateInput(false)]
+        [HttpPost]
+        public ActionResult UpdateProduct(ProductEditModel model)
+        {
+            var response = _productService.EditProduct(model);
+            return Json(response);
         }
 
         #region [ Бренды ]
