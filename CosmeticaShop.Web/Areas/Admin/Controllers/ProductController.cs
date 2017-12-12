@@ -56,7 +56,9 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult UpdateProduct(ProductEditModel model)
         {
-            var response = _productService.EditProduct(model);
+            var response = model.Id == 0 
+                ? _productService.AddProduct(model)
+                : _productService.EditProduct(model);
             return Json(response);
         }
 

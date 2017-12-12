@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
@@ -109,16 +110,21 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var product = db.Products.AsNoTracking().Where(x => x.Id == productId)
+                var product = db.Products.Include(x=>x.Categories).AsNoTracking().Where(x => x.Id == productId)
                     .Select(x => new ProductEditModel
                     {
                         Id = x.Id,
+                        BrandId = x.BrandId,
                         Name = x.Name,
                         Description = x.Description,
                         PhotoUrl = x.PhotoUrl,
                         SeoDescription = x.SeoDescription,
                         SeoKeywords = x.SeoKeywords,
-                        IsActive = x.IsActive
+                        Price = x.Price,
+                        Discount = x.Discount,
+                        IsInStock = x.IsInStock,
+                        IsActive = x.IsActive,
+                        CategoriesId = x.Categories.Select(c=>c.Id).ToList()
                     }).FirstOrDefault();
                 if (product == null)
                     return new BaseResponse<ProductEditModel>(EnumResponseStatus.Error, "Товар не найден", new ProductEditModel());
@@ -135,8 +141,8 @@ namespace CosmeticaShop.Services
         {
             try
             {
-                if (model.PhotoFile == null)
-                    return new BaseResponse<int>(EnumResponseStatus.ValidationError, "Изображение не выбрано");
+                //if (model.PhotoFile == null)
+                //    return new BaseResponse<int>(EnumResponseStatus.ValidationError, "Изображение не выбрано");
 
                 using (var db = new DataContext())
                 {
@@ -144,18 +150,24 @@ namespace CosmeticaShop.Services
                     var newProduct = new Product
                     {
                         Name = model.Name,
+                        BrandId = model.BrandId,
                         Description = model.Description,
                         DateCreate = DateTime.Now,
+                        IsInStock = model.IsInStock,
                         IsActive = model.IsActive,
                         SeoDescription = model.SeoDescription,
                         SeoKeywords = model.SeoKeywords,
-                        KeyUrl = StringHelper.GetUrl(model.KeyUrl, allKeyUrls)
+                        KeyUrl = StringHelper.GetUrl(model.KeyUrl, allKeyUrls),
+                        Price = model.Price,
+                        Discount = model.Discount
                     };
+                    if(model.CategoriesId!=null)
+                        newProduct.Categories = db.Categories.Where(x => model.CategoriesId.Contains(x.Id)).ToList();
                     db.Products.Add(newProduct);
 
                     db.SaveChanges();
-                    newProduct.PhotoUrl = FileManager.SaveImage(model.PhotoFile, EnumDirectoryType.Product,
-                        Guid.NewGuid().ToString(), newProduct.Id.ToString());
+                    //newProduct.PhotoUrl = FileManager.SaveImage(model.PhotoFile, EnumDirectoryType.Product,
+                    //    Guid.NewGuid().ToString(), newProduct.Id.ToString());
                     db.SaveChanges();
                     return new BaseResponse<int>(EnumResponseStatus.Success, "Товар успешно сохранен", newProduct.Id);
                 }
@@ -176,19 +188,25 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var old = db.Products.FirstOrDefault(x => x.Id == model.Id);
+                    var old = db.Products.Include(x=>x.Categories).FirstOrDefault(x => x.Id == model.Id);
                     if (old == null)
                         return new BaseResponse<int>(EnumResponseStatus.Error, "Товар не найден");
 
                     var allKeyUrls = db.Products.Where(x => x.Id != model.Id).Select(x => x.KeyUrl).ToList();
 
                     old.Name = model.Name;
+                    old.BrandId = model.BrandId;
                     old.SeoDescription = model.SeoDescription;
                     old.SeoKeywords = model.SeoKeywords;
                     old.IsInStock = model.IsInStock;
                     old.IsActive = model.IsActive;
                     old.KeyUrl = StringHelper.GetUrl(model.KeyUrl, allKeyUrls);
                     old.Description = model.Description;
+                    old.Price = model.Price;
+                    old.Discount = model.Discount;
+                    old.Categories = model.CategoriesId != null
+                        ? db.Categories.Where(x => model.CategoriesId.Contains(x.Id)).ToList()
+                        : null;
 
                     if (model.PhotoFile != null)
                     {
