@@ -81,6 +81,8 @@ namespace CosmeticaShop.IServices.Models.Product
 
         public HttpPostedFileBase PhotoFile { get; set; }
 
+        public HttpPostedFileBase PhotoName { get; set; }
+
         #endregion
     }
 }

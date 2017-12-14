@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
@@ -10,11 +12,12 @@ using CosmeticaShop.IServices.Models.Product;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.Services;
+using CosmeticaShop.Services.Static;
 using CosmeticaShop.Web.Infrastructure;
 
 namespace CosmeticaShop.Web.Areas.Admin.Controllers
 {
-    [Authorization]
+    //[Authorization]
     public class ProductController : Controller
     {
         #region [ Сервисы ]
@@ -60,6 +63,20 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
                 ? _productService.AddProduct(model)
                 : _productService.EditProduct(model);
             return Json(response);
+        }
+
+        [HttpPost]
+        public ActionResult UploadProductPhotos(HttpPostedFileBase photoFile, int productId)
+        {
+            FileManager.SaveImage(photoFile, EnumDirectoryType.Product, FileManager.PreviewName, 
+                productId.ToString());
+            //foreach (string file in photoFiles)
+            //{
+            //    var upload = photoFiles[file];
+            //    var newFileName = Guid.NewGuid() + Path.GetFileNameWithoutExtension(upload.FileName);
+            //    FileManager.SaveImage(upload, EnumDirectoryType.Product, newFileName, productId.ToString());
+            //}
+            return Json("Загрузка завершена");
         }
 
         #region [ Бренды ]

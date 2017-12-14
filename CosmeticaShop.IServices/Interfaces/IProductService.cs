@@ -20,6 +20,13 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <returns></returns>
         BaseResponse AddProductInWish(int productId, Guid userId);
 
+        /// <summary>
+        /// Получить товары со скидкой
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        List<ProductBaseModel> GetDiscountProducts(PaginationRequest request);
+
         #endregion
 
         #region [ Адмиистративная ]

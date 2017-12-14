@@ -48,6 +48,23 @@ namespace CosmeticaShop.Services.Static
             return dirInfo.EnumerateFiles().Select(_ => path + _.Name).ToList();
         }
         /// <summary>
+        /// Получить превью директории
+        /// </summary>
+        /// <param name="directoryType"></param>
+        /// <param name="subFolder"></param>
+        /// <returns></returns>
+        public static string GetPreviewImage(EnumDirectoryType directoryType, string subFolder = null)
+        {
+            var path = GetPath(directoryType, subFolder);
+            var directory = HttpContext.Current.Server.MapPath(path);
+            if (!Directory.Exists(directory))
+                return string.Empty;
+            var info = new DirectoryInfo(directory);
+            var preview = info.GetFiles().Where(x=>x.Name.Contains(PreviewName))
+                .Select(_ => path + _.Name).FirstOrDefault();
+            return preview;
+        }
+        /// <summary>
         /// Удалить файл
         /// </summary>
         /// <param name="directoryType">Тип директории</param>
@@ -176,7 +193,7 @@ namespace CosmeticaShop.Services.Static
             if (isRemoveExist)
             {
                 var fileName = (string.IsNullOrEmpty(name)) ? file.FileName : name;
-                DeleteFile(directoryType, fileName: fileName);
+                DeleteFile(directoryType, subFolder, fileName: fileName);
             }
             var serverFileName = Path.Combine(directory, fullName);
             file.SaveAs(serverFileName);

@@ -89,6 +89,7 @@
     <Compile Include="Models\Brand\BrandModel.cs" />
     <Compile Include="Models\Category\CategoryEditModel.cs" />
     <Compile Include="Models\Category\CategoryModel.cs" />
+    <Compile Include="Models\Product\ProductBaseModel.cs" />
     <Compile Include="Models\Product\ProductEditModel.cs" />
     <Compile Include="Models\Product\ProductEditViewModel.cs" />
     <Compile Include="Models\Responses\BaseResponse.cs" />

@@ -34,6 +34,7 @@
         this.CategoriesId = ko.observableArray(theParams.CategoriesId || []);
         this.TagsId = ko.observableArray(theParams.TagsId || []);
 
+        this.PhotoUrl = ko.observable(theParams.PhotoUrl || "");
         return this;
     };
 

@@ -15,6 +15,8 @@
         theParams = theParams || {};
         this.UrlSaveChanges = theParams.UrlSaveChanges;
         this.UrlBackToList = theParams.UrlBackToList;
+        this.UrlUploadPhotos = theParams.UrlUploadPhotos;
+        
 
         this.Product = new Product.ProductModel(theParams.Model.Product);
         this.Categories = ko.observableArray(theParams.Model.Categories);
@@ -34,11 +36,39 @@
         $.post(self.UrlSaveChanges, { model: model })
             .success(function (res) {
                 if (res.IsSuccess) {
-                    location.href = self.UrlBackToList;
+                    var formData = new FormData();
+                    //var photoFiles = document.getElementById('PhotoFiles').files;
+                    //if (photoFiles) {
+                    //    photoFiles.forEach(function (file, i) {
+                    //        formData.append("photoFiles" + i, file);
+                    //    });
+                    //}
+                    
+                    var preview = document.getElementById("PhotoFile").files[0];
+                    if (preview) {
+                        formData.append("photoFile", preview);
+                    }
+                    formData.append("productId", res.Value);
+                    $.ajax({
+                        type: "POST",
+                        url: self.UrlUploadPhotos,
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (result) {
+                            bootbox.alert(res.Message, e => location.href = self.UrlBackToList);
+                        },
+                        error: function(err) {
+                            console.log(err);
+                        }
+                    });
                 } else if (res.Status === Enums.EnumResponseStatus.Exception)
                     console.log("ex:", res.Message);
                 else
                     bootbox.alert(res.Message);
+            })
+        .fail(function(res) {
+                console.log('res:', res);
             });
     }
 

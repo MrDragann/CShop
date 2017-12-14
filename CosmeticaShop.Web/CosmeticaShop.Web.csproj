@@ -1777,6 +1777,7 @@
     <Content Include="Areas\Admin\assets\js\Form\Category\CategoryModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Brand\BrandFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Brand\BrandModel.js" />
+    <Content Include="Areas\Admin\assets\js\knockoutExtensions\knockout-fileInput.js" />
     <Content Include="Areas\Admin\assets\js\microevent.js" />
     <Content Include="Areas\Admin\assets\js\init.js" />
     <Content Include="Areas\Admin\assets\js\knockoutExtensions\knockout-Component.js" />

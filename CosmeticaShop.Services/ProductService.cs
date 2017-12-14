@@ -54,6 +54,47 @@ namespace CosmeticaShop.Services
             }
         }
 
+        //todo:небольшой пример0))0
+        /// <summary>
+        /// Получить товары со скидкой
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public List<ProductBaseModel> GetDiscountProducts(PaginationRequest request)
+        {
+            using (var db = new DataContext())
+            {
+                //todo:?наверное лучше сделать decimal?
+                var query = db.Products.Include(x => x.Brand).Where(x => x.Discount > 0) as IQueryable<Product>;
+                request.Load(query);
+
+                var products = query.Select(ConvertToProductBaseModel).ToList();
+                products.ForEach(x =>
+                {
+                    x.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.Id.ToString());
+                });
+                return products;
+            }
+        }
+
+        #region [ Конвертирование ]
+
+        private ProductBaseModel ConvertToProductBaseModel(Product m)
+        {
+            return new ProductBaseModel
+            {
+                Id = m.Id,
+                Name = m.Name,
+                BrandName = m.Brand?.Name,
+                Price = m.Price,
+                DiscountPercent = m.Discount,
+                //todo:вынести в функцию
+                DiscountPrice = Math.Floor(m.Price-(m.Price*m.Discount/100))
+            };
+        }
+
+        #endregion
+
         #endregion
 
         #region [ Бренды ]
@@ -117,7 +158,6 @@ namespace CosmeticaShop.Services
                         BrandId = x.BrandId,
                         Name = x.Name,
                         Description = x.Description,
-                        PhotoUrl = x.PhotoUrl,
                         SeoDescription = x.SeoDescription,
                         SeoKeywords = x.SeoKeywords,
                         Price = x.Price,
@@ -128,7 +168,7 @@ namespace CosmeticaShop.Services
                     }).FirstOrDefault();
                 if (product == null)
                     return new BaseResponse<ProductEditModel>(EnumResponseStatus.Error, "Товар не найден", new ProductEditModel());
-
+                product.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, productId.ToString());
                 return new BaseResponse<ProductEditModel>(EnumResponseStatus.Success, product);
             }
         }
