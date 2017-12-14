@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using CosmeticaShop.IServices.Enums;
+using CosmeticaShop.IServices.Models;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
 using CosmeticaShop.IServices.Models.Product;
@@ -68,7 +71,45 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <returns></returns>
         BaseResponse DeleteProduct(int productId);
 
-            #endregion
+        #endregion
+
+        #region [ Теги товаров ]
+
+        /// <summary>
+        /// Получить список все тегов товаров
+        /// </summary>
+        /// <returns></returns>
+        List<BaseModel> GetProductTagsList();
+
+        /// <summary>
+        /// Получить список тегов товаров
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        PaginationResponse<DictionaryModel> GetFilteredProductTags(PaginationRequest<BaseFilter> request);
+
+        /// <summary>
+        /// Редактирование тега товара
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        BaseResponse ProductTagEdit(DictionaryModel model);
+
+        /// <summary>
+        /// Добавление нового тега товара
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        BaseResponse ProductTagAdd(DictionaryModel model);
+
+        /// <summary>
+        /// Удаление тега товара
+        /// </summary>
+        /// <param name="productTagId"></param>
+        /// <returns></returns>
+        BaseResponse ProductTagDelete(int productTagId);
+
+        #endregion
 
         #region [ Бренды ]
 

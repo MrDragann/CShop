@@ -6,6 +6,7 @@ using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
+using CosmeticaShop.IServices.Models;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
 using CosmeticaShop.IServices.Models.Product;
@@ -134,11 +135,14 @@ namespace CosmeticaShop.Services
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    PhotoUrl = x.PhotoUrl,
                     DateCreate = x.DateCreate,
                     KeyUrl = x.KeyUrl,
                     IsActive = x.IsActive
                 }).ToList();
+                model.Items.ForEach(x =>
+                {
+                    x.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.Id.ToString());
+                });
                 return model;
             }
         }
@@ -151,7 +155,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var product = db.Products.Include(x=>x.Categories).AsNoTracking().Where(x => x.Id == productId)
+                var product = db.Products.Include(x=>x.Categories).Include(x=>x.ProductTags).AsNoTracking().Where(x => x.Id == productId)
                     .Select(x => new ProductEditModel
                     {
                         Id = x.Id,
@@ -164,7 +168,8 @@ namespace CosmeticaShop.Services
                         Discount = x.Discount,
                         IsInStock = x.IsInStock,
                         IsActive = x.IsActive,
-                        CategoriesId = x.Categories.Select(c=>c.Id).ToList()
+                        CategoriesId = x.Categories.Select(c=>c.Id).ToList(),
+                        TagsId = x.ProductTags.Select(t=>t.Id).ToList()
                     }).FirstOrDefault();
                 if (product == null)
                     return new BaseResponse<ProductEditModel>(EnumResponseStatus.Error, "Товар не найден", new ProductEditModel());
@@ -203,6 +208,8 @@ namespace CosmeticaShop.Services
                     };
                     if(model.CategoriesId!=null)
                         newProduct.Categories = db.Categories.Where(x => model.CategoriesId.Contains(x.Id)).ToList();
+                    if (model.TagsId != null)
+                        newProduct.ProductTags = db.ProductTags.Where(x => model.TagsId.Contains(x.Id)).ToList();
                     db.Products.Add(newProduct);
 
                     db.SaveChanges();
@@ -228,7 +235,8 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var old = db.Products.Include(x=>x.Categories).FirstOrDefault(x => x.Id == model.Id);
+                    var old = db.Products.Include(x=>x.Categories).Include(x=>x.ProductTags)
+                        .FirstOrDefault(x => x.Id == model.Id);
                     if (old == null)
                         return new BaseResponse<int>(EnumResponseStatus.Error, "Товар не найден");
 
@@ -246,6 +254,9 @@ namespace CosmeticaShop.Services
                     old.Discount = model.Discount;
                     old.Categories = model.CategoriesId != null
                         ? db.Categories.Where(x => model.CategoriesId.Contains(x.Id)).ToList()
+                        : null;
+                    old.ProductTags = model.TagsId != null
+                        ? db.ProductTags.Where(x => model.TagsId.Contains(x.Id)).ToList()
                         : null;
 
                     if (model.PhotoFile != null)
@@ -281,6 +292,135 @@ namespace CosmeticaShop.Services
                     db.SaveChanges();
                     FileManager.DeleteDirectory(EnumDirectoryType.Product, product.Id.ToString());
                     return new BaseResponse(EnumResponseStatus.Success, "Товар успешно удален");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region [ Теги товаров ]
+
+        /// <summary>
+        /// Получить список все тегов товаров
+        /// </summary>
+        /// <returns></returns>
+        public List<BaseModel> GetProductTagsList()
+        {
+            using (var db = new DataContext())
+            {
+                var productTags = db.ProductTags.AsNoTracking().Select(x => new BaseModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList();
+                return productTags;
+            }
+        }
+
+        /// <summary>
+        /// Получить список тегов товаров
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public PaginationResponse<DictionaryModel> GetFilteredProductTags(PaginationRequest<BaseFilter> request)
+        {
+            using (var db = new DataContext())
+            {
+                var query = db.ProductTags.AsNoTracking()
+                    .OrderByDescending(x => x.Id) as IQueryable<ProductTag>;
+
+                if (!string.IsNullOrEmpty(request.Filter.Term))
+                    query = query.Where(x => x.Name.ToLower().Contains(request.Filter.Term.ToLower()));
+
+                var model = new PaginationResponse<DictionaryModel> { Count = query.Count() };
+
+                query = request.Load(query);
+
+                model.Items = query.Select(x => new DictionaryModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList();
+                return model;
+            }
+        }
+
+        /// <summary>
+        /// Редактирование тега товара
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        public BaseResponse ProductTagEdit(DictionaryModel model)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    if(db.ProductTags.AsNoTracking().Any(x=>x.Name==model.Name && x.Id!=model.Id))
+                        return new BaseResponse(EnumResponseStatus.ValidationError, "Тег с таким наименованием уже существует");
+                    var productTag = db.ProductTags.FirstOrDefault(x => x.Id == model.Id);
+                    if (productTag == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Тег товара не найден");
+                    productTag.Name = model.Name;
+                    db.SaveChanges();
+                    return new BaseResponse(EnumResponseStatus.Success, "Тег товара успешно изменен");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Добавление нового тега товара
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        public BaseResponse ProductTagAdd(DictionaryModel model)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    if (db.ProductTags.AsNoTracking().Any(x => x.Name == model.Name))
+                        return new BaseResponse(EnumResponseStatus.ValidationError, "Тег с таким наименованием уже существует");
+                    var productTag = new ProductTag
+                    {
+                        Name = model.Name
+                    };
+                    db.ProductTags.Add(productTag);
+                    db.SaveChanges();
+                    return new BaseResponse(EnumResponseStatus.Success, "Тег товара успешно добавлен");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Удаление тега товара
+        /// </summary>
+        /// <param name="productTagId"></param>
+        /// <returns></returns>
+        public BaseResponse ProductTagDelete(int productTagId)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var productTag = db.ProductTags.FirstOrDefault(x => x.Id == productTagId);
+                    if (productTag == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Тег товара не найден");
+                    db.ProductTags.Remove(productTag);
+                    db.SaveChanges();
+                    return new BaseResponse(0, "Тег товара успешно удален");
                 }
             }
             catch (Exception ex)

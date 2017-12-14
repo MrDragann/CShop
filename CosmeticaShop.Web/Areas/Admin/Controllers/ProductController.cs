@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
+using CosmeticaShop.IServices.Models;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
 using CosmeticaShop.IServices.Models.Product;
@@ -33,13 +34,21 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult GetFilteredProducts(PaginationRequest<BaseFilter> request)
+        {
+            var response = _productService.GetFilteredProducts(request);
+            return Json(response);
+        }
+
         public ActionResult AddProduct()
         {
             var model = new ProductEditViewModel
             {
                 Product = new ProductEditModel(),
                 Brands = _productService.GetAllBrandsBase(),
-                Categories = _categoryService.GetBaseProductCategories()
+                Categories = _categoryService.GetBaseProductCategories(),
+                Tags = _productService.GetProductTagsList()
             };
             return View(model);
         }
@@ -50,7 +59,8 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             {
                 Product = _productService.GetProductModel(id).Value,
                 Brands = _productService.GetAllBrandsBase(),
-                Categories = _categoryService.GetBaseProductCategories()
+                Categories = _categoryService.GetBaseProductCategories(),
+                Tags = _productService.GetProductTagsList()
             };
             return View("~/Areas/Admin/Views/Product/AddProduct.cshtml",model);
         }
@@ -66,8 +76,17 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        public ActionResult DeleteProduct(int productId)
+        {
+            var response = _productService.DeleteProduct(productId);
+            return Json(response);
+        }
+
+        [HttpPost]
         public ActionResult UploadProductPhotos(HttpPostedFileBase photoFile, int productId)
         {
+            if (photoFile == null)
+                return Json("Нет файлов для загрузки");
             FileManager.SaveImage(photoFile, EnumDirectoryType.Product, FileManager.PreviewName, 
                 productId.ToString());
             //foreach (string file in photoFiles)
@@ -78,6 +97,53 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             //}
             return Json("Загрузка завершена");
         }
+
+        #region [ Теги товаров ]
+
+        public ActionResult Tags()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Список тегов товаров
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetFilteredProductTags(PaginationRequest<BaseFilter> request)
+        {
+            var model = _productService.GetFilteredProductTags(request);
+            return Json(model);
+        }
+
+        /// <summary>
+        ///  Обновление тегов товаров
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ProductTagUpdate(DictionaryModel model)
+        {
+            var response = model.Id == 0
+                ? _productService.ProductTagAdd(model)
+                : _productService.ProductTagEdit(model);
+            return Json(response);
+        }
+
+        /// <summary>
+        /// Удаление тега товара
+        /// </summary>
+        /// <param name="productTagId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ProductTagDelete(int productTagId)
+        {
+            var response = _productService.ProductTagDelete(productTagId);
+            return Json(response);
+        }
+
+        #endregion
 
         #region [ Бренды ]
 

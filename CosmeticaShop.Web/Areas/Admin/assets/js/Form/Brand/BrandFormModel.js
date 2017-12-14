@@ -27,7 +27,7 @@
      */
     Brand.BrandFormModel.prototype.constructor = Brand.BrandFormModel;
 
-    Brand.BrandFormModel.prototype.DeleteBrand = function (data) {
+    Brand.BrandFormModel.prototype.DeleteProduct = function (data) {
         var self = this;
 
         bootbox.confirm("Вы действительно хотите удалить бренд \"" + data.Name() + "\"?",

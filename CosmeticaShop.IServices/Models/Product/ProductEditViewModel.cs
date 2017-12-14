@@ -23,5 +23,10 @@ namespace CosmeticaShop.IServices.Models.Product
         /// Список категорий
         /// </summary>
         public List<BaseModel> Categories { get; set; }
+
+        /// <summary>
+        /// Список тегов
+        /// </summary>
+        public List<BaseModel> Tags { get; set; }
     }
 }
