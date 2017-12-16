@@ -16,9 +16,37 @@ namespace CosmeticaShop.Services
     public class CategoryService: ICategoryService
     {
         #region [ Публичная часть ]
+        /// <summary>
+        /// Получить список категорий товаров
+        /// </summary>
+        /// <returns></returns>
+        public List<CategoryModel> GetCategories()
+        {
+            using (var db = new DataContext())
+            {               
+                var allCategories = db.Categories.Include(x=>x.ChildCategories).ToList();
+                var parentCategories = allCategories.Where(_ => !_.ParentId.HasValue).ToList();
+                return parentCategories.Select(ConvertToCategoryModel).ToList();
+            }
+        }
 
+        #region Конвертация
 
+        private CategoryModel ConvertToCategoryModel(Category m)
+        {
+            return new CategoryModel
+            {
+                Id = m.Id,
+                IsActive = m.IsActive,
+                KeyUrl = m.KeyUrl,
+                Name = m.Name,
+                ParentId = m.ParentId,
+                Priority = m.Priority,
+                ChildCategories = m.ChildCategories?.Select(ConvertToCategoryModel).ToList()
+            };
+        }
 
+        #endregion
         #endregion
 
         #region [ Административная часть ]

@@ -23,16 +23,21 @@ a:hover {
 ul {
     list-style: none;
 }
+
 .p-error {
     font-family: FuturaPTBook;
-    color:red;
+    color: red;
 }
+
 .marginB-heigth-10 {
     margin-bottom: 10px;
 }
+
 .margin-bottom-30 {
     margin-bottom: 30px;
-}.padding-0 {
+}
+
+.padding-0 {
     padding: 0;
 }
 
@@ -52,7 +57,7 @@ ul {
     }
 
 .margin-bottom-10 {
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
 .pink-darkk-text {
@@ -124,6 +129,7 @@ ul {
     background-image: url('../img/icons/like.png');
     background-repeat: no-repeat;
 }
+
 .icon-pink-like {
     display: inline-block;
     cursor: pointer;
@@ -132,6 +138,7 @@ ul {
     background-image: url('../img/icons/pink-like.png');
     background-repeat: no-repeat;
 }
+
 .icon-very-big-pink-like {
     display: inline-block;
     cursor: pointer;
@@ -159,12 +166,12 @@ ul {
     background-repeat: no-repeat;
 }
 
-.icon-free-delivery {
+.icon-back {
     display: inline-block;
     cursor: pointer;
-    width: 65px;
-    height: 56px;
-    background-image: url('../img/icons/free-delivery.png');
+    width: 22px;
+    height: 19px;
+    background-image: url('../img/icons/back.png');
     background-repeat: no-repeat;
 }
 
@@ -177,6 +184,14 @@ ul {
     background-repeat: no-repeat;
 }
 
+.icon-arrow-right-mini {
+    display: inline-block;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/icons/arrow-right-mini.png');
+    background-repeat: no-repeat;
+}
 
 /* Конец иконок */
 
@@ -268,7 +283,7 @@ ul {
     color: #959393 !important;
 }
 
-.head-auth,.head-auth a {
+.head-auth, .head-auth a {
     cursor: default;
     display: inline-block;
     font-size: 16px;
@@ -369,11 +384,11 @@ footer {
     text-transform: uppercase;
 }
 
-.section-name.small {
-    font-size: 18px;
-    font-family: FuturaPTDemi;
-    text-transform: none;
-}
+    .section-name.small {
+        font-size: 18px;
+        font-family: FuturaPTDemi;
+        text-transform: none;
+    }
 
 .brand-list, .product-list {
     margin-right: 0px;
@@ -810,6 +825,10 @@ footer {
         margin-bottom: 50px;
     }
 
+        .white-container.big.history {
+            padding: 0;
+        }
+
     .white-container .title {
         font-family: FuturaPTMeduim;
         font-size: 17px;
@@ -854,6 +873,10 @@ footer {
 
 ul.menu li span {
     cursor: pointer;
+}
+
+ul.menu li a {
+    color: #636363;
 }
 
 .map {
@@ -1231,6 +1254,9 @@ button.slick-next {
         padding: 10px;
         border-top: 1px solid #b0b0b0;
     }
+.cart-container .content .item-cart img {
+    width: 100%;
+}
 
         .cart-container .content .item-cart .title-cart {
             font-size: 18px;
@@ -1335,14 +1361,16 @@ button.slick-next {
             font-family: FuturaPTBook;
             font-size: 18px;
         }
+
 .empty-favorit {
     color: #636363;
     font-family: FuturaPTDemi;
-    font-size:25px;
-    text-align:center;
+    font-size: 25px;
+    text-align: center;
 }
+
     .empty-favorit span {
-        position:relative;
+        position: relative;
         top: -45px;
         padding: 30px;
     }
@@ -1350,67 +1378,81 @@ button.slick-next {
 .form-order {
     padding: 5px 50px 5px 70px;
 }
+
     .form-order.cabinet {
         padding: 0 !important;
     }
+
     .form-order .item-form {
         font-size: 17px;
         font-family: FuturaPTBook;
         color: #232323;
     }
-.form-order .item-form .title-item-form {
-    font-size: 17px;
-    font-family: FuturaPTMedium;
-    color: #232323;
-    padding:15px 5px;
-}
-    .form-order .item-form .title-item-form.thanks-title {
-        padding: 0;
-    }
-    .form-order .item-form label {
-        font-size: 16px;
-        font-family: FuturaPTBook;
-        color: #636363;
-        padding: 0 15px;
-    }
-    .form-order .item-form input {
-        font-size: 16px;
-        font-family: FuturaPTBook;
-        color: #636363;
-        padding: 0 15px;
-        border-radius: 7px;
-        border: 1px solid #d8d8d8;
-    }
-        .form-order .item-form input:focus {
-            box-shadow: 0 0 4px 0px hsla(332, 50%, 49%, 0.45);
+
+        .form-order .item-form .title-item-form {
+            font-size: 17px;
+            font-family: FuturaPTMedium;
+            color: #232323;
+            padding: 15px 5px;
         }
 
-    .form-order .item-form .address-form {
-        padding:0;
-    }
-    .cabinet .item-form .form-group {
-        margin-bottom:0px;
-    }
+            .form-order .item-form .title-item-form.thanks-title {
+                padding: 0;
+            }
+
+        .form-order .item-form label {
+            font-size: 16px;
+            font-family: FuturaPTBook;
+            color: #636363;
+            padding: 0 15px;
+        }
+
+        .form-order .item-form input {
+            font-size: 16px;
+            font-family: FuturaPTBook;
+            color: #636363;
+            padding: 0 15px;
+            border-radius: 7px;
+            border: 1px solid #d8d8d8;
+        }
+
+            .form-order .item-form input:focus {
+                box-shadow: 0 0 4px 0px hsla(332, 50%, 49%, 0.45);
+            }
+
+        .form-order .item-form .address-form {
+            padding: 0;
+        }
+
+.cabinet .item-form .form-group {
+    margin-bottom: 0px;
+}
+
 .cabinet .datepicker-birth {
     padding: 0px 0px 0px 10px;
 }
+
     .cabinet .datepicker-birth select {
         padding: 4px 0px;
         font-size: 16px;
         font-family: FuturaPTBook;
         color: #636363;
     }
-    .cabinet .datepicker-birth select:focus {
-        box-shadow: 0 0 4px 0px hsla(332, 50%, 49%, 0.45);
-        outline: none;
-        border: 1px solid #d8d8d8;        
-    }
+
+        .cabinet .datepicker-birth select:focus {
+            box-shadow: 0 0 4px 0px hsla(332, 50%, 49%, 0.45);
+            outline: none;
+            border: 1px solid #d8d8d8;
+        }
+
 .cabinet .footer.item-form {
     padding: 50px;
 }
+
 .cabinet .item-form .title {
-    padding:15px 5px;
+    padding: 15px 5px;
 }
+
 .count-cart {
     display: block;
     position: absolute;
@@ -1427,8 +1469,9 @@ button.slick-next {
     padding-bottom: 0px;
     font-family: FuturaPTMeduim;
 }
+
 .dropdown-cart {
-    display:none;   
+    display: none;
     position: absolute;
     background-color: #fff;
     left: -80px;
@@ -1436,6 +1479,7 @@ button.slick-next {
     z-index: 99999;
     width: 115%;
 }
+
     .dropdown-cart::after {
         content: '';
         position: absolute;
@@ -1445,6 +1489,7 @@ button.slick-next {
         border-bottom: 7px solid #fff;
         display: block;
     }
+
     .dropdown-cart .title {
         text-align: center;
         color: #636363;
@@ -1456,9 +1501,11 @@ button.slick-next {
         font-weight: 600;
         width: 95%;
     }
+
     .dropdown-cart .footer {
-     padding:25px 0;
+        padding: 25px 0;
     }
+
         .dropdown-cart .footer .info {
             color: #636363;
             font-size: 16px;
@@ -1466,45 +1513,133 @@ button.slick-next {
             margin-left: 4%;
             width: 54%;
         }
+
         .dropdown-cart .footer .value {
             color: #636363;
             font-size: 16px;
-            font-weight:bold;
+            font-weight: bold;
             font-family: FuturaPTMeduim;
         }
+
         .dropdown-cart .footer .item-btn {
             width: 100%;
             margin: 5px 0;
         }
+
         .dropdown-cart .footer a:hover, .dropdown-cart .footer a:focus .dropdown-cart .footer a:active .dropdown-cart .footer a:visited {
             color: #fff;
         }
+
     .dropdown-cart .dropdown-item-cart {
         border-bottom: 1px solid #cbcbcb;
         padding: 10px 0px;
         margin: 10px 2%;
         width: 95%;
     }
-    .dropdown-cart .dropdown-item-cart .img {
-        padding:0;
-    }
-    .dropdown-cart .dropdown-item-cart img{
-        width:100%;
-    }
-    .dropdown-cart .dropdown-item-cart .content {
-        padding:0;
-    }
-    .dropdown-cart .dropdown-item-cart .info {
-        padding: 0;
-    }
-    .dropdown-cart .dropdown-item-cart .title-product {
-        color: #414141;
-        font-size: 15px;
-        font-family: FuturaPTMeduim;
-        font-weight: bold;
-    }
+
+        .dropdown-cart .dropdown-item-cart .img {
+            padding: 0;
+        }
+
+        .dropdown-cart .dropdown-item-cart img {
+            width: 100%;
+        }
+
+        .dropdown-cart .dropdown-item-cart .content {
+            padding: 0;
+        }
+
+        .dropdown-cart .dropdown-item-cart .info {
+            padding: 0;
+        }
+
+        .dropdown-cart .dropdown-item-cart .title-product {
+            color: #414141;
+            font-size: 15px;
+            font-family: FuturaPTMeduim;
+            font-weight: bold;
+        }
+
 #dropdown-cart-head {
     display: inline-block;
     height: 85px;
     width: 65px;
+}
+
+.history-orders {
+    padding: 0;
+}
+
+    .history-orders .title {
+        height: 40px;
+        background-color: #fda5c4;
+        width: 100%;
+        color: #fff;
+        font-size: 18px;
+        font-family: FuturaPTDeimi;
+     
+        text-align: center;
+        padding-top: 5px;
+        box-shadow: inset 0px 0px 20px 2px rgba(0,0,0,0.08);
+    }
+
+    .history-orders .content {
+        height: 100px;
+        padding: 40px 0;
+        font-size: 18px;
+        font-family: FuturaPTBook;
+        color: #232323;
+        border-bottom: 1px solid #dbdbdb;
+        text-align: center;
+    }
+.history-orders .content .col-md-2{
+    text-align: right;
+}
+    .history-orders li.hover :hover {
+        background-color: #f9f4f4;
+    }
+    .history-orders img {
+        width: 80%;
+    }
+
+    .history-orders .content.detail {
+        height: 100px;
+    }
+
+    .history-orders .content a {
+        color: #232323;
+    }
+
+
+    .history-orders .content.detail .name {
+        text-align: left;
+    }
+
+    .history-orders .content.detail .image {
+        position: relative;
+        top: -25px;
+    }
+.date-order {
+    font-size: 17px;
+    font-family: FuturaPTMeduim;
+    color: #232323;
+    font-weight: bold;
+    padding: 25px 60px;
+}
+.history-amount {
+    font-family: FuturaPTDeimi;
+    font-size: 18px;
+    color: #000;
+    font-weight: 600;
+    padding: 10px 80px;
+}
+.history-amount span {
+    margin-left: 25px;
+}
+.all-orders, .all-orders a {
+    font-family: FuturaPTDeimi;
+    font-size: 18px;
+    color: #000;
+    font-weight: 600;
+    padding: 45px 25px;
 }

@@ -1,0 +1,60 @@
+﻿@model List<CosmeticaShop.IServices.Models.Order.OrderHeaderModel>
+@{
+    ViewBag.Title = "HistoryOrders";
+}
+
+<div class="col-md-12 white-container marginB-heigth-10">
+    <div class="default-text navigation">
+        <a href="@Url.Action("Index","Home")"> Principală </a> > <a href="@Url.Action("Index","Cabinet")"> <span class="pink-darkk-text">Profilul meu</span></a>
+    </div>
+</div>
+
+<div class="col-md-3 white-container">
+
+    <div class="block">
+        <div class="content grey">
+            <ul class="menu">
+                <li>
+                    <a href="@Url.Action("Index")"><span>Datele personale</span></a>
+                </li>
+                <li>
+                    <a href="@Url.Action("HistoryOrders")"> <span class="active">Comenzile mele</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-9 white-container big history">
+
+
+    <ul class="history-orders">
+        <li>
+            <div class="title col-md-12">
+                <div class="col-md-6">
+                    Дата заказа
+                </div>
+                <div class="col-md-6">
+                    Сумма заказов
+                </div>
+            </div>
+        </li>
+        @foreach (var order in Model)
+        {
+            <li class="hover">
+                <a href="@Url.Action("OrderDetail", new {id = order.Id})">
+                    <div class="content col-md-12">
+                        <div class="col-md-6">
+                            @order.DateCreate.ToShortDateString()
+                        </div>
+                        <div class="col-md-6">
+                            @order.Amount Lei
+                        </div>
+                    </div>
+                </a>
+            </li>
+        }
+       
+    </ul>
+
+</div>

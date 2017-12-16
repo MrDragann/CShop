@@ -14,6 +14,7 @@ namespace CosmeticaShop.Web.Controllers
     public class CabinetController : Controller
     {
         private readonly IUserService _userService  = new UserService();
+        private readonly IOrderService _orderService = new OrderService();
         public ActionResult Index()
         {
             var userId = new WebUser().UserId;
@@ -30,6 +31,19 @@ namespace CosmeticaShop.Web.Controllers
         {
             var response = _userService.EditPersonData(model);
             return Json(response);
+        }
+
+        public ActionResult HistoryOrders()
+        {
+            var userId = new WebUser().UserId;
+            var model = _orderService.GetHistoryOrders(userId);
+            return View(model);
+        }
+
+        public ActionResult OrderDetail(int id)
+        {
+            var model = _orderService.GetOrder(id);
+            return View(model);
         }
 
     }

@@ -1,0 +1,92 @@
+﻿@model CosmeticaShop.IServices.Models.Order.OrderHeaderModel
+@{
+    ViewBag.Title = "OrderDetail";
+}
+<div class="col-md-12 white-container marginB-heigth-10">
+    <div class="default-text navigation">
+        <a href="@Url.Action("Index","Home")"> Principală </a> > <a href="@Url.Action("Index","Cabinet")"> <span class="pink-darkk-text">Profilul meu</span></a>
+    </div>
+</div>
+
+<div class="col-md-3 white-container">
+
+    <div class="block">
+        <div class="content grey">
+            <ul class="menu">
+                <li>
+                    <a href="@Url.Action("Index")"><span>Datele personale</span></a>
+                </li>
+                <li>
+                    <a href="@Url.Action("HistoryOrders")"> <span class="active">Comenzile mele</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-9 white-container big history">
+
+    <div class="date-order">
+        Дата заказа  @Model.DateCreate.ToShortDateString()
+    </div>
+    <ul class="history-orders">
+        <li>
+            <div class="title col-md-12">
+                <div class="col-md-6">
+                    Продукт
+                </div>
+                <div class="col-md-2">
+                    Цена
+                </div>
+                <div class="col-md-2">
+                    Кол-во
+                </div>
+                <div class="col-md-2">
+                    Общая стоимость
+                </div>
+            </div>
+        </li>
+        @foreach (var products in Model.OrderProducts)
+        {
+            <li>
+                <div class="content detail col-md-12 ">
+                    <div class="col-md-6 row">
+                        <a href="@Url.Action("Details","Product", new {id = products.Product.Id})">
+                            <div class="col-md-3 image">
+                                <img src="@products.Product.PhotoUrl" />
+                            </div>
+                            <div class="col-md-9 name">
+                              @products.Product.Name
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        @products.Price Lei
+                    </div>
+                    <div class="col-md-2">
+                        @products.Quantity
+                    </div>
+                    <div class="col-md-2">
+                        @products.Amount Lei
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+
+    <div class="pull-right history-amount">
+        <div class="row">
+            <span class="">
+                Общая сумма заказа:
+            </span>
+            <span>
+               @Model.Amount Lei
+            </span>
+        </div>
+    </div>
+    <div class="all-orders">
+        <a href="@Url.Action("HistoryOrders")">
+            <i class="icon-back"></i>Все заказы
+        </a>
+    </div>
+</div>
