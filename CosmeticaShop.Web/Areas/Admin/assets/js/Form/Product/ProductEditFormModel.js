@@ -20,6 +20,7 @@
 
         this.Product = new Product.ProductModel(theParams.Model.Product);
         this.Categories = ko.observableArray(theParams.Model.Categories);
+        this.Tags = ko.observableArray(theParams.Model.Tags);
         this.Brands = ko.observableArray(theParams.Model.Brands);
 
         return this;

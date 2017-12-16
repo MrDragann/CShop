@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "Список тегов товаров";
+}
+
+@section scripts{
+    <script src="~/Areas/Admin/assets/js/Form/ProductTag/ProductTagModel.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/ProductTag/ProductTagFormModel.js"></script>
+    <script>
+        var params = {};
+        params.UrlLoadItems = '@Url.Action("GetFilteredProductTags","Product")';
+        params.UrlSaveChanges = '@Url.Action("ProductTagUpdate","Product")';
+        params.UrlDelete = '@Url.Action("ProductTagDelete", "Product")';
+        params.ModalSelector = '#AddProductTag';
+        var FormModel = new ProductTag.ProductTagFormModel(params);
+    </script>
+}
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered" data-bind="with:FormModel">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings font-green"></i>
+                    <span class="caption-subject font-green sbold uppercase">Список тегов товаров</span>
+                </div>
+                <div class="actions" data-bind="with:Filter">
+                    <button data-toggle="modal" data-target="#AddProductTag" class="btn btn-success">
+                        <i class="fa fa-plus"></i>
+                        <span class="hidden-480">
+                            Добавить
+                        </span>
+                    </button>
+                    <div class="btn-group btn-group-devided">
+                        
+                        <div class="input-group" style="width: 300px;">
+                            <input data-bind="value:Term" type="text" class="form-control"/>
+                            <span class="input-group-btn">
+                                <button data-bind="click:FormModel.TableRefresh" class="btn btn-success" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="portlet-body" data-bind="with:Table">
+                <div class="table-scrollable">
+                    <table class="table table-hover table-light">
+                        <thead>
+                        <tr>
+                            <th> # </th>
+                            <th>Наименование</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody data-bind="foreach:Items">
+                        <!--ko if: IsEdit() -->
+                        <!-- ko template: {name: 'row-edit'}-->
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <!--ko ifnot: IsEdit() -->
+                        <!-- ko template: {name: 'row-default'}-->
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        </tbody>
+                    </table>
+                </div>
+                <pagination data-bind="Component:Pagination"></pagination>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+<!-- Шаблон вывода -->
+<script id="row-default" type="text/html">
+    <tr role="row">
+        <td data-bind="text:Id"></td>
+        <td data-bind="text:Name"></td>
+        <td>
+            <button data-bind="click:FormModel.ChangeTemplate.bind(FormModel,$data)" class="fa fa-pencil btn btn-sm blue"></button>
+            <button data-bind="click:FormModel.DeleteProductTag.bind(FormModel,$data)" class="fa fa-remove btn btn-sm red"></button>
+        </td>
+    </tr>
+</script>
+
+<!-- Шаблон редактирования -->
+<script id="row-edit" type="text/html">
+    <tr role="row">
+        <td data-bind="text:Id"></td>
+        <td>
+            <input type="text" data-bind="value:Name, style: { border: (Name() == '' && !IsSuccess()) ? '1px solid red' : '' }" class="form-control">
+        </td>
+        <td>
+            <a data-bind="click:FormModel.SaveChanges.bind(FormModel,$data)" class="fa fa-floppy-o btn btn-sm green"></a>
+            <a data-bind="click:FormModel.ResetTemplate.bind(FormModel,$data)" class="fa fa-close btn btn-sm red"></a>
+        </td>
+    </tr>
+</script>
+
+<!-- Модальное окно с формой добавления тега товара -->
+<div class="modal fade" id="AddProductTag" tabindex="-1" role="modal" aria-hidden="true" data-bind="with:FormModel.NewProductTag">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Добавить новый тег товара <span class="bold"></span></h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row form-horizontal">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Наименование</label>
+                            <div class="col-md-9">
+                                <input type="text" data-bind="value:Name, style: { border: (Name() == '' }" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default" data-dismiss="modal">Закрыть</button>
+                <button type="button" data-dismiss="modal" data-bind="click:FormModel.SaveChanges.bind(FormModel,$data)" class="btn blue">Сохранить</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

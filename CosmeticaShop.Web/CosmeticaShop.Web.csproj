@@ -1770,6 +1770,8 @@
     <Content Include="Areas\Admin\assets\global\scripts\datatable.min.js" />
     <Content Include="Areas\Admin\assets\js\Enums\EnumResponseStatus.js" />
     <Content Include="Areas\Admin\assets\js\Form\Base\BaseFilterModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\ProductTag\ProductTagFormModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\ProductTag\ProductTagModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Product\ProductEditFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Product\ProductFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Product\ProductModel.js" />
@@ -2006,6 +2008,7 @@
     <Content Include="Areas\Admin\assets\global\plugins\jstree\jstree.jquery.json" />
     <Content Include="Areas\Admin\assets\global\plugins\jstree\LICENSE-MIT" />
     <Content Include="Areas\Admin\assets\global\plugins\jstree\README.md" />
+    <Content Include="Areas\Admin\Views\Product\Tags.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\content\Pagination.css" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\Filter.js" />
