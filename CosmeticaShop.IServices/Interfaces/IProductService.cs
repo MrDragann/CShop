@@ -27,6 +27,13 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <returns></returns>
         List<ProductBaseModel> GetDiscountProducts(PaginationRequest request);
 
+        /// <summary>
+        /// Получить товар
+        /// </summary>
+        /// <param name="id">Ид товара</param>
+        /// <returns></returns>
+        ProductEditModel GetProduct(int id);
+
         #endregion
 
         #region [ Адмиистративная ]

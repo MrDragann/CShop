@@ -15,7 +15,7 @@ using CosmeticaShop.Services.Static;
 
 namespace CosmeticaShop.Services
 {
-    public class ProductService: IProductService
+    public class ProductService : IProductService
     {
         #region [ Публичная часть ]
 
@@ -45,7 +45,7 @@ namespace CosmeticaShop.Services
                         DateCreate = DateTime.Now
                     });
                     db.SaveChanges();
-                    return new BaseResponse(EnumResponseStatus.Success,"Товар успешно добавлен в желаемое");
+                    return new BaseResponse(EnumResponseStatus.Success, "Товар успешно добавлен в желаемое");
                 }
             }
             catch (Exception ex)
@@ -76,6 +76,20 @@ namespace CosmeticaShop.Services
                 return products;
             }
         }
+        /// <summary>
+        /// Получить товар
+        /// </summary>
+        /// <param name="id">Ид товара</param>
+        /// <returns></returns>
+        public ProductEditModel GetProduct(int id)
+        {
+            using (var db = new DataContext())
+            {
+                var product = db.Products.FirstOrDefault(x => x.Id == id);
+                var model = ConvertToProductEditModel(product);
+                return model;
+            }
+        }
 
         #region [ Конвертирование ]
 
@@ -89,7 +103,27 @@ namespace CosmeticaShop.Services
                 Price = m.Price,
                 DiscountPercent = m.Discount,
                 //todo:вынести в функцию
-                DiscountPrice = Math.Floor(m.Price-(m.Price*m.Discount/100))
+                DiscountPrice = Math.Floor(m.Price - (m.Price * m.Discount / 100))
+            };
+        }
+
+        private ProductEditModel ConvertToProductEditModel(Product m)
+        {
+            return new ProductEditModel
+            {
+                Id = m.Id,
+                Name = m.Name,
+                Price = m.Price,
+                BrandId = m.BrandId,
+                CategoriesId = m.Categories?.Select(x => x.Id).ToList(),
+                DateCreate = m.DateCreate,
+                Description = m.Description,
+                Discount = m.Discount,
+                IsActive = m.IsActive,
+                IsInStock = m.IsInStock,
+                TagsId = m.ProductTags?.Select(x => x.Id).ToList(),
+                KeyUrl = m.KeyUrl,
+                PhotoUrl = m.PhotoUrl,
             };
         }
 
@@ -151,7 +185,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var product = db.Products.Include(x=>x.Categories).AsNoTracking().Where(x => x.Id == productId)
+                var product = db.Products.Include(x => x.Categories).AsNoTracking().Where(x => x.Id == productId)
                     .Select(x => new ProductEditModel
                     {
                         Id = x.Id,
@@ -164,7 +198,7 @@ namespace CosmeticaShop.Services
                         Discount = x.Discount,
                         IsInStock = x.IsInStock,
                         IsActive = x.IsActive,
-                        CategoriesId = x.Categories.Select(c=>c.Id).ToList()
+                        CategoriesId = x.Categories.Select(c => c.Id).ToList()
                     }).FirstOrDefault();
                 if (product == null)
                     return new BaseResponse<ProductEditModel>(EnumResponseStatus.Error, "Товар не найден", new ProductEditModel());
@@ -201,7 +235,7 @@ namespace CosmeticaShop.Services
                         Price = model.Price,
                         Discount = model.Discount
                     };
-                    if(model.CategoriesId!=null)
+                    if (model.CategoriesId != null)
                         newProduct.Categories = db.Categories.Where(x => model.CategoriesId.Contains(x.Id)).ToList();
                     db.Products.Add(newProduct);
 
@@ -228,7 +262,7 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var old = db.Products.Include(x=>x.Categories).FirstOrDefault(x => x.Id == model.Id);
+                    var old = db.Products.Include(x => x.Categories).FirstOrDefault(x => x.Id == model.Id);
                     if (old == null)
                         return new BaseResponse<int>(EnumResponseStatus.Error, "Товар не найден");
 
@@ -255,7 +289,7 @@ namespace CosmeticaShop.Services
                             Guid.NewGuid().ToString(), old.Id.ToString());
                     }
                     db.SaveChanges();
-                    return new BaseResponse<int>(EnumResponseStatus.Success, "Товар успешно изменен",old.Id);
+                    return new BaseResponse<int>(EnumResponseStatus.Success, "Товар успешно изменен", old.Id);
                 }
             }
             catch (Exception ex)
@@ -307,8 +341,8 @@ namespace CosmeticaShop.Services
 
                 if (!string.IsNullOrEmpty(request.Filter.Term))
                     query = query.Where(x => x.Name.ToLower().Contains(request.Filter.Term.ToLower()));
-                
-                var model = new PaginationResponse<BrandModel> { Count = query.Count() }; 
+
+                var model = new PaginationResponse<BrandModel> { Count = query.Count() };
 
                 query = request.Load(query);
 
@@ -404,12 +438,12 @@ namespace CosmeticaShop.Services
                             SeoDescription = x.SeoDescription,
                             SeoKeywords = x.SeoKeywords
                         }).FirstOrDefault();
-                    return new BaseResponse<BrandModel>(EnumResponseStatus.Success,brand);
+                    return new BaseResponse<BrandModel>(EnumResponseStatus.Success, brand);
                 }
             }
             catch (Exception ex)
             {
-                return new BaseResponse<BrandModel>(EnumResponseStatus.Exception,ex.Message);
+                return new BaseResponse<BrandModel>(EnumResponseStatus.Exception, ex.Message);
             }
         }
 
@@ -436,7 +470,7 @@ namespace CosmeticaShop.Services
                     brand.IsActive = model.IsActive;
                     brand.SeoKeywords = model.SeoKeywords;
                     brand.SeoDescription = model.SeoDescription;
-                    
+
                     if (model.PhotoFile != null)
                     {
                         FileManager.DeleteFile(EnumDirectoryType.Brand, fileName: brand.PhotoUrl);

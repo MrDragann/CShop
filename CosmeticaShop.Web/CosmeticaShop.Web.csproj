@@ -148,6 +148,7 @@
     <Compile Include="Infrastructure\AuthorizeViewPage.cs" />
     <Compile Include="Infrastructure\ConstRoles.cs" />
     <Compile Include="Infrastructure\WebUser.cs" />
+    <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2058,7 +2059,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Infrastructure\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

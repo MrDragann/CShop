@@ -4,8 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CosmeticaShop.IServices.Interfaces;
+using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.Services;
 using CosmeticaShop.Web.Infrastructure;
+using CosmeticaShop.Web.Models;
 
 namespace CosmeticaShop.Web.Controllers
 {
@@ -19,7 +21,11 @@ namespace CosmeticaShop.Web.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            return View();
+            var model = new ProductsViewModel()
+            {
+                Products = _productService.GetDiscountProducts(new PaginationRequest())
+            };
+            return View(model);
         }
         /// <summary>
         /// Добавить товар в корзину
@@ -50,9 +56,10 @@ namespace CosmeticaShop.Web.Controllers
         /// Детальная страница товара
         /// </summary>
         /// <returns></returns>
-        public ActionResult Details()
+        public ActionResult Details(int id)
         {
-            return View();
+            var model = _productService.GetProduct(id);
+            return View(model);
         }
     }
 }
