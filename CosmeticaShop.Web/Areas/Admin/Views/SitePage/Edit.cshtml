@@ -1,0 +1,107 @@
+﻿@using CosmeticaShop.Services.Static
+@model CosmeticaShop.IServices.Models.SitePage.SitePageModel
+@{
+    ViewBag.Title = "Настройка главной страницы";
+}
+@section breadcrumb
+{
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="">CosmeticaShop</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Страницы</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">@EnumService.GetEnumDescription(Model.Id)</span>
+        </li>
+    </ul>
+}
+<!-- BEGIN PAGE CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings font-green"></i>
+                    <span class="caption-subject font-green sbold uppercase">Настройка страницы @EnumService.GetEnumDescription(Model.Id)</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#page" data-toggle="tab">
+                                Страница
+                            </a>
+                        </li>
+                    </ul>
+                    @using (Html.BeginForm("Edit", "SitePage", new { Area = "Admin" }, FormMethod.Post))
+                    {
+                        <div class="form-body form-horizontal">
+                            <div class="tab-content">
+                                <input type="hidden" name="Id" value="@Model.Id" />
+                                <div class="tab-pane fade active in" id="page">
+                                    <div class="form-group form-md-line-input">
+                                        <label class="col-md-2 control-label" for="Title">Заголовок</label>
+                                        <div class="col-md-10">
+                                            <textarea maxlength="128" class="form-control" id="Title" name="Title" rows="2" placeholder="">@Model.Title</textarea>
+                                            <div class="form-control-focus">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label class="col-md-2 control-label" for="SeoKeywords">SEO Keywords</label>
+                                        <div class="col-md-10">
+                                            <textarea maxlength="256" class="form-control" id="SeoKeywords" name="SeoKeywords" rows="3" placeholder="">@Model.SeoKeywords</textarea>
+                                            <div class="form-control-focus">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label class="col-md-2 control-label" for="SeoDescription">SEO Description</label>
+                                        <div class="col-md-10">
+                                            <textarea maxlength="256" class="form-control" id="SeoDescription" name="SeoDescription" rows="3" placeholder="">@Model.SeoDescription</textarea>
+                                            <div class="form-control-focus">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2" for="Content">Контент</label>
+                                        <div class="col-md-10">
+                                            <textarea class="ckeditor form-control" id="Content" name="Content" required="required" rows="6">@Model.Content</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2" for="ExtraContent">Доп. контент</label>
+                                        <div class="col-md-10">
+                                            <textarea class="ckeditor form-control" id="ExtraContent" name="ExtraContent" required="required" rows="6">@Model.ExtraContent</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-md-line-input">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button type="submit" id="Save-Changes" class="btn green">Сохранить</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE CONTENT-->
+
+@section scripts{
+
+    <script>
+        
+    </script>
+}
+

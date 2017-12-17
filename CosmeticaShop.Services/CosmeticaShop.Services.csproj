@@ -53,6 +53,7 @@
     <Compile Include="AuthCommonService.cs" />
     <Compile Include="CategoryService.cs" />
     <Compile Include="OrderService.cs" />
+    <Compile Include="SitePageSevice.cs" />
     <Compile Include="Static\CryptographyService.cs" />
     <Compile Include="Static\EnumService.cs" />
     <Compile Include="Static\FileManager.cs" />

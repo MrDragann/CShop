@@ -1,4 +1,5 @@
-﻿<!-- BEGIN SIDEBAR -->
+﻿@using CosmeticaShop.IServices.Enums
+<!-- BEGIN SIDEBAR -->
 <div class="page-sidebar-wrapper">
     <!-- BEGIN SIDEBAR -->
     <div class="page-sidebar navbar-collapse collapse">
@@ -21,6 +22,25 @@
                     <li class="nav-item start">
                         <a href="" class="nav-link">
                             <span class="title">Слайдер</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">Страницы</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Edit","SitePage",new {id=EnumSitePage.Home})" class="nav-link">
+                            <span class="title">Главная</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Edit","SitePage",new {id=EnumSitePage.Contacts})" class="nav-link">
+                            <span class="title">Контакты</span>
                         </a>
                     </li>
                 </ul>

@@ -83,6 +83,7 @@
     <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
+    <Compile Include="Interfaces\ISitePageSevice.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Models\Base\BaseFilter.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Models\DictionaryModel.cs" />
     <Compile Include="Models\Requests\PaginationRequest.cs" />
     <Compile Include="Models\Responses\PaginationResponse.cs" />
+    <Compile Include="Models\SitePage\SitePageModel.cs" />
     <Compile Include="Models\User\ChangePasswordModel.cs" />
     <Compile Include="Models\User\UserBaseModel.cs" />
     <Compile Include="Models\User\UserDetailModel.cs" />

@@ -133,6 +133,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SitePageController.cs" />
     <Compile Include="Controllers\CabinetController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\FavoritesController.cs" />
@@ -2009,6 +2010,7 @@
     <Content Include="Areas\Admin\assets\global\plugins\jstree\LICENSE-MIT" />
     <Content Include="Areas\Admin\assets\global\plugins\jstree\README.md" />
     <Content Include="Areas\Admin\Views\Product\Tags.cshtml" />
+    <Content Include="Areas\Admin\Views\SitePage\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\content\Pagination.css" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\Filter.js" />
