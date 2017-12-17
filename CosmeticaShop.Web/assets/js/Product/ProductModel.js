@@ -8,7 +8,8 @@
         this.Name = ko.observable(theParams.Name || "");
         this.Description = ko.observable(theParams.Description || "");
         this.Price = ko.observable(theParams.Price || 0);
-        this.Discount = ko.observable(theParams.Discount || 0);
+        this.DiscountPrice = ko.observable(theParams.DiscountPrice || 0);
+        this.DiscountPercent = ko.observable(theParams.DiscountPercent || 0);
         this.PhotoUrl = ko.observable(theParams.PhotoUrl || "");
         this.DateCreate = ko.observable(theParams.DateCreate || "");
         this.DateCreateView = ko.observable(theParams.DateCreateView || "");

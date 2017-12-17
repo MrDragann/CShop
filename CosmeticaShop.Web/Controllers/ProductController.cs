@@ -4,10 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CosmeticaShop.IServices.Interfaces;
+using CosmeticaShop.IServices.Models.Pagination;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.Services;
 using CosmeticaShop.Web.Infrastructure;
 using CosmeticaShop.Web.Models;
+using CosmeticaShop.IServices.Models.Product;
 
 namespace CosmeticaShop.Web.Controllers
 {
@@ -15,16 +17,34 @@ namespace CosmeticaShop.Web.Controllers
     {
         private readonly IProductService _productService = new ProductService();
         private readonly IOrderService _orderService = new OrderService();
+        private readonly ICategoryService _categoryService = new CategoryService();
         /// <summary>
         /// Страница с списоком товаров
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index()
+        public ActionResult Index(int? page, ProductFilterModel request)
         {
+            const int take = 21;
+            var products = _productService.GetProducts(request);
+            if (!page.HasValue)
+                page = 1;
             var model = new ProductsViewModel()
             {
-                Products = _productService.GetDiscountProducts(new PaginationRequest())
+                
+                Products = products,
+                Brands = _productService.GetAllBrandsBase(),
+                Pagination = new PaginationModel(take)
+                {
+                Count = products.Count,
+                Skip = ((int)page - 1) * take,
+                Take = take,
+                PageNumber = (int)page,
+                PageSize = products.Count / take + 1
+            },
+                Filter = request,
+                Categories = _categoryService.GetCategories()
             };
+            model.Products = model.Products.Skip(model.Pagination.Skip).Take(model.Pagination.Take).ToList();
             return View(model);
         }
         /// <summary>

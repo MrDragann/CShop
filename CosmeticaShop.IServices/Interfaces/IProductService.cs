@@ -37,6 +37,12 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <returns></returns>
         ProductEditModel GetProduct(int id);
 
+        /// <summary>
+        /// Получить товары c фильтрацией
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        List<ProductBaseModel> GetProducts(ProductFilterModel request);
         #endregion
 
         #region [ Адмиистративная ]

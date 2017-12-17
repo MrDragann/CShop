@@ -20,7 +20,10 @@ namespace CosmeticaShop.IServices.Models.Product
         /// Ид бренда
         /// </summary>
         public int? BrandId { get; set; }
-
+        /// <summary>
+        /// Название брэнда
+        /// </summary>
+        public string BrandName { get; set; }
         /// <summary>
         /// Дата создания
         /// </summary>

@@ -77,6 +77,46 @@ namespace CosmeticaShop.Services
                 return products;
             }
         }
+        /// <summary>
+        /// Получить товары c фильтрацией
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public List<ProductBaseModel> GetProducts(ProductFilterModel request)
+        {
+            using (var db = new DataContext())
+            {
+                var query = db.Products.Include(x => x.Brand).Include(x=>x.Categories).ToList();
+                if (request?.BrandiesId?.Count > 0)
+                {
+                    query = query.Where(x => request.BrandiesId.Any(m => m == x.BrandId)).ToList();
+                }
+                if (request?.CategoriesId?.Count > 0)
+                {
+                    query = query.Where(x => request.CategoriesId.Any(m =>x.Categories.Any(c=>c.Id == m))).ToList();
+                }
+                var products = query.Select(ConvertToProductBaseModel).ToList();
+                products.ForEach(x =>
+                {
+                    x.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.Id.ToString());
+                });
+                return products;
+            }
+        }
+        /// <summary>
+        /// Получить товар
+        /// </summary>
+        /// <param name="id">Ид товара</param>
+        /// <returns></returns>
+        public ProductEditModel GetProduct(int id)
+        {
+            using (var db = new DataContext())
+            {
+                var product = db.Products.Include(x=>x.Brand).FirstOrDefault(x => x.Id == id);
+                var model = ConvertToProductEditModel(product);
+                return model;
+            }
+        }
 
         #region [ Конвертирование ]
 
@@ -93,6 +133,27 @@ namespace CosmeticaShop.Services
                 DiscountPrice = Math.Floor(m.Price-(m.Price*m.Discount/100))
             };
         }
+        private ProductEditModel ConvertToProductEditModel(Product m)
+        {
+            return new ProductEditModel
+            {
+                Id = m.Id,
+                Name = m.Name,
+                Price = m.Price,
+                BrandId = m.BrandId,
+                BrandName = m.Brand?.Name,
+                CategoriesId = m.Categories?.Select(x => x.Id).ToList(),
+                DateCreate = m.DateCreate,
+                Description = m.Description,
+                Discount = m.Discount,
+                IsActive = m.IsActive,
+                IsInStock = m.IsInStock,
+                TagsId = m.ProductTags?.Select(x => x.Id).ToList(),
+                KeyUrl = m.KeyUrl,
+                PhotoUrl = m.PhotoUrl,
+            };
+        }
+
 
         #endregion
 

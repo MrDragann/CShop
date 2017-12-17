@@ -15,6 +15,7 @@
         this.DateCreate = ko.observable(theParams.DateCreate || "");
         this.DateCreateView = ko.observable(theParams.DateCreateView || "");
         this.Content = ko.observable(theParams.Content || "");
+        this.BrandName = ko.observable(theParams.BrandName || "");
         return this;
     };
 

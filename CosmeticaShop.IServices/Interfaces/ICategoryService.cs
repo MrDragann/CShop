@@ -67,5 +67,15 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="categoryId"></param>
         /// <returns></returns>
         BaseResponse DownCategoryPriority(int? parentId, int categoryId);
+
+
+
+
+
+        /// <summary>
+        /// Получить список категорий товаров
+        /// </summary>
+        /// <returns></returns>
+        List<CategoryModel> GetCategories();
     }
 }

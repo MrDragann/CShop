@@ -80,6 +80,7 @@
     <Compile Include="Enums\EnumStatusUser.cs" />
     <Compile Include="Enums\EnumUserRole.cs" />
     <Compile Include="Interfaces\IAuthCommonService.cs" />
+    <Compile Include="Interfaces\ICartService.cs" />
     <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
@@ -90,9 +91,13 @@
     <Compile Include="Models\Brand\BrandModel.cs" />
     <Compile Include="Models\Category\CategoryEditModel.cs" />
     <Compile Include="Models\Category\CategoryModel.cs" />
+    <Compile Include="Models\Order\OrderHeaderModel.cs" />
+    <Compile Include="Models\Order\OrderProductsModel.cs" />
+    <Compile Include="Models\Pagination\PaginationModel.cs" />
     <Compile Include="Models\Product\ProductBaseModel.cs" />
     <Compile Include="Models\Product\ProductEditModel.cs" />
     <Compile Include="Models\Product\ProductEditViewModel.cs" />
+    <Compile Include="Models\Product\ProductFilterModel.cs" />
     <Compile Include="Models\Responses\BaseResponse.cs" />
     <Compile Include="Models\DictionaryModel.cs" />
     <Compile Include="Models\Requests\PaginationRequest.cs" />
