@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Pagination;
-using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.Services;
 using CosmeticaShop.Web.Infrastructure;
 using CosmeticaShop.Web.Models;
@@ -13,7 +9,7 @@ using CosmeticaShop.IServices.Models.Product;
 
 namespace CosmeticaShop.Web.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductService _productService = new ProductService();
         private readonly IOrderService _orderService = new OrderService();
@@ -79,6 +75,7 @@ namespace CosmeticaShop.Web.Controllers
         public ActionResult Details(int id)
         {
             var model = _productService.GetProduct(id);
+            SetSitePageSettings(model.Name,model.SeoKeywords,model.SeoDescription);
             return View(model);
         }
     }

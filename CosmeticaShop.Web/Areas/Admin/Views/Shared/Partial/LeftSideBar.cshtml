@@ -1,4 +1,5 @@
 ﻿@using CosmeticaShop.IServices.Enums
+@using CosmeticaShop.Services.Static
 <!-- BEGIN SIDEBAR -->
 <div class="page-sidebar-wrapper">
     <!-- BEGIN SIDEBAR -->
@@ -13,14 +14,8 @@
                     <span class="arrow open"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item start active open">
-                        <a href="" class="nav-link">
-                            <span class="title">Страница</span>
-                            <span class="selected"></span>
-                        </a>
-                    </li>
                     <li class="nav-item start">
-                        <a href="" class="nav-link">
+                        <a href="@Url.Action("Slider","SitePage")" class="nav-link">
                             <span class="title">Слайдер</span>
                         </a>
                     </li>
@@ -33,16 +28,14 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item">
-                        <a href="@Url.Action("Edit","SitePage",new {id=EnumSitePage.Home})" class="nav-link">
-                            <span class="title">Главная</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@Url.Action("Edit","SitePage",new {id=EnumSitePage.Contacts})" class="nav-link">
-                            <span class="title">Контакты</span>
-                        </a>
-                    </li>
+                    @foreach (EnumSitePage type in Enum.GetValues(typeof(EnumSitePage)))
+                    {
+                        <li class="nav-item">
+                            <a href="@Url.Action("Edit", "SitePage", new {id = type})" class="nav-link">
+                                <span class="title">@EnumService.GetEnumDescription(type)</span>
+                            </a>
+                        </li>
+                    }
                 </ul>
             </li>
             <li class="nav-item">

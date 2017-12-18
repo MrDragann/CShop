@@ -1,5 +1,4 @@
 ﻿@{
-    ViewBag.Title = "Home";
     ViewBag.IsHome = true;
 }
 @section Styles {
@@ -19,20 +18,10 @@
         });
     </script>
 }
-<div class="main-slider">
-    <div class="item-slider">
-        <img src="~/assets/img/Temp/slide1.png" /> e
-    </div>
-    <div class="item-slider">
-        <img src="~/assets/img/Temp/slide2.png" />
-    </div>
-    <div class="item-slider">
-        <img src="~/assets/img/Temp/slide3.jpg" />
-    </div>
-    <div class="item-slider">
-        <img src="~/assets/img/Temp/slide4.jpg" />
-    </div>
-</div>
+
+@*@Html.Action("SitePageSettings","Home",new {page=EnumSitePage.Home})*@
+
+@Html.Action("SliderPartial","Home")
 
 <section>
     <div class="section-name">BRANDS</div>

@@ -132,6 +132,7 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\SitePageController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CabinetController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\FavoritesController.cs" />
@@ -1769,6 +1770,8 @@
     <Content Include="Areas\Admin\assets\global\scripts\datatable.min.js" />
     <Content Include="Areas\Admin\assets\js\Enums\EnumResponseStatus.js" />
     <Content Include="Areas\Admin\assets\js\Form\Base\BaseFilterModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Slider\SliderFormModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Slider\SliderModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\ProductTag\ProductTagFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\ProductTag\ProductTagModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Product\ProductEditFormModel.js" />
@@ -2011,6 +2014,8 @@
     <Content Include="Areas\Admin\assets\global\plugins\jstree\README.md" />
     <Content Include="Areas\Admin\Views\Product\Tags.cshtml" />
     <Content Include="Areas\Admin\Views\SitePage\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SitePage\AddSlide.cshtml" />
+    <Content Include="Areas\Admin\Views\SitePage\Slider.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\content\Pagination.css" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\Filter.js" />
@@ -2061,11 +2066,14 @@
     <Content Include="Views\Cabinet\Index.cshtml" />
     <Content Include="Views\Cabinet\HistoryOrders.cshtml" />
     <Content Include="Views\Cabinet\OrderDetail.cshtml" />
+    <Content Include="Views\Shared\Partial\SitePage\Slider.cshtml" />
+    <Content Include="Views\Shared\Partial\SitePage\SitePageSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Infrastructure\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
-using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.User;
 using CosmeticaShop.Services;
@@ -13,14 +10,37 @@ using CosmeticaShop.Web.Infrastructure;
 
 namespace CosmeticaShop.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        #region [ Сервисы ]
+
         private IAuthCommonService _authCommonService = new AuthCommonService();
+        private ISitePageSevice _sitePageSevice = new SitePageSevice();
+
+        #endregion
 
         public ActionResult Index()
         {
+            SetSitePageSettings(EnumSitePage.Home);
             return View();
         }
+
+        /// <summary>
+        /// Получить слайдер
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SliderPartial()
+        {
+            var model = _sitePageSevice.GetSlides();
+            return PartialView("~/Views/Shared/Partial/SitePage/Slider.cshtml",model);
+        }
+
+        public ActionResult SitePageSettings(EnumSitePage page)
+        {
+            var model = _sitePageSevice.GetSitePageModel(page);
+            return PartialView("~/Views/Shared/Partial/SitePage/SitePageSettings.cshtml",model);
+        }
+
         public ActionResult Contacts()
         {
             return View();

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using CosmeticaShop.Web.Infrastructure;
 using CosmeticaShop.IServices.Models.User;
 using CosmeticaShop.IServices.Interfaces;
@@ -11,7 +7,7 @@ using CosmeticaShop.Services;
 namespace CosmeticaShop.Web.Controllers
 {
     [AuthorizationAttributePublic]
-    public class CabinetController : Controller
+    public class CabinetController : BaseController
     {
         private readonly IUserService _userService  = new UserService();
         private readonly IOrderService _orderService = new OrderService();

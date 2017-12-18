@@ -1,7 +1,7 @@
 ﻿@using CosmeticaShop.Services.Static
 @model CosmeticaShop.IServices.Models.SitePage.SitePageModel
 @{
-    ViewBag.Title = "Настройка главной страницы";
+    ViewBag.Title = $"Настройка страницы \"{EnumService.GetEnumDescription(Model.Id)}\"";
 }
 @section breadcrumb
 {
@@ -15,7 +15,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span class="active">@EnumService.GetEnumDescription(Model.Id)</span>
+            <span class="active">@ViewBag.Title</span>
         </li>
     </ul>
 }
@@ -27,7 +27,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-settings font-green"></i>
-                    <span class="caption-subject font-green sbold uppercase">Настройка страницы @EnumService.GetEnumDescription(Model.Id)</span>
+                    <span class="caption-subject font-green sbold uppercase">@ViewBag.Title</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -39,7 +39,7 @@
                             </a>
                         </li>
                     </ul>
-                    @using (Html.BeginForm("Edit", "SitePage", new { Area = "Admin" }, FormMethod.Post))
+                    @using (Html.BeginForm("UpdateSitePage", "SitePage", new { Area = "Admin" }, FormMethod.Post))
                     {
                         <div class="form-body form-horizontal">
                             <div class="tab-content">

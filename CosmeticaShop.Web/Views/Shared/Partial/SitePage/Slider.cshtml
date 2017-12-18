@@ -1,0 +1,9 @@
+﻿@model List<CosmeticaShop.IServices.Models.Slider.SliderModel>
+<div class="main-slider">
+    @foreach (var slide in Model)
+    {
+        <div class="item-slider">
+            <img src="@slide.PhotoUrl"/>
+        </div>
+    }
+</div>

@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Список слайдов";
+}
+
+@section scripts{
+    <script src="~/Areas/Admin/assets/js/Form/Slider/SliderModel.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Slider/SliderFormModel.js"></script>
+    <script>
+        var params = {};
+        params.UrlLoadItems = '@Url.Action("GetFilteredSlides","SitePage")';
+        params.UrlDelete = '@Url.Action("DeleteSlide","SitePage")';
+        var FormModel = new Slider.SliderFormModel(params);
+    </script>
+}
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered" data-bind="with:FormModel">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings font-green"></i>
+                    <span class="caption-subject font-green sbold uppercase">@ViewBag.Title</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-success" href="@Url.Action("AddSlide", "SitePage")">
+                        <i class="fa fa-plus"></i>
+                        <span class="hidden-480">
+                            Добавить
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body" data-bind="with:Table">
+                <div class="table-scrollable">
+                    <table class="table table-hover table-light">
+                        <thead>
+                        <tr>
+                            <th> # </th>
+                            <th></th>
+                            <th>Дата создания</th>
+                            <th>Видимость</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody data-bind="foreach:Items">
+                        <tr>
+                            <td data-bind="text:Id"></td>
+                            <td>
+                                <img data-bind="attr:{src:PhotoUrl()}" width="200">
+                            </td>
+                            <td data-bind="text:moment(DateCreate()).format('L')"></td>
+                            <td>
+                                <i data-bind="css:(IsActive()?'fa-check':'fa-close')" class="fa false-icon"></i>
+                            </td>
+                            <td>
+                                <a data-bind="attr:{href:'@Url.Action("EditSlide","SitePage")/'+Id()}" class="fa fa-pencil btn btn-sm blue"></a>
+                                <button data-bind="click:FormModel.DeleteSlide.bind(FormModel)" type="button" class="fa fa-remove btn btn-sm red"></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pagination data-bind="Component:Pagination"></pagination>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+

@@ -114,6 +114,7 @@ namespace CosmeticaShop.Services
             {
                 var product = db.Products.Include(x=>x.Brand).FirstOrDefault(x => x.Id == id);
                 var model = ConvertToProductEditModel(product);
+                //model.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, model.Id.ToString());
                 return model;
             }
         }
@@ -151,6 +152,8 @@ namespace CosmeticaShop.Services
                 TagsId = m.ProductTags?.Select(x => x.Id).ToList(),
                 KeyUrl = m.KeyUrl,
                 PhotoUrl = m.PhotoUrl,
+                SeoDescription = m.SeoDescription,
+                SeoKeywords = m.SeoKeywords
             };
         }
 
