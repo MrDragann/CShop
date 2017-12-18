@@ -14,9 +14,9 @@
     Product.ProductEditFormModel = function (theParams) {
         theParams = theParams || {};
         this.UrlSaveChanges = theParams.UrlSaveChanges;
-        this.UrlBackToList = theParams.UrlBackToList;
+        this.UrlMoveToEdit = theParams.UrlMoveToEdit;
         this.UrlUploadPhotos = theParams.UrlUploadPhotos;
-        
+        this.UrlDeletePhoto = theParams.UrlDeletePhoto;
 
         this.Product = new Product.ProductModel(theParams.Model.Product);
         this.Categories = ko.observableArray(theParams.Model.Categories);
@@ -31,20 +31,33 @@
      */
     Product.ProductEditFormModel.prototype.constructor = Product.ProductEditFormModel;
 
-    Product.ProductEditFormModel.prototype.SaveChanges = function() {
+    Product.ProductEditFormModel.prototype.CollagePhotos = function () {
+        var time = 600;
+        setTimeout(function () {
+            $('.Collage').removeWhitespace().collagePlus(
+                {
+                    'fadeSpeed': 2000,
+                    'targetHeight': 200,
+                    'effect': 'effect-6',
+                    'allowPartialLastRow': true
+                });
+        }, time);
+    }
+
+    Product.ProductEditFormModel.prototype.SaveChanges = function () {
         var self = this;
         var model = self.Product.GetData();
         $.post(self.UrlSaveChanges, { model: model })
             .success(function (res) {
                 if (res.IsSuccess) {
                     var formData = new FormData();
-                    //var photoFiles = document.getElementById('PhotoFiles').files;
-                    //if (photoFiles) {
-                    //    photoFiles.forEach(function (file, i) {
-                    //        formData.append("photoFiles" + i, file);
-                    //    });
-                    //}
-                    
+                    var photoFiles = document.getElementById('PhotoFiles').files;
+                    if (photoFiles) {
+                        $.each(photoFiles, function (i, file) {
+                            formData.append("photoFiles[" + i + "]", file);
+                        });
+                    }
+
                     var preview = document.getElementById("PhotoFile").files[0];
                     if (preview) {
                         formData.append("photoFile", preview);
@@ -57,9 +70,9 @@
                         processData: false,
                         data: formData,
                         success: function (result) {
-                            bootbox.alert(res.Message, e => location.href = self.UrlBackToList);
+                            bootbox.alert(res.Message, e => location.href = self.UrlMoveToEdit + "/" + res.Value);
                         },
-                        error: function(err) {
+                        error: function (err) {
                             console.log(err);
                         }
                     });
@@ -68,9 +81,26 @@
                 else
                     bootbox.alert(res.Message);
             })
-        .fail(function(res) {
-                console.log('res:', res);
-            });
+        .fail(function (res) {
+            console.log('res:', res);
+        });
     }
+
+    Product.ProductEditFormModel.prototype.DeletePhoto = function (data) {
+        var self = this;
+        bootbox.confirm("Вы действительно хотите удалить изображение?", function (e) {
+            if (e) {
+                $.post(self.UrlDeletePhoto, {productId:self.Product.Id(),photo:data})
+                    .success(function (res) {
+                        if (res) {
+                            self.Product.Photos.remove(data);
+                        }
+                    })
+                    .fail(function (res) {
+                        console.log('res:', res);
+                    });;
+            }
+        });
+    };
 
 })();

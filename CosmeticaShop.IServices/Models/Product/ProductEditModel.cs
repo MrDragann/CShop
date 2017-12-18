@@ -63,6 +63,11 @@ namespace CosmeticaShop.IServices.Models.Product
         public string PhotoUrl { get; set; }
 
         /// <summary>
+        /// Сиписок Url изображений
+        /// </summary>
+        public List<string> Photos { get; set; }
+
+        /// <summary>
         /// Присутствует на складе
         /// </summary>
         public bool IsInStock { get; set; }

@@ -35,6 +35,7 @@
         this.TagsId = ko.observableArray(theParams.TagsId || []);
 
         this.PhotoUrl = ko.observable(theParams.PhotoUrl || "");
+        this.Photos = ko.observableArray(theParams.Photos || []);
         return this;
     };
 

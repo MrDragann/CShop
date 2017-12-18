@@ -3,7 +3,10 @@
 @{
     ViewBag.Title = (Model.Product.Id == 0 ? "Добавление" : "Редактирование") + " товара";
 }
-
+@section styles{
+    <link href="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/css/transitions.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/support/examples.css" rel="stylesheet" />
+}
 @section breadcrumb
 {
     <ul class="page-breadcrumb breadcrumb">
@@ -19,6 +22,31 @@
             <span class="active">@(Model.Product.Id==0?"Добавление":"Редактирование")</span>
         </li>
     </ul>
+}
+@section scripts
+{
+    <script src="~/Scripts/jquery.liTranslit.js"></script>
+<script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/jquery.collagePlus.js"></script>
+<script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/extras/jquery.removeWhitespace.js"></script>
+<script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/extras/jquery.collageCaption.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Product/ProductModel.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Product/ProductEditFormModel.js"></script>
+    <script>
+        $(function() {
+            $('#Name').liTranslit({
+                elAlias: $('#key_url'),
+                reg: '" "="-"'
+            });
+
+        });
+        var params = {};
+        params.Model = @Html.Raw(JsonConvert.SerializeObject(Model));
+        params.UrlSaveChanges = '@Url.Action("UpdateProduct", "Product")';
+        params.UrlMoveToEdit = '/Admin/Product/EditProduct';
+        params.UrlUploadPhotos = '@Url.Action("UploadProductPhotos", "Product")';
+        params.UrlDeletePhoto = '@Url.Action("DeletePhoto", "Product")';
+        var FormModel = new Product.ProductEditFormModel(params);
+    </script>
 }
 
 <div class="row">
@@ -44,7 +72,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#photos" data-toggle="tab">
+                            <a href="#photos" data-toggle="tab" data-bind="click:FormModel.CollagePhotos">
                                 Фото
                             </a>
                         </li>
@@ -152,7 +180,7 @@
                             
                             <div class="tab-pane fade" id="photos">
                                 <div class="form-group form-md-line-input">
-                                    <label class="control-label col-md-2" for="PhotoFile">Фото</label>
+                                    <label class="control-label col-md-2" for="PhotoFile">Превью</label>
                                     <div class="col-md-8">
                                         <div class="fileinput fileinput-new" data-provides="fileinput">
                                             <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 100%; height: 160px;">
@@ -175,8 +203,35 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group form-md-line-input">
+                                    <div class="col-md-offset-2 col-md-10 fileupload-buttonbar">
+                                        <div class="col-lg-5" style="padding:0;">
+                                            <span class="btn green fileinput-button">
+                                                <i class="fa fa-plus"></i>
+                                                <span>
+                                                    Выбрать файлы...
+                                                </span>
+                                                <input type="file" name="files" id="PhotoFiles" multiple="">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="Description">Фото товара</label>
+                                    <div class="col-md-10">
+                                        <div class="Collage">
+                                            <!-- ko foreach: Photos-->
+                                            <div class="Image_Wrapper">
+                                                <button data-bind="click:FormModel.DeletePhoto.bind(FormModel)" class="btn btn-circle btn-danger fa fa-remove" style="color: #000;position: absolute;right: 12px;top: 12px;" title="Удалить"></button>
+                                                <img data-bind="attr:{src:$data}" style="max-width: 300px;">
+                                            </div>
+                                            <!--/ko-->
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                         <div class="form-group form-md-line-input">
                             <div class="col-md-offset-2 col-md-10">
                                 <button data-bind="click:FormModel.SaveChanges.bind(FormModel)" type="button" id="save-changes" class="btn blue">Сохранить</button>
@@ -188,24 +243,3 @@
         </div>
     </div>
 </div>
-
-@section scripts
-{
-    <script src="~/Scripts/jquery.liTranslit.js"></script>
-    <script src="~/Areas/Admin/assets/js/Form/Product/ProductModel.js"></script>
-    <script src="~/Areas/Admin/assets/js/Form/Product/ProductEditFormModel.js"></script>
-    <script>
-        $(function() {
-            $('#Name').liTranslit({
-                elAlias: $('#key_url'),
-                reg: '" "="-"'
-            });
-        });
-        var params = {};
-        params.Model = @Html.Raw(JsonConvert.SerializeObject(Model));
-        params.UrlSaveChanges = '@Url.Action("UpdateProduct", "Product")';
-        params.UrlBackToList = '@Url.Action("Index", "Product")';
-        params.UrlUploadPhotos = '@Url.Action("UploadProductPhotos", "Product")';
-        var FormModel = new Product.ProductEditFormModel(params);
-    </script>
-}

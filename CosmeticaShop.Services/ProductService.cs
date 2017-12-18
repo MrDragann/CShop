@@ -114,6 +114,7 @@ namespace CosmeticaShop.Services
             {
                 var product = db.Products.Include(x=>x.Brand).FirstOrDefault(x => x.Id == id);
                 var model = ConvertToProductEditModel(product);
+                model.Photos = FileManager.GetFileUrls(EnumDirectoryType.Product, id.ToString());
                 //model.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, model.Id.ToString());
                 return model;
             }
@@ -238,6 +239,7 @@ namespace CosmeticaShop.Services
                 if (product == null)
                     return new BaseResponse<ProductEditModel>(EnumResponseStatus.Error, "Товар не найден", new ProductEditModel());
                 product.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, productId.ToString());
+                product.Photos = FileManager.GetFileUrls(EnumDirectoryType.Product, productId.ToString());
                 return new BaseResponse<ProductEditModel>(EnumResponseStatus.Success, product);
             }
         }

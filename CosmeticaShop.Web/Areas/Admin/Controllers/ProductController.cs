@@ -62,14 +62,14 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
                 Categories = _categoryService.GetBaseProductCategories(),
                 Tags = _productService.GetProductTagsList()
             };
-            return View("~/Areas/Admin/Views/Product/AddProduct.cshtml",model);
+            return View("~/Areas/Admin/Views/Product/AddProduct.cshtml", model);
         }
 
         [ValidateInput(false)]
         [HttpPost]
         public ActionResult UpdateProduct(ProductEditModel model)
         {
-            var response = model.Id == 0 
+            var response = model.Id == 0
                 ? _productService.AddProduct(model)
                 : _productService.EditProduct(model);
             return Json(response);
@@ -83,19 +83,24 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadProductPhotos(HttpPostedFileBase photoFile, int productId)
+        public ActionResult UploadProductPhotos(HttpPostedFileBase photoFile, List<HttpPostedFileBase> photoFiles, int productId)
         {
-            if (photoFile == null)
-                return Json("Нет файлов для загрузки");
-            FileManager.SaveImage(photoFile, EnumDirectoryType.Product, FileManager.PreviewName, 
+            if (photoFile != null)
+                FileManager.SaveImage(photoFile, EnumDirectoryType.Product, FileManager.PreviewName,
                 productId.ToString());
-            //foreach (string file in photoFiles)
-            //{
-            //    var upload = photoFiles[file];
-            //    var newFileName = Guid.NewGuid() + Path.GetFileNameWithoutExtension(upload.FileName);
-            //    FileManager.SaveImage(upload, EnumDirectoryType.Product, newFileName, productId.ToString());
-            //}
+            if (photoFiles != null)
+                foreach (var file in photoFiles)
+                {
+                    var newFileName = Guid.NewGuid() + Path.GetFileNameWithoutExtension(file.FileName);
+                    FileManager.SaveImage(file, EnumDirectoryType.Product, newFileName, productId.ToString());
+                }
             return Json("Загрузка завершена");
+        }
+        [HttpPost]
+        public ActionResult DeletePhoto(int productId, string photo)
+        {
+            var deleteStatus = FileManager.DeleteFile(EnumDirectoryType.Product, productId.ToString(), photo);
+            return Json(deleteStatus);
         }
 
         #region [ Теги товаров ]
@@ -162,7 +167,7 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         public ActionResult AddBrand()
         {
             var model = new BaseResponse<BrandModel>(new BrandModel());
-            return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml",model);
+            return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml", model);
         }
 
         [HttpPost]
@@ -171,13 +176,13 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             var response = _productService.AddBrand(model);
             if (response.IsSuccess)
                 return RedirectToAction("Brands");
-            return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml",(BaseResponse<BrandModel>) response);
+            return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml", (BaseResponse<BrandModel>)response);
         }
 
         public ActionResult EditBrand(int id)
         {
             var model = _productService.GetBrandModel(id);
-            if(model.IsSuccess)
+            if (model.IsSuccess)
                 return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml", model);
             return RedirectToAction("Brands");
         }
