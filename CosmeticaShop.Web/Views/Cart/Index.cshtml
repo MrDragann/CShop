@@ -12,6 +12,8 @@
     
     <script>
         var params = {};
+        params.UrlPreparationOrder = '@Url.Action("PreparationOrder","Cart")';
+        params.UrlOrder = '@Url.Action("Index","Order")';
         params.UrlDeleteProduct = '@Url.Action("DeleteProduct","Cart")';
         params.Model = @Html.Raw(JsonConvert.SerializeObject(Model));
         var ViewModel = new Cart.CartViewModel(params);
@@ -122,7 +124,7 @@
                     </div>
                 </div>
                 <div class="cart-footer">
-                    <button class="btn-pink" data-bind="click:ViewModel.GetOrder">Plasează comanda</button>
+                    <button class="btn-pink" data-bind="click:ViewModel.PreparationOrder.bind(ViewModel)">Plasează comanda</button>
                 </div>
             </div>
         </div>

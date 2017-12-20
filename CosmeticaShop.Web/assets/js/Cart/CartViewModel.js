@@ -5,6 +5,8 @@
     Cart.CartViewModel = function (theParams) {
         theParams = theParams || {};
         this.UrlDeleteProduct = theParams.UrlDeleteProduct;
+        this.UrlOrder = theParams.UrlOrder;
+        this.UrlPreparationOrder = theParams.UrlPreparationOrder;
         this.Model = ko.observableArray(theParams.Model ? theParams.Model.map(function (item) { return new Cart.CartModel(item) }) : []);
         this.Amount = ko.observable(theParams.Amount || 0);        
         this.GetAmount();
@@ -27,11 +29,16 @@
      * Оформить заказ
      * @returns {} 
      */
-    Cart.CartViewModel.prototype.GetOrder = function () {
+    Cart.CartViewModel.prototype.PreparationOrder = function () {
         var self = this;
-        this.Amount(0);
-        this.Model().forEach(function (item) {
-            self.Amount(self.Amount() + item.Amount());
+ 
+        $.post(this.UrlPreparationOrder, {
+            productsOrder: self.Model().map(function(item) { return item.GetData(); })
+        }).success(function (res) {
+            if (res.IsSuccess) {
+                location.href = self.UrlOrder + "?orderId=" + res.Value;
+            }
+
         });
     };
 

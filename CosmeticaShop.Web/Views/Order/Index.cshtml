@@ -1,8 +1,21 @@
-﻿
+﻿@using Newtonsoft.Json
+@model CosmeticaShop.IServices.Models.Order.OrderHeaderModel
 @{
     ViewBag.Title = "Index";
 }
+@section Scripts
+{
 
+    <script src="~/assets/js/Order/OrderHeaderModel.js"></script>
+    <script src="~/assets/js/Order/OrderViewModel.js"></script>
+    <script>
+        var params = {};
+        params.UrlAddOrder = '@Url.Action("AddOrder","Order")';
+        params.Model =  @Html.Raw(JsonConvert.SerializeObject(Model));
+        params.Model.Address =  @Html.Raw(JsonConvert.DeserializeObject(Model.Address));
+        var ViewModel = new Order.OrderViewModel(params);
+    </script>
+}
 
 <div class="row">
     <div class="col-md-12 white-container marginB-heigth-10">
@@ -12,7 +25,7 @@
     </div>
 </div>
 
-<div class="row margin-bottom-30">
+<div class="row margin-bottom-30" data-bind="with:ViewModel">
     <div class="col-md-12 white-container">
         <div class="row">
             <div class="form-order">
@@ -29,7 +42,7 @@
                 </div>*@
 
 
-                <form>
+                <div data-bind="with:Model">
                     <div class="item-form">
                         <div class="title-item-form">Adresa de e-mail pentru confirmarea comenzii:</div>
                         <div class="form-group col-md-12 row">
@@ -37,7 +50,7 @@
                                 <label>E-mail</label>
                             </div>
                             <div class="col-md-3">
-                                <input name="Email" type="email" class="form-control" />
+                                <input name="Email" type="email" class="form-control" value="@User.Email" />
                             </div>
                         </div>
                     </div>
@@ -50,7 +63,7 @@
                                     <label>Țara:</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input name="Country" type="email" class="form-control" />
+                                    <input name="Country" type="text" class="form-control" data-bind="textInput:Country"/>
                                 </div>
                             </div>
                             <div class="address-form col-md-3">
@@ -58,7 +71,7 @@
                                     <label>Orașul:</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input name="Town" type="text" class="form-control" />
+                                    <input name="Town" type="text" class="form-control" data-bind="textInput:City"/>
                                 </div>
                             </div>
                             <div class="address-form col-md-3">
@@ -66,7 +79,7 @@
                                     <label>Adresa:</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input name="Adresa:" type="text" class="form-control" />
+                                    <input name="Adresa:" type="text" class="form-control"data-bind="textInput:Address" />
                                 </div>
                             </div>
                             <div class="address-form col-md-3">
@@ -74,7 +87,7 @@
                                     <label>Telefon:</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input name="Phone" type="text" class="form-control" />
+                                    <input name="Phone" type="text" class="form-control" data-bind="textInput:Phone" />
                                 </div>
                             </div>
 
@@ -100,17 +113,17 @@
                     </div>
 
                     <div class="item-form col-md-12">
-                        <div class="title-item-form " align="center">Suma totală spre plată 450 lei.</div>
+                        <div class="title-item-form " align="center">Suma totală spre plată <span data-bind="text:Amount"></span> lei.</div>
                        
                     </div>
 
                     <div class="item-form footer col-md-12">
                         <div class="col-md-offset-5">
-                            <button class="btn-pink">Confirmă comanda</button>
+                            <button class="btn-pink" data-bind="click:$parent.AddOrder.bind($parent)">Confirmă comanda</button>
                         </div>
 
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

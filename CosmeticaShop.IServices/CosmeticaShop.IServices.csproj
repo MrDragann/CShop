@@ -106,6 +106,7 @@
     <Compile Include="Models\SitePage\SitePageModel.cs" />
     <Compile Include="Models\Slider\SliderModel.cs" />
     <Compile Include="Models\Slider\SliderEditModel.cs" />
+    <Compile Include="Models\User\AddressModel.cs" />
     <Compile Include="Models\User\ChangePasswordModel.cs" />
     <Compile Include="Models\User\UserBaseModel.cs" />
     <Compile Include="Models\User\UserDetailModel.cs" />

@@ -9,7 +9,7 @@
         this.ProductId = ko.observable(theParams.ProductId || 0);
         this.Name = ko.observable(theParams.Product.Name || "");
         this.Price = ko.observable(theParams.Price || 0);
-        this.Amount = ko.observable(theParams.Amount || 0);
+        this.Amount = ko.observable(theParams.Amount / theParams.Quantity || 0);
         this.BrandName = ko.observable(theParams.Product.BrandName || "");
         this.Decimal = ko.observable(theParams.Decimal || 0);
         this.PhotoUrl = ko.observable(theParams.Product.PhotoUrl || "");
@@ -17,7 +17,7 @@
         this.DateCreateView = ko.observable(theParams.DateCreateView || "");
         this.Quantity = ko.observable(theParams.Quantity || 1);
         self.AmountPrice = ko.observable(theParams.Amount || 0);
-        this.Quantity.subscribe(function (item) {
+        this.Quantity.subscribe(function (item) {           
             self.AmountPrice(self.Amount() * item);       
             ViewModel.GetAmount();
         });
@@ -35,11 +35,8 @@
     Cart.CartModel.prototype.GetData = function () {
         return {
             Id: this.Id(),
-            Name: this.Name(),
-            Description: this.Description(),
-            Price: this.Price(),
-            Discount: this.Discount(),
-            PhotoUrl: this.PhotoUrl()
+            ProductId: this.ProductId(),
+            Quantity: this.Quantity()
         }
     }
 
