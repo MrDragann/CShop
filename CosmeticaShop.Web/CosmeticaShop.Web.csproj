@@ -1818,6 +1818,8 @@
     <Content Include="assets\js\Authorization\AuthorizationFormModel.js" />
     <Content Include="assets\js\Authorization\RegisterFormModel.js" />
     <Content Include="assets\js\Cabinet\PersonalFormModel.js" />
+    <Content Include="assets\js\Cart\CartModel.js" />
+    <Content Include="assets\js\Cart\CartViewModel.js" />
     <Content Include="assets\js\Common\DateSelect.js" />
     <Content Include="assets\js\Contacts\ViewModel.js" />
     <Content Include="assets\js\Knockout-Extanstion\tab-knockout.js" />
@@ -1830,6 +1832,7 @@
     <Content Include="assets\js\Product\ProductDetailModel.js" />
     <Content Include="assets\js\Product\ProductDetailViewModel.js" />
     <Content Include="assets\js\Product\ProductFilter.js" />
+    <Content Include="assets\js\Product\ProductLineView.js" />
     <Content Include="assets\js\Product\ProductModel.js" />
     <Content Include="assets\js\Product\ProductViewModel.js" />
     <Content Include="assets\js\User\UserModel.js" />

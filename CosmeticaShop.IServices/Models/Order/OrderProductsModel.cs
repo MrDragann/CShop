@@ -39,6 +39,10 @@ namespace CosmeticaShop.IServices.Models.Order
         /// </summary>
         public decimal Amount { get; set; }
         /// <summary>
+        /// Цена со скидкой
+        /// </summary>
+        public decimal DiscountPrice { get; set; }
+        /// <summary>
         /// Признак удаления
         /// </summary>
         public DateTime? IsDelete { get; set; }

@@ -10,6 +10,7 @@ using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Order;
 using CosmeticaShop.IServices.Models.Product;
+using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.Services.Static;
 
 namespace CosmeticaShop.Services
@@ -43,7 +44,36 @@ namespace CosmeticaShop.Services
                 return productsCart;
             }
         }
-
+        /// <summary>
+        /// Удалить товар из корзины
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <param name="productId">Ид товара</param>
+        /// <returns></returns>
+        public BaseResponse DeleteProduct(Guid userId,int productId)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var order = db.OrderHeaders.Include(x => x.OrderProducts).FirstOrDefault(x => x.UserId == userId && x.Status == (int)EnumStatusOrder.Cart);
+                    if (order == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Корзина не найдена");
+                    var product = order.OrderProducts.FirstOrDefault(x => x.ProductId == productId);
+                    if (product ==null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Товар не найден");
+                    db.OrderProducts.Remove(product);
+                    order.Amount -= product.Amount * product.Quantity;
+                    db.SaveChanges();
+                    return new BaseResponse(EnumResponseStatus.Success);
+                }
+            }
+            catch (Exception e)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception,e.Message);
+            }
+           
+        }
         #region Конвертация
 
         public OrderProductsModel ConvertToProductModel(OrderProduct m)
@@ -76,8 +106,7 @@ namespace CosmeticaShop.Services
                 Price = m.Price,
                 DiscountPercent = m.Discount,
                 PhotoUrl = m.PhotoUrl,
-                //todo:вынести в функцию
-                DiscountPrice = Math.Floor(m.Price - (m.Price * m.Discount / 100))
+                DiscountPrice = CalculationService.GetDiscountPrice(m.Price,m.Discount)
             };
         }
         #endregion

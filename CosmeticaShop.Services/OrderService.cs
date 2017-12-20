@@ -49,10 +49,14 @@ namespace CosmeticaShop.Services
                             DateCreate = DateTime.Now,
                             Status = (int) EnumStatusOrder.Cart,
                             Address = JsonConvert.SerializeObject(new {Address = user.UserAddress.Address,City = user.UserAddress.City,Country = user.UserAddress.Country,Phone = user.UserAddress.Phone}),
-                            Amount = (product.Price - product.Discount) * quantity
+                            Amount = CalculationService.GetDiscountPrice(product.Price, product.Discount) * quantity
                         };
                         db.OrderHeaders.Add(order);
                         db.SaveChanges();              
+                    }
+                    else
+                    {
+                        order.Amount+= CalculationService.GetDiscountPrice(product.Price, product.Discount) * quantity;
                     }
                     db.OrderProducts.Add(new OrderProduct()
                     {
@@ -61,7 +65,7 @@ namespace CosmeticaShop.Services
                         Price = product.Price,
                         Quantity = quantity,
                         Discount = product.Discount,
-                        Amount = (product.Price - product.Discount) * quantity,
+                        Amount =  CalculationService.GetDiscountPrice(product.Price,product.Discount) * quantity,
                     });
                     db.SaveChanges();
                     return new BaseResponse(EnumResponseStatus.Success,"Товар успешно добавлен в корзину");

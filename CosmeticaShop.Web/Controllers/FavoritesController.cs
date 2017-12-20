@@ -1,13 +1,19 @@
 ﻿using System.Web.Mvc;
+using CosmeticaShop.IServices;
+using CosmeticaShop.Services;
+using CosmeticaShop.Web.Infrastructure;
 
 namespace CosmeticaShop.Web.Controllers
 {
     public class FavoritesController : BaseController
     {
-        // GET: Favorites
+        
+        private static IWishService _wishService = new WishService();
         public ActionResult Index()
         {
-            return View();
+            var userId = new WebUser().UserId;
+            var model = _wishService.GetWishs(userId);
+            return View(model);
         }
     }
 }

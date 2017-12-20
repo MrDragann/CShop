@@ -130,9 +130,8 @@ namespace CosmeticaShop.Services
                 Name = m.Name,
                 BrandName = m.Brand?.Name,
                 Price = m.Price,
-                DiscountPercent = m.Discount,
-                //todo:вынести в функцию
-                DiscountPrice = Math.Floor(m.Price-(m.Price*m.Discount/100))
+                DiscountPercent = m.Discount,                
+                DiscountPrice = CalculationService.GetDiscountPrice(m.Price,m.Discount)
             };
         }
         private ProductEditModel ConvertToProductEditModel(Product m)

@@ -1,9 +1,22 @@
-﻿@model List<CosmeticaShop.IServices.Models.Order.OrderProductsModel>
+﻿@using CosmeticaShop.Services.Static
+@using Newtonsoft.Json
+@model List<CosmeticaShop.IServices.Models.Order.OrderProductsModel>
 @{
     ViewBag.Title = "Index";
 }
 
+@section Scripts {
 
+    <script src="~/assets/js/Cart/CartModel.js"></script>
+    <script src="~/assets/js/Cart/CartViewModel.js"></script>
+    
+    <script>
+        var params = {};
+        params.UrlDeleteProduct = '@Url.Action("DeleteProduct","Cart")';
+        params.Model = @Html.Raw(JsonConvert.SerializeObject(Model));
+        var ViewModel = new Cart.CartViewModel(params);
+    </script>
+}
 
 <div class="row">
     <div class="col-md-12 white-container marginB-heigth-10">
@@ -14,59 +27,52 @@
 </div>
 
 <div class="row">
-    <div class="col-md-9 white-container cart-container">
+    <div class="col-md-9 white-container cart-container" data-bind="with:ViewModel">
         <div class="row">
             <div class="block ">
                 <div class="title-block">
                     Produse în coș: <span>@Model.Count</span>
                 </div>
-                <div class="content">
-                    @foreach (var product in Model)
-                    {
+                <div class="content" data-bind="foreach:Model">
+                 
                         <div class="row">
                             <div class="item-cart">
-                                <div class="col-md-8 padding-0" >
-                                    <div class="col-md-3 padding-0" >
-                                        <img src="@product.Product.PhotoUrl"/>
+                                <div class="col-md-8 padding-0">
+                                    <div class="col-md-3 padding-0">
+                                        <img data-bind="attr:{src:PhotoUrl}" />
                                     </div>
                                     <div class="col-md-9">
-                                        <div class="title-cart">
-                                          @product.Product.Name
+                                        <div class="title-cart" data-bind="text:Name">
+                                    
                                         </div>
-                                        <div class="description">
-                                            @product.Product.BrandName
+                                        <div class="description" data-bind="text:BrandName">
+                                            
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 right-container-cart">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <select class="form-control select-count cart-select">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                                <option>6</option>
-                                                <option>7</option>
-                                                <option>8</option>
-                                                <option>9</option>
-                                                <option>10</option>
+                                            <select class="form-control select-count cart-select" data-bind="value:Quantity">
+                                            @for (var i = 1; i < 10; i++)
+                                            {
+                                                <option value="@i">@i</option>
+                                            }
                                             </select>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="title-container">
-                                                Preț: @product.Price Lei
+                                                Preț:<span data-bind="text:AmountPrice"></span> Lei
                                             </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <button class="btn-pink close-pink-btn">X</button>
+                                            <button class="btn-pink close-pink-btn" data-bind="click:ViewModel.DeleteProduct.bind(ViewModel,ProductId())">X</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    }
+                  
 
                 </div>
             </div>
@@ -85,7 +91,7 @@
                             Total pentru produse
                         </div>
                         <div class="col-md-4 value-menu">
-                            450 lei
+                            <span data-bind="text:ViewModel.Amount"></span> lei
                         </div>
                     </div>
                     <div class="row">
@@ -104,7 +110,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 col-md-offset-1">
-                        450 lei
+                        <span data-bind="text:ViewModel.Amount"></span> lei
                     </div>
                 </div>
                 <div class="cart-promo">
@@ -116,7 +122,7 @@
                     </div>
                 </div>
                 <div class="cart-footer">
-                    <button class="btn-pink">Plasează comanda</button>
+                    <button class="btn-pink" data-bind="click:ViewModel.GetOrder">Plasează comanda</button>
                 </div>
             </div>
         </div>
@@ -272,4 +278,3 @@
         </div>
     </section>
 </div>
-    

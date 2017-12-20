@@ -14,5 +14,12 @@ namespace CosmeticaShop.Web.Controllers
             var model = _cartService.GetCart(userId);
             return View(model);
         }
+
+        public ActionResult DeleteProduct(int productId)
+        {
+            var userId = new WebUser().UserId;
+            var response = _cartService.DeleteProduct(userId, productId);
+            return Json(response);
+        }
     }
 }

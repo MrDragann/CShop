@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CosmeticaShop.IServices.Models.Order;
+using CosmeticaShop.IServices.Models.Responses;
 
 namespace CosmeticaShop.IServices.Interfaces
 {
@@ -16,5 +17,12 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <returns></returns>
         List<OrderProductsModel> GetCart(Guid userId);
 
+        /// <summary>
+        /// Удалить товар из корзины
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <param name="productId">Ид товара</param>
+        /// <returns></returns>
+        BaseResponse DeleteProduct(Guid userId, int productId);
     }
 }
