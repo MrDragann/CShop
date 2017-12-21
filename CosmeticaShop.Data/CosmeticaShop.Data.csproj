@@ -58,9 +58,14 @@
     <Compile Include="Migrations\201712122113043_productTagsWManyCategories.Designer.cs">
       <DependentUpon>201712122113043_productTagsWManyCategories.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712212308259_couponRelOrderHeader.cs" />
+    <Compile Include="Migrations\201712212308259_couponRelOrderHeader.Designer.cs">
+      <DependentUpon>201712212308259_couponRelOrderHeader.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Coupon.cs" />
     <Compile Include="Models\OrderHeader.cs" />
     <Compile Include="Models\OrderProduct.cs" />
     <Compile Include="Models\Product.cs" />
@@ -85,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712122113043_productTagsWManyCategories.resx">
       <DependentUpon>201712122113043_productTagsWManyCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712212308259_couponRelOrderHeader.resx">
+      <DependentUpon>201712212308259_couponRelOrderHeader.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

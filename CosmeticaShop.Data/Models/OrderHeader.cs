@@ -22,6 +22,10 @@ namespace CosmeticaShop.Data.Models
         /// </summary>
         public Guid UserId { get; set; }
         /// <summary>
+        /// Ид купона
+        /// </summary>
+        public int? CouponId { get; set; }
+        /// <summary>
         /// Дата создание заказа
         /// </summary>
         public DateTime DateCreate { get; set; }
@@ -46,6 +50,11 @@ namespace CosmeticaShop.Data.Models
         #endregion
 
         #region [ Связанные объекты ]
+
+        /// <summary>
+        /// Связь с купоном
+        /// </summary>
+        public Coupon Coupon { get; set; }
 
         /// <summary>
         /// Связь с таблицей товаров заказов

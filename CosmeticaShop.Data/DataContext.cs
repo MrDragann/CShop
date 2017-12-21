@@ -68,6 +68,11 @@ namespace CosmeticaShop.Data
         /// </summary>
         public DbSet<ProductTag> ProductTags { get; set; }
 
+        /// <summary>
+        /// Таблица купонов
+        /// </summary>
+        public DbSet<Coupon> Coupons { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder mb)
         {
             #region User
@@ -134,6 +139,12 @@ namespace CosmeticaShop.Data
 
             #endregion
 
+            #region Coupon
+
+            mb.Entity<Coupon>().Property(_ => _.Code).HasMaxLength(32);
+
+            #endregion
+
             #region Brand
 
             mb.Entity<Brand>().Property(_ => _.Name).HasMaxLength(128);
@@ -166,6 +177,7 @@ namespace CosmeticaShop.Data
             mb.Entity<OrderHeader>().Property(_ => _.Address).HasMaxLength(512);
 
             mb.Entity<OrderHeader>().HasRequired(x=>x.User).WithMany(x=>x.OrderHeaders).HasForeignKey(x=>x.UserId);
+            mb.Entity<OrderHeader>().HasOptional(x=>x.Coupon).WithMany(x=>x.OrderHeaders).HasForeignKey(x=>x.CouponId);
 
             #endregion
 
