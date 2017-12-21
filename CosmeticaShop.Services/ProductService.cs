@@ -95,6 +95,10 @@ namespace CosmeticaShop.Services
                 {
                     query = query.Where(x => request.CategoriesId.Any(m =>x.Categories.Any(c=>c.Id == m))).ToList();
                 }
+                if (!string.IsNullOrEmpty(request?.Search))
+                {
+                    query = query.Where(x => x.Name.Contains(request.Search)).ToList();
+                }
                 var products = query.Select(ConvertToProductBaseModel).ToList();
                 products.ForEach(x =>
                 {

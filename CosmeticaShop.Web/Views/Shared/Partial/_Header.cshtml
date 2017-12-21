@@ -34,51 +34,34 @@
                 <a href="@Url.Action("Index","Favorites")">
                     <i class="icon-big-like"></i>
                 </a>
-              <div id="dropdown-cart-head" style="display:inline-block;">
+              <div id="dropdown-cart-head" style="display:inline-block;" data-bind="with:CartHeaderModel">
                   <div class="dropdown-cart" id="dropdown-cart">
                       <div class="title col-md-12">
-                          2 produse în coș
+                          <span data-bind="text:Model().length"></span> produse în coș
                       </div>
+                      <!--ko if:Model().length>0-->
+                      <!--ko foreach:Model-->
                       <div class="dropdown-item-cart row col-md-12">
                           <div class="col-md-9 info">
                               <div class="col-md-2 img">
-                                  <img src="~/assets/img/Temp/product2.png" />
+                                  <img data-bind="attr:{src:PhotoUrl}" />
                               </div>
                               <div class="col-md-10 content">
-                                  <div class="title-product">
-                                      Bio Phyto Mild Facial Cleanser
+                                  <div class="title-product" data-bind="text:Name">
+                                   
                                   </div>
-                                  <div class="info">
+                                  <div class="info" data-bind="text:BrandName">
                                       Christina Cosmetics
                                   </div>
                               </div>
                           </div>
                           <div class="col-md-3" align="right">
                               <div class="title-product">
-                                  150 lei
+                                  <span  data-bind="text:Amount"></span> lei
                               </div>
                           </div>
                       </div>
-                      <div class="dropdown-item-cart row col-md-12">
-                          <div class="col-md-9 info">
-                              <div class="col-md-2 img">
-                                  <img src="~/assets/img/Temp/product2.png" />
-                              </div>
-                              <div class="col-md-10 content">
-                                  <div class="title-product">
-                                      Bio Phyto Mild Facial Cleanser
-                                  </div>
-                                  <div class="info">
-                                      Christina Cosmetics
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="col-md-3" align="right">
-                              <div class="title-product">
-                                  150 lei
-                              </div>
-                          </div>
-                      </div>
+                      <!--/ko-->                    
                       <div class="footer">
                           <div class="row col-md-12">
                               <div class="col-md-7" align="center">
@@ -92,20 +75,21 @@
                                       <div class="col-md-7 info" align="center">
                                           Total în coș
                                       </div>
-                                      <div class="col-md-5 value" align="right">
-                                          300 lei
+                                      <div class="col-md-5 value" align="right" >
+                                          <span data-bind="text:Amount"></span> lei
                                       </div>
                                   </div>
                                   <div class="col-md-12 item-btn">
-                                      <a href="@Url.Action("Index","Order")" class="btn-pink">
+                                      <a data-bind="click:CartHeaderModel.PreparationOrder.bind(CartHeaderModel)" style="cursor: pointer;" class="btn-pink">
                                           Plasează comanda
                                       </a>
                                   </div>
                               </div>
                           </div>
                       </div>
+                      <!--/ko-->
                   </div>
-                  <a href="@Url.Action("Index","Cart")"><i class="icon-cart" id="icon-cart-header"></i><span class="count-cart">2</span></a>
+                  <a href="@Url.Action("Index","Cart")"><i class="icon-cart" id="icon-cart-header"></i><span class="count-cart" data-bind="text:Model().length"></span></a>
               </div>
               
             </div>
@@ -228,8 +212,8 @@
                 </ul>
             </div>
             <div class="pull-right">
-                <div class="menu-search">
-                    <input placeholder="căutare" />
+                <div class="menu-search" data-bind="with:SeachFormModel">
+                    <input placeholder="căutare" data-bind="textInput:Search,event:{keypress:function(data,e){if(e.keyCode === 13){GetSearch(SeachFormModel)}else return true;}}" />
                 </div>
             </div>
         </div>

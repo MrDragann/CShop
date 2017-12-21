@@ -29,5 +29,15 @@ namespace CosmeticaShop.Web.Controllers
             var response = _cartService.DeleteProduct(userId, productId);
             return Json(response);
         }
+        /// <summary>
+        /// Загрузить карту
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetCart()
+        {
+            var userId = new WebUser().UserId;
+            var response = _cartService.GetCart(userId);
+            return Json(response);
+        }
     }
 }

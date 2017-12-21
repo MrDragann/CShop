@@ -16,5 +16,9 @@ namespace CosmeticaShop.IServices.Models.Product
         /// Список категорий
         /// </summary>
         public List<int> CategoriesId { get; set; }
+        /// <summary>
+        /// Поиск
+        /// </summary>
+        public string Search { get; set; }
     }
 }

@@ -14,6 +14,7 @@
         params.UrlGetProducts = '@Url.Action("Index","Product")';
         params.Products = @Html.Raw(JsonConvert.SerializeObject(Model.Products));
         params.Filter = @Html.Raw(JsonConvert.SerializeObject(Model.Filter));
+        SeachFormModel.Search(params.Filter.Search);
         var ViewModel = new Product.ProductViewModel(params);
 
     </script>

@@ -18,6 +18,7 @@
         this.CategoriesId = ko.observableArray(theParams.CategoriesId ? theParams.CategoriesId.map(function (item) { return item.toString() }) : []);   
         this.Page = ko.observable(theParams.Page || "");     
         this.Search = ko.observable(theParams.Search || "");
+       
         return this;
     };
 
