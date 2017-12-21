@@ -22,7 +22,7 @@
             }
         </div>
         <div class="col-md-4 item">
-            <div class=" pull-right"> 
+            <div class="pull-right"> 
                 @if (!User.IsAuthorized)
                 {
                 <div class="head-auth"><span data-target="#login-modal" data-toggle="modal">Logare</span> / <span data-target="#registration-modal" data-toggle="modal">Înregistrare</span></div>
@@ -112,105 +112,7 @@
 
         </div>
         <div class="navbar-collapse collapse menu">
-            <div>
-                <ul class="nav navbar-nav">
-                    <li class="dropdown dropdown-large">
-                        <a class="hight-menu" data-toggle="dropdown">branduri</a>
-                        <ul class="dropdown-menu dropdown-menu-large row">
-                            <li>
-                                <ul>
-                                    <li><a href="#">Christina Cosmetics</a></li>
-                                    <li><a href="#">Jean Destrees</a></li>
-                                    <li><a href="#">Loreal</a></li>
-                                    <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>
-                                    <li><a href="#">Christina Cosmetics</a></li>
-                                    <li><a href="#">Jean Destrees</a></li>
-                                    <li><a href="#">Loreal</a></li>
-                                    <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown dropdown-large">
-                        <a class="hight-menu" data-toggle="dropdown">îngrijirea</a>
-                        <ul class="dropdown-menu dropdown-menu-large row">
-                            <li>
-                                <ul>
-                                    <li><a href="#">Christina Cosmetics</a></li>
-                                    <li><a href="#">Jean Destrees</a></li>
-                                    <li><a href="#">Loreal</a></li>
-                                    <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>
-                                    <li><a href="#">Christina Cosmetics</a></li>
-                                    <li><a href="#">Jean Destrees</a></li>
-                                    <li><a href="#">Loreal</a></li>
-                                    <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown dropdown-large">
-                        <a class="hight-menu" data-toggle="dropdown">îngrijirea</a>
-                        <ul class="dropdown-menu dropdown-menu-large row">
-                            <li>
-                                <ul>
-                                    <li><a href="#">Christina Cosmetics</a></li>
-                                    <li><a href="#">Jean Destrees</a></li>
-                                    <li><a href="#">Loreal</a></li>
-                                    <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>
-                                    <li><a href="#">Christina Cosmetics</a></li>
-                                    <li><a href="#">Jean Destrees</a></li>
-                                    <li><a href="#">Loreal</a></li>
-                                    <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown dropdown-large">
-                        <a class="hight-menu" data-toggle="dropdown">produse de unică folosință</a>
-                        <ul class="dropdown-menu dropdown-menu-large row">
-                            <li>
-                                <ul>
-                                    <li><a href="#">Christina Cosmetics</a></li>
-                                    <li><a href="#">Jean Destrees</a></li>
-                                    <li><a href="#">Loreal</a></li>
-                                    <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>
-                                    <li><a href="#">Christina Cosmetics</a></li>
-                                    <li><a href="#">Jean Destrees</a></li>
-                                    <li><a href="#">Loreal</a></li>
-                                    <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown dropdown-large">
-                        <a class="hight-menu" data-toggle="dropdown">reduceri</a>
-                        <ul class="dropdown-menu dropdown-menu-large row">
-                            <li>
-                                <ul>
-                                    <li><a href="#">Christina Cosmetics</a></li>
-                                    <li><a href="#">Jean Destrees</a></li>
-                                    <li><a href="#">Loreal</a></li>
-                                    <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>
-                                    <li><a href="#">Christina Cosmetics</a></li>
-                                    <li><a href="#">Jean Destrees</a></li>
-                                    <li><a href="#">Loreal</a></li>
-                                    <li><a href="#">Maybelline</a></li>
-                                    <li><a href="#">elf cosmetics</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+            @Html.Action("NavigationPartial","Home")
             <div class="pull-right">
                 <div class="menu-search" data-bind="with:SeachFormModel">
                     <input placeholder="căutare" data-bind="textInput:Search,event:{keypress:function(data,e){if(e.keyCode === 13){GetSearch(SeachFormModel)}else return true;}}" />

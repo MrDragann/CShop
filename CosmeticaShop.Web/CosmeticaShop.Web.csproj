@@ -2074,6 +2074,7 @@
     <Content Include="Views\Cabinet\OrderDetail.cshtml" />
     <Content Include="Views\Shared\Partial\SitePage\Slider.cshtml" />
     <Content Include="Views\Shared\Partial\SitePage\SitePageSettings.cshtml" />
+    <Content Include="Views\Shared\Partial\Navigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 using CosmeticaShop.Data;
@@ -8,6 +9,7 @@ using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Base;
+using CosmeticaShop.IServices.Models.Navigation;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.SitePage;
@@ -19,6 +21,53 @@ namespace CosmeticaShop.Services
     public class SitePageSevice: ISitePageSevice
     {
         #region [ Публичная ]
+
+        #region [ Навигация ]
+
+        /// <summary>
+        /// Получить навигацию сайта
+        /// </summary>
+        /// <returns></returns>
+        public NavigationViewModel GetSiteNavigation()
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var model = new NavigationViewModel();
+                    var brands = db.Brands.AsNoTracking().Select(x => new NavigationItemModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        KeyUrl = x.KeyUrl
+                    }).ToList();
+                    model.Brand = new NavigationModel
+                    {
+                        Title = "branduri",
+                        Items = brands
+                    };
+                    var parentCategories = db.Categories.AsNoTracking().Include(x => x.ChildCategories)
+                        .Where(x => !x.ParentId.HasValue).Select(x => new NavigationModel
+                        {
+                            Title = x.Name,
+                            Items = x.ChildCategories.Select(c=>new NavigationItemModel
+                            {
+                                Id = c.Id,
+                                Name = c.Name,
+                                KeyUrl = c.KeyUrl
+                            }).ToList()
+                        }).ToList();
+                    model.Categories = parentCategories;
+                    return model;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new NavigationViewModel();
+            }
+        }
+
+        #endregion
 
         #region [ Настройки страниц ]
 

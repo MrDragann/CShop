@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Models.Base;
+using CosmeticaShop.IServices.Models.Navigation;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.SitePage;
@@ -15,6 +16,16 @@ namespace CosmeticaShop.IServices.Interfaces
     public interface ISitePageSevice
     {
         #region [ Публичная ]
+
+        #region [ Навигация ]
+
+        /// <summary>
+        /// Получить навигацию сайта
+        /// </summary>
+        /// <returns></returns>
+        NavigationViewModel GetSiteNavigation();
+
+        #endregion
 
         #region [ Настройки страниц ]
 

@@ -25,6 +25,14 @@ namespace CosmeticaShop.Web.Controllers
             return View();
         }
 
+        #region [ Шаблоны ]
+
+        public ActionResult NavigationPartial()
+        {
+            var model = _sitePageSevice.GetSiteNavigation();
+            return PartialView("~/Views/Shared/Partial/Navigation.cshtml", model);
+        }
+
         /// <summary>
         /// Получить слайдер
         /// </summary>
@@ -32,14 +40,16 @@ namespace CosmeticaShop.Web.Controllers
         public ActionResult SliderPartial()
         {
             var model = _sitePageSevice.GetSlides();
-            return PartialView("~/Views/Shared/Partial/SitePage/Slider.cshtml",model);
+            return PartialView("~/Views/Shared/Partial/SitePage/Slider.cshtml", model);
         }
 
         public ActionResult SitePageSettings(EnumSitePage page)
         {
             var model = _sitePageSevice.GetSitePageModel(page);
-            return PartialView("~/Views/Shared/Partial/SitePage/SitePageSettings.cshtml",model);
+            return PartialView("~/Views/Shared/Partial/SitePage/SitePageSettings.cshtml", model);
         }
+
+        #endregion
 
         public ActionResult Contacts()
         {

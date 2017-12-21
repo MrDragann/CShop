@@ -1,0 +1,54 @@
+﻿@model CosmeticaShop.IServices.Models.Navigation.NavigationViewModel
+<div class="site-navigation">
+    <ul class="nav navbar-nav">
+        <li class="dropdown dropdown-large">
+            <a class="hight-menu" data-toggle="dropdown">@Model.Brand.Title</a>
+            <ul class="dropdown-menu dropdown-menu-large row">
+                <li>
+                    <ul>
+                        @foreach (var navItem in Model.Brand.Items)
+                        {
+                            <li><a href="@Url.Action("Index","Product",new {BrandiesId=navItem.Id})">@navItem.Name</a></li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        @foreach (var navItem in Model.Categories)
+        {
+            <li class="dropdown dropdown-large">
+                <a class="hight-menu" data-toggle="dropdown">@navItem.Title</a>
+                <ul class="dropdown-menu dropdown-menu-large row">
+                    <li>
+                        <ul>
+                            @foreach (var child in navItem.Items)
+                            {
+                                <li><a href="@Url.Action("Index","Product",new {CategoriesId=child.Id})">@child.Name</a></li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        }
+        
+        <li class="dropdown dropdown-large">
+            <a class="hight-menu" data-toggle="dropdown">reduceri</a>
+            <ul class="dropdown-menu dropdown-menu-large row">
+                <li>
+                    <ul>
+                        <li><a href="#">Christina Cosmetics</a></li>
+                        <li><a href="#">Jean Destrees</a></li>
+                        <li><a href="#">Loreal</a></li>
+                        <li><a href="#">Maybelline</a></li>
+                        <li><a href="#">elf cosmetics</a></li>
+                        <li><a href="#">Christina Cosmetics</a></li>
+                        <li><a href="#">Jean Destrees</a></li>
+                        <li><a href="#">Loreal</a></li>
+                        <li><a href="#">Maybelline</a></li>
+                        <li><a href="#">elf cosmetics</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
