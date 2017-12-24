@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model CosmeticaShop.IServices.Models.Product.ProductEditModel
+@model CosmeticaShop.Web.Models.ProductDetailsView
 @section Styles {
 
     <link href="~/assets/js/Plugins/slick/slick.css" rel="stylesheet" />
@@ -15,7 +15,9 @@
         var params = {};
         urlAddProductCart = '@Url.Action("AddInCart","Product")';
         urlAddProductWish = '@Url.Action("AddInWish","Product")';
-        params.Model = @Html.Raw(JsonConvert.SerializeObject(Model));
+        params.UrlAddReview = '@Url.Action("AddReview","Product")';
+        params.Model = @Html.Raw(JsonConvert.SerializeObject(Model.Product));
+        var urlDeleteWish = '@Url.Action("DeleteWish","Favorites")';
         var ViewModel = new Product.ProductDetailViewModel(params);
     </script>
 }
@@ -69,12 +71,24 @@
 
                 <div class="col-md-6 block-info-product">
                     <div class="col-md-4">
-                        <div class="title-product" data-bind="text:Price">
-                       
+                        <!--ko if:DiscountPrice()!==0-->
+                        <span class="title-product crossOut-pink" data-bind="text:Price()+' lei'"></span>
+                        <div>
+                            <span class="pink-price" style="color: #ff669e;font-family: FuturaPTBook;" data-bind="text:DiscountPrice()+' lei'"></span>
                         </div>
+                        <!--/ko-->
+                        <!--ko if:DiscountPrice()===0-->
+                        <span class="title-product" data-bind="text:Price()+' lei'"></span>
+                        <!--/ko-->
+                      
                         <div class="info-product">
                             <div class="pink-text">
+                                <!--ko if:IsInStock-->
                                 În stoc
+                                <!--/ko-->
+                                <!--ko ifnot:IsInStock-->
+                                Nu este disponibil
+                                <!--/ko-->
                             </div>
                         </div>
                     </div>
@@ -84,9 +98,17 @@
                     </div>
                     <div class="col-md-5">
                         <button class="btn-pink" data-bind="click:AddProductCart">Adaugă în coș</button>
-                        <div class="pull-right product-like"  data-bind="click:AddProductWish">
-                            <i class="icon-like"></i>
+                        <!--ko if:IsWish-->
+                        <div  class="pull-right product-like" data-bind="click:DeleteWish">
+                            <i class="icon-pink-like "></i>
                         </div>
+                        <!--/ko-->
+                        <!--ko ifnot:IsWish-->
+                        <div  class="pull-right product-like" data-bind="click:AddProductWish">
+                            <i class="icon-like "></i>
+                        </div>
+                        <!--/ko-->
+                       
                     </div>
                 </div>
             </div>
@@ -124,133 +146,6 @@
 
 
 
-@*<div class="col-md-12 white-container">
-    <div class="row">
-        <div class="new-product">
-            NEW
-        </div>
-        <div class="col-md-3 carousel">
-            <div class="row">
-                <div class="slider-preview col-md-12 col-sm-12 col-sx-12" align="center">
-                    <div class="slider-single">
-                        <div class="item">
-                            <img src="~/assets/img/Temp/product2.png" />
-                        </div>
-                        <div class="item">
-                            <img src="~/assets/img/Temp/product2.png" />
-                        </div>
-                        <div class="item">
-                            <img src="~/assets/img/Temp/product.png" />
-                        </div>
-                        <div class="item">
-                            <img src="~/assets/img/Temp/product3.png" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="slider-nav col-md-12 " align="center">
-                <div class="item">
-                    <img src="~/assets/img/Temp/product2.png" />
-                </div>
-                <div class="item">
-                    <img src="~/assets/img/Temp/product2.png" />
-                </div>
-                <div class="item">
-                    <img src="~/assets/img/Temp/product.png" />
-                </div>
-                <div class="item">
-                    <img src="~/assets/img/Temp/product3.png" />
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-md-9 product-container">
-
-            <div class="row">
-                <div class="col-md-6 block-info-product">
-                    <div class="title-product">
-                        Bio Phyto Mild Facial Cleanser
-                    </div>
-                    <div class="info-product">
-                        <div>
-                            Christina Cosmetics
-                        </div>
-                        <div>
-                            cod: 001001001
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 block-info-product">
-                    <div class="col-md-4">
-                        <div class="title-product">
-                            Preț: 150 Lei
-                        </div>
-                        <div class="info-product">
-                            <div class="pink-text">
-                                În stoc
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-control select-count">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <button class="btn-pink">Adaugă în coș</button>
-                        <div class="pull-right product-like">
-                            <i class="icon-like"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 block-guarantee">
-                <div class="item">
-                    <i class="icon-free-delivery"></i>
-                    <span class="pink-text">
-                        Livrare
-                        gratuită
-                    </span>
-                </div>
-                <div class="item">
-                    <i class="icon-medal"></i>
-                    <span class="pink-text">
-                        Calitate
-                        superioară
-                    </span>
-                </div>
-            </div>
-
-            <div class="col-md-12 block-description">
-                <div class="title-description">
-                    Descrierea produsului:
-                </div>
-                <div class="description-product">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rhoncus eleifend ante.
-                    Suspendisse justo nunc, viverra ultricies risus eu, dictum auctor lacus.
-                    Donec consequat massa id mi vestibulum molestie. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                    Nam auctor ligula nec turpis consequat placerat. Quisque sed erat et mauris facilisis pulvinar vulputate ut mauris.
-                    Ut fermentum lacus non orci pharetra, eget vulputate ex molestie.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rhoncus eleifend ante.
-                    Suspendisse justo nunc, viverra ultricies risus eu, dictum auctor lacus. Donec consequat massa id mi vestibulum molestie.
-                    Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam auctor ligula nec turpis consequat placerat.
-                    Quisque sed erat et mauris facilisis pulvinar vulputate ut mauris. Ut fermentum lacus non orci pharetra, eget vulputate ex molestie.
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>*@
 
 <section>
     <div class="section-name">Produse similare</div>
@@ -378,53 +273,35 @@
 
     </div>
 </section>
+@if (Model.PossibilityReview)
+{
+    <div class="col-md-12 white-container block-add-review" data-bind="with:ViewModel">
+        <div class="title-block">
+            Adaugă recenzie
+        </div>
 
-<div class="col-md-12 white-container block-add-review">
-    <div class="title-block">
-        Adaugă recenzie
+        <input type="text" class="review" data-bind="textInput:Review,event:{keydown:function(data,event){if(event.keyCode === 13){AddReview(ViewModel)}else return true}}"/>
     </div>
-
-    <input type="text" class="review" />
-</div>
-
-
-<div class="reviews">
-    <div class="col-md-12 white-container reviews-container">
+}
+<div class="reviews" data-bind="with:ViewModel.Model">
+    <!--ko foreach:Reviews-->
+    <div class="col-md-12 white-container reviews-container" data-bind="css:{last: $context.$index()=== $parent.Reviews().length-1}">
 
         <div class="row item">
             <div class="col-md-3 user">
-                <img src="~/assets/img/woman-photo.png" />
-                <span>Sorina</span>
+                <img src="~/assets/img/woman-photo.png"/>
+                <span data-bind="text:User.FirstName+' '+ User.LastName"></span>
             </div>
             <div class="col-md-9">
-                <div class="col-md-9 message">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rhoncus eleifend ante. Suspendisse justo nunc, viverra ultricies risus eu,
-                    dictum auctor lacus. Donec consequat massa id mi vestibulum molestie. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                    Nam auctor ligula nec turpis consequat placerat. Quisque sed erat et mauris facilisis pulvinar vulputate ut mauris. Ut fermentum
-                    lacus non orci pharetra, eget vulputate ex molestie.
+                <div class="col-md-9 message" data-bind="text:Content">
+                
                 </div>
-                <div class="col-md-3 date">10/11/2017</div>
+                <div class="col-md-3 date" data-bind="text:new Date(DateCreateJs).toLocaleDateString()"></div>
             </div>
         </div>
 
     </div>
-    <div class="col-md-12 white-container reviews-container last">
-
-        <div class="row item">
-            <div class="col-md-3 user">
-                <img src="~/assets/img/woman-photo.png" />
-                <span>Sorina</span>
-            </div>
-            <div class="col-md-9">
-                <div class="col-md-9 message">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rhoncus eleifend ante. Suspendisse justo nunc, viverra ultricies risus eu,
-                    dictum auctor lacus. Donec consequat massa id mi vestibulum molestie. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                    Nam auctor ligula nec turpis consequat placerat. Quisque sed erat et mauris facilisis pulvinar vulputate ut mauris. Ut fermentum
-                    lacus non orci pharetra, eget vulputate ex molestie.
-                </div>
-                <div class="col-md-3 date">10/11/2017</div>
-            </div>
-        </div>
-
-    </div>
+    <!--/ko-->
+    
 </div>
+@Html.Partial("~/Views/Shared/Popup/Wish.cshtml")

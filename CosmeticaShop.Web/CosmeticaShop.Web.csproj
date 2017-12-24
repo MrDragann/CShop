@@ -148,6 +148,8 @@
     <Compile Include="Infrastructure\AuthorizeViewPage.cs" />
     <Compile Include="Infrastructure\ConstRoles.cs" />
     <Compile Include="Infrastructure\WebUser.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
+    <Compile Include="Models\ProductDetailsView.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1816,6 +1818,7 @@
     <Content Include="assets\img\Temp\slide3.jpg" />
     <Content Include="assets\img\Temp\slide4.jpg" />
     <Content Include="assets\js\Authorization\AuthorizationFormModel.js" />
+    <Content Include="assets\js\Authorization\PasswordRecoveryMode.js" />
     <Content Include="assets\js\Authorization\RegisterFormModel.js" />
     <Content Include="assets\js\Cabinet\PersonalFormModel.js" />
     <Content Include="assets\js\Cart\CartModel.js" />
@@ -2075,6 +2078,8 @@
     <Content Include="Views\Shared\Partial\SitePage\Slider.cshtml" />
     <Content Include="Views\Shared\Partial\SitePage\SitePageSettings.cshtml" />
     <Content Include="Views\Shared\Partial\Navigation.cshtml" />
+    <Content Include="Views\Shared\Popup\Wish.cshtml" />
+    <Content Include="Views\Shared\Popup\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

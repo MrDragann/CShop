@@ -15,6 +15,7 @@
         params.Products = @Html.Raw(JsonConvert.SerializeObject(Model.Products));
         params.Filter = @Html.Raw(JsonConvert.SerializeObject(Model.Filter));
         SeachFormModel.Search(params.Filter.Search);
+        var urlDeleteWish = '@Url.Action("DeleteWish","Favorites")';
         var ViewModel = new Product.ProductViewModel(params);
 
     </script>
@@ -173,9 +174,16 @@
                         </div>
                     </div>
                     <div class="product-footer">
-                        <div class="pull-left" data-bind="click:AddProductWish">
-                            <i class="icon-like"></i>
+                        <!--ko if:IsWish-->
+                        <div class="pull-left" data-bind="click:DeleteWish">
+                            <i class="icon-pink-like "></i>
                         </div>
+                        <!--/ko-->
+                        <!--ko ifnot:IsWish-->
+                        <div class="pull-left" data-bind="click:AddProductWish">
+                            <i class="icon-like "></i>
+                        </div>
+                        <!--/ko-->
                         <div class="pull-right" data-bind="click:AddProductCart">
                             <span style="cursor: pointer;">iau!</span> <i class="icon-product-cart"></i>
                         </div>
@@ -222,3 +230,4 @@
         }
     </div>
 </div>
+@Html.Partial("~/Views/Shared/Popup/Wish.cshtml")

@@ -62,6 +62,14 @@
     <Compile Include="Migrations\201712212308259_couponRelOrderHeader.Designer.cs">
       <DependentUpon>201712212308259_couponRelOrderHeader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712241727064_addColumn_IsUnauthorized_IN_OrderHeader.cs" />
+    <Compile Include="Migrations\201712241727064_addColumn_IsUnauthorized_IN_OrderHeader.Designer.cs">
+      <DependentUpon>201712241727064_addColumn_IsUnauthorized_IN_OrderHeader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712241745590_deleteColumn_IsUnauthorized_IN_OrderHeader.cs" />
+    <Compile Include="Migrations\201712241745590_deleteColumn_IsUnauthorized_IN_OrderHeader.Designer.cs">
+      <DependentUpon>201712241745590_deleteColumn_IsUnauthorized_IN_OrderHeader.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Category.cs" />
@@ -93,6 +101,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712212308259_couponRelOrderHeader.resx">
       <DependentUpon>201712212308259_couponRelOrderHeader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712241727064_addColumn_IsUnauthorized_IN_OrderHeader.resx">
+      <DependentUpon>201712241727064_addColumn_IsUnauthorized_IN_OrderHeader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712241745590_deleteColumn_IsUnauthorized_IN_OrderHeader.resx">
+      <DependentUpon>201712241745590_deleteColumn_IsUnauthorized_IN_OrderHeader.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

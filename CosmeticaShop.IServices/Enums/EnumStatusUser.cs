@@ -26,6 +26,11 @@ namespace CosmeticaShop.IServices.Enums
         /// Заблокирован
         /// </summary>
         [Description("Заблокирован")]
-        Locked = 3
+        Locked = 3,
+        /// <summary>
+        /// Неавторизованный пользователь
+        /// </summary>
+        [Description("Неавторизованный")]
+        Unauthorized = 4
     }
 }

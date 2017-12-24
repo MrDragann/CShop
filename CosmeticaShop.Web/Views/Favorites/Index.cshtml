@@ -13,6 +13,7 @@
         urlAddProductCart = '@Url.Action("AddInCart","Product")';
         urlAddProductWish = '@Url.Action("AddInWish","Product")';
         params.UrlGetProducts = '@Url.Action("Index","Product")';
+        var urlDeleteWish = '@Url.Action("DeleteWish","Favorites")';
         params.Products = @Html.Raw(JsonConvert.SerializeObject(Model.Select(x=> x.Product)));
         var ViewModel = new Product.ProductLineView(params);
 
@@ -43,10 +44,10 @@
             {
                 <div class="block" style="padding:2px;">
                     <div class="title-block" style="padding: 5px 10px 15px 10px;">
-                        Favorite: <span>@Model.Count</span>
+                        Favorite: <span data-bind="text:ViewModel.Products().filter(function(item){return item.IsWish() === true}).length"></span>
                     </div>
                     <div class="content">
-                        <div class="row product-list" data-bind="foreach:ViewModel.Products">
+                        <div class="row product-list" data-bind="foreach:ViewModel.Products().filter(function(item){return item.IsWish() === true})">
                            
                                 <div class="col-md-3">
                                     <div class="item">
@@ -89,7 +90,7 @@
                                             </div>
                                         </div>
                                         <div class="product-footer">
-                                            <div class="pull-left" data-bind="click:AddProductWish">
+                                            <div class="pull-left" data-bind="click:DeleteWish">
                                                 <i class="icon-pink-like "></i>
                                             </div>
                                             <div class="pull-right" data-bind="click:AddProductCart">

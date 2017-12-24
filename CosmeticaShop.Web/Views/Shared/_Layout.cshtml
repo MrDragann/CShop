@@ -28,6 +28,7 @@
     <script src="~/assets/js/User/UserModel.js"></script>
     <script src="~/assets/js/Authorization/RegisterFormModel.js"></script>
     <script src="~/assets/js/Authorization/AuthorizationFormModel.js"></script>
+    <script src="~/assets/js/Authorization/PasswordRecoveryMode.js"></script>
     <script src="~/assets/js/Cart/CartModel.js"></script>
     <script src="~/assets/js/Cart/CartViewModel.js"></script>
     <script src="~/assets/js/Product/SearchFormModel.js"></script>
@@ -38,6 +39,15 @@
         var paramsLogin = {}
         paramsLogin.UrlLogin = '@Url.Action("Login","Home")';
         var AuthorizationFormModel = new Authorization.AuthorizationFormModel(paramsLogin);
+
+        var searchLoaction = window.location.search.substr(1),
+            keys = {};
+        searchLoaction.split('&').forEach(function (item) {
+            item = item.split('=');
+            keys[item[0]] = item[1];
+        });
+
+
         var paramsCart = {};
         paramsCart.UrlGetCart = '@Url.Action("GetCart","Cart")';
         paramsCart.UrlOrder = '@Url.Action("Index","Order")';
@@ -49,15 +59,22 @@
     </script>
     @RenderSection("Scripts", required: false)
     @Html.Partial("~/Views/Shared/Popup/Authorization.cshtml")
+    @Html.Partial("~/Views/Shared/Popup/Cart.cshtml")
     <script>
-        $("#dropdown-cart-head").mouseover(function () {
-            $("#dropdown-cart").css("display", "block");
-        });
-        $("#dropdown-cart-head").mouseleave(function () {
-            $("#dropdown-cart").css("display", "none");
-        });
+    var paramsRecovery = {};
+    paramsRecovery.Model = keys;
+    paramsRecovery.IdModalRestorePassword = '#password-recovery';
+    paramsRecovery.UrlRecovery = '@Url.Action("ForgetPassword","Home")';
+    paramsRecovery.UrlChangePassword = '@Url.Action("ChangePassword","Home")';
+    var PasswordRecoveryModel = new Authorization.PasswordRecoveryMode(paramsRecovery);
+    $("#dropdown-cart-head").mouseover(function () {
+        $("#dropdown-cart").css("display", "block");
+    });
+    $("#dropdown-cart-head").mouseleave(function () {
+        $("#dropdown-cart").css("display", "none");
+    });
 
-        ko.applyBindings();
+    ko.applyBindings();
     </script>
 </body>
 </html>

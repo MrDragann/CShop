@@ -64,6 +64,7 @@
     <Compile Include="Static\FileManager.cs" />
     <Compile Include="ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Static\JavaScriptDateConverter.cs" />
     <Compile Include="Static\StringHelper.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="WishService.cs" />

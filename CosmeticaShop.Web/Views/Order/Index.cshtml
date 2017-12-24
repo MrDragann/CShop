@@ -25,23 +25,43 @@
     </div>
 </div>
 
-<div class="row margin-bottom-30" data-bind="with:ViewModel">
+<div class="row margin-bottom-30"  data-bind="with:ViewModel,style:{marginBottom: ViewModel.IsSuccess()? '474px' : '30px'}">
     <div class="col-md-12 white-container">
         <div class="row">
             <div class="form-order">
 
                 @*<div class="item-form col-md-12" align="center">
-                    <div class="title-item-form thanks-title">Vă mulțumim pentru comandă!</div>
-                </div>
-                <div class="item-form col-md-12" align="center">
-                    <div class="title-item-form">Comanda nr.1111111 va fi procesată și confirmată prin email.</div>
-                </div>
-                <div class="item-form col-md-12" align="center">
-                    <div class="title-item-form" style="padding:20px;"><a href="@Url.Action("Index","Home")" class="btn-pink">Pagina principală</a></div>
-              
-                </div>*@
+                        <div class="title-item-form thanks-title">Vă mulțumim pentru comandă!</div>
+                    </div>
+                    <div class="item-form col-md-12" align="center">
+                        <div class="title-item-form">Comanda nr.1111111 va fi procesată și confirmată prin email.</div>
+                    </div>
+                    <div class="item-form col-md-12" align="center">
+                        <div class="title-item-form" style="padding:20px;"><a href="@Url.Action("Index","Home")" class="btn-pink">Pagina principală</a></div>
 
+                    </div>*@
+                <!--ko if:IsSuccess-->
+                <div style="display: none;" data-bind="style:{display:IsSuccess? 'block' : 'none'}">
+                    <div class="item-form">
 
+                        <div class="form-group col-md-12 row" align="center">
+                            @if (!User.IsAuthorized)
+                            {
+                                <div>
+                                    Ordinul este emis cu succes, trebuie să vă conectați pentru a vizualiza istoricul comenzii. Dacă nu sunteți înregistrat, trebuie să vă înregistrați.
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    Pentru a vedea istoricul comenzilor, accesați profilul "<a style="color: #feabc9" href="@Url.Action("HistoryOrders","Cabinet")">Istoric comenzi</a>"
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!--/ko-->
+                <!--ko ifnot:IsSuccess-->
                 <div data-bind="with:Model">
                     <div class="item-form">
                         <div class="title-item-form">Adresa de e-mail pentru confirmarea comenzii:</div>
@@ -63,7 +83,7 @@
                                     <label>Țara:</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input name="Country" type="text" class="form-control" data-bind="textInput:Country"/>
+                                    <input name="Country" type="text" class="form-control" data-bind="textInput:Country" />
                                 </div>
                             </div>
                             <div class="address-form col-md-3">
@@ -71,7 +91,7 @@
                                     <label>Orașul:</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input name="Town" type="text" class="form-control" data-bind="textInput:City"/>
+                                    <input name="Town" type="text" class="form-control" data-bind="textInput:City" />
                                 </div>
                             </div>
                             <div class="address-form col-md-3">
@@ -79,7 +99,7 @@
                                     <label>Adresa:</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input name="Adresa:" type="text" class="form-control"data-bind="textInput:Address" />
+                                    <input name="Adresa:" type="text" class="form-control" data-bind="textInput:Address" />
                                 </div>
                             </div>
                             <div class="address-form col-md-3">
@@ -114,7 +134,7 @@
 
                     <div class="item-form col-md-12">
                         <div class="title-item-form " align="center">Suma totală spre plată <span data-bind="text:Amount"></span> lei.</div>
-                       
+
                     </div>
 
                     <div class="item-form footer col-md-12">
@@ -124,6 +144,7 @@
 
                     </div>
                 </div>
+                <!--/ko-->
             </div>
         </div>
     </div>

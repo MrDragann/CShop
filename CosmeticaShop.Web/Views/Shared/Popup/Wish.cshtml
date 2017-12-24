@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<div id="wish-success" class="modal fade">
+    <div class="modal-dialog pink-modal success">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                Listă de dorințe
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+
+                <label>Produsul a fost adăugat cu succes la lista de dorințe</label>
+                
+            </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <div class="pull-left" ><a data-dismiss="modal">Continuați cumpărăturile</a></div>
+                <div class="pull-right"><a href="@Url.Action("Index","Favorites")">Accesați lista de dorințe</a></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
+using System.Web;
 using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
@@ -12,48 +13,17 @@ using CosmeticaShop.IServices.Models.Brand;
 using CosmeticaShop.IServices.Models.Product;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
+using CosmeticaShop.IServices.Models.User;
 using CosmeticaShop.Services.Static;
 
 namespace CosmeticaShop.Services
 {
-    public class ProductService: IProductService
+    public class ProductService : IProductService
     {
         #region [ Публичная часть ]
 
         #region [ Товары ]
-        /// <summary>
-        /// Добавить товар в желаемое
-        /// </summary>
-        /// <param name="productId">Ид товара</param>
-        /// <param name="userId">Ид пользователя</param>
-        /// <returns></returns>
-        public BaseResponse AddProductInWish(int productId, Guid userId)
-        {
-            try
-            {
-                using (var db = new DataContext())
-                {
-                    var product = db.Products.FirstOrDefault(x => x.Id == productId);
-                    if (product == null)
-                        return new BaseResponse(EnumResponseStatus.Error, "Товар не был найден");
-                    var user = db.Users.FirstOrDefault(x => x.Id == userId);
-                    if (user == null)
-                        return new BaseResponse(EnumResponseStatus.Error, "Пользователь не был найден");
-                    db.WishLists.Add(new WishList()
-                    {
-                        UserId = user.Id,
-                        ProductId = product.Id,
-                        DateCreate = DateTime.Now
-                    });
-                    db.SaveChanges();
-                    return new BaseResponse(EnumResponseStatus.Success,"Товар успешно добавлен в желаемое");
-                }
-            }
-            catch (Exception ex)
-            {
-                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
-            }
-        }
+    
 
         //todo:небольшой пример0))0
         /// <summary>
@@ -86,14 +56,14 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var query = db.Products.Include(x => x.Brand).Include(x=>x.Categories).ToList();
+                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories).ToList();
                 if (request?.BrandiesId?.Count > 0)
                 {
                     query = query.Where(x => request.BrandiesId.Any(m => m == x.BrandId)).ToList();
                 }
                 if (request?.CategoriesId?.Count > 0)
                 {
-                    query = query.Where(x => request.CategoriesId.Any(m =>x.Categories.Any(c=>c.Id == m))).ToList();
+                    query = query.Where(x => request.CategoriesId.Any(m => x.Categories.Any(c => c.Id == m))).ToList();
                 }
                 if (!string.IsNullOrEmpty(request?.Search))
                 {
@@ -108,6 +78,52 @@ namespace CosmeticaShop.Services
             }
         }
         /// <summary>
+        /// Получить самые продоваемые товары
+        /// </summary>
+        /// <returns></returns>
+        public List<ProductBaseModel> GetBestSellers()
+        {
+            using (var db = new DataContext())
+            {
+                var orders = db.OrderProducts.Include(x => x.Product).ToList();
+                var qurery = orders.GroupBy(x => x.ProductId).Select(x => new ProductBaseModel
+                {
+                    Id = x.Key,
+                    Name = x.Select(p => p.Product).First().Name,
+                    Price = x.Select(p => p.Product).First().Price,
+                    BrandName = x.Select(p => p.Product).First().Name,
+                    DiscountPercent = x.Select(p => p.Product).First().Discount,
+                    DiscountPrice = CalculationService.GetDiscountPrice(x.Select(p => p.Product).First().Price, x.Select(p => p.Product).First().Discount),
+                    PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.Key.ToString())
+                }).ToList();
+                var model = qurery.OrderByDescending(x => x.Id, new PupularProductSort(orders)).Take(8).ToList();
+                var products = new List<ProductBaseModel>();
+                products.AddRange(model);
+                return products;
+            }
+        }
+        private class PupularProductSort : IComparer<int>
+        {
+
+            private List<OrderProduct> Orders { get; set; }
+
+            public PupularProductSort(List<OrderProduct> orders)
+            {
+                Orders = orders;
+            }
+            int IComparer<int>.Compare(int product1, int product2)
+            {
+                var count1 = Orders.Count(x => x.ProductId == product1);
+                var count2 = Orders.Count(x => x.ProductId == product2);
+                if (count1 > count2)
+                    return 1;
+                if (count1 < count2)
+                    return -1;
+                return 0;
+            }
+
+        }
+        /// <summary>
         /// Получить товар
         /// </summary>
         /// <param name="id">Ид товара</param>
@@ -116,7 +132,18 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var product = db.Products.Include(x=>x.Brand).FirstOrDefault(x => x.Id == id);
+                var users = db.Users.ToList();
+                var product = db.Products.Include(x => x.Brand).Include(x => x.ProductReviews).FirstOrDefault(x => x.Id == id);
+                foreach (var productProductReview in product.ProductReviews)
+                {
+                    var user = users.FirstOrDefault(x => x.Id == productProductReview.UserId);
+                    if (user == null)
+                        productProductReview.User = new User();
+                    else
+                    {
+                        productProductReview.User = user;
+                    }
+                }
                 var model = ConvertToProductEditModel(product);
                 model.Photos = FileManager.GetFileUrls(EnumDirectoryType.Product, id.ToString());
                 //model.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, model.Id.ToString());
@@ -134,8 +161,8 @@ namespace CosmeticaShop.Services
                 Name = m.Name,
                 BrandName = m.Brand?.Name,
                 Price = m.Price,
-                DiscountPercent = m.Discount,                
-                DiscountPrice = CalculationService.GetDiscountPrice(m.Price,m.Discount)
+                DiscountPercent = m.Discount,
+                DiscountPrice = CalculationService.GetDiscountPrice(m.Price, m.Discount)
             };
         }
         private ProductEditModel ConvertToProductEditModel(Product m)
@@ -157,10 +184,25 @@ namespace CosmeticaShop.Services
                 KeyUrl = m.KeyUrl,
                 PhotoUrl = m.PhotoUrl,
                 SeoDescription = m.SeoDescription,
-                SeoKeywords = m.SeoKeywords
+                SeoKeywords = m.SeoKeywords,
+                Reviews = m.ProductReviews?.Select(ConvertToReviewModel).ToList(),
+                DiscountPercent = m.Discount,
+                DiscountPrice = CalculationService.GetDiscountPrice(m.Price, m.Discount)
             };
         }
 
+        private ReviewModel ConvertToReviewModel(ProductReview m)
+        {
+            return new ReviewModel
+            {
+                Id = m.Id,
+                Content = m.Content,
+                DateCreate = m.DateCreate,
+                DateCreateJs = JavaScriptDateConverter.Convert(m.DateCreate),
+                ProductId = m.ProductId,
+                User = new UserDetailModel() { FirstName = m.User?.FirstName, LastName = m.User?.LastName, Id = m.UserId }
+            };
+        }
 
         #endregion
 
@@ -168,12 +210,188 @@ namespace CosmeticaShop.Services
 
         #region [ Бренды ]
 
+        /// <summary>
+        /// Получить брэнды для главной страницы
+        /// </summary>
+        /// <returns></returns>
+        public List<BrandModel> GetBrands()
+        {
+            using (var db = new DataContext())
+            {
+                var brands = db.Brands.ToList().Select(x => new BrandModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    KeyUrl = x.KeyUrl,
+                    IsActive = x.IsActive,
+                    PhotoUrl = x.PhotoUrl
+                }).ToList();
+                List<BrandModel> brandsRandom = new List<BrandModel>(); 
+                int k;
+                Random rand = new Random();
+                var count = 4;
+                if (brands.Count < 4)
+                    count = brands.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    while (true)
+                    {
+                       k = rand.Next(brands.Count);
+                        if (brandsRandom.All(x => brands[k].Id != x.Id))
+                        {
+                            brandsRandom.Add(brands[k]);                         
+                            break;
+                        }
+                    }
+                }
+                return brandsRandom;
+            }
+        }
 
+        #endregion
+
+        #region Отзывы
+        /// <summary>
+        /// Добавить отзыв
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <param name="productId">Ид товара</param>
+        /// <param name="message">Сообщение отзыва</param>
+        /// <returns></returns>
+        public BaseResponse AddReview(Guid userId, int productId, string message)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var product = db.Products.Include(x => x.ProductReviews).FirstOrDefault(x => x.Id == productId);
+                    if (product == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Товар не найден");
+                    var validation = ValidationReview(userId, productId);
+                    if (validation.IsSuccess)
+                    {
+                        product.ProductReviews.Add(new ProductReview()
+                        {
+                            UserId = userId,
+                            ProductId = product.Id,
+                            DateCreate = DateTime.Now,
+                            Content = message
+                        });
+                        db.SaveChanges();
+                        return new BaseResponse(EnumResponseStatus.Success, "Отзыв успешно оставлен");
+                    }
+                    return validation;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Проверить возможность оставление отзыва
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <param name="productId">Ид товара</param>
+        /// <returns></returns>
+        public BaseResponse ValidationReview(Guid userId, int productId)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var user = db.Users.FirstOrDefault(x => x.Id == userId);
+                    if (user == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Пользователь не найден");
+                    var orderHeaders = db.OrderHeaders.Include(x => x.OrderProducts).Where(x => x.UserId == userId);
+                    foreach (var orderHeader in orderHeaders)
+                    {
+                        if (orderHeader.Status == (int)EnumStatusOrder.Complete && orderHeader.OrderProducts.Any(x => x.ProductId == productId))
+                            return new BaseResponse(EnumResponseStatus.Success, "Отзыв можно написать");
+                    }
+                    return new BaseResponse(EnumResponseStatus.Error, "Отзыв нельзя написать");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region [ Желаемое ]
+
+        /// <summary>
+        /// Добавить товар в желаемое
+        /// </summary>
+        /// <param name="productId">Ид товара</param>
+        /// <param name="userId">Ид пользователя</param>
+        /// <returns></returns>
+        public BaseResponse AddProductInWish(int productId, Guid userId)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var product = db.Products.FirstOrDefault(x => x.Id == productId);
+                    if (product == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Товар не был найден");
+                    var user = db.Users.FirstOrDefault(x => x.Id == userId);
+                    if (user == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Пользователь не был найден");
+                    db.WishLists.Add(new WishList()
+                    {
+                        UserId = user.Id,
+                        ProductId = product.Id,
+                        DateCreate = DateTime.Now
+                    });
+                    db.SaveChanges();
+                    AddProductInCoockieWish(productId);
+                    return new BaseResponse(EnumResponseStatus.Success, "Товар успешно добавлен в желаемое");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Добавить товар в желаемое куки
+        /// </summary>
+        /// <param name="productId">Ид товара</param>     
+        /// <returns></returns>
+        public BaseResponse AddProductInCoockieWish(int productId)
+        {
+            HttpCookie cookieReq = HttpContext.Current.Request.Cookies["UserWish"];
+            if (cookieReq == null || string.IsNullOrWhiteSpace(cookieReq.Values["productId"]))
+            {
+                HttpCookie aCookie = new HttpCookie("UserWish");
+
+                aCookie.Values["productId"] = productId.ToString();
+
+                aCookie.Expires = DateTime.Now.AddDays(30);
+                HttpContext.Current.Response.Cookies.Add(aCookie);
+            }
+            else
+            {
+                var cookieProducts = cookieReq.Values["productId"].Split(',').Select(int.Parse).ToList();
+                if (cookieProducts.Contains(productId))
+                {
+                   
+                }
+                else
+                {   
+                    cookieReq.Values["productId"] += "," + productId;
+                    HttpContext.Current.Response.Cookies.Add(cookieReq);
+                }
+            }
+            return new BaseResponse(EnumResponseStatus.Success,"Товар успешно добавлен в желаемое");
+        }
 
         #endregion
 
         #endregion
-
         #region [ Административная часть ]
 
         #region [ Товары ]
@@ -223,7 +441,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var product = db.Products.Include(x=>x.Categories).Include(x=>x.ProductTags).AsNoTracking().Where(x => x.Id == productId)
+                var product = db.Products.Include(x => x.Categories).Include(x => x.ProductTags).AsNoTracking().Where(x => x.Id == productId)
                     .Select(x => new ProductEditModel
                     {
                         Id = x.Id,
@@ -236,8 +454,8 @@ namespace CosmeticaShop.Services
                         Discount = x.Discount,
                         IsInStock = x.IsInStock,
                         IsActive = x.IsActive,
-                        CategoriesId = x.Categories.Select(c=>c.Id).ToList(),
-                        TagsId = x.ProductTags.Select(t=>t.Id).ToList()
+                        CategoriesId = x.Categories.Select(c => c.Id).ToList(),
+                        TagsId = x.ProductTags.Select(t => t.Id).ToList()
                     }).FirstOrDefault();
                 if (product == null)
                     return new BaseResponse<ProductEditModel>(EnumResponseStatus.Error, "Товар не найден", new ProductEditModel());
@@ -275,7 +493,7 @@ namespace CosmeticaShop.Services
                         Price = model.Price,
                         Discount = model.Discount
                     };
-                    if(model.CategoriesId!=null)
+                    if (model.CategoriesId != null)
                         newProduct.Categories = db.Categories.Where(x => model.CategoriesId.Contains(x.Id)).ToList();
                     if (model.TagsId != null)
                         newProduct.ProductTags = db.ProductTags.Where(x => model.TagsId.Contains(x.Id)).ToList();
@@ -304,7 +522,7 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var old = db.Products.Include(x=>x.Categories).Include(x=>x.ProductTags)
+                    var old = db.Products.Include(x => x.Categories).Include(x => x.ProductTags)
                         .FirstOrDefault(x => x.Id == model.Id);
                     if (old == null)
                         return new BaseResponse<int>(EnumResponseStatus.Error, "Товар не найден");
@@ -335,7 +553,7 @@ namespace CosmeticaShop.Services
                             Guid.NewGuid().ToString(), old.Id.ToString());
                     }
                     db.SaveChanges();
-                    return new BaseResponse<int>(EnumResponseStatus.Success, "Товар успешно изменен",old.Id);
+                    return new BaseResponse<int>(EnumResponseStatus.Success, "Товар успешно изменен", old.Id);
                 }
             }
             catch (Exception ex)
@@ -429,7 +647,7 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    if(db.ProductTags.AsNoTracking().Any(x=>x.Name==model.Name && x.Id!=model.Id))
+                    if (db.ProductTags.AsNoTracking().Any(x => x.Name == model.Name && x.Id != model.Id))
                         return new BaseResponse(EnumResponseStatus.ValidationError, "Тег с таким наименованием уже существует");
                     var productTag = db.ProductTags.FirstOrDefault(x => x.Id == model.Id);
                     if (productTag == null)
@@ -516,8 +734,8 @@ namespace CosmeticaShop.Services
 
                 if (!string.IsNullOrEmpty(request.Filter.Term))
                     query = query.Where(x => x.Name.ToLower().Contains(request.Filter.Term.ToLower()));
-                
-                var model = new PaginationResponse<BrandModel> { Count = query.Count() }; 
+
+                var model = new PaginationResponse<BrandModel> { Count = query.Count() };
 
                 query = request.Load(query);
 
@@ -613,12 +831,12 @@ namespace CosmeticaShop.Services
                             SeoDescription = x.SeoDescription,
                             SeoKeywords = x.SeoKeywords
                         }).FirstOrDefault();
-                    return new BaseResponse<BrandModel>(EnumResponseStatus.Success,brand);
+                    return new BaseResponse<BrandModel>(EnumResponseStatus.Success, brand);
                 }
             }
             catch (Exception ex)
             {
-                return new BaseResponse<BrandModel>(EnumResponseStatus.Exception,ex.Message);
+                return new BaseResponse<BrandModel>(EnumResponseStatus.Exception, ex.Message);
             }
         }
 
@@ -645,7 +863,7 @@ namespace CosmeticaShop.Services
                     brand.IsActive = model.IsActive;
                     brand.SeoKeywords = model.SeoKeywords;
                     brand.SeoDescription = model.SeoDescription;
-                    
+
                     if (model.PhotoFile != null)
                     {
                         FileManager.DeleteFile(EnumDirectoryType.Brand, fileName: brand.PhotoUrl);

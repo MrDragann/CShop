@@ -16,6 +16,12 @@
         this.DateCreateView = ko.observable(theParams.DateCreateView || "");
         this.Content = ko.observable(theParams.Content || "");
         this.BrandName = ko.observable(theParams.BrandName || "");
+        this.Reviews = ko.observableArray(theParams.Reviews || []);
+        this.IsWish = ko.observable(theParams.IsWish || false);
+        this.DiscountPrice = ko.observable(theParams.DiscountPrice || 0);
+        this.DiscountPercent = ko.observable(theParams.DiscountPercent || 0);
+        this.IsInStock = ko.observable(theParams.IsInStock || false);
+        this.CheckWish();
         return this;
     };
 
@@ -48,7 +54,7 @@
             quantity: this.Quantity()
         }).success(function (res) {
             if (res.IsSuccess) {
-                location.reload();
+                $("#cart-success").modal("show");
             }
             else {
                 self.ErrorMessage(res.Message);
@@ -64,13 +70,54 @@
             productId: this.Id()
         }).success(function (res) {
             if (res.IsSuccess) {
-                location.reload();
+                self.IsWish(true);
+                $("#wish-success").modal("show");
             }
             else {
                 self.ErrorMessage(res.Message);
             }
         });
     }
-
+    /**
+    * Проверить список желаемого
+    */
+    Product.ProductDetailModel.prototype.CheckWish = function () {
+        var self = this;
+        var cookieWish = getCookie("UserWish");
+        if (cookieWish) {
+            var wish = cookieWish.split("&");
+            if (wish && wish[0]) {
+                var arr = wish[0].split("=");
+                if (arr[1]) {
+                    var ids = arr[1].split(",");
+                    self.IsWish(ids.some(function (item) {
+                        return item === self.Id().toString();
+                    }));
+                }
+            }
+        }
+    }
+    /**
+* Удалить товар из желаемое 
+*/
+    Product.ProductDetailModel.prototype.DeleteWish = function () {
+        var self = this;
+        $.post(urlDeleteWish, {
+            productId: this.Id()
+        }).success(function (res) {
+            if (res.IsSuccess) {
+                self.IsWish(false);
+            }
+            else {
+                console.error(res.Message);
+            }
+        });
+    }
 })();
-
+// возвращает cookie с именем name, если есть, если нет, то undefined
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}

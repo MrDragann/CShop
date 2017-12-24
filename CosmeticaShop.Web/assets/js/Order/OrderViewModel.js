@@ -6,6 +6,7 @@
         theParams = theParams || {};
         this.UrlAddOrder = theParams.UrlAddOrder;
         this.Model = new Order.OrderHeaderModel(theParams.Model || {});
+        this.IsSuccess = ko.observable(theParams.IsSuccess || false);
         return this;
     };
 
@@ -26,7 +27,7 @@
             address: model.Address
         }).success(function(res) {
             if (res.IsSuccess) {
-                console.log(res);
+                self.IsSuccess(true);
             }
 
         });

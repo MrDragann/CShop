@@ -78,6 +78,12 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <returns></returns>
         BaseResponse ConfrimRegisterUser(UserDetailModel model);
 
+        /// <summary>
+        /// Проверка электроной почты
+        /// </summary>
+        /// <param name="email">Эл.адрес</param>
+        BaseResponse CheckExistEmail(string email);
+
         #endregion
     }
 }
