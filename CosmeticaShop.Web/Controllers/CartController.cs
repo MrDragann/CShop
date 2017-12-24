@@ -13,9 +13,15 @@ namespace CosmeticaShop.Web.Controllers
         private readonly ICartService _cartService = new CartService();
         public ActionResult Index()
         {
-            var userId = new WebUser().UserId;
-            var model = _cartService.GetCart(userId);
-            return View(model);
+            var user = new WebUser();
+            if (user.IsAuthorized)
+            {
+                var model = _cartService.GetCart(user.UserId);
+                return View(model);
+            }
+            var cookieModel = _cartService.GetCookieCart();
+            return View(cookieModel);
+
         }
         public ActionResult PreparationOrder(List<OrderProductsModel> productsOrder)
         {
@@ -30,14 +36,19 @@ namespace CosmeticaShop.Web.Controllers
             return Json(response);
         }
         /// <summary>
-        /// Загрузить карту
+        /// Загрузить корзину
         /// </summary>
         /// <returns></returns>
         public ActionResult GetCart()
         {
-            var userId = new WebUser().UserId;
-            var response = _cartService.GetCart(userId);
-            return Json(response);
+            var user = new WebUser();
+            if (user.IsAuthorized)
+            {
+                var response = _cartService.GetCart(user.UserId);
+                return Json(response);
+            }
+            var cookieResponse = _cartService.GetCookieCart();
+            return Json(cookieResponse);
         }
     }
 }

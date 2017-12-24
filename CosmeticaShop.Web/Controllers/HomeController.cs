@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using CosmeticaShop.IServices;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Responses;
@@ -7,22 +8,31 @@ using CosmeticaShop.IServices.Models.User;
 using CosmeticaShop.Services;
 using CosmeticaShop.Services.Static;
 using CosmeticaShop.Web.Infrastructure;
+using CosmeticaShop.Web.Models;
 
 namespace CosmeticaShop.Web.Controllers
 {
+    
     public class HomeController : BaseController
     {
+        private  readonly IProductService _productService = new ProductService();
         #region [ Сервисы ]
 
-        private IAuthCommonService _authCommonService = new AuthCommonService();
-        private ISitePageSevice _sitePageSevice = new SitePageSevice();
-
+        private readonly IAuthCommonService _authCommonService = new AuthCommonService();
+        private readonly ISitePageSevice _sitePageSevice = new SitePageSevice();
+        private readonly IWishService _wishService = new WishService();
+        private readonly IUserService _userService = new UserService();
         #endregion
 
-        public ActionResult Index()
+        public ActionResult Index(Guid? token, string email)
         {
+            var model = new HomeViewModel()
+            {
+                BestSellers = _productService.GetBestSellers(),
+                Brands = _productService.GetBrands()
+            };
             SetSitePageSettings(EnumSitePage.Home);
-            return View();
+            return View(model);
         }
 
         #region [ Шаблоны ]
@@ -81,6 +91,8 @@ namespace CosmeticaShop.Web.Controllers
                     LastName = loginStatus.Value.LastName
                 };
                 System.Web.HttpContext.Current.Session["UserSession"] = webUser;
+                _wishService.ComplementWishs(webUser.UserId);
+                _userService.SetUserCookie(webUser.UserId);
                 return Json(new BaseResponse<string>(0, "Успешно", returnUrl));
             }
             return Json(loginStatus);
@@ -146,6 +158,47 @@ namespace CosmeticaShop.Web.Controllers
         {
             System.Web.HttpContext.Current.Session.Remove("UserSession");
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Сбросить пароль
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ForgetPassword(string email)
+        {
+            var response = _authCommonService.CheckExistEmail(email);
+            if (response.IsSuccess)
+            {
+                var token = _authCommonService.GenerateToken(email);
+                if (token.IsSuccess)
+                {
+                    // Отправка письма с ссылкой на сброс пароля
+                    _authCommonService.SendMail("Восстановление пароля", email,
+                        $@"Для восстановления  пароля перейдите по 
+                 <a href='{
+                                Url.Action("Index", "Home", new { token = token.Value.Value, email = email },
+                                    Request.Url.Scheme)
+                            }'
+                 title='Востоновления пароля'>ссылке</a>");
+                }
+                return Json(new { IsSuccess = true });
+            }
+            return Json(response);
+        }
+           /// <summary>
+        /// Сменить пароль
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ChangePassword(Guid token, string email, string password)
+           {
+               password = password.GetHashString();
+            var response = _authCommonService.RestorePassword(email, token, password);
+            return Json(response);
         }
         #endregion
     }

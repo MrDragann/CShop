@@ -22,8 +22,18 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="productId">Ид товара</param>
         /// <param name="userId">Ид пользователя</param>
         /// <param name="quantity">Количество</param>
+        /// <param name="isCookie">Добавление в корзину через куки</param>
         /// <returns></returns>
-        BaseResponse AddProductInCart(int productId, Guid userId, int quantity);
+        BaseResponse AddProductInCart(int productId, Guid userId, int quantity, bool isCookie);
+
+        /// <summary>
+        /// Добавить товар в корзину куки
+        /// </summary>
+        /// <param name="productId">Ид товара</param>  
+        /// <param name="quantity">Количество товара</param>
+        /// <param name="isAuth">Добавляет авторизованый пользователь?</param>
+        /// <returns></returns>
+        BaseResponse AddProductInCoockieCart(int productId, int quantity, bool isAuth);
 
         /// <summary>
         /// Добавить товар в корзину

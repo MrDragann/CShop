@@ -39,11 +39,11 @@
                  
                         <div class="row">
                             <div class="item-cart">
-                                <div class="col-md-8 padding-0">
-                                    <div class="col-md-3 padding-0">
+                                <div class="col-md-6 padding-0">
+                                    <div class="col-md-4 padding-0">
                                         <img data-bind="attr:{src:PhotoUrl}" />
                                     </div>
-                                    <div class="col-md-9">
+                                    <div class="col-md-8">
                                         <div class="title-cart" data-bind="text:Name">
                                     
                                         </div>
@@ -52,17 +52,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 right-container-cart">
+                                <div class="col-md-6 right-container-cart">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <select class="form-control select-count cart-select" data-bind="value:Quantity">
-                                            @for (var i = 1; i < 10; i++)
-                                            {
-                                                <option value="@i">@i</option>
-                                            }
-                                            </select>
+                                        <div class="col-md-5">
+                                         
+                                            <span class="minus" data-bind="click:Quantity.bind($data,Quantity()-1>0? Quantity()-1 : Quantity())">-</span>
+                                            <span class="counter" data-bind="text:Quantity"></span>
+                                            <span class="plus" data-bind="click:Quantity.bind($data,Quantity()+1)">+</span>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="title-container">
                                                 Preț:<span data-bind="text:AmountPrice"></span> Lei
                                             </div>

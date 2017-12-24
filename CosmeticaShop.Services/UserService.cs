@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Web;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.Services.Static;
 
@@ -30,9 +31,34 @@ namespace CosmeticaShop.Services
                     return new UserDetailModel();
                 return ConvertUserDetailModel(user);            
             }
-
         }
-
+        /// <summary>
+        /// Установить пользователя в куки
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <returns></returns>
+        public void SetUserCookie(Guid userId)
+        {
+            HttpCookie cookieReq = HttpContext.Current.Request.Cookies["User"];
+            if (string.IsNullOrWhiteSpace(cookieReq?.Value))
+            {
+                HttpCookie aCookie = new HttpCookie("User")
+                {
+                    Value = userId.ToString(),
+                    Expires = DateTime.Now.AddDays(30)
+                };
+                HttpContext.Current.Response.Cookies.Add(aCookie);
+            }
+            else
+            {
+                var cookieUser = Guid.Parse(cookieReq.Value);
+                if (cookieUser != userId)
+                {
+                    cookieReq.Value = userId.ToString();
+                    HttpContext.Current.Response.Cookies.Add(cookieReq);
+                }
+            }
+        }
         /// <summary>
         /// Изменить личные данные пользователя
         /// </summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using System.Web;
 using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
@@ -31,8 +32,9 @@ namespace CosmeticaShop.Services
         /// <param name="productId">Ид товара</param>
         /// <param name="userId">Ид пользователя</param>
         /// <param name="quantity">Количество</param>
+        /// <param name="isCookie">Добавление в корзину через куки</param>
         /// <returns></returns>
-        public BaseResponse AddProductInCart(int productId, Guid userId, int quantity)
+        public BaseResponse AddProductInCart(int productId, Guid userId, int quantity, bool isCookie)
         {
             try
             {
@@ -42,9 +44,32 @@ namespace CosmeticaShop.Services
                     if (product == null)
                         return new BaseResponse(EnumResponseStatus.Error, "Товар не был найден");
                     var user = db.Users.Include(x => x.UserAddress).FirstOrDefault(x => x.Id == userId);
-                    if (user == null)
+                    if (user == null && !isCookie)
                         return new BaseResponse(EnumResponseStatus.Error, "Пользователь не был найден");
-                    var orders = db.OrderHeaders.Where(x => x.UserId == user.Id).ToList();
+                    if (user == null && isCookie)
+                    {
+                        user = new User
+                        {
+                            Id = userId,
+                            Email = "unknown",
+                            FirstName = "unknown",
+                            LastName = "unknown",
+                            PasswordHash = "unknown",
+                            DateBirth = null,
+                            ConfirmationToken = null,
+                            Status = (int)EnumStatusUser.Unauthorized,
+                            UserAddress = new UserAddress
+                            {
+                                Country = "unknown",
+                                City = "unknown",
+                                Address = "unknown",
+                                Phone = "unknown"
+                            }
+                        };
+                        db.Users.Add(user);
+                        db.SaveChanges();
+                    }
+                    var orders = db.OrderHeaders.Include(x => x.OrderProducts).Where(x => x.UserId == user.Id).ToList();
                     var order = orders.FirstOrDefault(x => x.Status == (int)EnumStatusOrder.Cart);
                     if (order == null)
                     {
@@ -54,7 +79,8 @@ namespace CosmeticaShop.Services
                             DateCreate = DateTime.Now,
                             Status = (int)EnumStatusOrder.Cart,
                             Address = JsonConvert.SerializeObject(new { Address = user.UserAddress.Address, City = user.UserAddress.City, Country = user.UserAddress.Country, Phone = user.UserAddress.Phone }),
-                            Amount = CalculationService.GetDiscountPrice(product.Price, product.Discount) * quantity
+                            Amount = CalculationService.GetDiscountPrice(product.Price, product.Discount) * quantity,
+                            OrderProducts = new List<OrderProduct>()
                         };
                         db.OrderHeaders.Add(order);
                         db.SaveChanges();
@@ -63,16 +89,30 @@ namespace CosmeticaShop.Services
                     {
                         order.Amount += CalculationService.GetDiscountPrice(product.Price, product.Discount) * quantity;
                     }
-                    db.OrderProducts.Add(new OrderProduct()
+                    if (order.OrderProducts.All(x => x.ProductId != product.Id))
                     {
-                        OrderId = order.Id,
-                        ProductId = product.Id,
-                        Price = product.Price,
-                        Quantity = quantity,
-                        Discount = product.Discount,
-                        Amount = CalculationService.GetDiscountPrice(product.Price, product.Discount) * quantity,
-                    });
+                        db.OrderProducts.Add(new OrderProduct()
+                        {
+                            OrderId = order.Id,
+                            ProductId = product.Id,
+                            Price = product.Price,
+                            Quantity = quantity,
+                            Discount = product.Discount,
+                            Amount = CalculationService.GetDiscountPrice(product.Price, product.Discount) * quantity,
+                        });
+                    }
+                    else
+                    {
+                        var orderProduct = order.OrderProducts.FirstOrDefault(x => x.ProductId == product.Id);
+                        if (orderProduct != null)
+                        {
+                            orderProduct.Quantity += quantity;
+                            orderProduct.Amount = CalculationService.GetDiscountPrice(orderProduct.Price, orderProduct.Discount) * orderProduct.Quantity;
+                        }
+                    }
                     db.SaveChanges();
+                    if (!isCookie)
+                        AddProductInCoockieCart(productId, quantity,true);
                     return new BaseResponse(EnumResponseStatus.Success, "Товар успешно добавлен в корзину");
                 }
             }
@@ -80,6 +120,71 @@ namespace CosmeticaShop.Services
             {
                 return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Добавить товар в корзину куки
+        /// </summary>
+        /// <param name="productId">Ид товара</param>  
+        /// <param name="quantity">Количество товара</param>
+        /// <param name="isAuth">Добавляет авторизованый пользователь?</param>
+        /// <returns></returns>
+        public BaseResponse AddProductInCoockieCart(int productId, int quantity, bool isAuth)
+        {
+            HttpCookie cookieUser = HttpContext.Current.Request.Cookies["User"];
+            var userId = Guid.NewGuid();
+            if (string.IsNullOrWhiteSpace(cookieUser?.Value))
+            {
+                HttpCookie aCookie = new HttpCookie("User")
+                {
+                    Value = userId.ToString(),
+                    Expires = DateTime.Now.AddDays(30)
+                };
+                HttpContext.Current.Response.Cookies.Add(aCookie);
+            }
+            else
+            {
+                userId = Guid.Parse(cookieUser.Value);
+            }
+            var response = new BaseResponse(EnumResponseStatus.Success, "Успешно");
+            if (!isAuth)
+            {
+                response = AddProductInCart(productId, userId, quantity, true);
+            }
+            if (response.IsSuccess)
+            {
+                HttpCookie cookieReq = HttpContext.Current.Request.Cookies["UserCart"];
+                if (string.IsNullOrWhiteSpace(cookieReq?.Values["productId"]))
+                {
+                    HttpCookie aCookie = new HttpCookie("UserCart");
+
+                    aCookie.Values["productId"] = productId.ToString();
+                    aCookie.Values["quantity"] = quantity.ToString();
+
+                    aCookie.Expires = DateTime.Now.AddDays(30);
+                    HttpContext.Current.Response.Cookies.Add(aCookie);
+                }
+                else
+                {
+                    var cookieProducts = cookieReq.Values["productId"].Split(',').Select(int.Parse).ToList();
+                    var cookieQuantity = cookieReq.Values["quantity"].Split(',').Select(int.Parse).ToList();
+                    if (cookieProducts.Contains(productId))
+                    {
+                        var productIndex = cookieProducts.FindIndex(x => x == productId);
+                        cookieQuantity[productIndex] += 1;
+                        cookieReq.Values["quantity"] = string.Join(",", cookieQuantity.ToArray());
+                        HttpContext.Current.Response.Cookies.Add(cookieReq);
+                    }
+                    else
+                    {
+                        cookieReq.Values["productId"] += "," + productId;
+                        cookieReq.Values["quantity"] += "," + quantity;
+                        HttpContext.Current.Response.Cookies.Add(cookieReq);
+                    }
+                }
+                return new BaseResponse(EnumResponseStatus.Success, "Товар успешно добавлен в желаемое");
+            }
+            return response;
         }
         /// <summary>
         /// Добавить товар в корзину
@@ -96,7 +201,16 @@ namespace CosmeticaShop.Services
                     var products = db.Products.ToList();
                     var order = db.OrderHeaders.Include(x => x.OrderProducts).FirstOrDefault(x => x.UserId == userId && x.Status == (int)EnumStatusOrder.Cart);
                     if (order == null)
-                        return new BaseResponse<int>(EnumResponseStatus.Error, "Заказ не найден");
+                    {
+                        HttpCookie cookieReq = HttpContext.Current.Request.Cookies["User"];
+                        if (!string.IsNullOrWhiteSpace(cookieReq?.Value))
+                        {
+                            userId = Guid.Parse(cookieReq.Value);
+                            order = db.OrderHeaders.Include(x => x.OrderProducts).FirstOrDefault(x => x.UserId == userId && x.Status == (int)EnumStatusOrder.Cart);
+                            if (order == null)
+                                return new BaseResponse<int>(EnumResponseStatus.Error, "Корзина не найдена");
+                        }
+                    }
                     decimal amount = 0;
                     foreach (var item in order.OrderProducts)
                     {
@@ -176,6 +290,15 @@ namespace CosmeticaShop.Services
                     order.Address = JsonConvert.SerializeObject(address);
                     order.DateCreate = DateTime.Now;
                     db.SaveChanges();
+                    HttpCookie cookieReq = HttpContext.Current.Request.Cookies["UserCart"];
+                    if (cookieReq != null)
+                    {
+                        cookieReq.Values["productId"] = "";
+                        cookieReq.Values["quantity"] = "";
+                        cookieReq.Value = "";
+                        cookieReq.Expires = DateTime.Now.AddDays(-1d);
+                        HttpContext.Current.Response.Cookies.Add(cookieReq);
+                    }
                     return new BaseResponse(EnumResponseStatus.Success, "Заказ успешно совершен");
                 }
             }

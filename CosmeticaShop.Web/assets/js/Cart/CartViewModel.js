@@ -26,7 +26,7 @@
         var self = this;
         this.Amount(0);
         this.Model().forEach(function (item) {
-            self.Amount(self.Amount() + item.AmountPrice());
+            self.Amount((self.Amount() + item.AmountPrice()));
         });
     };
     /**

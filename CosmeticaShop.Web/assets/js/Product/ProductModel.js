@@ -8,12 +8,15 @@
         this.Name = ko.observable(theParams.Name || "");
         this.Description = ko.observable(theParams.Description || "");
         this.Price = ko.observable(theParams.Price || 0);
+        this.BrandName = ko.observable(theParams.BrandName || "");
         this.DiscountPrice = ko.observable(theParams.DiscountPrice || 0);
         this.DiscountPercent = ko.observable(theParams.DiscountPercent || 0);
         this.PhotoUrl = ko.observable(theParams.PhotoUrl || "");
         this.DateCreate = ko.observable(theParams.DateCreate || "");
         this.DateCreateView = ko.observable(theParams.DateCreateView || "");
         this.Content = ko.observable(theParams.Content || "");
+        this.IsWish = ko.observable(theParams.IsWish || false);
+        this.CheckWish();
         return this;
     };
 
@@ -32,7 +35,7 @@
             Description: this.Description(),
             Price: this.Price(),
             Discount: this.Discount(),
-            PhotoUrl: this.PhotoUrl()          
+            PhotoUrl: this.PhotoUrl()
         }
     }
 
@@ -44,12 +47,12 @@
         $.post(urlAddProductCart, {
             productId: this.Id(),
             quantity: 1
-            }).success(function (res) {
+        }).success(function (res) {
             if (res.IsSuccess) {
-                location.reload();
+                $("#cart-success").modal("show");
             }
             else {
-                self.ErrorMessage(res.Message);
+                console.error(res.Message);
             }
         });
     }
@@ -62,13 +65,55 @@
             productId: this.Id()
         }).success(function (res) {
             if (res.IsSuccess) {
-                location.reload();
+                self.IsWish(true);
+                $("#wish-success").modal("show");
             }
             else {
-                self.ErrorMessage(res.Message);
+                console.error(res.Message);
             }
         });
     }
-
+    /**
+    * Удалить товар из желаемое 
+    */
+    Product.ProductModel.prototype.DeleteWish = function () {
+        var self = this;
+        $.post(urlDeleteWish, {
+            productId: this.Id()
+        }).success(function (res) {
+            if (res.IsSuccess) {
+                self.IsWish(false);
+            }
+            else {
+                console.error(res.Message);
+            }
+        });
+    }
+    /**
+   * Проверить список желаемого
+   */
+    Product.ProductModel.prototype.CheckWish = function () {
+        var self = this;
+        var cookieWish = getCookie("UserWish");
+        if (cookieWish) {
+            var wish = cookieWish.split("&");
+            if (wish && wish[0]) {
+                var arr = wish[0].split("=");
+                if (arr[1]) {
+                    var ids = arr[1].split(",");
+                    self.IsWish(ids.some(function(item) {
+                        return item === self.Id().toString();
+                    }));
+                }
+            }
+        }
+    }
 })();
 
+// возвращает cookie с именем name, если есть, если нет, то undefined
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}

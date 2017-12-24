@@ -91,6 +91,20 @@ namespace CosmeticaShop.IServices.Models.Product
 
         public HttpPostedFileBase PhotoName { get; set; }
 
+        /// <summary>
+        /// Отзывы
+        /// </summary>
+        public List<ReviewModel> Reviews { get; set; }
+
+        /// <summary>
+        /// Скидка на товар в %
+        /// </summary>
+        public decimal DiscountPercent { get; set; }
+        /// <summary>
+        /// Цена со скидкой
+        /// </summary>
+        public decimal DiscountPrice { get; set; }
+
         #endregion
     }
 }

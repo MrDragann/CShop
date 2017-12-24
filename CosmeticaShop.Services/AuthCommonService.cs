@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Mail;
 using System.Data.Entity;
+using System.Web;
 using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
@@ -58,16 +59,43 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
+                    var users = db.Users.Include(x=>x.UserAddress);
                     if (string.IsNullOrEmpty(model.Email))
                         return new BaseResponse(EnumResponseStatus.ValidationError, "Email не может быть пустым");
 
 
-                    if (db.Users.Any(x => x.Email == model.Email))
+                    if (users.Any(x => x.Email == model.Email))
                         return new BaseResponse(EnumResponseStatus.ValidationError, "Пользователь с таким адресом электронной почты уже существует");
 
                     if (string.IsNullOrEmpty(model.Password))
                         return new BaseResponse(EnumResponseStatus.ValidationError, "Пароль не может быть пустым");
+                    HttpCookie cookie = HttpContext.Current.Request.Cookies["User"];
+                    Guid userId;
+                    if (string.IsNullOrWhiteSpace(cookie?.Value))
+                    {
 
+                    }
+                    else
+                    {
+                        userId = Guid.Parse(cookie.Value);
+                        var cookieUser = users.FirstOrDefault(x => x.Id == userId && x.Status == (int)EnumStatusUser.Unauthorized);
+                        if (cookieUser != null)
+                        {
+                            cookieUser.Email = model.Email;
+                            cookieUser.FirstName = model.FirstName;
+                            cookieUser.LastName = model.LastName;
+                            cookieUser.PasswordHash = model.Password;
+                            cookieUser.DateBirth = model.DateBirth;
+                            cookieUser.ConfirmationToken = token;
+                            cookieUser.Status = (int)EnumStatusUser.New;
+                            cookieUser.UserAddress.Address = model.Address;
+                            cookieUser.UserAddress.City = model.City;
+                            cookieUser.UserAddress.Country = model.Country;
+                            cookieUser.UserAddress.Phone = model.Phone;
+                            db.SaveChanges();
+                            return new BaseResponse(EnumResponseStatus.Success, "Регистрация успешно выполнена");
+                        }
+                    }
                     var user = new User
                     {
                         Id = Guid.NewGuid(),
@@ -243,6 +271,27 @@ namespace CosmeticaShop.Services
                 var smtp = new SmtpClient();
                 smtp.Send(msg);
                 return new BaseResponse(EnumResponseStatus.Success, "Письмо успешно отправлено");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Проверка электроной почты
+        /// </summary>
+        /// <param name="email">Эл.адрес</param>
+        public BaseResponse CheckExistEmail(string email)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var user = db.Users.FirstOrDefault(x => x.Email == email);
+                    if (user == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Пользователь с такой почтой не найден");
+                    return new BaseResponse(EnumResponseStatus.Success, "Пользователь существует");
+                }
             }
             catch (Exception ex)
             {

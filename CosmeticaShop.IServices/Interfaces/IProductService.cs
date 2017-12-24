@@ -25,6 +25,13 @@ namespace CosmeticaShop.IServices.Interfaces
         BaseResponse AddProductInWish(int productId, Guid userId);
 
         /// <summary>
+        /// Добавить товар в желаемое куки
+        /// </summary>
+        /// <param name="productId">Ид товара</param>     
+        /// <returns></returns>
+        BaseResponse AddProductInCoockieWish(int productId);
+
+        /// <summary>
         /// Получить товары со скидкой
         /// </summary>
         /// <param name="request"></param>
@@ -44,6 +51,38 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         List<ProductBaseModel> GetProducts(ProductFilterModel request);
+
+        /// <summary>
+        /// Получить самые продоваемые товары
+        /// </summary>
+        /// <returns></returns>
+        List<ProductBaseModel> GetBestSellers();
+
+
+
+        /// <summary>
+        /// Получить брэнды для главной страницы
+        /// </summary>
+        /// <returns></returns>
+        List<BrandModel> GetBrands();
+
+        /// <summary>
+        /// Добавить отзыв
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <param name="productId">Ид товара</param>
+        /// <param name="message">Сообщение отзыва</param>
+        /// <returns></returns>
+        BaseResponse AddReview(Guid userId, int productId, string message);
+
+        /// <summary>
+        /// Проверить возможность оставление отзыва
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <param name="productId">Ид товара</param>
+        /// <returns></returns>
+        BaseResponse ValidationReview(Guid userId, int productId);
+
         #endregion
 
         #region [ Адмиистративная ]

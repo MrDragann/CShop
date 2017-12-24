@@ -22,5 +22,12 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="userId">Ид пользователя</param>
         /// <returns></returns>
         UserDetailModel GetUser(Guid userId);
+
+        /// <summary>
+        /// Установить пользователя в куки
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <returns></returns>
+        void SetUserCookie(Guid userId);
     }
 }

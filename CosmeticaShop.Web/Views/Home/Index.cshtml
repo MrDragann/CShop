@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Newtonsoft.Json
+@model CosmeticaShop.Web.Models.HomeViewModel
+@{
     ViewBag.IsHome = true;
 }
 @section Styles {
@@ -7,6 +9,8 @@
 }
 @section Scripts {
     <script src="~/assets/js/Plugins/slick/slick.js"></script>
+    <script src="~/assets/js/Product/ProductModel.js"></script>
+    <script src="~/assets/js/Product/ProductLineView.js"></script>
     <script>
         $('.main-slider').slick({
             slidesToShow: 2,
@@ -17,298 +21,105 @@
             nextArrow: '<span class="slick-next-pink"> </span>'
         });
     </script>
+    <script>
+        var paramsBestSellers = {};
+        urlAddProductCart = '@Url.Action("AddInCart","Product")';
+        urlAddProductWish = '@Url.Action("AddInWish","Product")';
+        paramsBestSellers.UrlGetProducts = '@Url.Action("Index","Product")';
+        paramsBestSellers.Products = @Html.Raw(JsonConvert.SerializeObject(Model.BestSellers));
+        var urlDeleteWish = '@Url.Action("DeleteWish","Favorites")';
+        var BestSellersModel = new Product.ProductLineView(paramsBestSellers);
+    </script>
 }
 
 @*@Html.Action("SitePageSettings","Home",new {page=EnumSitePage.Home})*@
 
-@Html.Action("SliderPartial","Home")
+@Html.Action("SliderPartial", "Home")
 
 <section>
     <div class="section-name">BRANDS</div>
     <div class="row brand-list">
-        <div class="col-md-3">
-            <div class="item">
-                <a href="@Url.Action("Index","Product")">
-                    <div class="brand-img">
-                        <img src="~/assets/img/Temp/Jean.png" />
+        @foreach (var brand in Model.Brands)
+        {
+            <a href="@Url.Action("Index", "Product",new {BrandiesId = brand.Id})">
+                <div class="col-md-3">
+                    <div class="item">
+
+                        <div class="brand-img">
+                            <img src="@brand.PhotoUrl" />
+                        </div>
+
                     </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-3 ">
-            <div class="item">
-                <div class="brand-img">
-                    <img src="~/assets/img/Temp/Christina.png" />
                 </div>
-            </div>
-        </div>
-        <div class="col-md-3 ">
-            <div class="item">
-                <div class="brand-img">
-                    <img src="~/assets/img/Temp/Loreal.png" />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 ">
-            <div class="item">
-                <div class="brand-img">
-                    <img src="~/assets/img/Temp/Loreal.png" />
-                </div>
-            </div>
-        </div>
+            </a>
+        }
+
     </div>
 </section>
 
 <section>
     <div class="section-name">BestSELLERS</div>
-    <div class="row product-list">
+    <div class="row product-list" data-bind="foreach:BestSellersModel.Products">
+
         <div class="col-md-3">
             <div class="item">
                 <div class="product-content">
-                    <a href="@Url.Action("Details","Product")">
+                    <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
                         <div class="product-img">
-                            <img src="~/assets/img/Temp/product3.png" />
-                            <div class="discount">reducere -35%</div>
+                            <img data-bind="attr:{src:PhotoUrl}" />
+                            <!--ko if:DiscountPrice()!==0-->
+                            <div class="discount">
+                                reducere  <div>
+                                    -<span data-bind="text:DiscountPercent">35</span>%
+                                </div>
+                            </div>
+                            <!--/ko-->
                         </div>
                     </a>
-                    <a href="@Url.Action("Details","Product")">
+                    <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
                         <div class="product-description title">
-                            <span class="pink-text">
-                                elf cosmetics
+                            <span class="pink-text" data-bind="text:BrandName">
+
                             </span>
                         </div>
                     </a>
-                    <a href="@Url.Action("Details","Product")">
+                    <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
                         <div class="product-description">
-                            <span class="grey-text">illuminating eye cream</span>
+                            <span class="grey-text" data-bind="text:Name"></span>
                         </div>
                     </a>
+
                     <div class="product-description">
-                        <span class="grey-price crossOut-pink ">150 lei</span>
+                        <!--ko if:DiscountPrice()!==0-->
+                        <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>
                         <div>
-                            <span class="pink-price">99 lei</span>
+                            <span class="pink-price" data-bind="text:DiscountPrice()+' lei'"></span>
                         </div>
+                        <!--/ko-->
+                        <!--ko if:DiscountPrice()===0-->
+                        <span class="grey-price" data-bind="text:Price()+' lei'"></span>
+                        <!--/ko-->
                     </div>
                 </div>
                 <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
+                    <!--ko if:IsWish-->
+                    <div class="pull-left" data-bind="click:DeleteWish">
+                        <i class="icon-pink-like "></i>
                     </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
+                    <!--/ko-->
+                    <!--ko ifnot:IsWish-->
+                    <div class="pull-left" data-bind="click:AddProductWish">
+                        <i class="icon-like "></i>
+                    </div>
+                    <!--/ko-->
+                    <div class="pull-right" data-bind="click:AddProductCart">
+                        <span style="cursor: pointer;">iau!</span> <i class="icon-product-cart"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            jean destrees
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">cc cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product2.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            christina
-                            cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">
-                            BIO PHYTO
-                            ANTI ROUGEURS MASK
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            jean destrees
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">cc cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                        <div class="discount">reducere -35%</div>
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price crossOut-pink ">150 lei</span>
-                        <div>
-                            <span class="pink-price">99 lei</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product2.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            christina
-                            cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                        <div class="discount">reducere -35%</div>
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price crossOut-pink ">150 lei</span>
-                        <div>
-                            <span class="pink-price">99 lei</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
     </div>
 </section>
 
@@ -686,3 +497,4 @@
     Ut dolor ex, consequat a maximus ac, molestie in sem. Vivamus aliquet venenatis est sed tristique. Nam viverra felis vitae justo eleifend, sit amet tempus mauris mattis. Donec in semper risus. Phasellus gravida lectus lectus. Nam vestibulum arcu id velit dictum porta. Sed eu dolor sit amet magna porta convallis porta facilisis purus. Mauris vitae felis sit amet ex lacinia ultrices ut sit amet quam. Nam ut dictum risus. Nullam porta ligula sed quam fringilla porta. Pellentesque fringilla ipsum quis quam imperdiet, id lobortis nisi condimentum. Sed condimentum purus sed mauris bibendum malesuada. Donec velit justo, feugiat elementum enim in, porttitor tempus purus. Duis in dictum massa, nec pretium est. Phasellus consectetur dignissim bibendum. Vivamus quis posuere ipsum.
 </div>
 
+@Html.Partial("~/Views/Shared/Popup/Wish.cshtml")

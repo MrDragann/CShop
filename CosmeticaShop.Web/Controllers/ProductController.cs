@@ -26,17 +26,17 @@ namespace CosmeticaShop.Web.Controllers
                 page = 1;
             var model = new ProductsViewModel()
             {
-                
+
                 Products = products,
                 Brands = _productService.GetAllBrandsBase(),
                 Pagination = new PaginationModel(take)
                 {
-                Count = products.Count,
-                Skip = ((int)page - 1) * take,
-                Take = take,
-                PageNumber = (int)page,
-                PageSize = products.Count / take + 1
-            },
+                    Count = products.Count,
+                    Skip = ((int)page - 1) * take,
+                    Take = take,
+                    PageNumber = (int)page,
+                    PageSize = products.Count / take + 1
+                },
                 Filter = request,
                 Categories = _categoryService.GetCategories()
             };
@@ -50,11 +50,16 @@ namespace CosmeticaShop.Web.Controllers
         /// <param name="quantity">Количество товара</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult AddInCart(int productId,int quantity)
+        public ActionResult AddInCart(int productId, int quantity)
         {
-            var userId = new WebUser().UserId;
-            var response = _orderService.AddProductInCart(productId, userId, quantity);
-            return Json(response);
+            var user = new WebUser();
+            if (user.IsAuthorized)
+            {
+                var response = _orderService.AddProductInCart(productId, user.UserId, quantity,false);
+                return Json(response);
+            }
+            var responseCopokie = _orderService.AddProductInCoockieCart(productId, quantity,false);
+            return Json(responseCopokie);
         }
         /// <summary>
         /// Добавить товар в желаемое
@@ -64,9 +69,18 @@ namespace CosmeticaShop.Web.Controllers
         [HttpPost]
         public ActionResult AddInWish(int productId)
         {
-            var userId = new WebUser().UserId;
-            var response = _productService.AddProductInWish(productId, userId);
-            return Json(response);
+            var user = new WebUser();
+            if (user.IsAuthorized)
+            {
+                var response = _productService.AddProductInWish(productId, user.UserId);
+                return Json(response);
+            }
+            else
+            {
+                var response = _productService.AddProductInCoockieWish(productId);
+                return Json(response);
+            }
+         
         }
         /// <summary>
         /// Детальная страница товара
@@ -74,9 +88,32 @@ namespace CosmeticaShop.Web.Controllers
         /// <returns></returns>
         public ActionResult Details(int id)
         {
-            var model = _productService.GetProduct(id);
-            SetSitePageSettings(model.Name,model.SeoKeywords,model.SeoDescription);
+            var product = _productService.GetProduct(id);
+            var user = new WebUser();
+            var possibilityReview = false;
+            if (user.IsAuthorized)
+            {
+                possibilityReview = _productService.ValidationReview(user.UserId, id).IsSuccess;
+            }
+            var model = new ProductDetailsView()
+            {
+                Product = product,
+                PossibilityReview = possibilityReview
+            };
+            SetSitePageSettings(model.Product.Name, model.Product.SeoKeywords, model.Product.SeoDescription);
             return View(model);
+        }
+        /// <summary>
+        /// Добавить отзыв
+        /// </summary>
+        /// <param name="message">Сообщение отзыва</param>
+        /// <param name="productId">Ид товара</param>
+        /// <returns></returns>
+        public ActionResult AddReview(string message,int productId)
+        {
+            var userId = new WebUser().UserId;
+            var response = _productService.AddReview(userId, productId, message);
+            return Json(response);
         }
     }
 }

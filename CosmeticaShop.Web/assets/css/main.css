@@ -688,6 +688,19 @@ footer {
     color: #636363;
 }
 
+    .pink-modal.success {
+        width: 420px;
+    }
+
+        .pink-modal.success.cart {
+            width: 470px;
+        }
+
+        .pink-modal.success a {
+            color: #e879a1;
+            cursor: pointer;
+        }
+
     .pink-modal .close {
         position: absolute;
         top: -15px;
@@ -724,52 +737,56 @@ footer {
             padding: 10px 30px;
         }
 
-            .pink-modal .modal-content .modal-body label {
-                font-weight: normal;
-                font-size: 16px;
-                font-family: FuturaPTBook;
-            }
+    .pink-modal.success.cart .modal-content .modal-body {
+        text-align: center;
+    }
 
-            .pink-modal .modal-content .modal-body input, .pink-modal .modal-content .modal-body select, .block-info-product input {
-                box-shadow: none;
-                border: 1px solid #d8d8d8;
-            }
+    .pink-modal .modal-content .modal-body label {
+        font-weight: normal;
+        font-size: 16px;
+        font-family: FuturaPTBook;
+    }
 
-            .pink-modal .modal-content .modal-body select {
-                border-radius: 7px;
-                margin-bottom: 10px;
-            }
+    .pink-modal .modal-content .modal-body input, .pink-modal .modal-content .modal-body select, .block-info-product input {
+        box-shadow: none;
+        border: 1px solid #d8d8d8;
+    }
 
-            .pink-modal .modal-content .modal-body select {
-                color: #636363;
-                font-size: 16px;
-                font-family: FuturaPTBook;
-            }
+    .pink-modal .modal-content .modal-body select {
+        border-radius: 7px;
+        margin-bottom: 10px;
+    }
 
-                .pink-modal .modal-content .modal-body select:disabled {
-                    font-size: 16px;
-                    font-family: FuturaPTBook;
-                    color: #c1c1c1;
-                }
+    .pink-modal .modal-content .modal-body select {
+        color: #636363;
+        font-size: 16px;
+        font-family: FuturaPTBook;
+    }
 
-                .pink-modal .modal-content .modal-body select.decorated option:hover {
-                    background-color: red;
-                }
-
-        .pink-modal .modal-content .modal-footer {
-            border: none;
-            padding: 5px 30px 30px 30px;
-            margin: 0;
-            text-align: center;
+        .pink-modal .modal-content .modal-body select:disabled {
+            font-size: 16px;
+            font-family: FuturaPTBook;
+            color: #c1c1c1;
         }
 
-            .pink-modal .modal-content .modal-footer span {
-                cursor: pointer;
-            }
+        .pink-modal .modal-content .modal-body select.decorated option:hover {
+            background-color: red;
+        }
 
-            .pink-modal .modal-content .modal-footer div {
-                margin: 15px 0;
-            }
+    .pink-modal .modal-content .modal-footer {
+        border: none;
+        padding: 5px 30px 30px 30px;
+        margin: 0;
+        text-align: center;
+    }
+
+        .pink-modal .modal-content .modal-footer span {
+            cursor: pointer;
+        }
+
+        .pink-modal .modal-content .modal-footer div {
+            margin: 15px 0;
+        }
 /*Конец модальных окон*/
 .btn-pink {
     background-color: #ffaecb;
@@ -1254,9 +1271,10 @@ button.slick-next {
         padding: 10px;
         border-top: 1px solid #b0b0b0;
     }
-.cart-container .content .item-cart img {
-    width: 100%;
-}
+
+        .cart-container .content .item-cart img {
+            width: 100%;
+        }
 
         .cart-container .content .item-cart .title-cart {
             font-size: 18px;
@@ -1577,7 +1595,6 @@ button.slick-next {
         color: #fff;
         font-size: 18px;
         font-family: FuturaPTDeimi;
-     
         text-align: center;
         padding-top: 5px;
         box-shadow: inset 0px 0px 20px 2px rgba(0,0,0,0.08);
@@ -1592,12 +1609,15 @@ button.slick-next {
         border-bottom: 1px solid #dbdbdb;
         text-align: center;
     }
-.history-orders .content .col-md-2{
-    text-align: right;
-}
+
+        .history-orders .content .col-md-2 {
+            text-align: right;
+        }
+
     .history-orders li.hover :hover {
         background-color: #f9f4f4;
     }
+
     .history-orders img {
         width: 80%;
     }
@@ -1619,6 +1639,7 @@ button.slick-next {
         position: relative;
         top: -25px;
     }
+
 .date-order {
     font-size: 17px;
     font-family: FuturaPTMeduim;
@@ -1626,6 +1647,7 @@ button.slick-next {
     font-weight: bold;
     padding: 25px 60px;
 }
+
 .history-amount {
     font-family: FuturaPTDeimi;
     font-size: 18px;
@@ -1633,9 +1655,11 @@ button.slick-next {
     font-weight: 600;
     padding: 10px 80px;
 }
-.history-amount span {
-    margin-left: 25px;
-}
+
+    .history-amount span {
+        margin-left: 25px;
+    }
+
 .all-orders, .all-orders a {
     font-family: FuturaPTDeimi;
     font-size: 18px;
@@ -1643,3 +1667,34 @@ button.slick-next {
     font-weight: 600;
     padding: 45px 25px;
 }
+.plus,
+.minus,
+.counter {
+    background-color: #ffaecb;
+    height: 30px;
+    border-radius: 2px;
+    display: inline-block;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    font-family: 'FuturaPTDeimi';
+    justify-content: center;
+}
+
+.counter {
+    width: 64px;
+    margin: 0 2px;
+ 
+}
+
+.plus,
+.minus {
+    width: 30px;
+    cursor: pointer;
+    font-family: 'PROXIMANOVA-SEMIBOLD';
+}
+
+    .plus:hover,
+    .minus:hover {
+        background-color: #ec7ba4;
+    }

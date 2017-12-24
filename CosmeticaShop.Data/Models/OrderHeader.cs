@@ -41,7 +41,7 @@ namespace CosmeticaShop.Data.Models
         /// Сумма
         /// </summary>
         public decimal Amount { get; set; }
-        
+
         /// <summary>
         /// Признак удаления
         /// </summary>
