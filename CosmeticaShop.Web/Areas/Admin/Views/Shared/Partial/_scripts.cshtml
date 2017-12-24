@@ -7,13 +7,14 @@
 <script src="~/Areas/Admin/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <script type="text/javascript" src="~/Areas/Admin/assets/global/plugins/ckeditor/ckeditor.js"></script>
+<script src="~/Areas/Admin/assets/global/plugins/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript" src="~/Areas/Admin/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
 <script src="~/Areas/Admin/assets/global/plugins/bootbox/bootbox.min.js"></script>
 <script src="~/Scripts/knockout-3.4.2.js"></script>
 @*<script src="~/Scripts/knockoutExtensions/knockout-sortable.js"></script>
 <script src="~/Scripts/knockoutExtensions/simpleGridAjax/knockout.simpleGridAjax.js"></script>*@
 
-<script src="~/Areas/Admin/assets/global/plugins/moment.min.js"></script>
+<script src="~/Areas/Admin/assets/global/plugins/moment-with-locales.js"></script>
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
 <script src="~/Areas/Admin/assets/global/scripts/app.min.js" type="text/javascript"></script>
 <!-- END THEME GLOBAL SCRIPTS -->
@@ -31,4 +32,8 @@
 <script src="~/Areas/Admin/assets/js/Components/TablePaginationAjax/Table.js"></script>
 <script src="~/Areas/Admin/assets/js/knockoutExtensions/knockout-Component.js"></script>
 <script src="~/Areas/Admin/assets/js/knockoutExtensions/knockout-fileInput.js"></script>
+<script src="~/Areas/Admin/assets/js/knockoutExtensions/knockout-ckeditor.js"></script>
 <script src="~/Areas/Admin/assets/js/Form/Base/BaseFilterModel.js"></script>
+<script>
+    moment.locale("ru");
+</script>

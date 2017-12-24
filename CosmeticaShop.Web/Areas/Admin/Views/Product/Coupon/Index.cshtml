@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Список купонов";
+}
+
+@section scripts{
+    <script src="~/Areas/Admin/assets/js/Form/Coupon/CouponModel.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Coupon/CouponFormModel.js"></script>
+    <script>
+        var params = {};
+        params.UrlLoadItems = '@Url.Action("GetFilteredCoupons","Product")';
+        params.UrlDelete = '@Url.Action("CouponDelete","Product")';
+        var FormModel = new Coupon.CouponFormModel(params);
+    </script>
+}
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered" data-bind="with:FormModel">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings font-green"></i>
+                    <span class="caption-subject font-green sbold uppercase">Список купонов</span>
+                </div>
+                <div class="actions" data-bind="with:Filter">
+                    <a href="@Url.Action("AddCoupon","Product")" class="btn btn-success">
+                        <i class="fa fa-plus"></i>
+                        <span class="hidden-480">
+                            Добавить
+                        </span>
+                    </a>
+                    <div class="btn-group btn-group-devided">
+                        <div class="input-group" style="width: 300px;">
+                            <input data-bind="value:Term" type="text" class="form-control" />
+                            <span class="input-group-btn">
+                                <button data-bind="click:FormModel.TableRefresh" class="btn btn-success" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="portlet-body" data-bind="with:Table">
+                <div class="table-scrollable">
+                    <table class="table table-hover table-light">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th>Код</th>
+                                <th>Скидка</th>
+                                <th>Дата создания</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:Items">
+                            <tr>
+                                <td data-bind="text:Id"></td>
+                                <td data-bind="text:Code"></td>
+                                <td data-bind="text:Discount"></td>
+                                <td data-bind="text:moment(DateCreate()).format('L')"></td>
+                                <td>
+                                    <a data-bind="attr:{href:'@Url.Action("EditCoupon","Product")?couponId='+Id()}" class="fa fa-pencil btn btn-sm blue"></a>
+                                    <button data-bind="click:FormModel.Delete.bind(FormModel)" type="button" class="fa fa-remove btn btn-sm red"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pagination data-bind="Component:Pagination"></pagination>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+

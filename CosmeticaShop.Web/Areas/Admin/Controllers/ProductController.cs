@@ -9,6 +9,7 @@ using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
+using CosmeticaShop.IServices.Models.Coupon;
 using CosmeticaShop.IServices.Models.Product;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
@@ -27,6 +28,8 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         private ICategoryService _categoryService = new CategoryService();
 
         #endregion
+
+        #region [ Товары ]
 
         // GET: Admin/Product
         public ActionResult Index()
@@ -87,7 +90,7 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         {
             if (photoFile != null)
                 FileManager.SaveImage(photoFile, EnumDirectoryType.Product, FileManager.PreviewName,
-                productId.ToString());
+                    productId.ToString());
             if (photoFiles != null)
                 foreach (var file in photoFiles)
                 {
@@ -102,6 +105,8 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             var deleteStatus = FileManager.DeleteFile(EnumDirectoryType.Product, productId.ToString(), photo);
             return Json(deleteStatus);
         }
+
+        #endregion
 
         #region [ Теги товаров ]
 
@@ -200,6 +205,67 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         public ActionResult DeleteBrand(int brandId)
         {
             var response = _productService.DeleteBrand(brandId);
+            return Json(response);
+        }
+
+        #endregion
+
+        #region [ Купоны ]
+
+        public ActionResult Coupons()
+        {
+            return View("~/Areas/Admin/Views/Product/Coupon/Index.cshtml");
+        }
+
+        /// <summary>
+        /// Список купонов
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetFilteredCoupons(PaginationRequest<BaseFilter> request)
+        {
+            var model = _productService.GetFilteredCoupons(request);
+            return Json(model);
+        }
+
+        public ActionResult AddCoupon()
+        {
+            var model = new CouponModel();
+            return View("~/Areas/Admin/Views/Product/Coupon/AddCoupon.cshtml", model);
+        }
+
+        public ActionResult EditCoupon(int couponId)
+        {
+            var model = _productService.GetCouponModel(couponId);
+            if (!model.IsSuccess)
+                return RedirectToAction("Coupons");
+            return View("~/Areas/Admin/Views/Product/Coupon/AddCoupon.cshtml", model.Value);
+        }
+
+        /// <summary>
+        ///  Обновление купона
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult CouponUpdate(CouponModel model)
+        {
+            var response = model.Id == 0
+                ? _productService.CouponAdd(model)
+                : _productService.CouponEdit(model);
+            return Json(response);
+        }
+
+        /// <summary>
+        /// Удаление купона
+        /// </summary>
+        /// <param name="couponId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult CouponDelete(int couponId)
+        {
+            var response = _productService.CouponDelete(couponId);
             return Json(response);
         }
 

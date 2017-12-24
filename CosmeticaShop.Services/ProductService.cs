@@ -9,6 +9,7 @@ using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
+using CosmeticaShop.IServices.Models.Coupon;
 using CosmeticaShop.IServices.Models.Product;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
@@ -681,6 +682,152 @@ namespace CosmeticaShop.Services
                     db.SaveChanges();
                     FileManager.DeleteFile(EnumDirectoryType.Brand, fileName: brand.PhotoUrl);
                     return new BaseResponse(EnumResponseStatus.Success, "Товар успешно удален");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region [ Купоны ]
+        
+        /// <summary>
+        /// Получить список купонов
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public PaginationResponse<CouponModel> GetFilteredCoupons(PaginationRequest<BaseFilter> request)
+        {
+            using (var db = new DataContext())
+            {
+                var query = db.Coupons.AsNoTracking().Where(x=>!x.IsDelete.HasValue)
+                    .OrderByDescending(x => x.DateCreate) as IQueryable<Coupon>;
+
+                if (!string.IsNullOrEmpty(request.Filter.Term))
+                    query = query.Where(x => x.Code.ToLower().Contains(request.Filter.Term.ToLower()));
+
+                var model = new PaginationResponse<CouponModel> { Count = query.Count() };
+
+                query = request.Load(query);
+
+                model.Items = query.Select(x => new CouponModel
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Discount = x.Discount,
+                    DateCreate = x.DateCreate
+                }).ToList();
+                return model;
+            }
+        }
+
+        /// <summary>
+        /// Получить модель купона
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public BaseResponse<CouponModel> GetCouponModel(int id)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var model = db.Coupons.AsNoTracking().Where(x => x.Id == id)
+                        .Select(x => new CouponModel
+                        {
+                            Id = x.Id,
+                            Code = x.Code,
+                            Discount = x.Discount
+                        }).FirstOrDefault();
+                    if(model==null)
+                        return new BaseResponse<CouponModel>(EnumResponseStatus.Error,"Купон не найден");
+                    return new BaseResponse<CouponModel>(EnumResponseStatus.Success,model);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<CouponModel>(EnumResponseStatus.Exception,ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Редактирование купона
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        public BaseResponse<int> CouponEdit(CouponModel model)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    if (db.Coupons.AsNoTracking().Any(x => x.Code == model.Code && x.Id != model.Id))
+                        return new BaseResponse<int>(EnumResponseStatus.ValidationError, "Купон с таким кодом уже существует");
+                    var coupon = db.Coupons.FirstOrDefault(x => x.Id == model.Id);
+                    if (coupon == null)
+                        return new BaseResponse<int>(EnumResponseStatus.Error, "Купон не найден");
+                    coupon.Code = model.Code;
+                    coupon.Discount = model.Discount;
+                    db.SaveChanges();
+                    return new BaseResponse<int>(EnumResponseStatus.Success, "Купон успешно изменен",model.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<int>(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Добавление нового купона
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        public BaseResponse<int> CouponAdd(CouponModel model)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    if (db.Coupons.AsNoTracking().Any(x => x.Code == model.Code))
+                        return new BaseResponse<int>(EnumResponseStatus.ValidationError, "Купон с таким кодом уже существует");
+                    var coupon = new Coupon
+                    {
+                        Code = model.Code,
+                        Discount = model.Discount,
+                        DateCreate = DateTime.Now
+                    };
+                    db.Coupons.Add(coupon);
+                    db.SaveChanges();
+                    return new BaseResponse<int>(EnumResponseStatus.Success, "Купон успешно добавлен",coupon.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<int>(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Удаление купона
+        /// </summary>
+        /// <param name="couponId"></param>
+        /// <returns></returns>
+        public BaseResponse CouponDelete(int couponId)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var coupon = db.Coupons.FirstOrDefault(x => x.Id == couponId);
+                    if (coupon == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Купон не найден");
+                    coupon.IsDelete = DateTime.Now;
+                    db.SaveChanges();
+                    return new BaseResponse(0, "Купон успешно удален");
                 }
             }
             catch (Exception ex)

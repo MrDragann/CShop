@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Order;
+using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.User;
+using OrderAdmin = CosmeticaShop.IServices.Models.Order.Admin;
 
 namespace CosmeticaShop.IServices.Interfaces
 {
     public interface IOrderService
     {
+        #region [ Публичная ]
+
         /// <summary>
         /// Добавить товар в корзину
         /// </summary>
@@ -45,5 +50,33 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="orderId">Ид заказа</param>
         /// <param name="address">Адрес доставки</param>
         BaseResponse AddOrder(int orderId, AddressModel address);
+
+        #endregion
+
+        #region [ Административная ]
+
+        /// <summary>
+        /// Получить список заказов
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        PaginationResponse<OrderAdmin.OrderHeaderModel> GetFilteredOrders(PaginationRequest<BaseFilter> request);
+
+        /// <summary>
+        /// Получить модель заказа
+        /// </summary>
+        /// <param name="orderId">Ид заказа</param>
+        /// <returns></returns>
+        BaseResponse<OrderAdmin.OrderHeaderModel> GetOrderHeaderModel(int orderId);
+
+        /// <summary>
+        /// Изменить статус заказу
+        /// </summary>
+        /// <param name="orderId">Ид заказа</param>
+        /// <param name="status">Статус</param>
+        /// <returns></returns>
+        BaseResponse ChangeOrderStatus(int orderId, int status);
+
+        #endregion
     }
 }

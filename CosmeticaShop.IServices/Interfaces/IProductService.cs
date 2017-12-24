@@ -5,6 +5,7 @@ using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Models;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
+using CosmeticaShop.IServices.Models.Coupon;
 using CosmeticaShop.IServices.Models.Product;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
@@ -166,6 +167,45 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="brandId">Ид бренда</param>
         /// <returns></returns>
         BaseResponse DeleteBrand(int brandId);
+
+        #endregion
+
+        #region [ Купоны ]
+
+        /// <summary>
+        /// Получить список купонов
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        PaginationResponse<CouponModel> GetFilteredCoupons(PaginationRequest<BaseFilter> request);
+
+        /// <summary>
+        /// Получить модель купона
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        BaseResponse<CouponModel> GetCouponModel(int id);
+
+        /// <summary>
+        /// Редактирование купона
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        BaseResponse<int> CouponEdit(CouponModel model);
+
+        /// <summary>
+        /// Добавление нового купона
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        BaseResponse<int> CouponAdd(CouponModel model);
+
+        /// <summary>
+        /// Удаление купона
+        /// </summary>
+        /// <param name="couponId"></param>
+        /// <returns></returns>
+        BaseResponse CouponDelete(int couponId);
 
         #endregion
 
