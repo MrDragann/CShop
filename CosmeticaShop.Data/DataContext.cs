@@ -73,6 +73,11 @@ namespace CosmeticaShop.Data
         /// </summary>
         public DbSet<Coupon> Coupons { get; set; }
 
+        /// <summary>
+        /// Таблица городов
+        /// </summary>
+        public DbSet<City> Cities { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder mb)
         {
             #region User
@@ -119,6 +124,8 @@ namespace CosmeticaShop.Data
                 .Map(t => t.MapLeftKey("ProductId").MapRightKey("CategoryId").ToTable("ProductCategories"));
             mb.Entity<Product>().HasMany(p => p.ProductTags).WithMany(c => c.Products)
                 .Map(t => t.MapLeftKey("ProductId").MapRightKey("ProductTagId").ToTable("ProductProductTags"));
+            mb.Entity<Product>().HasMany(p => p.SimilarProducts).WithMany(c => c.Products)
+                .Map(t => t.MapLeftKey("ProductId").MapRightKey("SimilarProductId").ToTable("SimilarProducts"));
 
             #endregion
 
@@ -142,6 +149,12 @@ namespace CosmeticaShop.Data
             #region Coupon
 
             mb.Entity<Coupon>().Property(_ => _.Code).HasMaxLength(32);
+
+            #endregion
+
+            #region City
+
+            mb.Entity<City>().Property(_ => _.Name).HasMaxLength(64);
 
             #endregion
 

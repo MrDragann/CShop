@@ -26,6 +26,10 @@ namespace CosmeticaShop.Data.Models
         /// </summary>
         public int? CouponId { get; set; }
         /// <summary>
+        /// JSon строка содержащая  информацию о купоне
+        /// </summary>
+        public string CouponJson { get; set; }
+        /// <summary>
         /// Дата создание заказа
         /// </summary>
         public DateTime DateCreate { get; set; }

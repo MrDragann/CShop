@@ -393,6 +393,7 @@ namespace CosmeticaShop.Services
         #endregion
 
         #endregion
+
         #region [ Административная часть ]
 
         #region [ Товары ]
@@ -453,6 +454,7 @@ namespace CosmeticaShop.Services
                         SeoKeywords = x.SeoKeywords,
                         Price = x.Price,
                         Discount = x.Discount,
+                        IsRecommended = x.IsRecommended,
                         IsInStock = x.IsInStock,
                         IsActive = x.IsActive,
                         CategoriesId = x.Categories.Select(c => c.Id).ToList(),
@@ -486,6 +488,7 @@ namespace CosmeticaShop.Services
                         BrandId = model.BrandId,
                         Description = model.Description,
                         DateCreate = DateTime.Now,
+                        IsRecommended = model.IsRecommended,
                         IsInStock = model.IsInStock,
                         IsActive = model.IsActive,
                         SeoDescription = model.SeoDescription,
@@ -534,6 +537,7 @@ namespace CosmeticaShop.Services
                     old.BrandId = model.BrandId;
                     old.SeoDescription = model.SeoDescription;
                     old.SeoKeywords = model.SeoKeywords;
+                    old.IsRecommended = model.IsRecommended;
                     old.IsInStock = model.IsInStock;
                     old.IsActive = model.IsActive;
                     old.KeyUrl = StringHelper.GetUrl(model.KeyUrl, allKeyUrls);

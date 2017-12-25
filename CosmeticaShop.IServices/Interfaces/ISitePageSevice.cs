@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CosmeticaShop.IServices.Enums;
+using CosmeticaShop.IServices.Models;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Navigation;
 using CosmeticaShop.IServices.Models.Requests;
@@ -24,6 +25,12 @@ namespace CosmeticaShop.IServices.Interfaces
         /// </summary>
         /// <returns></returns>
         NavigationViewModel GetSiteNavigation();
+
+        /// <summary>
+        /// Получить список всех городов
+        /// </summary>
+        /// <returns></returns>
+        List<DictionaryModel> GetAllCities();
 
         #endregion
 

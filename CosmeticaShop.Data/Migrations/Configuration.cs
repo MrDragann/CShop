@@ -1,4 +1,4 @@
-using CosmeticaShop.Data.Models;
+﻿using CosmeticaShop.Data.Models;
 
 namespace CosmeticaShop.Data.Migrations
 {
@@ -31,6 +31,12 @@ namespace CosmeticaShop.Data.Migrations
             //      p => p.Id,
             //      new SitePage { Id = 1, Title = "CosmeticaShop.ro" }
             //    );
+            if (!context.Cities.Any())
+            {
+                context.Cities.AddOrUpdate(new City { Id = 1, Name = "București" });
+                context.Cities.AddOrUpdate(new City { Id = 2, Name = "Brașov" });
+                context.Cities.AddOrUpdate(new City { Id = 3, Name = "Timișoara" });
+            }
         }
     }
 }

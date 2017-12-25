@@ -35,6 +35,13 @@ namespace CosmeticaShop.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult GetAllCities()
+        {
+            var model = _sitePageSevice.GetAllCities();
+            return Json(model);
+        }
+
         #region [ Шаблоны ]
 
         public ActionResult NavigationPartial()
