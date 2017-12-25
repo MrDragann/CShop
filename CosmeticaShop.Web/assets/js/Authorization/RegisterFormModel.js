@@ -12,6 +12,7 @@
         this.ConfrimPassword = ko.observable();
         this.ErrorMessage = ko.observable("");
         this.IsSuccessRegister = ko.observable(false);
+        this.IsPrivacyPolicy = ko.observable(false);
         return this;
     };
 
@@ -46,6 +47,10 @@
     */
     Authorization.RegisterFormModel.prototype.Validation = function (model) {
         var self = this;
+        if (!this.IsPrivacyPolicy()) {
+            this.ErrorMessage("Este necesar să fie de acord cu politica de securitate");
+            return false;
+        }
         if (model.Password === "" || model.Name === "" || model.LastName === "" || model.Email === "") {
             this.ErrorMessage("Completați toate câmpurile");
             return false;

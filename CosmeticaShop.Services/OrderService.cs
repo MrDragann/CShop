@@ -56,10 +56,10 @@ namespace CosmeticaShop.Services
                             Status = (int)EnumStatusUser.Unauthorized,
                             UserAddress = new UserAddress
                             {
-                                Country = "unknown",
-                                City = "unknown",
-                                Address = "unknown",
-                                Phone = "unknown"
+                                Country = "",
+                                City = "",
+                                Address = "",
+                                Phone = ""
                             }
                         };
                         db.Users.Add(user);
@@ -265,18 +265,32 @@ namespace CosmeticaShop.Services
             }
         }
 
-        /// <summary>
-        ///Добавить заказ
-        /// </summary>
-        /// <param name="orderId">Ид заказа</param>
-        /// <param name="address">Адрес доставки</param>
-        public BaseResponse AddOrder(int orderId, AddressModel address)
+        ///  <summary>
+        /// Добавить заказ
+        ///  </summary>
+        ///  <param name="orderId">Ид заказа</param>
+        ///  <param name="address">Адрес доставки</param>
+        ///  <param name="email">Почта</param>
+        /// <param name="userId"></param>
+        public BaseResponse AddOrder(int orderId, AddressModel address,string email,Guid? userId)
         {
             try
             {
                 using (var db = new DataContext())
                 {
-                    var products = db.Products.ToList();
+                    if (userId == null)
+                    {
+                        HttpCookie cookieUser = HttpContext.Current.Request.Cookies["User"];
+                        if (cookieUser != null) userId = Guid.Parse(cookieUser.Value);
+                        if (userId == null)
+                            return new BaseResponse(EnumResponseStatus.Error, "Utilizatorul nu a fost găsit");
+                        var users = db.Users.ToList();
+                        var user = users.FirstOrDefault(x=>x.Id == userId && x.Status == (int)EnumStatusUser.Unauthorized);
+                        if(user == null)
+                            return new BaseResponse(EnumResponseStatus.Error, "Utilizatorul nu a fost găsit");
+                        if(users.Any(x => x.Email == email))
+                            return new BaseResponse(EnumResponseStatus.Error, "O astfel de corespondență există deja.");
+                    }
                     var order = db.OrderHeaders.FirstOrDefault(x => x.Id == orderId);
                     if (order == null)
                         return new BaseResponse(EnumResponseStatus.Error, "Заказ не найден");

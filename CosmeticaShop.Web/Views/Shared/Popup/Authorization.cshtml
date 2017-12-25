@@ -74,7 +74,7 @@
                     <label>Orașul:</label>
                     <select class="form-control" data-bind="value:City">
                         <option>București</option>
-                        <option>C   hisinau</option>
+                        <option>Chisinau</option>
                         <option>chisinau</option>
                     </select>
 
@@ -87,7 +87,11 @@
                 <div class="p-error" data-bind="text:ErrorMessage"></div>
 
                 <div>
-                    <input type="checkbox" class="" /> <span class="text-12"> Am citit <a href="#" class="href-small">Politica de confidențialitate</a></span>
+
+                    <input name="category" type="checkbox" data-bind="checked:IsPrivacyPolicy" id="IsPrivacyPolicy"  />
+                    <label for="IsPrivacyPolicy"><span  style="margin: 0 0 -3px 0;"></span></label>
+
+                    <span class="text-12"> Am citit <a href="#" class="href-small">Politica de confidențialitate</a></span>
                 </div>
                 <div>
                     <button type="button" data-bind="click:Register" class="btn-pink">Înregistrează-te</button>
@@ -169,7 +173,7 @@
             <!--/ko-->
             <!--ko if:Step() === 2-->
             <div class="modal-body" data-bind="with:UserModel">
-                <label> Un e-mail de confirmare a fost trimis la e-mail</label> 
+                <label> Un e-mail de confirmare a fost trimis la e-mail</label>
             </div>
             <!--/ko-->
             <!--ko if:Step() === 3-->
@@ -181,7 +185,7 @@
                 <div class="form-group">
                     <label>Confirmă parola:</label>
                     <input type="password" data-bind="textInput:$parent.ConfrimPassword" class="form-control" />
-                </div> 
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="p-error" data-bind="text:ErrorMessage"></div>
@@ -192,7 +196,7 @@
             <!--/ko-->
             <!--ko if:Step() === 4-->
             <div class="modal-body" data-bind="with:UserModel">
-                <label> Parola a fost modificată cu succes</label> 
+                <label> Parola a fost modificată cu succes</label>
             </div>
             <!--/ko-->
         </div>
