@@ -25,7 +25,12 @@ namespace CosmeticaShop.Data.Models
         /// Дата создания
         /// </summary>
         public DateTime DateCreate { get; set; }
-        
+
+        /// <summary>
+        /// Код товара
+        /// </summary>
+        public string Code { get; set; }
+
         /// <summary>
         /// Наименование
         /// </summary>
@@ -55,6 +60,11 @@ namespace CosmeticaShop.Data.Models
         /// Url изображения
         /// </summary>
         public string PhotoUrl { get; set; }
+
+        /// <summary>
+        /// Рекомендованный
+        /// </summary>
+        public bool IsRecommended { get; set; }
 
         /// <summary>
         /// Присутствует на складе
@@ -99,6 +109,16 @@ namespace CosmeticaShop.Data.Models
         /// Список тегов
         /// </summary>
         public List<ProductTag> ProductTags { get; set; }
+
+        /// <summary>
+        /// Похожие товары
+        /// </summary>
+        public List<Product> SimilarProducts { get; set; }
+
+        /// <summary>
+        /// Список товаров
+        /// </summary>
+        public List<Product> Products { get; set; }
 
         #endregion
     }

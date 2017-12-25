@@ -1,0 +1,179 @@
+﻿@using CosmeticaShop.IServices.Enums
+@using CosmeticaShop.IServices.Models.Order.Admin
+    @using CosmeticaShop.Services.Static
+    @using Newtonsoft.Json
+    @model OrderHeaderModel
+    @{
+        ViewBag.Title = "Просмотр заказа";
+    }
+    @section styles{
+    }
+    @section breadcrumb
+{
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="">CosmeticaShop</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">Заказы</span>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">Просмотр заказа</span>
+            </li>
+        </ul>
+    }
+    @section scripts
+{
+        <script src="~/Areas/Admin/assets/js/Form/Address/AddressModel.js"></script>
+        <script src="~/Areas/Admin/assets/js/Form/Order/OrderProductModel.js"></script>
+        <script src="~/Areas/Admin/assets/js/Form/Order/OrderHeaderModel.js"></script>
+        <script src="~/Areas/Admin/assets/js/Form/Order/OrderEditFormModel.js"></script>
+        <script>
+
+            var params = {};
+            params.Model = @Html.Raw(JsonConvert.SerializeObject(Model));
+            params.OrderStatuses = @Html.Raw(JsonConvert.SerializeObject(EnumService.GetEnumList<EnumStatusOrder>()));
+            params.UrlChangeStatus = '@Url.Action("ChangeOrderStatus", "Order")';
+            var FormModel = new Order.OrderEditFormModel(params);
+        </script>
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject font-green sbold uppercase">@ViewBag.Title</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="tabbable-line">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#order-info" data-toggle="tab">
+                                    Информация заказа
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#address" data-toggle="tab">
+                                    Адрес доставки
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="form-body form-horizontal" data-bind="with:FormModel.Order">
+                            <div class="tab-content">
+                                <br />
+                                <div class="tab-pane fade active in" id="order-info">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label bold">Номер заказа:</label>
+                                        <div class="col-md-4" style="padding-top: 8px;">
+                                            <span data-bind="text:Id"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label bold">Дата:</label>
+                                        <div class="col-md-4" style="padding-top: 8px;">
+                                            <span data-bind="text:DateCreate"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label bold">Статус:</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <select data-bind="options:FormModel.OrderStatuses,optionsText:'Name',optionsValue:'Id',value:FormModel.Order.Status" class="form-control input-small"></select>
+                                                <span class="input-group-btn" style="width: auto;">
+                                                    <button data-bind="click:FormModel.ChangeStatus.bind(FormModel)" class="btn blue" type="button">
+                                                        <i class="fa fa-save"></i>
+                                                        Сохранить
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label bold">Заказчик:</label>
+                                        <div class="col-md-4" style="padding-top: 8px;">
+                                            <span data-bind="text:UserName"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label bold">Сумма:</label>
+                                        <div class="col-md-4" style="padding-top: 8px;">
+                                            <span data-bind="text:Amount"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="address">
+                                    <div class="form-group">
+                                        <div class="col-md-6" style="margin-left: 35px;">
+                                            <div class="table-scrollable table-scrollable-borderless">
+                                                <table class="table table-light">
+                                                    <tbody data-bind="with:Address">
+                                                        <tr>
+                                                            <td>Страна</td>
+                                                            <td data-bind="text:Country"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Город</td>
+                                                            <td data-bind="text:City"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Адрес</td>
+                                                            <td data-bind="text:Address"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Телефон</td>
+                                                            <td data-bind="text:Phone"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="form-body form-horizontal" data-bind="with:FormModel.Order">
+                        <div class="table-scrollable">
+                            <table class="table table-hover table-light">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Товар</th>
+                                        @*<th></th>*@
+                                        <th>Количество</th>
+                                        <th>Цена</th>
+                                        <th>Скидка</th>
+                                        <th>Общая сумма</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach:OrderProducts">
+                                    <tr>
+                                        <td>
+                                            <img data-bind="attr:{src:PhotoUrl()}" width="75" />
+                                        </td>
+                                        <td>
+                                            <a data-bind="attr:{href:'@Url.Action("EditProduct","Product")/'+ProductId()},text:ProductName"></a>
+                                        </td>
+                                        <td data-bind="text:Quantity"></td>
+                                        <td data-bind="text:Price"></td>
+                                        <td data-bind="text:Discount"></td>
+                                        <td data-bind="text:Amount"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

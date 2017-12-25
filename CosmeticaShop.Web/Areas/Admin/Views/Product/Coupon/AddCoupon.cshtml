@@ -1,0 +1,107 @@
+﻿@using Newtonsoft.Json
+@model CosmeticaShop.IServices.Models.Coupon.CouponModel
+@{
+    ViewBag.Title = (Model.Id == 0 ? "Добавление" : "Редактирование") + " купона";
+}
+@section styles{
+    <style>
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+}
+@section breadcrumb
+{
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="">CosmeticaShop</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Товары</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">@(Model.Id == 0 ? "Добавление" : "Редактирование") купона</span>
+        </li>
+    </ul>
+}
+@section scripts
+{
+    <script src="~/Scripts/jquery.liTranslit.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Coupon/CouponModel.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Coupon/CouponEditFormModel.js"></script>
+    <script>
+
+        var params = {};
+        params.Model = @Html.Raw(JsonConvert.SerializeObject(Model));
+        params.UrlSaveChanges = '@Url.Action("CouponUpdate", "Product")';
+        params.UrlMoveToEdit = '@Url.Action("EditCoupon","Product")';
+        var FormModel = new Coupon.CouponEditFormModel(params);
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green sbold uppercase">@ViewBag.Title</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#coupon" data-toggle="tab">
+                                Купон
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="form-body form-horizontal" data-bind="with:FormModel.Coupon">
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="coupon">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="Code">Код</label>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input data-bind="value:Code" maxlength="32" class="form-control" id="Code" required="required" type="text">
+                                            <span class="input-group-btn">
+                                                <button data-bind="click:FormModel.GenerateCode" class="btn btn-success" type="button">
+                                                    <i class="fa fa-arrow-left fa-fw"></i>
+                                                    Сгенерировать
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="Discount">Скидка</label>
+                                    <div class="col-md-7">
+                                        <div class="input-icon right">
+                                            <i class="fa">%</i>
+                                            <input style="text-align:right;" data-bind="value:Discount" class="form-control" id="Discount" required="required" type="number">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-md-line-input">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button data-bind="click:FormModel.SaveChanges.bind(FormModel)" type="button" id="save-changes" class="btn blue">Сохранить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

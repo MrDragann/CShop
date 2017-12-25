@@ -28,9 +28,10 @@
         this.SeoKeywords = ko.observable(theParams.SeoKeywords || "");
         this.SeoDescription = ko.observable(theParams.SeoDescription || "");
 
+        this.IsRecommended = ko.observable(theParams.IsRecommended || false);
         this.IsInStock = ko.observable(theParams.IsInStock || false);
         this.IsActive = ko.observable(theParams.IsActive || false);
-
+        
         this.CategoriesId = ko.observableArray(theParams.CategoriesId || []);
         this.TagsId = ko.observableArray(theParams.TagsId || []);
 
@@ -61,6 +62,7 @@
             SeoKeywords: this.SeoKeywords(),
             SeoDescription:this.SeoDescription(),
             
+            IsRecommended: this.IsRecommended(),
             IsInStock: this.IsInStock(),
             IsActive: this.IsActive(),
             CategoriesId: this.CategoriesId(),

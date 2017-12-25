@@ -9,12 +9,16 @@ using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
+using CosmeticaShop.IServices.Models.Base;
+using CosmeticaShop.IServices.Models.Coupon;
 using CosmeticaShop.IServices.Models.Order;
 using CosmeticaShop.IServices.Models.Product;
+using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.User;
 using CosmeticaShop.Services.Static;
 using Newtonsoft.Json;
+using OrderAdmin = CosmeticaShop.IServices.Models.Order.Admin;
 
 namespace CosmeticaShop.Services
 {
@@ -322,8 +326,127 @@ namespace CosmeticaShop.Services
 
         #region [ Административная часть ]
 
+        /// <summary>
+        /// Получить список заказов
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public PaginationResponse<OrderAdmin.OrderHeaderModel> GetFilteredOrders(PaginationRequest<BaseFilter> request)
+        {
+            using (var db = new DataContext())
+            {
+                var query = db.OrderHeaders.AsNoTracking().Include(x=>x.User.UserAddress)
+                    .Where(x => !x.IsDelete.HasValue && x.Status!=(int)EnumStatusOrder.Cart)
+                    .OrderByDescending(x => x.DateCreate) as IQueryable<OrderHeader>;
 
+                //if (!string.IsNullOrEmpty(request.Filter.Term))
+                //    query = query.Where(x => x.Code.ToLower().Contains(request.Filter.Term.ToLower()));
 
+                var model = new PaginationResponse<OrderAdmin.OrderHeaderModel> { Count = query.Count() };
+
+                query = request.Load(query);
+
+                model.Items = query.ToList().Select(x => new OrderAdmin.OrderHeaderModel
+                {
+                    Id = x.Id,
+                    DateCreate = x.DateCreate,
+                    UserName = $"{x.User?.FirstName} {x.User?.LastName}",
+                    StatusName = EnumService.GetEnumDescription((EnumStatusOrder)x.Status),
+                    Amount = x.Amount
+                }).ToList();
+                return model;
+            }
+        }
+
+        /// <summary>
+        /// Получить модель заказа
+        /// </summary>
+        /// <param name="orderId">Ид заказа</param>
+        /// <returns></returns>
+        public BaseResponse<OrderAdmin.OrderHeaderModel> GetOrderHeaderModel(int orderId)
+        {
+            using (var db = new DataContext())
+            {
+                var order = db.OrderHeaders.Include(x => x.User.UserAddress)
+                    .Where(x => x.Id == orderId).ToList().Select(x=>new OrderAdmin.OrderHeaderModel
+                    {
+                        Id = x.Id,
+                        DateCreate = x.DateCreate,
+                        UserName = $"{x.User?.FirstName} {x.User?.LastName}",
+                        Status = x.Status,
+                        StatusName = EnumService.GetEnumDescription((EnumStatusOrder)x.Status),
+                        Amount = x.Amount,
+                        Address = GetAddress(x.Address)
+                    }).FirstOrDefault();
+                if (order == null)
+                    return new BaseResponse<OrderAdmin.OrderHeaderModel>(EnumResponseStatus.Error, "Заказ не найден");
+                order.OrderProducts = GetOrderProducts(orderId, db);
+                return new BaseResponse<OrderAdmin.OrderHeaderModel>(order);
+            }
+        }
+
+        private AddressModel GetAddress(string address)
+        {
+            try
+            {
+                var model = JsonConvert.DeserializeObject<AddressModel>(address);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                return new AddressModel();
+            }
+        }
+
+        /// <summary>
+        /// Получить список товаров заказа
+        /// </summary>
+        /// <param name="orderId">Ид заказа</param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        private List<OrderAdmin.OrderProductModel> GetOrderProducts(int orderId, DataContext db)
+        {
+            var model = db.OrderProducts.Include(x => x.Product)
+                .Where(x => x.OrderId == orderId && !x.IsDelete.HasValue).ToList()
+                .Select(x => new OrderAdmin.OrderProductModel
+                {
+                    Id = x.Id,
+                    ProductId = x.ProductId,
+                    ProductName = x.Product?.Name,
+                    PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.ProductId.ToString()),
+                    Quantity = x.Quantity,
+                    Price = x.Price,
+                    Discount = x.Discount,
+                    Amount = x.Amount
+                }).ToList();
+            return model;
+        }
+
+        /// <summary>
+        /// Изменить статус заказу
+        /// </summary>
+        /// <param name="orderId">Ид заказа</param>
+        /// <param name="status">Статус</param>
+        /// <returns></returns>
+        public BaseResponse ChangeOrderStatus(int orderId, int status)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var order = db.OrderHeaders.FirstOrDefault(x => x.Id == orderId);
+                    if(order==null)
+                        return new BaseResponse(EnumResponseStatus.Error,"Заказ не найден");
+                    order.Status = status;
+                    db.SaveChanges();
+                    return new BaseResponse(EnumResponseStatus.Success,"Статус успешно изменен");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception,ex.Message);
+            }
+        }
 
         #endregion
 

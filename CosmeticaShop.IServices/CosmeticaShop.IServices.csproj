@@ -92,9 +92,12 @@
     <Compile Include="Models\Brand\BrandModel.cs" />
     <Compile Include="Models\Category\CategoryEditModel.cs" />
     <Compile Include="Models\Category\CategoryModel.cs" />
+    <Compile Include="Models\Coupon\CouponModel.cs" />
     <Compile Include="Models\Navigation\NavigationItemModel.cs" />
     <Compile Include="Models\Navigation\NavigationModel.cs" />
     <Compile Include="Models\Navigation\NavigationViewModel.cs" />
+    <Compile Include="Models\Order\Admin\OrderHeaderModel.cs" />
+    <Compile Include="Models\Order\Admin\OrderProductModel.cs" />
     <Compile Include="Models\Order\OrderHeaderModel.cs" />
     <Compile Include="Models\Order\OrderProductsModel.cs" />
     <Compile Include="Models\Pagination\PaginationModel.cs" />

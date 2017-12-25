@@ -131,6 +131,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\SitePageController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CabinetController.cs" />
@@ -1532,6 +1533,7 @@
     <Content Include="Areas\Admin\assets\global\plugins\jstree\dist\themes\default\style.min.css" />
     <Content Include="Areas\Admin\assets\global\plugins\jstree\dist\themes\default\throbber.gif" />
     <Content Include="Areas\Admin\assets\global\plugins\jstree\ui-tree.js" />
+    <Content Include="Areas\Admin\assets\global\plugins\moment-with-locales.js" />
     <Content Include="Areas\Admin\assets\global\plugins\moment.min.js" />
     <Content Include="Areas\Admin\assets\global\plugins\select2\css\select2-bootstrap.min.css" />
     <Content Include="Areas\Admin\assets\global\plugins\select2\css\select2.css" />
@@ -1771,7 +1773,15 @@
     <Content Include="Areas\Admin\assets\global\scripts\datatable.js" />
     <Content Include="Areas\Admin\assets\global\scripts\datatable.min.js" />
     <Content Include="Areas\Admin\assets\js\Enums\EnumResponseStatus.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Address\AddressModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Base\BaseFilterModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Order\OrderEditFormModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Order\OrderFormModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Order\OrderProductModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Order\OrderHeaderModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Coupon\CouponEditFormModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Coupon\CouponFormModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Coupon\CouponModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Slider\SliderFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Slider\SliderModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\ProductTag\ProductTagFormModel.js" />
@@ -1784,6 +1794,7 @@
     <Content Include="Areas\Admin\assets\js\Form\Category\CategoryModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Brand\BrandFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Brand\BrandModel.js" />
+    <Content Include="Areas\Admin\assets\js\knockoutExtensions\knockout-ckeditor.js" />
     <Content Include="Areas\Admin\assets\js\knockoutExtensions\knockout-fileInput.js" />
     <Content Include="Areas\Admin\assets\js\microevent.js" />
     <Content Include="Areas\Admin\assets\js\init.js" />
@@ -2025,6 +2036,10 @@
     <Content Include="Areas\Admin\Views\SitePage\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SitePage\AddSlide.cshtml" />
     <Content Include="Areas\Admin\Views\SitePage\Slider.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Coupon\AddCoupon.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Coupon\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\content\Pagination.css" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\Filter.js" />

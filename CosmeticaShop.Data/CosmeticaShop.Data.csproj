@@ -70,9 +70,14 @@
     <Compile Include="Migrations\201712241745590_deleteColumn_IsUnauthorized_IN_OrderHeader.Designer.cs">
       <DependentUpon>201712241745590_deleteColumn_IsUnauthorized_IN_OrderHeader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712251933595_citiesSimularProdCodeIsRecomended.cs" />
+    <Compile Include="Migrations\201712251933595_citiesSimularProdCodeIsRecomended.Designer.cs">
+      <DependentUpon>201712251933595_citiesSimularProdCodeIsRecomended.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\City.cs" />
     <Compile Include="Models\Coupon.cs" />
     <Compile Include="Models\OrderHeader.cs" />
     <Compile Include="Models\OrderProduct.cs" />
@@ -107,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712241745590_deleteColumn_IsUnauthorized_IN_OrderHeader.resx">
       <DependentUpon>201712241745590_deleteColumn_IsUnauthorized_IN_OrderHeader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712251933595_citiesSimularProdCodeIsRecomended.resx">
+      <DependentUpon>201712251933595_citiesSimularProdCodeIsRecomended.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

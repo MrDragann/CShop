@@ -8,6 +8,7 @@ using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
+using CosmeticaShop.IServices.Models;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Navigation;
 using CosmeticaShop.IServices.Models.Requests;
@@ -64,6 +65,23 @@ namespace CosmeticaShop.Services
             catch (Exception ex)
             {
                 return new NavigationViewModel();
+            }
+        }
+
+        /// <summary>
+        /// Получить список всех городов
+        /// </summary>
+        /// <returns></returns>
+        public List<DictionaryModel> GetAllCities()
+        {
+            using (var db = new DataContext())
+            {
+                var model = db.Cities.AsNoTracking().Select(x => new DictionaryModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList();
+                return model;
             }
         }
 
