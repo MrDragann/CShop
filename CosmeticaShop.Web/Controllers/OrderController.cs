@@ -19,10 +19,19 @@ namespace CosmeticaShop.Web.Controllers
                 return RedirectToAction("Index", "Home");
             return View(model);
         }
-        public ActionResult AddOrder(int orderId,AddressModel address)
+        public ActionResult AddOrder(int orderId,AddressModel address,string email)
         {
-            var res = _orderService.AddOrder(orderId,address);
-            return Json(res);
+            var user = new WebUser();
+            if (user.IsAuthorized)
+            {
+                var res = _orderService.AddOrder(orderId, address, email, user.UserId);
+                return Json(res);
+            }
+            else
+            {
+                var res = _orderService.AddOrder(orderId, address, email, null);
+                return Json(res);
+            }
         }
 
     }

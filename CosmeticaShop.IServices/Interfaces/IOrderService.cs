@@ -59,7 +59,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// </summary>
         /// <param name="orderId">Ид заказа</param>
         /// <param name="address">Адрес доставки</param>
-        BaseResponse AddOrder(int orderId, AddressModel address);
+        BaseResponse AddOrder(int orderId, AddressModel address, string email, Guid? userId);
 
         #endregion
 
