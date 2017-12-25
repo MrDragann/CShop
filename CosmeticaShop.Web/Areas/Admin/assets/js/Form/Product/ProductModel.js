@@ -19,11 +19,12 @@
         this.Id = ko.observable(theParams.Id || "");
         this.BrandId = ko.observable(theParams.BrandId || "");
         this.Name = ko.observable(theParams.Name || "");
+        this.Code = ko.observable(theParams.Code || "");
         this.KeyUrl = ko.observable(theParams.KeyUrl || "");
         this.Description = ko.observable(theParams.Description || "");
 
-        this.Price = ko.observable(theParams.Price || "");
-        this.Discount = ko.observable(theParams.Discount || "");
+        this.Price = ko.observable(theParams.Price || 0);
+        this.Discount = ko.observable(theParams.Discount || 0);
 
         this.SeoKeywords = ko.observable(theParams.SeoKeywords || "");
         this.SeoDescription = ko.observable(theParams.SeoDescription || "");
@@ -34,9 +35,12 @@
         
         this.CategoriesId = ko.observableArray(theParams.CategoriesId || []);
         this.TagsId = ko.observableArray(theParams.TagsId || []);
+        this.SimilarProducts = ko.observableArray(theParams.SimilarProducts ? theParams.SimilarProducts.map(function (item) { return new Product.ProductModel(item) }) : []);
 
         this.PhotoUrl = ko.observable(theParams.PhotoUrl || "");
         this.Photos = ko.observableArray(theParams.Photos || []);
+
+        this.IsSelected = ko.observable(theParams.IsSelected || false);
         return this;
     };
 
@@ -54,6 +58,7 @@
             Id: this.Id(),
             BrandId: this.BrandId(),
             Name: this.Name(),
+            Code: this.Code(),
             KeyUrl: this.KeyUrl(),
             Description: this.Description(),
             Price: this.Price(),

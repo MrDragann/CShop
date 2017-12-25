@@ -108,6 +108,11 @@ namespace CosmeticaShop.IServices.Models.Product
         /// </summary>
         public decimal DiscountPrice { get; set; }
 
+        /// <summary>
+        /// Похожие товары
+        /// </summary>
+        public List<ProductEditModel> SimilarProducts { get; set; }
+
         #endregion
     }
 }

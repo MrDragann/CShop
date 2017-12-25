@@ -103,4 +103,16 @@
         });
     };
 
+    Product.ProductEditFormModel.prototype.OpenSelectModal = function (data) {
+        var self = this;
+
+        ProdeuctSelectModal.SimilarProducts = self.Product.SimilarProducts;
+        $(ProdeuctSelectModal.ModalSelector).modal("show");
+    }
+
+    Product.ProductEditFormModel.prototype.DeleteSimilarProduct = function (data) {
+        var self = this;
+        self.Product.SimilarProducts(self.Product.SimilarProducts().filter(function (item) { return item.Id() !== data.Id() }));
+    }
+
 })();

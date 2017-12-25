@@ -19,16 +19,17 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span class="active">@(Model.Product.Id==0?"Добавление":"Редактирование")</span>
+            <span class="active">@(Model.Product.Id == 0 ? "Добавление" : "Редактирование")</span>
         </li>
     </ul>
 }
 @section scripts
 {
+    @Html.Partial("~/Areas/Admin/Views/Product/Select/_selectModal.cshtml")
     <script src="~/Scripts/jquery.liTranslit.js"></script>
-<script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/jquery.collagePlus.js"></script>
-<script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/extras/jquery.removeWhitespace.js"></script>
-<script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/extras/jquery.collageCaption.js"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/jquery.collagePlus.js"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/extras/jquery.removeWhitespace.js"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/extras/jquery.collageCaption.js"></script>
     <script src="~/Areas/Admin/assets/js/Form/Product/ProductModel.js"></script>
     <script src="~/Areas/Admin/assets/js/Form/Product/ProductEditFormModel.js"></script>
     <script>
@@ -55,7 +56,7 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-green sbold uppercase">@((Model.Product.Id==0?"Добавление":"Редактирование")+" товара")</span>
+                    <span class="caption-subject font-green sbold uppercase">@((Model.Product.Id == 0 ? "Добавление" : "Редактирование") + " товара")</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -76,6 +77,11 @@
                                 Фото
                             </a>
                         </li>
+                        <li>
+                            <a href="#similar-products" data-toggle="tab">
+                                Фото
+                            </a>
+                        </li>
                     </ul>
                     <div class="form-body form-horizontal" data-bind="with:FormModel.Product">
                         <div class="tab-content">
@@ -85,6 +91,14 @@
                                     <label class="col-md-2 control-label" for="Name">Наименование</label>
                                     <div class="col-md-10">
                                         <input data-bind="value:Name" maxlength="128" class="form-control input-lg" id="Name" name="Name" required="required" type="text">
+                                        <div class="form-control-focus">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-md-line-input">
+                                    <label class="col-md-2 control-label" for="Code">Код</label>
+                                    <div class="col-md-10">
+                                        <input data-bind="value:Code" maxlength="128" class="form-control input-lg" id="Code" name="Code" required="required" type="text">
                                         <div class="form-control-focus">
                                         </div>
                                     </div>
@@ -134,7 +148,7 @@
                                     <div class="col-md-10">
                                         <div class="md-checkbox">
                                             <input type="checkbox" data-bind="checked:IsRecommended" class="md-check" id="IsRecommended" name="IsRecommended" />
-                                            <label for="IsInStock">
+                                            <label for="IsRecommended">
                                                 <span class="inc"></span>
                                                 <span class="check"></span>
                                                 <span class="box"></span>
@@ -161,7 +175,7 @@
                                     <label class="col-md-2 control-label">Видимость</label>
                                     <div class="col-md-10">
                                         <div class="md-checkbox">
-                                            <input type="checkbox" data-bind="checked:IsActive" class="md-check" id="IsActive" name="IsActive"/>
+                                            <input type="checkbox" data-bind="checked:IsActive" class="md-check" id="IsActive" name="IsActive" />
                                             <label for="IsActive">
                                                 <span class="inc"></span>
                                                 <span class="check"></span>
@@ -191,14 +205,14 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="tab-pane fade" id="photos">
                                 <div class="form-group form-md-line-input">
                                     <label class="control-label col-md-2" for="PhotoFile">Превью</label>
                                     <div class="col-md-8">
                                         <div class="fileinput fileinput-new" data-provides="fileinput">
                                             <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 100%; height: 160px;">
-                                                <img data-bind="attr:{src:PhotoUrl()}"/>
+                                                <img data-bind="attr:{src:PhotoUrl()}" />
                                             </div>
                                             <div>
                                                 <span class="btn blue btn-file">
@@ -242,6 +256,40 @@
                                             <!--/ko-->
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="similar-products">
+                                <div class="table-scrollable">
+                                    <table class="table table-hover table-light">
+                                        <thead>
+                                        <tr>
+                                            <th>Изображение</th>
+                                            <th>Наименование</th>
+                                            <th>Цена</th>
+                                            <th>Видимость</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach:SimilarProducts">
+                                        <tr>
+                                            <td>
+                                                <img data-bind="attr:{src:PhotoUrl()}" width="80">
+                                            </td>
+                                            <td data-bind="text:Name"></td>
+                                            <td data-bind="text:Price"></td>
+                                            <td>
+                                                <i data-bind="css:(IsActive()?'fa-check':'fa-close')" class="fa false-icon"></i>
+                                            </td>
+                                            <td>
+                                                <button data-bind="click:FormModel.DeleteSimilarProduct.bind(FormModel)" type="button" class="fa fa-remove btn btn-sm red"></button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <button type="button" class="btn green" data-bind="click:OpenSelectModal.bind(FormModel)">
+                                        <i class="icon-plus"></i> Добавить товар
+                                    </button>
                                 </div>
                             </div>
                         </div>

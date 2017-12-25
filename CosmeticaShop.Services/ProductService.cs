@@ -443,7 +443,9 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var product = db.Products.Include(x => x.Categories).Include(x => x.ProductTags).AsNoTracking().Where(x => x.Id == productId)
+                var product = db.Products.AsNoTracking()
+                    .Include(x => x.Categories).Include(x => x.ProductTags).Include(x=>x.SimilarProducts)
+                    .Where(x => x.Id == productId)
                     .Select(x => new ProductEditModel
                     {
                         Id = x.Id,
@@ -458,12 +460,23 @@ namespace CosmeticaShop.Services
                         IsInStock = x.IsInStock,
                         IsActive = x.IsActive,
                         CategoriesId = x.Categories.Select(c => c.Id).ToList(),
-                        TagsId = x.ProductTags.Select(t => t.Id).ToList()
+                        TagsId = x.ProductTags.Select(t => t.Id).ToList(),
+                        SimilarProducts = x.SimilarProducts.Select(sp=>new ProductEditModel
+                        {
+                            Id = sp.Id,
+                            Name = sp.Name,
+                            Price = sp.Price,
+                            IsActive = sp.IsActive
+                        }).ToList()
                     }).FirstOrDefault();
                 if (product == null)
                     return new BaseResponse<ProductEditModel>(EnumResponseStatus.Error, "Товар не найден", new ProductEditModel());
                 product.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, productId.ToString());
                 product.Photos = FileManager.GetFileUrls(EnumDirectoryType.Product, productId.ToString());
+                product.SimilarProducts.ForEach(x =>
+                {
+                    x.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, productId.ToString());
+                });
                 return new BaseResponse<ProductEditModel>(EnumResponseStatus.Success, product);
             }
         }
@@ -501,6 +514,20 @@ namespace CosmeticaShop.Services
                         newProduct.Categories = db.Categories.Where(x => model.CategoriesId.Contains(x.Id)).ToList();
                     if (model.TagsId != null)
                         newProduct.ProductTags = db.ProductTags.Where(x => model.TagsId.Contains(x.Id)).ToList();
+
+                    var products = db.Products.AsNoTracking().ToList();
+                    var similarProducts = new List<Product>();
+                    // добавление похожих товаров
+                    if (model.SimilarProducts != null)
+                    {
+                        foreach (var product in model.SimilarProducts)
+                        {
+                            var similarProduct = products.FirstOrDefault(x => x.Id == product.Id);
+                            if (similarProduct != null)
+                                similarProducts.Add(similarProduct);
+                        }
+                    }
+                    newProduct.SimilarProducts = similarProducts;
                     db.Products.Add(newProduct);
 
                     db.SaveChanges();
@@ -550,6 +577,20 @@ namespace CosmeticaShop.Services
                     old.ProductTags = model.TagsId != null
                         ? db.ProductTags.Where(x => model.TagsId.Contains(x.Id)).ToList()
                         : null;
+
+                    var products = db.Products.AsNoTracking().ToList();
+                    var similarProducts = new List<Product>();
+                    // похожие товары
+                    if (model.SimilarProducts != null)
+                    {
+                        foreach (var product in model.SimilarProducts)
+                        {
+                            var similarProduct = products.FirstOrDefault(x => x.Id == product.Id);
+                            if (similarProduct != null)
+                                similarProducts.Add(similarProduct);
+                        }
+                    }
+                    old.SimilarProducts = similarProducts;
 
                     if (model.PhotoFile != null)
                     {

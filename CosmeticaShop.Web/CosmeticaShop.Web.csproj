@@ -1782,6 +1782,7 @@
     <Content Include="Areas\Admin\assets\js\Form\Coupon\CouponEditFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Coupon\CouponFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Coupon\CouponModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Product\ProductSelectFilter.js" />
     <Content Include="Areas\Admin\assets\js\Form\Slider\SliderFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Slider\SliderModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\ProductTag\ProductTagFormModel.js" />
@@ -2040,6 +2041,7 @@
     <Content Include="Areas\Admin\Views\Product\Coupon\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Select\_selectModal.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\content\Pagination.css" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\Filter.js" />
