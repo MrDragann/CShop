@@ -39,6 +39,25 @@ namespace CosmeticaShop.IServices.Interfaces
         List<ProductBaseModel> GetDiscountProducts(PaginationRequest request);
 
         /// <summary>
+        /// Получить рекомендованные товары
+        /// </summary>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        List<ProductBaseModel> GetRecomendProducts(int take);
+
+        /// <summary>
+        /// Получить товары со скидкой
+        /// </summary>
+        /// <returns></returns>
+        List<ProductBaseModel> GetRandomDiscountProducts();
+
+        /// <summary>
+        /// Получить похожие товары товары
+        /// </summary>
+        /// <param name="productId">Ид товара</param>
+        /// <returns></returns>
+        List<ProductBaseModel> GetSimilarProducts(int productId);
+        /// <summary>
         /// Получить товар
         /// </summary>
         /// <param name="id">Ид товара</param>
@@ -51,7 +70,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         List<ProductBaseModel> GetProducts(ProductFilterModel request);
-
+    
         /// <summary>
         /// Получить самые продоваемые товары
         /// </summary>

@@ -72,10 +72,8 @@
                 </div>
                 <div class="form-group">
                     <label>Orașul:</label>
-                    <select class="form-control" data-bind="value:City">
-                        <option>București</option>
-                        <option>Chisinau</option>
-                        <option>chisinau</option>
+                    <select class="form-control" data-bind="options:$parent.Cities,optionsText:'Name',optionsValue:'Name',value:City">
+         
                     </select>
 
                 </div>

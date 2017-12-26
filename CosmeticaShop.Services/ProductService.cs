@@ -70,12 +70,87 @@ namespace CosmeticaShop.Services
                 {
                     query = query.Where(x => x.Name.Contains(request.Search)).ToList();
                 }
+                if (request?.TagsId?.Count > 0)
+                {
+                    query = query.Where(x => request.TagsId.Any(m => x.ProductTags.Any(t => t.Id == m))).ToList();
+                }
+                if (request != null && request.Discount)
+                {
+                    query = query.Where(x => x.Discount > 0).OrderByDescending(x => x.Discount).ToList();
+                }
                 var products = query.Select(ConvertToProductBaseModel).ToList();
                 products.ForEach(x =>
                 {
                     x.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.Id.ToString());
                 });
                 return products;
+            }
+        }
+        /// <summary>
+        /// Получить рекомендованные товары
+        /// </summary>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public List<ProductBaseModel> GetRecomendProducts(int take)
+        {
+            using (var db = new DataContext())
+            {
+                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories).Where(x => x.IsRecommended).ToList();
+                var products = query.Select(ConvertToProductBaseModel).ToList();
+                var productsRandom = CalculationService.GetRandomProducts(products, take);
+                productsRandom.ForEach(x =>
+                {
+                    x.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.Id.ToString());
+                });
+                return productsRandom;
+            }
+        }
+        /// <summary>
+        /// Получить товары со скидкой
+        /// </summary>
+        /// <returns></returns>
+        public List<ProductBaseModel> GetRandomDiscountProducts()
+        {
+            using (var db = new DataContext())
+            {
+                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories).Where(x => x.Discount > 0).ToList();
+                var products = query.Select(ConvertToProductBaseModel).ToList();
+                var productsRandom = CalculationService.GetRandomProducts(products, 4);
+                productsRandom.ForEach(x =>
+                {
+                    x.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.Id.ToString());
+                });
+                return productsRandom;
+            }
+        }
+        /// <summary>
+        /// Получить похожие товары товары
+        /// </summary>
+        /// <param name="productId">Ид товара</param>
+        /// <returns></returns>
+        public List<ProductBaseModel> GetSimilarProducts(int productId)
+        {
+            using (var db = new DataContext())
+            {
+                var allProducts = db.Products.Include(x => x.Brand).Include(x => x.Categories).Include(x => x.SimilarProducts).ToList();
+                var product = allProducts.FirstOrDefault(x => x.Id == productId);
+                if (product == null)
+                    return new List<ProductBaseModel>();
+                var similarProducts = product.SimilarProducts;
+                var products = similarProducts.Select(ConvertToProductBaseModel).ToList();           
+                var productsRandom = CalculationService.GetRandomProducts(products, 4);
+                if (productsRandom.Count < 4)
+                {
+                    var categoriesId = product.Categories.Select(x => x.Id);
+                    var similarCategories = allProducts.Where(x => categoriesId.Any(m => x.Categories.Any(c => c.Id == m))).ToList();
+                    var similarCategoriesRandom = CalculationService.GetRandomProducts(similarCategories.Select(ConvertToProductBaseModel).ToList(), 4-productsRandom.Count);
+                    productsRandom.AddRange(similarCategoriesRandom);
+                }
+                productsRandom.ForEach(x =>
+                {
+                    x.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.Id.ToString());
+                });
+                return productsRandom;
             }
         }
         /// <summary>
@@ -410,7 +485,7 @@ namespace CosmeticaShop.Services
                 {
                     foreach (var id in product.TagsId)
                     {
-                        if(tagsIds.Any(x=>x == id))
+                        if (tagsIds.Any(x => x == id))
                             continue;
                         tagsIds.Add(id);
                     }
@@ -420,10 +495,10 @@ namespace CosmeticaShop.Services
                 foreach (var tagId in tagsIds)
                 {
                     var tag = tags.FirstOrDefault(x => x.Id == tagId);
-                    if (tag!=null)
-                        tagsModel.Add(new TagModel(){Id = tag.Id, Name =  tag.Name});
+                    if (tag != null)
+                        tagsModel.Add(new TagModel() { Id = tag.Id, Name = tag.Name });
                 }
-                return tagsModel;
+                return tagsModel.Take(30).ToList();
             }
         }
 

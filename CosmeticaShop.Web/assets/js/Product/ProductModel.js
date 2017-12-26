@@ -62,7 +62,7 @@
     /**
     * Добавить товар в желаемое 
     */
-    Product.ProductModel.prototype.AddProductWish = function () {
+    Product.ProductModel.prototype.AddProductWish = function (params) {
         var self = this;
         $.post(urlAddProductWish, {
             productId: this.Id()
@@ -70,6 +70,9 @@
             if (res.IsSuccess) {
                 self.IsWish(true);
                 $("#wish-success").modal("show");
+                if (params && params === "pageWish") {
+                    ViewModel.Products.push(self);
+                }
             }
             else {
                 console.error(res.Message);

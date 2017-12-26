@@ -14,5 +14,6 @@ namespace CosmeticaShop.Web.Models
         /// </summary>
         public  List<BrandModel> Brands { get; set; }
         public List<ProductBaseModel> BestSellers { get; set; }
+        public List<ProductBaseModel> Recommends { get; set; }
     }
 }

@@ -9,6 +9,8 @@
 
     <script src="~/assets/js/Plugins/slick/slick.js"></script>
     <script src="~/assets/js/Plugins/slick/slickInit.js"></script>
+    <script src="~/assets/js/Product/ProductModel.js"></script>
+    <script src="~/assets/js/Product/ProductLineView.js"></script>
     <script src="~/assets/js/Product/ProductDetailModel.js"></script>
     <script src="~/assets/js/Product/ProductDetailViewModel.js"></script>
     <script>
@@ -19,6 +21,9 @@
         params.Model = @Html.Raw(JsonConvert.SerializeObject(Model.Product));
         var urlDeleteWish = '@Url.Action("DeleteWish","Favorites")';
         var ViewModel = new Product.ProductDetailViewModel(params);
+        var paramsSimilar = {};
+        paramsSimilar.Products = @Html.Raw(JsonConvert.SerializeObject(Model.SimilarProduct));
+        var SimilarModel = new Product.ProductLineView(paramsSimilar);
     </script>
 }
 
@@ -42,14 +47,14 @@
                     <div class="slider-single" data-bind="foreach:Photos">
                         <div class="item">
                             <img data-bind="attr:{src:$data}" />
-                        </div>                       
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="slider-nav col-md-12 " align="center" data-bind="foreach:Photos">
                 <div class="item">
                     <img data-bind="attr:{src:$data}" />
-                </div>       
+                </div>
             </div>
 
         </div>
@@ -58,10 +63,10 @@
 
             <div class="row">
                 <div class="col-md-6 block-info-product">
-                    <div class="title-product" data-bind="text:Name">               
+                    <div class="title-product" data-bind="text:Name">
                     </div>
                     <div class="info-product">
-                        <div data-bind="text:BrandName">                     
+                        <div data-bind="text:BrandName">
                         </div>
                         <div data-bind="text:'cod: '+Code()">
                             cod: 001001001
@@ -80,7 +85,7 @@
                         <!--ko if:DiscountPercent()===0-->
                         <span class="title-product" data-bind="text:Price()+' lei'"></span>
                         <!--/ko-->
-                      
+
                         <div class="info-product">
                             <div class="pink-text">
                                 <!--ko if:IsInStock-->
@@ -93,22 +98,21 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <select class="form-control select-count" data-bind="options:$parent.SelectQuantity,value:Quantity">
-                        </select>
+                        <select class="form-control select-count" data-bind="options:$parent.SelectQuantity,value:Quantity"></select>
                     </div>
                     <div class="col-md-5">
                         <button class="btn-pink" data-bind="click:AddProductCart">Adaugă în coș</button>
                         <!--ko if:IsWish-->
-                        <div  class="pull-right product-like" data-bind="click:DeleteWish">
+                        <div class="pull-right product-like" data-bind="click:DeleteWish">
                             <i class="icon-pink-like "></i>
                         </div>
                         <!--/ko-->
                         <!--ko ifnot:IsWish-->
-                        <div  class="pull-right product-like" data-bind="click:AddProductWish">
+                        <div class="pull-right product-like" data-bind="click:AddProductWish">
                             <i class="icon-like "></i>
                         </div>
                         <!--/ko-->
-                       
+
                     </div>
                 </div>
             </div>
@@ -134,7 +138,7 @@
                     Descrierea produsului:
                 </div>
                 <div class="description-product" data-bind="html:Description">
-                   
+
                 </div>
             </div>
 
@@ -149,127 +153,66 @@
 
 <section>
     <div class="section-name">Produse similare</div>
-    <div class="row product-list">
+    <div class="row product-list" data-bind="foreach:SimilarModel.Products">
+
         <div class="col-md-3">
             <div class="item">
                 <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                        <div class="discount">reducere -35%</div>
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price crossOut-pink ">150 lei</span>
-                        <div>
-                            <span class="pink-price">99 lei</span>
+                    <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <div class="product-img">
+                            <img data-bind="attr:{src:PhotoUrl}" />
+                            <!--ko if:DiscountPercent()!==0-->
+                            <div class="discount" style="visibility:hidden;" data-bind="style:{visibility:DiscountPercent()!==0 ?'visible': 'hidden'}">
+                                reducere  <div>
+                                    -<span data-bind="text:DiscountPercent">35</span>%
+                                </div>
+                            </div>
+                            <!--/ko-->
                         </div>
+                    </a>
+                    <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <div class="product-description title">
+                            <span class="pink-text" data-bind="text:BrandName">
+
+                            </span>
+                        </div>
+                    </a>
+                    <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <div class="product-description">
+                            <span class="grey-text" data-bind="text:Name"></span>
+                        </div>
+                    </a>
+
+                    <div class="product-description">
+                        <!--ko if:DiscountPercent()!==0-->
+                        <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>
+                        <div>
+                            <span class="pink-price" data-bind="text:DiscountPrice()+' lei'"></span>
+                        </div>
+                        <!--/ko-->
+                        <!--ko if:DiscountPercent()===0-->
+                        <span class="grey-price" data-bind="text:Price()+' lei'"></span>
+                        <!--/ko-->
                     </div>
                 </div>
                 <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
+                    <!--ko if:IsWish-->
+                    <div class="pull-left" data-bind="click:DeleteWish">
+                        <i class="icon-pink-like "></i>
                     </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
+                    <!--/ko-->
+                    <!--ko ifnot:IsWish-->
+                    <div class="pull-left" data-bind="click:AddProductWish">
+                        <i class="icon-like "></i>
+                    </div>
+                    <!--/ko-->
+                    <div class="pull-right" data-bind="click:AddProductCart">
+                        <span style="cursor: pointer;">iau!</span> <i class="icon-product-cart"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            jean destrees
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">cc cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product2.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            christina
-                            cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">
-                            BIO PHYTO
-                            ANTI ROUGEURS MASK
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
     </div>
 </section>
@@ -280,7 +223,7 @@
             Adaugă recenzie
         </div>
 
-        <input type="text" class="review" data-bind="textInput:Review,event:{keydown:function(data,event){if(event.keyCode === 13){AddReview(ViewModel)}else return true}}"/>
+        <input type="text" class="review" data-bind="textInput:Review,event:{keydown:function(data,event){if(event.keyCode === 13){AddReview(ViewModel)}else return true}}" />
     </div>
 }
 <div class="reviews" data-bind="with:ViewModel.Model">
@@ -289,12 +232,12 @@
 
         <div class="row item">
             <div class="col-md-3 user">
-                <img src="~/assets/img/woman-photo.png"/>
+                <img src="~/assets/img/woman-photo.png" />
                 <span data-bind="text:User.FirstName+' '+ User.LastName"></span>
             </div>
             <div class="col-md-9">
                 <div class="col-md-9 message" data-bind="text:Content">
-                
+
                 </div>
                 <div class="col-md-3 date" data-bind="text:new Date(DateCreateJs).toLocaleDateString()"></div>
             </div>
@@ -302,6 +245,6 @@
 
     </div>
     <!--/ko-->
-    
+
 </div>
 @Html.Partial("~/Views/Shared/Popup/Wish.cshtml")

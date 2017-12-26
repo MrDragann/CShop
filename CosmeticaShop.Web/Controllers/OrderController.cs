@@ -6,6 +6,7 @@ using CosmeticaShop.IServices.Models.Order;
 using CosmeticaShop.IServices.Models.User;
 using CosmeticaShop.Services;
 using CosmeticaShop.Web.Infrastructure;
+using CosmeticaShop.Web.Models;
 
 namespace CosmeticaShop.Web.Controllers
 {
@@ -14,6 +15,7 @@ namespace CosmeticaShop.Web.Controllers
         private readonly IOrderService _orderService = new OrderService();
         private readonly IAuthCommonService _authCommonService = new AuthCommonService();
         private readonly IUserService _userService = new UserService();
+        private readonly ISitePageSevice _sitePageSevice = new SitePageSevice();
         public ActionResult Index(int orderId)
         {
             var user = new WebUser();
@@ -34,9 +36,14 @@ namespace CosmeticaShop.Web.Controllers
                     System.Web.HttpContext.Current.Session["UserSession"] = webUser;
                 }
             }
-            var model = _orderService.GetOrder(orderId);
-            if (model.Status != (int)EnumStatusOrder.Cart)
+            var order = _orderService.GetOrder(orderId);
+            if (order.Status != (int)EnumStatusOrder.Cart)
                 return RedirectToAction("Index", "Home");
+            var model = new OrderViewModel
+            {
+                Cities = _sitePageSevice.GetAllCities(),
+                Order = order
+            };
             return View(model);
         }
         public ActionResult AddOrder(int orderId, AddressModel address, string email)

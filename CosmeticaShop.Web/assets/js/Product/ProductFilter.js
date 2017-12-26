@@ -16,8 +16,10 @@
         theParams = theParams || {};
         this.BrandiesId = ko.observableArray(theParams.BrandiesId ? theParams.BrandiesId.map(function (item) { return item.toString() }) : []);  
         this.CategoriesId = ko.observableArray(theParams.CategoriesId ? theParams.CategoriesId.map(function (item) { return item.toString() }) : []);   
-        this.Page = ko.observable(theParams.Page || "");     
+        this.Page = ko.observable(theParams.Page || "");    
+        this.TagsId = ko.observable(theParams.TagsId ? theParams.TagsId.map(function (item) { return item.toString() }) : []);
         this.Search = ko.observable(theParams.Search || "");
+        this.Discount = ko.observable(theParams.Discount || false);
        
         return this;
     };
@@ -28,12 +30,16 @@
     Products.ProductFilter.prototype.constructor = Products.ProductFilter;
 
     Products.ProductFilter.prototype.GetData = function () {
-        return {
+        var model =  {
             search: this.Search(),
             BrandiesId: this.BrandiesId(),
             page: this.Page(),
-            CategoriesId: this.CategoriesId()
+            CategoriesId: this.CategoriesId(),
+            TagsId:this.TagsId()
         }
+        if (this.Discount())
+            model.Discount = this.Discount();
+        return model;
     }
 
 

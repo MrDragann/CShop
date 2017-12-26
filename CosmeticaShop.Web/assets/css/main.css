@@ -184,12 +184,12 @@ ul {
     background-repeat: no-repeat;
 }
 
-.icon-arrow-right-mini {
+.icon-free-delivery {
     display: inline-block;
     cursor: pointer;
-    width: 30px;
-    height: 30px;
-    background-image: url('/assets/img/icons/arrow-right-mini.png');
+    width: 65px;
+    height: 56px;
+    background-image: url('../img/icons/free-delivery.png');
     background-repeat: no-repeat;
 }
 

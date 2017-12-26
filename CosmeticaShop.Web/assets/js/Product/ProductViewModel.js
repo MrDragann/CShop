@@ -18,6 +18,9 @@
         this.Filter.CategoriesId.subscribe(function () {
             self.UpdateProducts();
         });
+        this.Filter.TagsId.subscribe(function () {            
+            self.UpdateProducts();
+        });
         return this;
     };
 

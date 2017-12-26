@@ -79,7 +79,7 @@
                 @foreach (var tag in Model.Tags)
                 {
                     <div>
-                        <input type="checkbox" name="tag" id="@tag.Id@tag.Name" value="@tag.Id.ToString()" />
+                        <input type="checkbox" name="tag"  data-bind="checked:TagsId" id="@tag.Id@tag.Name" value="@tag.Id.ToString()" />
                         <label for="@tag.Id@tag.Name"><span></span>@tag.Name</label>
                     </div>
                 }
@@ -183,7 +183,7 @@
                     }
 
                 </div>
-                @if (Model.Pagination.PageSize < Model.Pagination.PageNumber)
+                @if (Model.Pagination.PageSize > Model.Pagination.PageNumber)
                 {
                     <a href="@Url.Action("Index", "Product", new {page = Model.Pagination.PageNumber + 1})">
                         <span class="next icon-arrow-right-mini"></span>

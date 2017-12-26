@@ -23,6 +23,7 @@ namespace CosmeticaShop.Web.Controllers
         {
             const int take = 21;
             var products = _productService.GetProducts(request);
+    
             if (!page.HasValue)
                 page = 1;
             var model = new ProductsViewModel()
@@ -36,7 +37,7 @@ namespace CosmeticaShop.Web.Controllers
                     Skip = ((int)page - 1) * take,
                     Take = take,
                     PageNumber = (int)page,
-                    PageSize = products.Count / take + 1
+                    PageSize = products.Count / take
                 },
                 Filter = request,
                 Categories = _categoryService.GetCategories(),
@@ -100,7 +101,8 @@ namespace CosmeticaShop.Web.Controllers
             var model = new ProductDetailsView()
             {
                 Product = product,
-                PossibilityReview = possibilityReview
+                PossibilityReview = possibilityReview,
+                SimilarProduct = _productService.GetSimilarProducts(id)
             };
             SetSitePageSettings(model.Product.Name, model.Product.SeoKeywords, model.Product.SeoDescription);
             return View(model);

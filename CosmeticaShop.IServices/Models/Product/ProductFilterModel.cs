@@ -17,8 +17,16 @@ namespace CosmeticaShop.IServices.Models.Product
         /// </summary>
         public List<int> CategoriesId { get; set; }
         /// <summary>
+        /// Список тэгов
+        /// </summary>
+        public List<int> TagsId { get; set; }
+        /// <summary>
         /// Поиск
         /// </summary>
         public string Search { get; set; }
+        /// <summary>
+        /// Скидки
+        /// </summary>
+        public bool Discount { get; set; }
     }
 }

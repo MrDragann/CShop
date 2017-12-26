@@ -16,5 +16,9 @@ namespace CosmeticaShop.Web.Models
         /// Возможность оставление отзыва
         /// </summary>
         public bool PossibilityReview { get; set; }
+        /// <summary>
+        /// Похожие товары
+        /// </summary>
+        public List<ProductBaseModel> SimilarProduct { get; set; }
     }
 }

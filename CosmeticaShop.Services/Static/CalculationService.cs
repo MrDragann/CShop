@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CosmeticaShop.IServices.Models.Product;
 
 namespace CosmeticaShop.Services.Static
 {
@@ -35,6 +36,35 @@ namespace CosmeticaShop.Services.Static
                 password += (char)arr[i];
             }
             return password;
+        }
+
+        /// <summary>
+        /// Получить рандомную элементы массива
+        /// </summary>
+        ///  <param name="products">Товары</param>
+        /// <param name="take">Размер рандомного массива</param>
+        /// <returns></returns>
+        public static List<ProductBaseModel> GetRandomProducts(List<ProductBaseModel> products,int take)
+        {
+            List<ProductBaseModel> productsRandom = new List<ProductBaseModel>();
+            int k;
+            Random rand = new Random();
+            var count = take;
+            if (products.Count < take)
+                count = products.Count;
+            for (int i = 0; i < count; i++)
+            {
+                while (true)
+                {
+                    k = rand.Next(products.Count);
+                    if (productsRandom.All(x => products[k].Id != x.Id))
+                    {
+                        productsRandom.Add(products[k]);
+                        break;
+                    }
+                }
+            }
+            return productsRandom;
         }
     }
 }
