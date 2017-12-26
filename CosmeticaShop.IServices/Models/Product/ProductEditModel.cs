@@ -33,7 +33,10 @@ namespace CosmeticaShop.IServices.Models.Product
         /// Наименование
         /// </summary>
         public string Name { get; set; }
-
+        /// <summary>
+        /// Код товара
+        /// </summary>
+        public string Code { get; set; }
         /// <summary>
         /// Url товара
         /// </summary>

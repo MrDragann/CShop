@@ -1,4 +1,5 @@
 ﻿<!-- BEGIN CORE PLUGINS -->
+<script src="~/Areas/Admin/assets/global/scripts/sessvars.js"></script>
 <script src="~/Areas/Admin/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 <script src="~/Areas/Admin/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="~/Areas/Admin/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
@@ -36,4 +37,31 @@
 <script src="~/Areas/Admin/assets/js/Form/Base/BaseFilterModel.js"></script>
 <script>
     moment.locale("ru");
+    $(function () {
+
+        if (sessvars.OldLocation == undefined) sessvars.OldLocation = "settings";
+        if (sessvars.NewLocation == undefined) sessvars.NewLocation = "";
+
+        var pathname = window.location.pathname.split('/');
+        eachLink(pathname[pathname.length - 1].toLowerCase());
+
+        if (sessvars.NewLocation !== sessvars.OldLocation) {
+            sessvars.OldLocation = sessvars.NewLocation;
+        } else eachLink(sessvars.OldLocation);
+
+        function eachLink(name) {
+            $('.page-sidebar-menu li a').each(function () {
+                var thislink = $(this).attr('href').split('/');
+
+                if (thislink[thislink.length - 1].toLowerCase() === name.toLowerCase()) {
+                    sessvars.NewLocation = thislink[thislink.length - 1];
+                    $('.page-sidebar-menu li').each(function () {
+                        $(this).removeClass("active open");
+                    });
+                    $(this).addClass('active open');
+                    $(this).parents('.nav-item').addClass('active open');
+                }
+            });
+        }
+    });
 </script>

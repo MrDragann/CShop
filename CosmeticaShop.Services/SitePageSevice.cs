@@ -361,6 +361,118 @@ namespace CosmeticaShop.Services
 
         #endregion
 
+        #region [ Города ]
+        
+        /// <summary>
+        /// Получить список городов
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public PaginationResponse<DictionaryModel> GetFilteredCities(PaginationRequest<BaseFilter> request)
+        {
+            using (var db = new DataContext())
+            {
+                var query = db.Cities.AsNoTracking()
+                    .OrderByDescending(x => x.Id) as IQueryable<City>;
+
+                if (!string.IsNullOrEmpty(request.Filter.Term))
+                    query = query.Where(x => x.Name.ToLower().Contains(request.Filter.Term.ToLower()));
+
+                var model = new PaginationResponse<DictionaryModel> { Count = query.Count() };
+
+                query = request.Load(query);
+
+                model.Items = query.Select(x => new DictionaryModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList();
+                return model;
+            }
+        }
+
+        /// <summary>
+        /// Редактирование города
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        public BaseResponse CityEdit(DictionaryModel model)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    if (db.Cities.AsNoTracking().Any(x => x.Name == model.Name && x.Id != model.Id))
+                        return new BaseResponse(EnumResponseStatus.ValidationError, "Город с таким наименованием уже существует");
+                    var city = db.Cities.FirstOrDefault(x => x.Id == model.Id);
+                    if (city == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Город не найден");
+                    city.Name = model.Name;
+                    db.SaveChanges();
+                    return new BaseResponse(EnumResponseStatus.Success, "Город успешно изменен");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Добавление нового города
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        public BaseResponse CityAdd(DictionaryModel model)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    if (db.Cities.AsNoTracking().Any(x => x.Name == model.Name))
+                        return new BaseResponse(EnumResponseStatus.ValidationError, "Город с таким наименованием уже существует");
+                    var city = new City
+                    {
+                        Name = model.Name
+                    };
+                    db.Cities.Add(city);
+                    db.SaveChanges();
+                    return new BaseResponse(EnumResponseStatus.Success, "Город успешно добавлен");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Удаление города
+        /// </summary>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
+        public BaseResponse CityDelete(int cityId)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var city = db.Cities.FirstOrDefault(x => x.Id == cityId);
+                    if (city == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Город не найден");
+                    db.Cities.Remove(city);
+                    db.SaveChanges();
+                    return new BaseResponse(0, "Город успешно удален");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        #endregion
+
         #endregion
     }
 }

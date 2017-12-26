@@ -7,9 +7,11 @@ using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Category;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.Services;
+using CosmeticaShop.Web.Infrastructure;
 
 namespace CosmeticaShop.Web.Areas.Admin.Controllers
 {
+    [Authorization(Roles = ConstRoles.Admin)]
     public class CategoryController : Controller
     {
         private ICategoryService _categoryService = new CategoryService();

@@ -94,7 +94,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// </summary>
         /// <param name="request">фильтр</param>
         /// <returns></returns>
-        PaginationResponse<ProductEditModel> GetFilteredProducts(PaginationRequest<BaseFilter> request);
+        PaginationResponse<ProductEditModel> GetFilteredProducts(PaginationRequest<ProductEditModel> request);
 
         /// <summary>
         /// Получить модель товара для редактирования

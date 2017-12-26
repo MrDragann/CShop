@@ -71,7 +71,8 @@
             IsInStock: this.IsInStock(),
             IsActive: this.IsActive(),
             CategoriesId: this.CategoriesId(),
-            TagsId: this.TagsId()
+            TagsId: this.TagsId(),
+            SimilarProducts: this.SimilarProducts().map(function (item) { return item.GetData() })
         }
     }
 })();

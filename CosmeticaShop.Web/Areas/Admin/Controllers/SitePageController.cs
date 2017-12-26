@@ -5,15 +5,18 @@ using System.Web;
 using System.Web.Mvc;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
+using CosmeticaShop.IServices.Models;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Requests;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.SitePage;
 using CosmeticaShop.IServices.Models.Slider;
 using CosmeticaShop.Services;
+using CosmeticaShop.Web.Infrastructure;
 
 namespace CosmeticaShop.Web.Areas.Admin.Controllers
 {
+    [Authorization(Roles = ConstRoles.Admin)]
     public class SitePageController : Controller
     {
         #region [ Сервисы ]
@@ -79,6 +82,53 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         public ActionResult DeleteSlide(int id)
         {
             var response = _sitePageSevice.DeleteSlide(id);
+            return Json(response);
+        }
+
+        #endregion
+
+        #region [ Города ]
+
+        public ActionResult Cities()
+        {
+            return View("~/Areas/Admin/Views/SitePage/City.cshtml");
+        }
+
+        /// <summary>
+        /// Список городов
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetFilteredCities(PaginationRequest<BaseFilter> request)
+        {
+            var model = _sitePageSevice.GetFilteredCities(request);
+            return Json(model);
+        }
+
+        /// <summary>
+        ///  Обновление города
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult CityUpdate(DictionaryModel model)
+        {
+            var response = model.Id == 0
+                ? _sitePageSevice.CityAdd(model)
+                : _sitePageSevice.CityEdit(model);
+            return Json(response);
+        }
+
+        /// <summary>
+        /// Удаление города
+        /// </summary>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult CityDelete(int cityId)
+        {
+            var response = _sitePageSevice.CityDelete(cityId);
             return Json(response);
         }
 

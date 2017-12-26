@@ -19,7 +19,7 @@ using CosmeticaShop.Web.Infrastructure;
 
 namespace CosmeticaShop.Web.Areas.Admin.Controllers
 {
-    //[Authorization]
+    [Authorization(Roles = ConstRoles.Admin)]
     public class ProductController : Controller
     {
         #region [ Сервисы ]
@@ -38,7 +38,7 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetFilteredProducts(PaginationRequest<BaseFilter> request)
+        public ActionResult GetFilteredProducts(PaginationRequest<ProductEditModel> request)
         {
             var response = _productService.GetFilteredProducts(request);
             return Json(response);

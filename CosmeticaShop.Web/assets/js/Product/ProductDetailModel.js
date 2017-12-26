@@ -6,6 +6,7 @@
         theParams = theParams || {};
         this.Id = ko.observable(theParams.Id || "");
         this.Name = ko.observable(theParams.Name || "");
+        this.Code = ko.observable(theParams.Code || "");
         this.Description = ko.observable(theParams.Description || "");
         this.Price = ko.observable(theParams.Price || 0);
         this.Discount = ko.observable(theParams.Discount || 0);
@@ -37,6 +38,7 @@
         return {
             Id: this.Id(),
             Name: this.Name(),
+            Code: this.Code(),
             Description: this.Description(),
             Price: this.Price(),
             Discount: this.Discount(),

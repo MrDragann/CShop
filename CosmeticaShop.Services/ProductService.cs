@@ -24,7 +24,7 @@ namespace CosmeticaShop.Services
         #region [ Публичная часть ]
 
         #region [ Товары ]
-    
+
 
         //todo:небольшой пример0))0
         /// <summary>
@@ -151,6 +151,7 @@ namespace CosmeticaShop.Services
                 return model;
             }
         }
+        
 
         #region [ Конвертирование ]
 
@@ -172,6 +173,7 @@ namespace CosmeticaShop.Services
             {
                 Id = m.Id,
                 Name = m.Name,
+                Code = m.Code,
                 Price = m.Price,
                 BrandId = m.BrandId,
                 BrandName = m.Brand?.Name,
@@ -227,7 +229,7 @@ namespace CosmeticaShop.Services
                     IsActive = x.IsActive,
                     PhotoUrl = x.PhotoUrl
                 }).ToList();
-                List<BrandModel> brandsRandom = new List<BrandModel>(); 
+                List<BrandModel> brandsRandom = new List<BrandModel>();
                 int k;
                 Random rand = new Random();
                 var count = 4;
@@ -237,10 +239,10 @@ namespace CosmeticaShop.Services
                 {
                     while (true)
                     {
-                       k = rand.Next(brands.Count);
+                        k = rand.Next(brands.Count);
                         if (brandsRandom.All(x => brands[k].Id != x.Id))
                         {
-                            brandsRandom.Add(brands[k]);                         
+                            brandsRandom.Add(brands[k]);
                             break;
                         }
                     }
@@ -379,15 +381,15 @@ namespace CosmeticaShop.Services
                 var cookieProducts = cookieReq.Values["productId"].Split(',').Select(int.Parse).ToList();
                 if (cookieProducts.Contains(productId))
                 {
-                   
+
                 }
                 else
-                {   
+                {
                     cookieReq.Values["productId"] += "," + productId;
                     HttpContext.Current.Response.Cookies.Add(cookieReq);
                 }
             }
-            return new BaseResponse(EnumResponseStatus.Success,"Товар успешно добавлен в желаемое");
+            return new BaseResponse(EnumResponseStatus.Success, "Товар успешно добавлен в желаемое");
         }
 
         #endregion
@@ -403,7 +405,7 @@ namespace CosmeticaShop.Services
         /// </summary>
         /// <param name="request">фильтр</param>
         /// <returns></returns>
-        public PaginationResponse<ProductEditModel> GetFilteredProducts(PaginationRequest<BaseFilter> request)
+        public PaginationResponse<ProductEditModel> GetFilteredProducts(PaginationRequest<ProductEditModel> request)
         {
             using (var db = new DataContext())
             {
@@ -412,8 +414,10 @@ namespace CosmeticaShop.Services
 
                 //if (request.CategoryId.HasValue)
                 //    query = query.Where(x => x.CategoryId == request.CategoryId.Value);
-                if (!string.IsNullOrWhiteSpace(request.Filter.Term))
-                    query = query.Where(x => x.Name.ToLower().Contains(request.Filter.Term.ToLower()));
+                if (!string.IsNullOrWhiteSpace(request.Filter.Name))
+                    query = query.Where(x => x.Name.ToLower().Contains(request.Filter.Name.ToLower()));
+                if (!string.IsNullOrWhiteSpace(request.Filter.Code))
+                    query = query.Where(x => x.Code.ToLower().Contains(request.Filter.Code.ToLower()));
                 var model = new PaginationResponse<ProductEditModel> { Count = query.Count() };
                 if (request.Skip.HasValue)
                     query = query.Skip(request.Skip.Value);
@@ -423,6 +427,8 @@ namespace CosmeticaShop.Services
                 {
                     Id = x.Id,
                     Name = x.Name,
+                    Code = x.Code,
+                    Price = x.Price,
                     DateCreate = x.DateCreate,
                     KeyUrl = x.KeyUrl,
                     IsActive = x.IsActive
@@ -444,13 +450,14 @@ namespace CosmeticaShop.Services
             using (var db = new DataContext())
             {
                 var product = db.Products.AsNoTracking()
-                    .Include(x => x.Categories).Include(x => x.ProductTags).Include(x=>x.SimilarProducts)
-                    .Where(x => x.Id == productId)
+                    .Include(x => x.Categories).Include(x => x.ProductTags).Include(x => x.SimilarProducts)
+                    .Where(x => x.Id == productId).ToList()
                     .Select(x => new ProductEditModel
                     {
                         Id = x.Id,
                         BrandId = x.BrandId,
                         Name = x.Name,
+                        Code = x.Code,
                         Description = x.Description,
                         SeoDescription = x.SeoDescription,
                         SeoKeywords = x.SeoKeywords,
@@ -461,7 +468,7 @@ namespace CosmeticaShop.Services
                         IsActive = x.IsActive,
                         CategoriesId = x.Categories.Select(c => c.Id).ToList(),
                         TagsId = x.ProductTags.Select(t => t.Id).ToList(),
-                        SimilarProducts = x.SimilarProducts.Select(sp=>new ProductEditModel
+                        SimilarProducts = x.SimilarProducts.Select(sp => new ProductEditModel
                         {
                             Id = sp.Id,
                             Name = sp.Name,
@@ -498,6 +505,7 @@ namespace CosmeticaShop.Services
                     var newProduct = new Product
                     {
                         Name = model.Name,
+                        Code = model.Code,
                         BrandId = model.BrandId,
                         Description = model.Description,
                         DateCreate = DateTime.Now,
@@ -514,20 +522,11 @@ namespace CosmeticaShop.Services
                         newProduct.Categories = db.Categories.Where(x => model.CategoriesId.Contains(x.Id)).ToList();
                     if (model.TagsId != null)
                         newProduct.ProductTags = db.ProductTags.Where(x => model.TagsId.Contains(x.Id)).ToList();
-
-                    var products = db.Products.AsNoTracking().ToList();
-                    var similarProducts = new List<Product>();
+                    
                     // добавление похожих товаров
-                    if (model.SimilarProducts != null)
-                    {
-                        foreach (var product in model.SimilarProducts)
-                        {
-                            var similarProduct = products.FirstOrDefault(x => x.Id == product.Id);
-                            if (similarProduct != null)
-                                similarProducts.Add(similarProduct);
-                        }
-                    }
-                    newProduct.SimilarProducts = similarProducts;
+                    var similarProductsId = model.SimilarProducts?.Select(x => x.Id).ToList() ?? new List<int>();
+                    newProduct.SimilarProducts = db.Products.Where(x => similarProductsId.Contains(x.Id)).ToList();
+
                     db.Products.Add(newProduct);
 
                     db.SaveChanges();
@@ -553,7 +552,8 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var old = db.Products.Include(x => x.Categories).Include(x => x.ProductTags)
+                    var old = db.Products.Include(x => x.Categories)
+                        .Include(x => x.ProductTags).Include(x=>x.SimilarProducts)
                         .FirstOrDefault(x => x.Id == model.Id);
                     if (old == null)
                         return new BaseResponse<int>(EnumResponseStatus.Error, "Товар не найден");
@@ -561,6 +561,7 @@ namespace CosmeticaShop.Services
                     var allKeyUrls = db.Products.Where(x => x.Id != model.Id).Select(x => x.KeyUrl).ToList();
 
                     old.Name = model.Name;
+                    old.Code = model.Code;
                     old.BrandId = model.BrandId;
                     old.SeoDescription = model.SeoDescription;
                     old.SeoKeywords = model.SeoKeywords;
@@ -577,20 +578,10 @@ namespace CosmeticaShop.Services
                     old.ProductTags = model.TagsId != null
                         ? db.ProductTags.Where(x => model.TagsId.Contains(x.Id)).ToList()
                         : null;
-
-                    var products = db.Products.AsNoTracking().ToList();
-                    var similarProducts = new List<Product>();
+                    
                     // похожие товары
-                    if (model.SimilarProducts != null)
-                    {
-                        foreach (var product in model.SimilarProducts)
-                        {
-                            var similarProduct = products.FirstOrDefault(x => x.Id == product.Id);
-                            if (similarProduct != null)
-                                similarProducts.Add(similarProduct);
-                        }
-                    }
-                    old.SimilarProducts = similarProducts;
+                    var similarProductsId = model.SimilarProducts?.Select(x => x.Id).ToList() ?? new List<int>();
+                    old.SimilarProducts = db.Products.Where(x => similarProductsId.Contains(x.Id)).ToList();
 
                     if (model.PhotoFile != null)
                     {
@@ -956,7 +947,7 @@ namespace CosmeticaShop.Services
         #endregion
 
         #region [ Купоны ]
-        
+
         /// <summary>
         /// Получить список купонов
         /// </summary>
@@ -966,7 +957,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var query = db.Coupons.AsNoTracking().Where(x=>!x.IsDelete.HasValue)
+                var query = db.Coupons.AsNoTracking().Where(x => !x.IsDelete.HasValue)
                     .OrderByDescending(x => x.DateCreate) as IQueryable<Coupon>;
 
                 if (!string.IsNullOrEmpty(request.Filter.Term))
@@ -1005,14 +996,14 @@ namespace CosmeticaShop.Services
                             Code = x.Code,
                             Discount = x.Discount
                         }).FirstOrDefault();
-                    if(model==null)
-                        return new BaseResponse<CouponModel>(EnumResponseStatus.Error,"Купон не найден");
-                    return new BaseResponse<CouponModel>(EnumResponseStatus.Success,model);
+                    if (model == null)
+                        return new BaseResponse<CouponModel>(EnumResponseStatus.Error, "Купон не найден");
+                    return new BaseResponse<CouponModel>(EnumResponseStatus.Success, model);
                 }
             }
             catch (Exception ex)
             {
-                return new BaseResponse<CouponModel>(EnumResponseStatus.Exception,ex.Message);
+                return new BaseResponse<CouponModel>(EnumResponseStatus.Exception, ex.Message);
             }
         }
 
@@ -1035,7 +1026,7 @@ namespace CosmeticaShop.Services
                     coupon.Code = model.Code;
                     coupon.Discount = model.Discount;
                     db.SaveChanges();
-                    return new BaseResponse<int>(EnumResponseStatus.Success, "Купон успешно изменен",model.Id);
+                    return new BaseResponse<int>(EnumResponseStatus.Success, "Купон успешно изменен", model.Id);
                 }
             }
             catch (Exception ex)
@@ -1065,7 +1056,7 @@ namespace CosmeticaShop.Services
                     };
                     db.Coupons.Add(coupon);
                     db.SaveChanges();
-                    return new BaseResponse<int>(EnumResponseStatus.Success, "Купон успешно добавлен",coupon.Id);
+                    return new BaseResponse<int>(EnumResponseStatus.Success, "Купон успешно добавлен", coupon.Id);
                 }
             }
             catch (Exception ex)

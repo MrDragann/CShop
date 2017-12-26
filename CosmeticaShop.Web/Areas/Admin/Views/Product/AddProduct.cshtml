@@ -30,7 +30,7 @@
     <script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/jquery.collagePlus.js"></script>
     <script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/extras/jquery.removeWhitespace.js"></script>
     <script src="~/Areas/Admin/assets/global/plugins/ed-lea-jquery-collagePlus/extras/jquery.collageCaption.js"></script>
-    <script src="~/Areas/Admin/assets/js/Form/Product/ProductModel.js"></script>
+    @*<script src="~/Areas/Admin/assets/js/Form/Product/ProductModel.js"></script>*@
     <script src="~/Areas/Admin/assets/js/Form/Product/ProductEditFormModel.js"></script>
     <script>
         $(function() {
@@ -61,28 +61,29 @@
             </div>
             <div class="portlet-body">
                 <div class="tabbable-line">
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#product" data-toggle="tab">
-                                Товар
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#seo" data-toggle="tab">
-                                Seo
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#photos" data-toggle="tab" data-bind="click:FormModel.CollagePhotos">
-                                Фото
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#similar-products" data-toggle="tab">
-                                Фото
-                            </a>
-                        </li>
-                    </ul>
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#product" data-toggle="tab">
+                            Товар
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#seo" data-toggle="tab">
+                            Seo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#photos" data-toggle="tab" data-bind="click:FormModel.CollagePhotos">
+                            Фото
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#similar-products" data-toggle="tab">
+                            Похожие товары
+                        </a>
+                    </li>
+                </ul>
+                <br />
                     <div class="form-body form-horizontal" data-bind="with:FormModel.Product">
                         <div class="tab-content">
                             <input maxlength="128" id="key_url" name="KeyUrl" type="hidden" data-bind="value:KeyUrl">
@@ -260,7 +261,7 @@
                             </div>
                             
                             <div class="tab-pane fade" id="similar-products">
-                                <div class="table-scrollable">
+                                <div class="table-scrollable" data-bind="visible:SimilarProducts().length>0">
                                     <table class="table table-hover table-light">
                                         <thead>
                                         <tr>
@@ -287,10 +288,10 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <button type="button" class="btn green" data-bind="click:OpenSelectModal.bind(FormModel)">
-                                        <i class="icon-plus"></i> Добавить товар
-                                    </button>
                                 </div>
+                                <button type="button" class="btn green" data-bind="click:FormModel.OpenSelectModal.bind(FormModel)">
+                                    <i class="icon-plus"></i> Добавить товар
+                                </button>
                             </div>
                         </div>
 

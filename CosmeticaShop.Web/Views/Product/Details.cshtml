@@ -63,7 +63,7 @@
                     <div class="info-product">
                         <div data-bind="text:BrandName">                     
                         </div>
-                        <div>
+                        <div data-bind="text:'cod: '+Code()">
                             cod: 001001001
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                 <div class="title-description">
                     Descrierea produsului:
                 </div>
-                <div class="description-product" data-bind="text:Content">
+                <div class="description-product" data-bind="html:Description">
                    
                 </div>
             </div>

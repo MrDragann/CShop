@@ -106,8 +106,8 @@
     Product.ProductEditFormModel.prototype.OpenSelectModal = function (data) {
         var self = this;
 
-        ProdeuctSelectModal.SimilarProducts = self.Product.SimilarProducts;
-        $(ProdeuctSelectModal.ModalSelector).modal("show");
+        ProductSelectModal.SimilarProducts = self.Product.SimilarProducts;
+        $(ProductSelectModal.ModalSelector).modal("show");
     }
 
     Product.ProductEditFormModel.prototype.DeleteSimilarProduct = function (data) {

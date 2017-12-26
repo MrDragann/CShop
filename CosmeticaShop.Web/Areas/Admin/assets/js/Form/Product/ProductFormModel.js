@@ -15,7 +15,7 @@
         theParams = theParams || {};
         this.UrlDelete = theParams.UrlDelete;
 
-        this.Filter = new Base.BaseFilterModel();
+        this.Filter = new Product.ProductModel();
         this.Table = new Components.Table({ Url: theParams.UrlLoadItems, ModalClass: Product.ProductModel, Filter: this.Filter });
         this.TableRefresh = this.Table.Refresh.bind(this.Table);
 

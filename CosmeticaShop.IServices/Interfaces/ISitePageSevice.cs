@@ -116,6 +116,38 @@ namespace CosmeticaShop.IServices.Interfaces
 
         #endregion
 
+        #region [ Города ]
+
+        /// <summary>
+        /// Получить список городов
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        PaginationResponse<DictionaryModel> GetFilteredCities(PaginationRequest<BaseFilter> request);
+
+        /// <summary>
+        /// Редактирование города
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        BaseResponse CityEdit(DictionaryModel model);
+
+        /// <summary>
+        /// Добавление нового города
+        /// </summary>
+        /// <param name="model">модель с данными</param>
+        /// <returns></returns>
+        BaseResponse CityAdd(DictionaryModel model);
+
+        /// <summary>
+        /// Удаление города
+        /// </summary>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
+        BaseResponse CityDelete(int cityId);
+
+        #endregion
+
         #endregion
     }
 }
