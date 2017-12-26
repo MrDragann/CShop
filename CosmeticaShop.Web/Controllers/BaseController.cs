@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
+using CosmeticaShop.IServices.Models.SitePage;
 using CosmeticaShop.Services;
 
 namespace CosmeticaShop.Web.Controllers
@@ -14,6 +15,8 @@ namespace CosmeticaShop.Web.Controllers
         #endregion
 
         public BaseController() { }
+
+        #region [ Настройки страницы ]
 
         /// <summary>
         /// Установить настройки странице (с запросом на получение настроек)
@@ -39,5 +42,19 @@ namespace CosmeticaShop.Web.Controllers
             ViewBag.Keywords = keywords;
             ViewBag.Description = description;
         }
+
+        /// <summary>
+        /// Установить настройки странице
+        /// </summary>
+        /// <param name="model"></param>
+        public void SetSitePageSettings(SitePageModel model)
+        {
+            ViewBag.Title = model.Title;
+            ViewBag.Keywords = model.SeoKeywords;
+            ViewBag.Description = model.SeoDescription;
+        }
+
+        #endregion
+
     }
 }

@@ -1572,10 +1572,6 @@
     <Content Include="Views\Shared\Partial\_Header.cshtml" />
     <Content Include="Views\Shared\Partial\_Footer.cshtml" />
     <Content Include="Views\Shared\Popup\Authorization.cshtml" />
-    <Content Include="Views\Home\Contacts.cshtml" />
-    <Content Include="Views\Shared\Partial\Contacts\Contacts.cshtml" />
-    <Content Include="Views\Shared\Partial\Contacts\Despre_Noi.cshtml" />
-    <Content Include="Views\Shared\Partial\Contacts\Informație.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
@@ -1585,10 +1581,10 @@
     <Content Include="Views\Cabinet\HistoryOrders.cshtml" />
     <Content Include="Views\Cabinet\OrderDetail.cshtml" />
     <Content Include="Views\Shared\Partial\SitePage\Slider.cshtml" />
-    <Content Include="Views\Shared\Partial\SitePage\SitePageSettings.cshtml" />
     <Content Include="Views\Shared\Partial\Navigation.cshtml" />
     <Content Include="Views\Shared\Popup\Wish.cshtml" />
     <Content Include="Views\Shared\Popup\Cart.cshtml" />
+    <Content Include="Views\Information\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

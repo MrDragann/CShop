@@ -1,0 +1,54 @@
+﻿@using CosmeticaShop.Services.Static
+@model CosmeticaShop.IServices.Models.SitePage.SitePageModel
+
+<div class="col-md-12 white-container marginB-heigth-10">
+    <div class="default-text navigation">
+        <a href="@Url.Action("Index","Home")"> Principală </a> > 
+        <span class="pink-darkk-text">@EnumService.GetEnumDescription(Model.Id)</span>
+    </div>
+</div>
+
+<div class="col-md-3 white-container">
+
+    <div class="block">
+        <div class="content grey">
+            <ul class="menu">
+                <li>
+                    <a href="@Url.Action("Contacts","Home")" class="@(Model.Id==EnumSitePage.Contacts?"active":"")">Contacte</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("DespreNoi","Home")" class="@(Model.Id==EnumSitePage.About?"active":"")">Despre noi</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Informatie","Home")" class="@(Model.Id==EnumSitePage.Information?"active":"")">Informație</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("VinzariAngro","Home")" class="@(Model.Id==EnumSitePage.VinzariAgro?"active":"")">Vânzări angro</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Rechizite","Home")" class="@(Model.Id==EnumSitePage.Rechizite?"active":"")">Rechizite</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("LivrareSiReturnare","Home")" class="@(Model.Id==EnumSitePage.Livrare?"active":"")">Livrare și returnare</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("PoliticaDeConfidentialitate","Home")" class="@(Model.Id==EnumSitePage.PrivacyPolicy?"active":"")">Politica de confidențialitate</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("OfertaPublica","Home")" class="@(Model.Id==EnumSitePage.OfertaPublic?"active":"")">Oferta publică</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-9 white-container big pt-30">
+    <div class="col-md-12">
+        @Html.Raw(Model.Content)
+    </div>
+
+    <div class="col-md-12">
+        @Html.Raw(Model.ExtraContent)
+    </div>
+    
+</div>

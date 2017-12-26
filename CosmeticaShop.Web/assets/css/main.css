@@ -37,6 +37,10 @@ ul {
     margin-bottom: 30px;
 }
 
+.pt-30 {
+    padding-top: 30px !important;
+}
+
 .padding-0 {
     padding: 0;
 }
@@ -334,11 +338,6 @@ footer {
         margin-bottom: 15px;
     }
 
-        footer .title a {
-            color: #636363;
-            text-decoration: none;
-        }
-
     footer ul {
         list-style: none;
         padding: 0px;
@@ -524,7 +523,7 @@ footer {
     font-size: 16px;
     font-family: FuturaPTBook;
     color: #636363;
-    text-align: center;
+    /*text-align: center;*/
     margin: 150px 0;
 }
 
@@ -884,7 +883,7 @@ footer {
                 margin: 10px 0;
             }
 
-                .block .content ul li span.active {
+                .block .content ul li a.active {
                     font-family: FuturaPTDemi;
                 }
 

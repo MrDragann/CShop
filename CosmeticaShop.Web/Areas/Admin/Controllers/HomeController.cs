@@ -31,7 +31,6 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         public ActionResult Index(UserLoginModel model)
         {
             var passwordHash = model.Password.GetHashString();
-
             var loginStatus = _authCommonService.Login(model.Email, passwordHash);
             if (loginStatus.IsSuccess)
             {

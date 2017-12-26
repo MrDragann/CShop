@@ -1,4 +1,5 @@
-﻿@using CosmeticaShop.Services.Static
+﻿@using CosmeticaShop.IServices.Enums
+@using CosmeticaShop.Services.Static
 @model CosmeticaShop.IServices.Models.SitePage.SitePageModel
 @{
     ViewBag.Title = $"Настройка страницы \"{EnumService.GetEnumDescription(Model.Id)}\"";
@@ -75,12 +76,15 @@
                                             <textarea class="ckeditor form-control" id="Content" name="Content" required="required" rows="6">@Model.Content</textarea>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-2" for="ExtraContent">Доп. контент</label>
-                                        <div class="col-md-10">
-                                            <textarea class="ckeditor form-control" id="ExtraContent" name="ExtraContent" required="required" rows="6">@Model.ExtraContent</textarea>
+                                    @if (Model.Id == EnumSitePage.Contacts)
+                                    {
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2" for="ExtraContent">Доп. контент</label>
+                                            <div class="col-md-10">
+                                                <textarea class="ckeditor form-control" id="ExtraContent" name="ExtraContent" required="required" rows="6">@Model.ExtraContent</textarea>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                 </div>
                                 <div class="form-group form-md-line-input">
                                     <div class="col-md-offset-2 col-md-10">

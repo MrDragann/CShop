@@ -12,12 +12,11 @@ using CosmeticaShop.Web.Models;
 
 namespace CosmeticaShop.Web.Controllers
 {
-    
+
     public class HomeController : BaseController
     {
-        private  readonly IProductService _productService = new ProductService();
         #region [ Сервисы ]
-
+        private readonly IProductService _productService = new ProductService();
         private readonly IAuthCommonService _authCommonService = new AuthCommonService();
         private readonly ISitePageSevice _sitePageSevice = new SitePageSevice();
         private readonly IWishService _wishService = new WishService();
@@ -29,9 +28,10 @@ namespace CosmeticaShop.Web.Controllers
             var model = new HomeViewModel()
             {
                 BestSellers = _productService.GetBestSellers(),
-                Brands = _productService.GetBrands()
+                Brands = _productService.GetBrands(),
+                SitePageModel = _sitePageSevice.GetSitePageModel(EnumSitePage.Home)
             };
-            SetSitePageSettings(EnumSitePage.Home);
+            SetSitePageSettings(model.SitePageModel);
             return View(model);
         }
 
@@ -59,19 +59,69 @@ namespace CosmeticaShop.Web.Controllers
             var model = _sitePageSevice.GetSlides();
             return PartialView("~/Views/Shared/Partial/SitePage/Slider.cshtml", model);
         }
+        
+        #endregion
 
-        public ActionResult SitePageSettings(EnumSitePage page)
+        #region [ Страницы с информацией ]
+
+        public ActionResult Contacts()
         {
-            var model = _sitePageSevice.GetSitePageModel(page);
-            return PartialView("~/Views/Shared/Partial/SitePage/SitePageSettings.cshtml", model);
+            var model = _sitePageSevice.GetSitePageModel(EnumSitePage.Contacts);
+            SetSitePageSettings(model);
+            return View("~/Views/Information/Index.cshtml",model);
+        }
+
+        public ActionResult DespreNoi()
+        {
+            var model = _sitePageSevice.GetSitePageModel(EnumSitePage.About);
+            SetSitePageSettings(model);
+            return View("~/Views/Information/Index.cshtml", model);
+        }
+
+        public ActionResult Informatie()
+        {
+            var model = _sitePageSevice.GetSitePageModel(EnumSitePage.Information);
+            SetSitePageSettings(model);
+            return View("~/Views/Information/Index.cshtml", model);
+        }
+
+        public ActionResult VinzariAngro()
+        {
+            var model = _sitePageSevice.GetSitePageModel(EnumSitePage.VinzariAgro);
+            SetSitePageSettings(model);
+            return View("~/Views/Information/Index.cshtml", model);
+        }
+
+        public ActionResult Rechizite()
+        {
+            var model = _sitePageSevice.GetSitePageModel(EnumSitePage.Rechizite);
+            SetSitePageSettings(model);
+            return View("~/Views/Information/Index.cshtml", model);
+        }
+
+        public ActionResult LivrareSiReturnare()
+        {
+            var model = _sitePageSevice.GetSitePageModel(EnumSitePage.Livrare);
+            SetSitePageSettings(model);
+            return View("~/Views/Information/Index.cshtml", model);
+        }
+
+        public ActionResult PoliticaDeConfidentialitate()
+        {
+            var model = _sitePageSevice.GetSitePageModel(EnumSitePage.PrivacyPolicy);
+            SetSitePageSettings(model);
+            return View("~/Views/Information/Index.cshtml", model);
+        }
+
+        public ActionResult OfertaPublica()
+        {
+            var model = _sitePageSevice.GetSitePageModel(EnumSitePage.OfertaPublic);
+            SetSitePageSettings(model);
+            return View("~/Views/Information/Index.cshtml", model);
         }
 
         #endregion
 
-        public ActionResult Contacts()
-        {
-            return View();
-        }
         #region Авторизация
         /// <summary>
         /// Авторизация
@@ -193,7 +243,7 @@ namespace CosmeticaShop.Web.Controllers
             }
             return Json(response);
         }
-           /// <summary>
+        /// <summary>
         /// Сменить пароль
         /// </summary>
         /// <param name="token"></param>
@@ -202,8 +252,8 @@ namespace CosmeticaShop.Web.Controllers
         /// <returns></returns>
         [HttpPost]
         public ActionResult ChangePassword(Guid token, string email, string password)
-           {
-               password = password.GetHashString();
+        {
+            password = password.GetHashString();
             var response = _authCommonService.RestorePassword(email, token, password);
             return Json(response);
         }

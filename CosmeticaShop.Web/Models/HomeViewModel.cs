@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using CosmeticaShop.IServices.Models.Brand;
 using CosmeticaShop.IServices.Models.Product;
+using CosmeticaShop.IServices.Models.SitePage;
 
 namespace CosmeticaShop.Web.Models
 {
@@ -12,7 +13,8 @@ namespace CosmeticaShop.Web.Models
         /// <summary>
         /// 4 случайных брэнда
         /// </summary>
-        public  List<BrandModel> Brands { get; set; }
+        public List<BrandModel> Brands { get; set; }
         public List<ProductBaseModel> BestSellers { get; set; }
+        public SitePageModel SitePageModel { get; set; }
     }
 }

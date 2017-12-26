@@ -12,42 +12,47 @@ namespace CosmeticaShop.IServices.Enums
         /// <summary>
         /// Главная
         /// </summary>
-        [Description("Главная")]
+        [Description("Principală")]
         Home = 1,
-        /// <summary>
-        /// Список желаемого
-        /// </summary>
-        [Description("Список желаемого")]
-        WishList = 2,
         /// <summary>
         /// Контакты
         /// </summary>
-        [Description("Контакты")]
-        Contacts = 3,
-        /// <summary>
-        /// Корзина
-        /// </summary>
-        [Description("Корзина")]
-        Cart = 4,
+        [Description("Contacte")]
+        Contacts = 2,
         /// <summary>
         /// О нас
         /// </summary>
-        [Description("О нас")]
-        About = 5,
+        [Description("Despre noi")]
+        About = 3,
         /// <summary>
-        /// Оформление заказа
+        /// Информация
         /// </summary>
-        [Description("Оформление заказа")]
-        Ordering = 6,
+        [Description("Informație")]
+        Information = 4,
         /// <summary>
-        /// Помощь
+        /// Оптовые продажи
         /// </summary>
-        [Description("Помощь")]
-        Help = 7,
+        [Description("Vânzări angro")]
+        VinzariAgro = 5,
         /// <summary>
-        /// Профиль пользователя
+        /// Реквизиты
         /// </summary>
-        [Description("Профиль пользователя")]
-        UserProfile = 8
+        [Description("Rechizite")]
+        Rechizite = 6,
+        /// <summary>
+        /// Доставка и возврат
+        /// </summary>
+        [Description("Livrare și returnare")]
+        Livrare = 7,
+        /// <summary>
+        /// Политика конфиденциальности
+        /// </summary>
+        [Description("Politica de confidențialitate")]
+        PrivacyPolicy = 8,
+        /// <summary>
+        /// Публичное предложение
+        /// </summary>
+        [Description("Oferta publică")]
+        OfertaPublic = 9,
     }
 }
