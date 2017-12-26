@@ -1,5 +1,5 @@
 ﻿body {
-    background-image: url('../img/Backgound.jpg');
+    background-image: url('/assets/img/Backgound.jpg');
 }
 
 a:visited {
@@ -71,7 +71,7 @@ ul {
     cursor: pointer;
     width: 37px;
     height: 34px;
-    background-image: url('../img/icons/big-like.png');
+    background-image: url('/assets/img/icons/big-like.png');
     background-repeat: no-repeat;
 }
 
@@ -80,7 +80,7 @@ ul {
     cursor: pointer;
     width: 40px;
     height: 36px;
-    background-image: url('../img/icons/cart.png');
+    background-image: url('/assets/img/icons/cart.png');
     background-repeat: no-repeat;
 }
 
@@ -89,7 +89,7 @@ ul {
     cursor: pointer;
     width: 31px;
     height: 32px;
-    background-image: url('../img/icons/facebook.png');
+    background-image: url('/assets/img/icons/facebook.png');
     background-repeat: no-repeat;
 }
 
@@ -98,7 +98,7 @@ ul {
     cursor: pointer;
     width: 31px;
     height: 32px;
-    background-image: url('../img/icons/instagram.png');
+    background-image: url('/assets/img/icons/instagram.png');
     background-repeat: no-repeat;
 }
 
@@ -107,7 +107,7 @@ ul {
     cursor: pointer;
     width: 47px;
     height: 15px;
-    background-image: url('../img/icons/logo-dois.png');
+    background-image: url('/assets/img/icons/logo-dois.png');
     background-repeat: no-repeat;
 }
 
@@ -117,7 +117,7 @@ ul {
     cursor: pointer;
     width: 23px;
     height: 21px;
-    background-image: url('../img/icons/product-cart.png');
+    background-image: url('/assets/img/icons/product-cart.png');
     background-repeat: no-repeat;
 }
 
@@ -126,7 +126,7 @@ ul {
     cursor: pointer;
     width: 23px;
     height: 21px;
-    background-image: url('../img/icons/like.png');
+    background-image: url('/assets/img/icons/like.png');
     background-repeat: no-repeat;
 }
 
@@ -135,7 +135,7 @@ ul {
     cursor: pointer;
     width: 23px;
     height: 21px;
-    background-image: url('../img/icons/pink-like.png');
+    background-image: url('/assets/img/icons/pink-like.png');
     background-repeat: no-repeat;
 }
 
@@ -144,7 +144,7 @@ ul {
     cursor: pointer;
     width: 110px;
     height: 101px;
-    background-image: url('../img/icons/very-big-pink-like.png');
+    background-image: url('/assets/img/icons/very-big-pink-like.png');
     background-repeat: no-repeat;
 }
 
@@ -153,7 +153,7 @@ ul {
     cursor: pointer;
     width: 30px;
     height: 30px;
-    background-image: url('../img/icons/arrow-left-mini.png');
+    background-image: url('/assets/img/icons/arrow-left-mini.png');
     background-repeat: no-repeat;
 }
 
@@ -162,7 +162,7 @@ ul {
     cursor: pointer;
     width: 30px;
     height: 30px;
-    background-image: url('../img/icons/arrow-right-mini.png');
+    background-image: url('/assets/img/icons/arrow-right-mini.png');
     background-repeat: no-repeat;
 }
 
@@ -171,7 +171,7 @@ ul {
     cursor: pointer;
     width: 22px;
     height: 19px;
-    background-image: url('../img/icons/back.png');
+    background-image: url('/assets/img/icons/back.png');
     background-repeat: no-repeat;
 }
 
@@ -180,7 +180,7 @@ ul {
     cursor: pointer;
     width: 46px;
     height: 60px;
-    background-image: url('../img/icons/medal.png');
+    background-image: url('/assets/img/icons/medal.png');
     background-repeat: no-repeat;
 }
 
@@ -189,7 +189,7 @@ ul {
     cursor: pointer;
     width: 30px;
     height: 30px;
-    background-image: url('../img/icons/arrow-right-mini.png');
+    background-image: url('/assets/img/icons/arrow-right-mini.png');
     background-repeat: no-repeat;
 }
 
@@ -979,7 +979,7 @@ input[type="checkbox"] + label span {
     height: 12px;
     width: 12px;
     margin: 0 5px 0 0;
-    background: url('../img/checkbox.png') left top no-repeat;
+    background: url('/assets/img/checkbox.png') left top no-repeat;
     cursor: pointer;
 }
 
@@ -989,7 +989,7 @@ input[type="checkbox"] {
 
 
     input[type="checkbox"]:checked + label span {
-        background-image: url('../img/checkbox-select.png');
+        background-image: url('/assets/img/checkbox-select.png');
     }
 /*Конец чекбокса*/
 .sidebar-filter {
@@ -1202,7 +1202,7 @@ button.slick-next {
     opacity: 1 !important;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../img/icons/arrow-right-grey.png') !important;
+    background-image: url('/assets/img/icons/arrow-right-grey.png') !important;
     right: 50% !important;
     position: relative;
 }
@@ -1212,7 +1212,7 @@ button.slick-next {
     opacity: 1 !important;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../img/icons/arrow-left-grey.png') !important;
+    background-image: url('/assets/img/icons/arrow-left-grey.png') !important;
     position: relative;
     right: 50% !important;
 }
@@ -1220,13 +1220,13 @@ button.slick-next {
 .slick-prev.slick-disabled:before {
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../img/icons/arrow-left-grey.png') !important;
+    background-image: url('/assets/img/icons/arrow-left-grey.png') !important;
 }
 
 .slick-next.slick-disabled:before {
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../img/icons/arrow-right-grey.png') !important;
+    background-image: url('/assets/img/icons/arrow-right-grey.png') !important;
 }
 
 .slick-slide img {
