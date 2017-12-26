@@ -90,7 +90,7 @@ namespace CosmeticaShop.Services
                             cookieUser.Status = (int)EnumStatusUser.New;
                             cookieUser.UserAddress.Address = model.Address;
                             cookieUser.UserAddress.City = model.City;
-                            cookieUser.UserAddress.Country = model.Country;
+                            cookieUser.UserAddress.Country = "România";
                             cookieUser.UserAddress.Phone = model.Phone;
                             db.SaveChanges();
                             return new BaseResponse(EnumResponseStatus.Success, "Регистрация успешно выполнена");
@@ -108,7 +108,7 @@ namespace CosmeticaShop.Services
                         Status = (int)EnumStatusUser.New,
                         UserAddress = new UserAddress
                         {
-                            Country = model.Country,
+                            Country = "România",
                             City = model.City,
                             Address = model.Address,
                             Phone = model.Phone

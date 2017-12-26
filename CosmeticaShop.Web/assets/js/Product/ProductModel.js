@@ -16,6 +16,7 @@
         this.DateCreateView = ko.observable(theParams.DateCreateView || "");
         this.Content = ko.observable(theParams.Content || "");
         this.IsWish = ko.observable(theParams.IsWish || false);
+        this.TagsId = ko.observableArray(theParams.TagsId || []);
         this.CheckWish();
         return this;
     };
@@ -35,7 +36,8 @@
             Description: this.Description(),
             Price: this.Price(),
             Discount: this.Discount(),
-            PhotoUrl: this.PhotoUrl()
+            PhotoUrl: this.PhotoUrl(),
+            TagsId: this.TagsId()
         }
     }
 
@@ -60,7 +62,7 @@
     /**
     * Добавить товар в желаемое 
     */
-    Product.ProductModel.prototype.AddProductWish = function () {
+    Product.ProductModel.prototype.AddProductWish = function (params) {
         var self = this;
         $.post(urlAddProductWish, {
             productId: this.Id()
@@ -68,6 +70,9 @@
             if (res.IsSuccess) {
                 self.IsWish(true);
                 $("#wish-success").modal("show");
+                if (params && params === "pageWish") {
+                    ViewModel.Products.push(self);
+                }
             }
             else {
                 console.error(res.Message);

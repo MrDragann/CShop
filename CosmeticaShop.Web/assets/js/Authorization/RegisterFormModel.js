@@ -5,6 +5,7 @@
     Authorization.RegisterFormModel = function (theParams) {
         theParams = theParams || {};
         this.UrlRegister = theParams.UrlRegister;
+        this.UrlGetAllCities = theParams.UrlGetAllCities;
         this.UserModel = new User.UserModel();
         this.DateDay = ko.observable();
         this.DateMonth = ko.observable();
@@ -13,6 +14,8 @@
         this.ErrorMessage = ko.observable("");
         this.IsSuccessRegister = ko.observable(false);
         this.IsPrivacyPolicy = ko.observable(false);
+        this.Cities = ko.observableArray([]);
+        this.GetAllCities();
         return this;
     };
 
@@ -40,6 +43,15 @@
                 }
             });
         }
+    }
+    /**
+    * Получить список городов 
+    */
+    Authorization.RegisterFormModel.prototype.GetAllCities = function () {
+        var self = this;
+        $.post(this.UrlGetAllCities).success(function (res) {
+            self.Cities(res);
+        });
     }
 
     /**

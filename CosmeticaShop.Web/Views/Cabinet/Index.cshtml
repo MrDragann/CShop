@@ -1,6 +1,6 @@
 ﻿
 @using Newtonsoft.Json
-@model CosmeticaShop.IServices.Models.User.UserDetailModel
+@model CosmeticaShop.Web.Models.CabinetViewModel
 @{
     ViewBag.Title = "Index";
 }
@@ -13,7 +13,8 @@
 
         var params = {}
         params.UrlEdit = '@Url.Action("EditPersonData","Cabinet")';
-        params.Model = @Html.Raw(JsonConvert.SerializeObject(Model));
+        params.Model = @Html.Raw(JsonConvert.SerializeObject(Model.User));
+        params.Cities =   @Html.Raw(JsonConvert.SerializeObject(Model.Cities));
         var FormModel = new Cabinet.PersonalFormModel(params);
     </script>
 }
@@ -125,7 +126,7 @@
                     <label>Țara:</label>
                 </div>
                 <div class="col-md-12">
-                    <input name="Country" type="text"  data-bind="textInput:Country" class="form-control" />
+                    <input name="Country" type="text" disabled  data-bind="textInput:Country" class="form-control" />
                 </div>
             </div>
 
@@ -134,7 +135,8 @@
                     <label>Orașul:</label>
                 </div>
                 <div class="col-md-12">
-                    <input name="City" type="text"  data-bind="textInput:City" class="form-control" />
+                    <select class="form-control" data-bind="options:$parent.Cities,optionsText:'Name',optionsValue:'Name',value:City">         
+                    </select>                  
                 </div>
             </div>
             <div class="form-group">

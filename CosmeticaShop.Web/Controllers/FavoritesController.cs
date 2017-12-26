@@ -1,24 +1,31 @@
 ﻿using System.Web.Mvc;
 using CosmeticaShop.IServices;
+using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.Services;
 using CosmeticaShop.Web.Infrastructure;
+using CosmeticaShop.Web.Models;
 
 namespace CosmeticaShop.Web.Controllers
 {
     public class FavoritesController : BaseController
     {
-        
+
         private readonly IWishService _wishService = new WishService();
+        private readonly IProductService _productService = new ProductService();
         public ActionResult Index()
-        {            
+        {
             var user = new WebUser();
+            var model = new WishViewModel
+            {
+                Recommends = _productService.GetRecomendProducts(4)
+            };
             if (user.IsAuthorized)
             {
-                var model = _wishService.GetWishs(user.UserId);
-                return View(model);
+                model.Wishes = _wishService.GetWishs(user.UserId);
             }
-            var cookieModel = _wishService.GetCookieWishs();
-            return View(cookieModel);
+            else
+                model.Wishes = _wishService.GetCookieWishs();
+            return View(model);
         }
 
         /// <summary>
@@ -31,11 +38,11 @@ namespace CosmeticaShop.Web.Controllers
         {
             var user = new WebUser();
             if (user.IsAuthorized)
-            {               
-                var model = _wishService.DeleteWish(user.UserId,productId);
+            {
+                var model = _wishService.DeleteWish(user.UserId, productId);
                 return Json(model);
             }
-            var cookieModel = _wishService.DeleteWish(null,productId);
+            var cookieModel = _wishService.DeleteWish(null, productId);
             return Json(cookieModel);
         }
     }

@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model CosmeticaShop.IServices.Models.Order.OrderHeaderModel
+@model CosmeticaShop.Web.Models.OrderViewModel
 @{
     ViewBag.Title = "Index";
 }
@@ -12,8 +12,9 @@
         var params = {};
         params.UrlAddOrder = '@Url.Action("AddOrder","Order")';
         params.Email = "@User.Email";
-        params.Model =  @Html.Raw(JsonConvert.SerializeObject(Model));
-        params.Model.Address =  @Html.Raw(JsonConvert.DeserializeObject(Model.Address));
+        params.Model =  @Html.Raw(JsonConvert.SerializeObject(Model.Order));
+        params.Model.Address =  @Html.Raw(JsonConvert.DeserializeObject(Model.Order.Address));
+        params.Cities =   @Html.Raw(JsonConvert.SerializeObject(Model.Cities));
         var ViewModel = new Order.OrderViewModel(params);
     </script>
 }
@@ -106,7 +107,8 @@
                                     <label>Orașul:</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input name="Town" type="text" class="form-control" data-bind="textInput:City" />
+                                    <select class="form-control" data-bind="options:$parent.Cities,optionsText:'Name',optionsValue:'Name',value:City">         
+                                    </select>  
                                 </div>
                             </div>
                             <div class="address-form col-md-3">

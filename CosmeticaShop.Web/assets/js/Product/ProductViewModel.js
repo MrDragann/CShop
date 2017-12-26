@@ -18,6 +18,9 @@
         this.Filter.CategoriesId.subscribe(function () {
             self.UpdateProducts();
         });
+        this.Filter.TagsId.subscribe(function () {            
+            self.UpdateProducts();
+        });
         return this;
     };
 
@@ -39,7 +42,7 @@
         location.href = this.UrlGetProducts + filterParams;
     
     }
-
+    
     /**
     * Получить параметры для фильтрации
     */

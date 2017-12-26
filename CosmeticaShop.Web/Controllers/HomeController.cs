@@ -29,6 +29,7 @@ namespace CosmeticaShop.Web.Controllers
             {
                 BestSellers = _productService.GetBestSellers(),
                 Brands = _productService.GetBrands(),
+                Recommends = _productService.GetRecomendProducts(12),
                 SitePageModel = _sitePageSevice.GetSitePageModel(EnumSitePage.Home)
             };
             SetSitePageSettings(model.SitePageModel);

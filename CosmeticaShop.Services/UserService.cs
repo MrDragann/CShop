@@ -110,7 +110,10 @@ namespace CosmeticaShop.Services
                     user.UserAddress.Country = model.Country;
                     user.UserAddress.Phone = model.Phone;
                     user.DateBirth = model.DateBirth;
-                    user.PasswordHash = model.Password.GetHashString();
+                    if (model.Password != null)
+                    {
+                        user.PasswordHash = model.Password.GetHashString();
+                    }
                     db.SaveChanges();
                     return new BaseResponse(EnumResponseStatus.Success, "Личные данные успешно изменены");
 

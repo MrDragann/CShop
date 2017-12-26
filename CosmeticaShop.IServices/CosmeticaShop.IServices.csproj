@@ -106,6 +106,7 @@
     <Compile Include="Models\Product\ProductEditViewModel.cs" />
     <Compile Include="Models\Product\ProductFilterModel.cs" />
     <Compile Include="Models\Product\ReviewModel.cs" />
+    <Compile Include="Models\Product\TagModel.cs" />
     <Compile Include="Models\Responses\AddOrderResponse.cs" />
     <Compile Include="Models\Responses\BaseResponse.cs" />
     <Compile Include="Models\DictionaryModel.cs" />

@@ -35,28 +35,6 @@
     <ul class="sidebar-filter" data-bind="with:Filter">
         <li>
             <div class="title-filter">
-                Сategorie
-            </div>
-            <div class="content">
-                @foreach (var category in Model.Categories)
-                {
-                    <div>
-                        <input type="checkbox" name="category" data-bind="checked:CategoriesId" id="@category.Id @category.Name" value="@category.Id.ToString()" />
-                        <label for="@category.Id @category.Name"><span></span>@category.Name</label>
-                    </div>
-                    foreach (var child in category.ChildCategories)
-                    {
-                        <div style="margin-left: 25px;">
-                            <input name="category" type="checkbox" data-bind="checked:CategoriesId" id="@child.Id @child.Name" value="@child.Id.ToString()" />
-                            <label for="@child.Id @child.Name"><span></span>@child.Name</label>
-                        </div>
-                    }
-                }
-
-            </div>
-        </li>
-        <li>
-            <div class="title-filter">
                 Brandul produsului
             </div>
             <div class="content">
@@ -73,57 +51,42 @@
 
         <li>
             <div class="title-filter">
-                Tipul produsului
+                Сategorie
             </div>
             <div class="content">
-                <div>
-                    <input type="checkbox" id="Tipul1" name="Tipul" />
-                    <label for="Tipul1"><span></span>Cremă</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="Tipul2" name="Tipul" />
-                    <label for="Tipul2"><span></span>Mască</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="Tipul3" name="Tipul" />
-                    <label for="Tipul3"><span></span>Cremă</label>
-                </div>
+                @foreach (var category in Model.Categories)
+                {
+                    <div>
+                        <input type="checkbox" name="category" data-bind="checked:CategoriesId" id="@category.Id @category.Name" value="@category.Id.ToString()"/>
+                        <label for="@category.Id @category.Name"><span></span>@category.Name</label>
+                    </div>
+                    foreach (var child in category.ChildCategories)
+                    {
+                        <div style="margin-left: 25px;">
+                            <input name="category" type="checkbox" data-bind="checked:CategoriesId" id="@child.Id @child.Name" value="@child.Id.ToString()"/>
+                            <label for="@child.Id @child.Name"><span></span>@child.Name</label>
+                        </div>
+                    }
+                }
+
             </div>
         </li>
         <li>
             <div class="title-filter">
-                Îngrijirea
+                Tag-uri
             </div>
             <div class="content">
-                <div>
-                    <input type="checkbox" id="Îngrijirea1" name="Îngrijirea" />
-                    <label for="Îngrijirea1"><span></span>Feței</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="Îngrijirea2" name="Îngrijirea" />
-                    <label for="Îngrijirea2"><span></span>Corpului</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="Îngrijirea3" name="Îngrijirea" />
-                    <label for="Îngrijirea3"><span></span>Părului</label>
-                </div>
+                @foreach (var tag in Model.Tags)
+                {
+                    <div>
+                        <input type="checkbox" name="tag"  data-bind="checked:TagsId" id="@tag.Id@tag.Name" value="@tag.Id.ToString()" />
+                        <label for="@tag.Id@tag.Name"><span></span>@tag.Name</label>
+                    </div>
+                }
+
             </div>
         </li>
-        <li>
-            <div class="title-filter">
-                Proprietăți
-            </div>
-            <div class="content">
-                <div>
-                    <input type="checkbox" id="Proprietăți1" name="Proprietăți" />
-                    <label for="Proprietăți1"><span></span>Anti-age</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="Proprietăți2" name="Proprietăți" />
-                    <label for="Proprietăți2"><span></span>Curățare</label>
-                </div>
-            </div>
-        </li>
+
     </ul>
 </div>
 
@@ -220,7 +183,7 @@
                     }
 
                 </div>
-                @if (Model.Pagination.PageSize < Model.Pagination.PageNumber)
+                @if (Model.Pagination.PageSize > Model.Pagination.PageNumber)
                 {
                     <a href="@Url.Action("Index", "Product", new {page = Model.Pagination.PageNumber + 1})">
                         <span class="next icon-arrow-right-mini"></span>

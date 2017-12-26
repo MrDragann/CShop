@@ -28,5 +28,9 @@ namespace CosmeticaShop.Web.Models
         /// Фильтрация
         /// </summary>
         public  ProductFilterModel Filter { get; set; }
+        /// <summary>
+        /// Тэги для филтра
+        /// </summary>
+        public List<TagModel> Tags { get; set; } 
     }
 }

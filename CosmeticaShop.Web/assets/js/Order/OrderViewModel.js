@@ -9,6 +9,7 @@
         this.Model = new Order.OrderHeaderModel(theParams.Model || {});
         this.IsSuccess = ko.observable(theParams.IsSuccess || false);
         this.ErrorMessage = ko.observable("");
+        this.Cities = ko.observableArray(theParams.Cities || []);
         return this;
     };
 

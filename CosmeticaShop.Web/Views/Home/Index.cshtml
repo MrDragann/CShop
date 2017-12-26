@@ -29,6 +29,9 @@
         paramsBestSellers.Products = @Html.Raw(JsonConvert.SerializeObject(Model.BestSellers));
         var urlDeleteWish = '@Url.Action("DeleteWish","Favorites")';
         var BestSellersModel = new Product.ProductLineView(paramsBestSellers);
+        var paramsRecomends = {};
+        paramsRecomends.Products = @Html.Raw(JsonConvert.SerializeObject(Model.Recommends));
+        var RecomendtsModel = new Product.ProductLineView(paramsRecomends);
     </script>
 }
 
@@ -125,368 +128,67 @@
 
 <section>
     <div class="section-name">Recomended</div>
-    <div class="row product-list">
+    <div class="row product-list" data-bind="foreach:RecomendtsModel.Products">
+
         <div class="col-md-3">
             <div class="item">
                 <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                        <div class="discount">reducere -35%</div>
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price crossOut-pink ">150 lei</span>
-                        <div>
-                            <span class="pink-price">99 lei</span>
+                    <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <div class="product-img">
+                            <img data-bind="attr:{src:PhotoUrl}" />
+                            <!--ko if:DiscountPercent()!==0-->
+                            <div class="discount" style="visibility:hidden;" data-bind="style:{visibility:DiscountPercent()!==0 ?'visible': 'hidden'}">
+                                reducere  <div>
+                                    -<span data-bind="text:DiscountPercent">35</span>%
+                                </div>
+                            </div>
+                            <!--/ko-->
                         </div>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            jean destrees
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">cc cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product2.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            christina
-                            cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">
-                            BIO PHYTO
-                            ANTI ROUGEURS MASK
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            jean destrees
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">cc cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                        <div class="discount">reducere -35%</div>
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price crossOut-pink ">150 lei</span>
-                        <div>
-                            <span class="pink-price">99 lei</span>
+                    </a>
+                    <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <div class="product-description title">
+                            <span class="pink-text" data-bind="text:BrandName">
+
+                            </span>
                         </div>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product2.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            christina
-                            cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                        <div class="discount">reducere -35%</div>
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price crossOut-pink ">150 lei</span>
-                        <div>
-                            <span class="pink-price">99 lei</span>
+                    </a>
+                    <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <div class="product-description">
+                            <span class="grey-text" data-bind="text:Name"></span>
                         </div>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                        <div class="discount">reducere -35%</div>
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
+                    </a>
+
                     <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price crossOut-pink ">150 lei</span>
+                        <!--ko if:DiscountPercent()!==0-->
+                        <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>
                         <div>
-                            <span class="pink-price">99 lei</span>
+                            <span class="pink-price" data-bind="text:DiscountPrice()+' lei'"></span>
                         </div>
+                        <!--/ko-->
+                        <!--ko if:DiscountPercent()===0-->
+                        <span class="grey-price" data-bind="text:Price()+' lei'"></span>
+                        <!--/ko-->
                     </div>
                 </div>
                 <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
+                    <!--ko if:IsWish-->
+                    <div class="pull-left" data-bind="click:DeleteWish">
+                        <i class="icon-pink-like "></i>
                     </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
+                    <!--/ko-->
+                    <!--ko ifnot:IsWish-->
+                    <div class="pull-left" data-bind="click:AddProductWish">
+                        <i class="icon-like "></i>
+                    </div>
+                    <!--/ko-->
+                    <div class="pull-right" data-bind="click:AddProductCart">
+                        <span style="cursor: pointer;">iau!</span> <i class="icon-product-cart"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            jean destrees
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">cc cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product2.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            christina
-                            cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">
-                            BIO PHYTO
-                            ANTI ROUGEURS MASK
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="item">
-                <div class="product-content">
-                    <div class="product-img">
-                        <img src="~/assets/img/Temp/product3.png" />
-                    </div>
-                    <div class="product-description title">
-                        <span class="pink-text">
-                            elf cosmetics
-                        </span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-text">illuminating eye cream</span>
-                    </div>
-                    <div class="product-description">
-                        <span class="grey-price">150 lei</span>
-                    </div>
-                </div>
-                <div class="product-footer">
-                    <div class="pull-left">
-                        <i class="icon-like"></i>
-                    </div>
-                    <div class="pull-right">
-                        <span>iau!</span> <i class="icon-product-cart"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
     </div>
 </section>
 

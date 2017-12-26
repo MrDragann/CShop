@@ -5,9 +5,11 @@
     Cabinet.PersonalFormModel = function (theParams) {
         theParams = theParams || {};
         this.UrlEdit = theParams.UrlEdit;
+        this.UrlGetAllCities = theParams.UrlGetAllCities;
         this.UserModel = new User.UserModel(theParams.Model || {});
         this.ErrorMessage = ko.observable("");
         this.ConfrimPassword = ko.observable();
+        this.Cities = ko.observableArray(theParams.Cities || []);
         return this;
     };
 
