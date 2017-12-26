@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.Entity;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using CosmeticaShop.Data;
@@ -24,6 +25,7 @@ namespace CosmeticaShop.Services
 {
     public class OrderService : IOrderService
     {
+
         #region [ Публичная часть ]
 
         /// <summary>
@@ -112,7 +114,7 @@ namespace CosmeticaShop.Services
                     }
                     db.SaveChanges();
                     if (!isCookie)
-                        AddProductInCoockieCart(productId, quantity,true);
+                        AddProductInCoockieCart(productId, quantity, true);
                     return new BaseResponse(EnumResponseStatus.Success, "Товар успешно добавлен в корзину");
                 }
             }
@@ -191,13 +193,26 @@ namespace CosmeticaShop.Services
         /// </summary>
         /// <param name="userId">Ид пользователя</param>
         /// <param name="productsOrder">Товары для заказа</param>
+        /// <param name="couponCode">Купон</param>
         /// <returns></returns>
-        public BaseResponse<int> PreparationOrder(Guid userId, List<OrderProductsModel> productsOrder)
+        public BaseResponse<int> PreparationOrder(Guid userId, List<OrderProductsModel> productsOrder, string couponCode)
         {
             try
             {
                 using (var db = new DataContext())
                 {
+                    var couponFind = false;
+                    var coupon = new Coupon()
+                    {
+                        Discount = 0
+                    };
+                    if (!string.IsNullOrEmpty(couponCode))
+                    {
+                        coupon = db.Coupons.FirstOrDefault(x => x.Code == couponCode);
+                        if (coupon == null)
+                            return new BaseResponse<int>(EnumResponseStatus.Error, "Cuponul nu a fost găsit");
+                        couponFind = true;
+                    }
                     var products = db.Products.ToList();
                     var order = db.OrderHeaders.Include(x => x.OrderProducts).FirstOrDefault(x => x.UserId == userId && x.Status == (int)EnumStatusOrder.Cart);
                     if (order == null)
@@ -211,6 +226,18 @@ namespace CosmeticaShop.Services
                                 return new BaseResponse<int>(EnumResponseStatus.Error, "Корзина не найдена");
                         }
                     }
+                    if (couponFind)
+                    {
+                        order.CouponId = coupon.Id;
+                        order.CouponJson = JsonConvert.SerializeObject(new Coupon
+                        {
+                            Id = coupon.Id,                          
+                            Discount = coupon.Discount,
+                            Code = coupon.Code,
+                            DateCreate = coupon.DateCreate,
+                            IsDelete = coupon.IsDelete,
+                        });
+                    }
                     decimal amount = 0;
                     foreach (var item in order.OrderProducts)
                     {
@@ -220,6 +247,10 @@ namespace CosmeticaShop.Services
                         var product = products.FirstOrDefault(x => x.Id == orderModel.ProductId);
                         if (product == null)
                             return new BaseResponse<int>(EnumResponseStatus.Error, "Один из товаров  не был найден");
+                        if (couponFind && item.Discount == 0)
+                        {
+                            item.Discount = coupon.Discount;                          
+                        }
                         item.Quantity = orderModel.Quantity;
                         amount += CalculationService.GetDiscountPrice(product.Price, product.Discount) * orderModel.Quantity;
                         item.Amount = CalculationService.GetDiscountPrice(product.Price, product.Discount) * orderModel.Quantity;
@@ -276,30 +307,37 @@ namespace CosmeticaShop.Services
         ///  <param name="address">Адрес доставки</param>
         ///  <param name="email">Почта</param>
         /// <param name="userId"></param>
-        public BaseResponse AddOrder(int orderId, AddressModel address,string email,Guid? userId)
+        public BaseResponse<AddOrderResponse> AddOrder(int orderId, AddressModel address, string email, Guid? userId)
         {
             try
             {
                 using (var db = new DataContext())
                 {
+                    var newUser = false;
+                    var user = new User();
                     if (userId == null)
                     {
                         HttpCookie cookieUser = HttpContext.Current.Request.Cookies["User"];
                         if (cookieUser != null) userId = Guid.Parse(cookieUser.Value);
                         if (userId == null)
-                            return new BaseResponse(EnumResponseStatus.Error, "Utilizatorul nu a fost găsit");
+                            return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Error, "Utilizatorul nu a fost găsit");
                         var users = db.Users.ToList();
-                        var user = users.FirstOrDefault(x=>x.Id == userId && x.Status == (int)EnumStatusUser.Unauthorized);
-                        if(user == null)
-                            return new BaseResponse(EnumResponseStatus.Error, "Utilizatorul nu a fost găsit");
-                        if(users.Any(x => x.Email == email))
-                            return new BaseResponse(EnumResponseStatus.Error, "O astfel de corespondență există deja.");
+                        user = users.FirstOrDefault(x => x.Id == userId);
+                        if (user == null)
+                            return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Error, "Utilizatorul nu a fost găsit");
+                        if (user.Status != (int)EnumStatusUser.Unauthorized && user.Email == email)
+                            return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Error, "Sunteți deja înregistrat, accesați profilul cu această e-mail");
+                        if (user.Status != (int)EnumStatusUser.Unauthorized)
+                            return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Error, "Sunteți deja înregistrat");
+                        if (users.Any(x => x.Email == email))
+                            return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Error, "O astfel de email există deja.");
+                        newUser = true;
                     }
                     var order = db.OrderHeaders.FirstOrDefault(x => x.Id == orderId);
                     if (order == null)
-                        return new BaseResponse(EnumResponseStatus.Error, "Заказ не найден");
+                        return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Error, "Заказ не найден");
                     if (order.Status != (int)EnumStatusOrder.Cart)
-                        return new BaseResponse(EnumResponseStatus.Error, "Заказ уже был совершен");
+                        return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Error, "Заказ уже был совершен");
                     order.Status = (int)EnumStatusOrder.Pending;
                     order.Address = JsonConvert.SerializeObject(address);
                     order.DateCreate = DateTime.Now;
@@ -313,14 +351,27 @@ namespace CosmeticaShop.Services
                         cookieReq.Expires = DateTime.Now.AddDays(-1d);
                         HttpContext.Current.Response.Cookies.Add(cookieReq);
                     }
-                    return new BaseResponse(EnumResponseStatus.Success, "Заказ успешно совершен");
+                    if (newUser)
+                    {
+                        var password = CalculationService.GetRandomString(10);
+                        var token = Guid.NewGuid();
+                        user.PasswordHash = password.GetHashString();
+                        user.Email = email;
+                        user.FirstName = "";
+                        user.LastName = "";
+                        user.ConfirmationToken = token;
+                        db.SaveChanges();
+                        return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Success, "Заказ успешно совершен", new AddOrderResponse { IsNewUser = true, Token = token, Password = password });
+                    }
+                    return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Success, "Заказ успешно совершен", new AddOrderResponse { IsNewUser = false, Token = null });
                 }
             }
             catch (Exception e)
             {
-                return new BaseResponse(EnumResponseStatus.Exception, e.Message);
+                return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Exception, e.Message);
             }
         }
+
 
         #endregion
 
@@ -335,8 +386,8 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var query = db.OrderHeaders.AsNoTracking().Include(x=>x.User.UserAddress)
-                    .Where(x => !x.IsDelete.HasValue && x.Status!=(int)EnumStatusOrder.Cart)
+                var query = db.OrderHeaders.AsNoTracking().Include(x => x.User.UserAddress)
+                    .Where(x => !x.IsDelete.HasValue && x.Status != (int)EnumStatusOrder.Cart)
                     .OrderByDescending(x => x.DateCreate) as IQueryable<OrderHeader>;
 
                 //if (!string.IsNullOrEmpty(request.Filter.Term))
@@ -368,7 +419,7 @@ namespace CosmeticaShop.Services
             using (var db = new DataContext())
             {
                 var order = db.OrderHeaders.Include(x => x.User.UserAddress)
-                    .Where(x => x.Id == orderId).ToList().Select(x=>new OrderAdmin.OrderHeaderModel
+                    .Where(x => x.Id == orderId).ToList().Select(x => new OrderAdmin.OrderHeaderModel
                     {
                         Id = x.Id,
                         DateCreate = x.DateCreate,
@@ -435,16 +486,16 @@ namespace CosmeticaShop.Services
                 using (var db = new DataContext())
                 {
                     var order = db.OrderHeaders.FirstOrDefault(x => x.Id == orderId);
-                    if(order==null)
-                        return new BaseResponse(EnumResponseStatus.Error,"Заказ не найден");
+                    if (order == null)
+                        return new BaseResponse(EnumResponseStatus.Error, "Заказ не найден");
                     order.Status = status;
                     db.SaveChanges();
-                    return new BaseResponse(EnumResponseStatus.Success,"Статус успешно изменен");
+                    return new BaseResponse(EnumResponseStatus.Success, "Статус успешно изменен");
                 }
             }
             catch (Exception ex)
             {
-                return new BaseResponse(EnumResponseStatus.Exception,ex.Message);
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
             }
         }
 
@@ -497,8 +548,7 @@ namespace CosmeticaShop.Services
                 Price = m.Price,
                 DiscountPercent = m.Discount,
                 PhotoUrl = m.PhotoUrl,
-                //todo:вынести в функцию
-                DiscountPrice = Math.Floor(m.Price - (m.Price * m.Discount / 100))
+                DiscountPrice = CalculationService.GetDiscountPrice(m.Price, m.Discount)
             };
         }
         #endregion

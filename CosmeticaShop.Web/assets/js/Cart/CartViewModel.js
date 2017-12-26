@@ -13,6 +13,8 @@
         if (!theParams.Model)
             theParams.Model = this.GetCart();
         this.Amount = ko.observable(theParams.Amount || 0);
+        this.CouponCode = ko.observable(theParams.CouponCode || "");
+        this.ErrorMessage = ko.observable("");
         this.GetAmount();
         return this;
     };
@@ -37,10 +39,13 @@
         var self = this;
 
         $.post(this.UrlPreparationOrder, {
-            productsOrder: self.Model().map(function (item) { return item.GetData(); })
+            productsOrder: self.Model().map(function (item) { return item.GetData(); }),
+            couponCode: this.CouponCode()
         }).success(function (res) {
             if (res.IsSuccess) {
                 location.href = self.UrlOrder + "?orderId=" + res.Value;
+            } else {
+                self.ErrorMessage(res.Message);
             }
 
         });

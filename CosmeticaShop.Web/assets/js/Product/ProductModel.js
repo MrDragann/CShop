@@ -50,6 +50,7 @@
         }).success(function (res) {
             if (res.IsSuccess) {
                 $("#cart-success").modal("show");
+                CartHeaderModel.GetCart();
             }
             else {
                 console.error(res.Message);

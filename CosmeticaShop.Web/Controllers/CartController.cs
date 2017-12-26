@@ -23,10 +23,10 @@ namespace CosmeticaShop.Web.Controllers
             return View(cookieModel);
 
         }
-        public ActionResult PreparationOrder(List<OrderProductsModel> productsOrder)
+        public ActionResult PreparationOrder(List<OrderProductsModel> productsOrder, string couponCode)
         {
             var userId = new WebUser().UserId;
-            var response = _orderService.PreparationOrder(userId, productsOrder);
+            var response = _orderService.PreparationOrder(userId, productsOrder, couponCode);
             return Json(response);
         }
         public ActionResult DeleteProduct(int productId)

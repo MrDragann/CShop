@@ -41,6 +41,10 @@ namespace CosmeticaShop.Web.Infrastructure
         /// </summary>
         public bool IsAuthorized { get; set; }
         /// <summary>
+        /// Авторизован пользователь или нет
+        /// </summary>
+        public bool IsUnAuthorizedUser { get; set; }
+        /// <summary>
         /// Имя пользователя
         /// </summary>
         public string FirstName { get; set; }
@@ -63,6 +67,7 @@ namespace CosmeticaShop.Web.Infrastructure
             Email = user.Email;
             FirstName = user.FirstName;
             LastName = user.LastName;
+            IsUnAuthorizedUser = user.IsUnAuthorizedUser;
         }
     }
 }

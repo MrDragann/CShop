@@ -40,8 +40,9 @@ namespace CosmeticaShop.IServices.Interfaces
         /// </summary>
         /// <param name="userId">Ид пользователя</param>
         /// <param name="productsOrder">Товары для заказа</param>
+        /// <param name="couponCode">Купон</param>
         /// <returns></returns>
-        BaseResponse<int> PreparationOrder(Guid userId, List<OrderProductsModel> productsOrder);
+        BaseResponse<int> PreparationOrder(Guid userId, List<OrderProductsModel> productsOrder, string couponCode);
         /// <summary>
         /// Получить историю заказов
         /// </summary>
@@ -59,7 +60,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// </summary>
         /// <param name="orderId">Ид заказа</param>
         /// <param name="address">Адрес доставки</param>
-        BaseResponse AddOrder(int orderId, AddressModel address, string email, Guid? userId);
+        BaseResponse<AddOrderResponse> AddOrder(int orderId, AddressModel address, string email, Guid? userId);
 
         #endregion
 
