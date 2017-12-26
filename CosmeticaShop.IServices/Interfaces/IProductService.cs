@@ -83,6 +83,13 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <returns></returns>
         BaseResponse ValidationReview(Guid userId, int productId);
 
+        /// <summary>
+        /// Получить тэги для фильтра
+        /// </summary>
+        /// <param name="products">Товары</param>
+        /// <returns></returns>
+        List<TagModel> GetTagsForFilter(List<ProductBaseModel> products);
+
         #endregion
 
         #region [ Адмиистративная ]

@@ -16,6 +16,7 @@
         this.DateCreateView = ko.observable(theParams.DateCreateView || "");
         this.Content = ko.observable(theParams.Content || "");
         this.IsWish = ko.observable(theParams.IsWish || false);
+        this.TagsId = ko.observableArray(theParams.TagsId || []);
         this.CheckWish();
         return this;
     };
@@ -35,7 +36,8 @@
             Description: this.Description(),
             Price: this.Price(),
             Discount: this.Discount(),
-            PhotoUrl: this.PhotoUrl()
+            PhotoUrl: this.PhotoUrl(),
+            TagsId: this.TagsId()
         }
     }
 

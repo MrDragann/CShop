@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Pagination;
@@ -38,7 +39,8 @@ namespace CosmeticaShop.Web.Controllers
                     PageSize = products.Count / take + 1
                 },
                 Filter = request,
-                Categories = _categoryService.GetCategories()
+                Categories = _categoryService.GetCategories(),
+                Tags = _productService.GetTagsForFilter(products)
             };
             model.Products = model.Products.Skip(model.Pagination.Skip).Take(model.Pagination.Take).ToList();
             return View(model);
@@ -114,6 +116,16 @@ namespace CosmeticaShop.Web.Controllers
             var userId = new WebUser().UserId;
             var response = _productService.AddReview(userId, productId, message);
             return Json(response);
+        }
+        /// <summary>
+        /// Получить тэги для фильтра
+        /// </summary>
+        /// <param name="products">Товары</param>
+        /// <returns></returns>
+        public ActionResult GetTagsForFilter(List<ProductBaseModel> products)
+        {
+            var res = _productService.GetTagsForFilter(products);
+            return Json(res);
         }
     }
 }

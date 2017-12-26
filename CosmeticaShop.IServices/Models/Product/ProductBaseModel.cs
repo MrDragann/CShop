@@ -37,5 +37,9 @@ namespace CosmeticaShop.IServices.Models.Product
         /// Наименование бренда
         /// </summary>
         public string BrandName { get; set; }
+        /// <summary>
+        /// Ид тэга
+        /// </summary>
+        public List<int> TagsId { get; set; }
     }
 }

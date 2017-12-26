@@ -57,7 +57,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories).ToList();
+                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories).Include(x => x.ProductTags).ToList();
                 if (request?.BrandiesId?.Count > 0)
                 {
                     query = query.Where(x => request.BrandiesId.Any(m => m == x.BrandId)).ToList();
@@ -151,7 +151,7 @@ namespace CosmeticaShop.Services
                 return model;
             }
         }
-        
+
 
         #region [ Конвертирование ]
 
@@ -164,7 +164,8 @@ namespace CosmeticaShop.Services
                 BrandName = m.Brand?.Name,
                 Price = m.Price,
                 DiscountPercent = m.Discount,
-                DiscountPrice = CalculationService.GetDiscountPrice(m.Price, m.Discount)
+                DiscountPrice = CalculationService.GetDiscountPrice(m.Price, m.Discount),
+                TagsId = m.ProductTags?.Select(x => x.Id).ToList()
             };
         }
         private ProductEditModel ConvertToProductEditModel(Product m)
@@ -394,6 +395,40 @@ namespace CosmeticaShop.Services
 
         #endregion
 
+        #region Тэги
+        /// <summary>
+        /// Получить тэги для фильтра
+        /// </summary>
+        /// <param name="products">Товары</param>
+        /// <returns></returns>
+        public List<TagModel> GetTagsForFilter(List<ProductBaseModel> products)
+        {
+            using (var db = new DataContext())
+            {
+                var tagsIds = new List<int>();
+                foreach (var product in products)
+                {
+                    foreach (var id in product.TagsId)
+                    {
+                        if(tagsIds.Any(x=>x == id))
+                            continue;
+                        tagsIds.Add(id);
+                    }
+                }
+                var tagsModel = new List<TagModel>();
+                var tags = db.ProductTags.ToList();
+                foreach (var tagId in tagsIds)
+                {
+                    var tag = tags.FirstOrDefault(x => x.Id == tagId);
+                    if (tag!=null)
+                        tagsModel.Add(new TagModel(){Id = tag.Id, Name =  tag.Name});
+                }
+                return tagsModel;
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region [ Административная часть ]
@@ -522,7 +557,7 @@ namespace CosmeticaShop.Services
                         newProduct.Categories = db.Categories.Where(x => model.CategoriesId.Contains(x.Id)).ToList();
                     if (model.TagsId != null)
                         newProduct.ProductTags = db.ProductTags.Where(x => model.TagsId.Contains(x.Id)).ToList();
-                    
+
                     // добавление похожих товаров
                     var similarProductsId = model.SimilarProducts?.Select(x => x.Id).ToList() ?? new List<int>();
                     newProduct.SimilarProducts = db.Products.Where(x => similarProductsId.Contains(x.Id)).ToList();
@@ -553,7 +588,7 @@ namespace CosmeticaShop.Services
                 using (var db = new DataContext())
                 {
                     var old = db.Products.Include(x => x.Categories)
-                        .Include(x => x.ProductTags).Include(x=>x.SimilarProducts)
+                        .Include(x => x.ProductTags).Include(x => x.SimilarProducts)
                         .FirstOrDefault(x => x.Id == model.Id);
                     if (old == null)
                         return new BaseResponse<int>(EnumResponseStatus.Error, "Товар не найден");
@@ -578,7 +613,7 @@ namespace CosmeticaShop.Services
                     old.ProductTags = model.TagsId != null
                         ? db.ProductTags.Where(x => model.TagsId.Contains(x.Id)).ToList()
                         : null;
-                    
+
                     // похожие товары
                     var similarProductsId = model.SimilarProducts?.Select(x => x.Id).ToList() ?? new List<int>();
                     old.SimilarProducts = db.Products.Where(x => similarProductsId.Contains(x.Id)).ToList();

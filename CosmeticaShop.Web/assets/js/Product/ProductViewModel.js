@@ -39,7 +39,7 @@
         location.href = this.UrlGetProducts + filterParams;
     
     }
-
+    
     /**
     * Получить параметры для фильтрации
     */
