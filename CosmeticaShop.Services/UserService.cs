@@ -29,7 +29,7 @@ namespace CosmeticaShop.Services
                 var user = db.Users.Include(x => x.UserAddress).FirstOrDefault(x => x.Id == userId);
                 if (user == null)
                     return new UserDetailModel();
-                return ConvertUserDetailModel(user);            
+                return ConvertUserDetailModel(user);
             }
         }
         /// <summary>
@@ -58,6 +58,35 @@ namespace CosmeticaShop.Services
                     HttpContext.Current.Response.Cookies.Add(cookieReq);
                 }
             }
+        }
+        /// <summary>
+        /// Полчить пользователя в куки
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <returns></returns>
+        public BaseResponse<UserBaseModel> GetUserCookie()
+        {
+            using (var db = new DataContext())
+            {
+                HttpCookie cookieReq = HttpContext.Current.Request.Cookies["User"];
+                if (string.IsNullOrWhiteSpace(cookieReq?.Value))
+                {
+                    return new BaseResponse<UserBaseModel>(EnumResponseStatus.Error, "Пользователь не найден");
+                }
+                var cookieUser = Guid.Parse(cookieReq.Value);
+                var user = db.Users.FirstOrDefault(x => x.Id == cookieUser && x.Status != (int)EnumStatusUser.Unauthorized);
+                if (user == null)
+                    return new BaseResponse<UserBaseModel>(EnumResponseStatus.Error,"Пользователь не найден");
+                return new BaseResponse<UserBaseModel>(EnumResponseStatus.Success, "Успешно", new UserBaseModel()
+                {
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    Id = user.Id,
+                    LastName = user.LastName
+                });
+
+            }
+
         }
         /// <summary>
         /// Изменить личные данные пользователя
@@ -107,7 +136,7 @@ namespace CosmeticaShop.Services
                 Phone = m.UserAddress?.Phone,
                 DateBirth = m.DateBirth,
                 DateDay = m.DateBirth?.Day,
-                DateMonth =  m.DateBirth?.Month,
+                DateMonth = m.DateBirth?.Month,
                 DateYear = m.DateBirth?.Year
             };
         }

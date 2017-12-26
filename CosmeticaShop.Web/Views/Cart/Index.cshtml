@@ -118,10 +118,11 @@
                         Adaugă PROMO cod
                     </div>
                     <div class="col-md-12">
-                        <input class="form-control" />
+                        <input class="form-control" data-bind="textInput:ViewModel.CouponCode" />
                     </div>
                 </div>
                 <div class="cart-footer">
+                    <p class="p-error" data-bind="text:ViewModel.ErrorMessage"></p>
                     <button class="btn-pink" data-bind="click:ViewModel.PreparationOrder.bind(ViewModel)">Plasează comanda</button>
                 </div>
             </div>

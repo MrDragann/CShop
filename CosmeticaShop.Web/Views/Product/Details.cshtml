@@ -71,13 +71,13 @@
 
                 <div class="col-md-6 block-info-product">
                     <div class="col-md-4">
-                        <!--ko if:DiscountPrice()!==0-->
+                        <!--ko if:DiscountPercent()!==0-->
                         <span class="title-product crossOut-pink" data-bind="text:Price()+' lei'"></span>
                         <div>
                             <span class="pink-price" style="color: #ff669e;font-family: FuturaPTBook;" data-bind="text:DiscountPrice()+' lei'"></span>
                         </div>
                         <!--/ko-->
-                        <!--ko if:DiscountPrice()===0-->
+                        <!--ko if:DiscountPercent()===0-->
                         <span class="title-product" data-bind="text:Price()+' lei'"></span>
                         <!--/ko-->
                       

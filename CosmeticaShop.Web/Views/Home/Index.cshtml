@@ -67,8 +67,8 @@
                     <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
                         <div class="product-img">
                             <img data-bind="attr:{src:PhotoUrl}" />
-                            <!--ko if:DiscountPrice()!==0-->
-                            <div class="discount">
+                            <!--ko if:DiscountPercent()!==0-->
+                            <div class="discount" style="visibility:hidden;" data-bind="style:{visibility:DiscountPercent()!==0 ?'visible': 'hidden'}">
                                 reducere  <div>
                                     -<span data-bind="text:DiscountPercent">35</span>%
                                 </div>
@@ -90,13 +90,13 @@
                     </a>
 
                     <div class="product-description">
-                        <!--ko if:DiscountPrice()!==0-->
+                        <!--ko if:DiscountPercent()!==0-->
                         <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>
                         <div>
                             <span class="pink-price" data-bind="text:DiscountPrice()+' lei'"></span>
                         </div>
                         <!--/ko-->
-                        <!--ko if:DiscountPrice()===0-->
+                        <!--ko if:DiscountPercent()===0-->
                         <span class="grey-price" data-bind="text:Price()+' lei'"></span>
                         <!--/ko-->
                     </div>
