@@ -34,8 +34,8 @@ namespace CosmeticaShop.Web.Infrastructure
 
             _userRoles = _user.Roles;
 
-            //if (!_userRoles.Any())
-            //    return false;
+            if (_userRoles==null)
+                return false;
 
             _allowedRoles = Roles.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
             

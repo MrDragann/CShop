@@ -161,18 +161,18 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var orders = db.OrderProducts.Include(x => x.Product).ToList();
-                var qurery = orders.GroupBy(x => x.ProductId).Select(x => new ProductBaseModel
+                var orders = db.OrderProducts.Include(x => x.Product.Brand).ToList();
+                var query = orders.GroupBy(x => x.ProductId).Select(x => new ProductBaseModel
                 {
                     Id = x.Key,
                     Name = x.Select(p => p.Product).First().Name,
                     Price = x.Select(p => p.Product).First().Price,
-                    BrandName = x.Select(p => p.Product).First().Name,
+                    BrandName = x.Select(p => p.Product).First().Brand?.Name,
                     DiscountPercent = x.Select(p => p.Product).First().Discount,
                     DiscountPrice = CalculationService.GetDiscountPrice(x.Select(p => p.Product).First().Price, x.Select(p => p.Product).First().Discount),
                     PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.Key.ToString())
                 }).ToList();
-                var model = qurery.OrderByDescending(x => x.Id, new PupularProductSort(orders)).Take(8).ToList();
+                var model = query.OrderByDescending(x => x.Id, new PupularProductSort(orders)).Take(8).ToList();
                 var products = new List<ProductBaseModel>();
                 products.AddRange(model);
                 return products;
