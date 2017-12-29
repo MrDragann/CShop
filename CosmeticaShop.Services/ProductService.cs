@@ -68,7 +68,7 @@ namespace CosmeticaShop.Services
                 }
                 if (!string.IsNullOrEmpty(request?.Search))
                 {
-                    query = query.Where(x => x.Name.Contains(request.Search)).ToList();
+                    query = query.Where(x => x.Name.ToLower().Contains(request.Search.ToLower())).ToList();
                 }
                 if (request?.TagsId?.Count > 0)
                 {
