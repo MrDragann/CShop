@@ -8,11 +8,13 @@
         this.UrlGetCart = theParams.UrlGetCart;
         this.UrlOrder = theParams.UrlOrder;
         this.UrlPreparationOrder = theParams.UrlPreparationOrder;
+        this.UrlAcceptCoupon = theParams.UrlAcceptCoupon;
       
         this.Model = ko.observableArray(theParams.Model ? theParams.Model.map(function (item) { return new Cart.CartModel(item) }) : []);
         if (!theParams.Model)
             theParams.Model = this.GetCart();
         this.Amount = ko.observable(theParams.Amount || 0);
+        this.AmountCoupon = ko.observable(theParams.AmountCoupon || 0);
         this.CouponCode = ko.observable(theParams.CouponCode || "");
         this.ErrorMessage = ko.observable("");
         this.GetAmount();
@@ -50,7 +52,25 @@
 
         });
     };
+    /**
+    * Применить купон
+    * @returns {} 
+    */
+    Cart.CartViewModel.prototype.AcceptCoupon = function () {
+        var self = this;
+        $.post(this.UrlAcceptCoupon, {
+            productsOrder: self.Model().map(function (item) { return item.GetData(); }),
+            couponCode: this.CouponCode()
+        }).success(function (res) {
+            if (res.IsSuccess) {
+                self.AmountCoupon(res.Value);
+                self.ErrorMessage("");
+            } else {
+                self.ErrorMessage(res.Message);
+            }
 
+        });
+    };
     /**
     * Удалить товар из корзины
     * @returns {} 

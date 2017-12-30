@@ -22,76 +22,99 @@
             }
         </div>
         <div class="col-md-4 item">
-            <div class="pull-right"> 
+            <div class="pull-right">
                 @if (!User.IsAuthorized)
                 {
-                <div class="head-auth"><span data-target="#login-modal" data-toggle="modal">Logare</span> / <span data-target="#registration-modal" data-toggle="modal">Înregistrare</span></div>
+                    <div class="head-auth"><span data-target="#login-modal" data-toggle="modal">Logare</span> / <span data-target="#registration-modal" data-toggle="modal">Înregistrare</span></div>
                 }
                 else
                 {
-                    <div class="head-auth"><a href="@Url.Action("Index","Cabinet")" >Birou privat</a> / <a href="@Url.Action("LogOut","Home")">Ieșire</a></div>
+                    <div class="head-auth"><a href="@Url.Action("Index","Cabinet")">Birou privat</a> / <a href="@Url.Action("LogOut","Home")">Ieșire</a></div>
                 }
                 <a href="@Url.Action("Index","Favorites")">
                     <i class="icon-big-like"></i>
                 </a>
-              <div id="dropdown-cart-head" style="display:inline-block;" data-bind="with:CartHeaderModel">
-                  <div class="dropdown-cart" id="dropdown-cart">
-                      <div class="title col-md-12">
-                          <span data-bind="text:Model().length"></span> produse în coș
-                      </div>
-                      <!--ko if:Model().length>0-->
-                      <!--ko foreach:Model-->
-                      <div class="dropdown-item-cart row col-md-12">
-                          <div class="col-md-9 info">
-                              <div class="col-md-2 img">
-                                  <img data-bind="attr:{src:PhotoUrl}" />
-                              </div>
-                              <div class="col-md-10 content">
-                                  <div class="title-product" data-bind="text:Name">
-                                   
-                                  </div>
-                                  <div class="info" data-bind="text:BrandName">
-                                   
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="col-md-3" align="right">
-                              <div class="title-product">
-                                  <span  data-bind="text:AmountPrice"></span> lei
-                              </div>
-                          </div>
-                      </div>
-                      <!--/ko-->                    
-                      <div class="footer">
-                          <div class="row col-md-12">
-                              <div class="col-md-7" align="center">
-                                  <div><i class="icon-free-delivery"></i></div>
-                                  <div class="pink-darkk-text">
-                                      Livrare gratuită
-                                  </div>
-                              </div>
-                              <div class="col-md-5 padding-0">
-                                  <div class="row">
-                                      <div class="col-md-7 info" align="center">
-                                          Total în coș
-                                      </div>
-                                      <div class="col-md-5 value" align="right" >
-                                          <span data-bind="text:Amount"></span> lei
-                                      </div>
-                                  </div>
-                                  <div class="col-md-12 item-btn">
-                                      <a data-bind="click:CartHeaderModel.PreparationOrder.bind(CartHeaderModel)" style="cursor: pointer;" class="btn-pink">
-                                          Plasează comanda
-                                      </a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <!--/ko-->
-                  </div>
-                  <a href="@Url.Action("Index","Cart")"><i class="icon-cart" id="icon-cart-header"></i><span class="count-cart" data-bind="text:Model().length"></span></a>
-              </div>
-              
+                <div id="dropdown-cart-head" style="display:inline-block;" data-bind="with:CartHeaderModel">
+                    <div class="dropdown-cart" id="dropdown-cart">
+                        <div class="title col-md-12">
+                            <span data-bind="text:Model().length"></span> produse în coș
+                        </div>
+                        <!--ko if:Model().length>0-->
+                        <!--ko foreach:Model-->
+                        <div class="dropdown-item-cart row col-md-12">
+                            <div class="col-md-9 info">
+                                <div class="col-md-2 img">
+                                    <img data-bind="attr:{src:PhotoUrl}" />
+                                </div>
+                                <div class="col-md-10 content">
+                                    <div class="title-product" data-bind="text:Name">
+
+                                    </div>
+                                    <div class="info" data-bind="text:BrandName">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" align="right">
+                                <div class="title-product">
+                                    <span data-bind="text:AmountPrice"></span> lei
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ko-->
+                        <div class="footer">
+                            <div class="row col-md-12">
+                                <div class="col-md-7" align="center">
+                                    <div><i class="icon-free-delivery"></i></div>
+                                    <div class="pink-darkk-text">
+                                        Livrare gratuită
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5 padding-0">
+                                    <div class="row">
+                                        <div class="col-md-7 info" align="center">
+                                            Total în coș
+                                        </div>
+                                        <div class="col-md-5 value" align="right">
+                                            <span data-bind="text:Amount"></span> lei
+                                        </div>
+                                    </div>
+                                    <div class="row" style="display: none" data-bind="style:{display: CartHeaderModel.AmountCoupon()>0 ? 'block' : 'none'}">
+                                        <div class="col-md-7">
+                                            <div class="col-md-7 info" style="width: 95%" align="center">
+                                                Цена с купоном:
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 value" align="right">
+                                            <span data-bind="text:CartHeaderModel.AmountCoupon"></span> lei
+                                        </div>
+                                    </div>
+                                    <div class="cart-promo">
+                                        <div class="col-md-12 info coupon-dropdown">
+                                            @Resource.AddPromoCode
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input style="margin-bottom: 10px;" class="form-control" data-bind="textInput:CartHeaderModel.CouponCode" />
+                                        </div>
+                                        <div style=" display: none;" data-bind="style:{display:CartHeaderModel.CouponCode()==='' ? 'none' : 'block'}">
+                                            <button style="    margin: 0 0px 10px 17px;" class="btn-pink" data-bind="click:CartHeaderModel.AcceptCoupon.bind(CartHeaderModel)">Применить купон</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 item-btn">
+                           
+                                        <a data-bind="click:CartHeaderModel.PreparationOrder.bind(CartHeaderModel)" style="cursor: pointer;" class="btn-pink">
+                                            Plasează comanda
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ko-->
+                    </div>
+                    <a href="@Url.Action("Index","Cart")"><i class="icon-cart" id="icon-cart-header"></i><span class="count-cart" data-bind="text:Model().length"></span></a>
+                </div>
+
             </div>
         </div>
     </div>
@@ -112,7 +135,7 @@
 
         </div>
         <div class="navbar-collapse collapse menu">
-            @Html.Action("NavigationPartial","Home")
+            @Html.Action("NavigationPartial", "Home")
             <div class="pull-right">
                 <div class="menu-search" data-bind="with:SeachFormModel">
                     <input placeholder="căutare" data-bind="textInput:Search,event:{keypress:function(data,e){if(e.keyCode === 13){GetSearch(SeachFormModel)}else return true;}}" />

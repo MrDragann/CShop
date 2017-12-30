@@ -189,7 +189,7 @@ namespace CosmeticaShop.Services
             return response;
         }
         /// <summary>
-        /// Добавить товар в корзину
+        /// Подготовка заказа
         /// </summary>
         /// <param name="userId">Ид пользователя</param>
         /// <param name="productsOrder">Товары для заказа</param>
@@ -208,7 +208,7 @@ namespace CosmeticaShop.Services
                     };
                     if (!string.IsNullOrEmpty(couponCode))
                     {
-                        coupon = db.Coupons.FirstOrDefault(x => x.Code == couponCode);
+                        coupon = db.Coupons.FirstOrDefault(x => x.Code == couponCode && !x.IsDelete.HasValue);
                         if (coupon == null)
                             return new BaseResponse<int>(EnumResponseStatus.Error, "Cuponul nu a fost găsit");
                         couponFind = true;
@@ -231,7 +231,7 @@ namespace CosmeticaShop.Services
                         order.CouponId = coupon.Id;
                         order.CouponJson = JsonConvert.SerializeObject(new Coupon
                         {
-                            Id = coupon.Id,                          
+                            Id = coupon.Id,
                             Discount = coupon.Discount,
                             Code = coupon.Code,
                             DateCreate = coupon.DateCreate,
@@ -247,13 +247,27 @@ namespace CosmeticaShop.Services
                         var product = products.FirstOrDefault(x => x.Id == orderModel.ProductId);
                         if (product == null)
                             return new BaseResponse<int>(EnumResponseStatus.Error, "Один из товаров  не был найден");
-                        if (couponFind && item.Discount == 0)
+                        if (couponFind)
                         {
-                            item.Discount = coupon.Discount;                          
+                            if (item.Discount == 0)
+                            {
+                                item.Discount = coupon.Discount;
+                                amount += CalculationService.GetDiscountPrice(product.Price, coupon.Discount) * orderModel.Quantity;
+                                item.Amount = CalculationService.GetDiscountPrice(product.Price, coupon.Discount) * orderModel.Quantity;
+                            }
+                            else
+                            {
+                            
+                                amount += CalculationService.GetDiscountPrice(product.Price, item.Discount) * orderModel.Quantity;
+                                item.Amount = CalculationService.GetDiscountPrice(product.Price, item.Discount) *orderModel.Quantity;
+                            }
+                        }
+                        else 
+                        {
+                            amount += CalculationService.GetDiscountPrice(product.Price, product.Discount) * orderModel.Quantity;
+                            item.Amount = CalculationService.GetDiscountPrice(product.Price, product.Discount) * orderModel.Quantity;
                         }
                         item.Quantity = orderModel.Quantity;
-                        amount += CalculationService.GetDiscountPrice(product.Price, product.Discount) * orderModel.Quantity;
-                        item.Amount = CalculationService.GetDiscountPrice(product.Price, product.Discount) * orderModel.Quantity;
                     }
                     order.Amount = amount;
                     db.SaveChanges();
@@ -263,6 +277,98 @@ namespace CosmeticaShop.Services
             catch (Exception ex)
             {
                 return new BaseResponse<int>(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Подготовка заказа (Принятия купона)
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <param name="productsOrder">Товары для заказа</param>
+        /// <param name="couponCode">Купон</param>
+        /// <returns></returns>
+        public BaseResponse<decimal> AcceptCoupon(Guid userId, List<OrderProductsModel> productsOrder, string couponCode)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var couponFind = false;
+                    var coupon = new Coupon()
+                    {
+                        Discount = 0
+                    };
+                    if (!string.IsNullOrEmpty(couponCode))
+                    {
+                        coupon = db.Coupons.FirstOrDefault(x => x.Code == couponCode && !x.IsDelete.HasValue);
+                        if (coupon == null)
+                            return new BaseResponse<decimal>(EnumResponseStatus.Error, "Cuponul nu a fost găsit");
+                        couponFind = true;
+                    }
+                    var products = db.Products.ToList();
+                    var order = db.OrderHeaders.Include(x => x.OrderProducts).FirstOrDefault(x => x.UserId == userId && x.Status == (int)EnumStatusOrder.Cart);
+                    if (order == null)
+                    {
+                        HttpCookie cookieReq = HttpContext.Current.Request.Cookies["User"];
+                        if (!string.IsNullOrWhiteSpace(cookieReq?.Value))
+                        {
+                            userId = Guid.Parse(cookieReq.Value);
+                            order = db.OrderHeaders.Include(x => x.OrderProducts).FirstOrDefault(x => x.UserId == userId && x.Status == (int)EnumStatusOrder.Cart);
+                            if (order == null)
+                                return new BaseResponse<decimal>(EnumResponseStatus.Error, "Корзина не найдена");
+                        }
+                    }
+                    if (couponFind)
+                    {
+                        order.CouponId = coupon.Id;
+                        order.CouponJson = JsonConvert.SerializeObject(new Coupon
+                        {
+                            Id = coupon.Id,
+                            Discount = coupon.Discount,
+                            Code = coupon.Code,
+                            DateCreate = coupon.DateCreate,
+                            IsDelete = coupon.IsDelete,
+                        });
+                    }
+                    decimal amount = 0;
+                    foreach (var item in order.OrderProducts)
+                    {
+                        var orderModel = productsOrder.FirstOrDefault(x => x.ProductId == item.ProductId);
+                        if (orderModel == null)
+                            return new BaseResponse<decimal>(EnumResponseStatus.Error, "Один из товаров заказа не был найден");
+                        var product = products.FirstOrDefault(x => x.Id == orderModel.ProductId);
+                        if (product == null)
+                            return new BaseResponse<decimal>(EnumResponseStatus.Error, "Один из товаров  не был найден");
+                        if (couponFind)
+                        {
+                            if (item.Discount == 0)
+                            {
+                                item.Discount = coupon.Discount;
+                                amount += CalculationService.GetDiscountPrice(product.Price, coupon.Discount) * orderModel.Quantity;
+                                item.Amount = CalculationService.GetDiscountPrice(product.Price, coupon.Discount) * orderModel.Quantity;
+                            }
+                            else
+                            {
+                                amount += CalculationService.GetDiscountPrice(product.Price, item.Discount) * orderModel.Quantity;
+                                item.Amount = CalculationService.GetDiscountPrice(product.Price, item.Discount) * orderModel.Quantity;
+                            }
+                        }
+                        else
+                        {
+                            amount += CalculationService.GetDiscountPrice(product.Price, product.Discount) * orderModel.Quantity;
+                            item.Amount = CalculationService.GetDiscountPrice(product.Price, product.Discount) * orderModel.Quantity;
+                        }
+                        item.Quantity = orderModel.Quantity;
+                    }
+                    order.Amount = amount;
+                    db.SaveChanges();
+                    return new BaseResponse<decimal>(EnumResponseStatus.Success, "Успешно", order.Amount);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<decimal>(EnumResponseStatus.Exception, ex.Message);
             }
         }
         /// <summary>
@@ -361,9 +467,9 @@ namespace CosmeticaShop.Services
                         user.LastName = "";
                         user.ConfirmationToken = token;
                         db.SaveChanges();
-                        return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Success, "Заказ успешно совершен", new AddOrderResponse { IsNewUser = true, Token = token, Password = password, Order = new OrderHeaderModel { Amount = order.Amount} });
+                        return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Success, "Заказ успешно совершен", new AddOrderResponse { IsNewUser = true, Token = token, Password = password, Order = new OrderHeaderModel { Amount = order.Amount } });
                     }
-                    return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Success, "Заказ успешно совершен", new AddOrderResponse { IsNewUser = false, Token = null ,Order = new OrderHeaderModel{Amount =  order.Amount}});
+                    return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Success, "Заказ успешно совершен", new AddOrderResponse { IsNewUser = false, Token = null, Order = new OrderHeaderModel { Amount = order.Amount } });
                 }
             }
             catch (Exception e)

@@ -43,6 +43,15 @@ namespace CosmeticaShop.IServices.Interfaces
         /// <param name="couponCode">Купон</param>
         /// <returns></returns>
         BaseResponse<int> PreparationOrder(Guid userId, List<OrderProductsModel> productsOrder, string couponCode);
+
+        /// <summary>
+        /// Подготовка заказа (Принятия купона)
+        /// </summary>
+        /// <param name="userId">Ид пользователя</param>
+        /// <param name="productsOrder">Товары для заказа</param>
+        /// <param name="couponCode">Купон</param>
+        /// <returns></returns>
+        BaseResponse<decimal> AcceptCoupon(Guid userId, List<OrderProductsModel> productsOrder, string couponCode);
         /// <summary>
         /// Получить историю заказов
         /// </summary>

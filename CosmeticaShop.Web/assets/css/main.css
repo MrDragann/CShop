@@ -1701,3 +1701,7 @@ button.slick-next {
     .minus:hover {
         background-color: #ec7ba4;
     }
+    .coupon-dropdown {
+        width: 100% !important;
+        margin: 15px 0 !important;
+    }

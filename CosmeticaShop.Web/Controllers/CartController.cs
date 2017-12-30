@@ -30,6 +30,13 @@ namespace CosmeticaShop.Web.Controllers
             var response = _orderService.PreparationOrder(userId, productsOrder, couponCode);
             return Json(response);
         }
+
+        public ActionResult AcceptCoupon(List<OrderProductsModel> productsOrder, string couponCode)
+        {
+            var userId = new WebUser().UserId;
+            var response = _orderService.AcceptCoupon(userId, productsOrder, couponCode);
+            return Json(response);
+        }
         public ActionResult DeleteProduct(int productId)
         {
             var userId = new WebUser().UserId;
