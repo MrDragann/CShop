@@ -16,6 +16,7 @@ using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.SitePage;
 using CosmeticaShop.IServices.Models.Slider;
 using CosmeticaShop.Services.Static;
+using Resources;
 
 namespace CosmeticaShop.Services
 {
@@ -44,7 +45,7 @@ namespace CosmeticaShop.Services
                     }).ToList();
                     model.Brand = new NavigationModel
                     {
-                        Title = "branduri",
+                        Title = Resource.Brands,
                         Items = brands
                     };
                     var parentCategories = db.Categories.AsNoTracking().Include(x => x.ChildCategories)

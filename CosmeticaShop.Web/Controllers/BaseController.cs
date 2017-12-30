@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Globalization;
+using System.Threading;
+using System.Web.Mvc;
+using System.Web.Routing;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.SitePage;
@@ -56,5 +59,12 @@ namespace CosmeticaShop.Web.Controllers
 
         #endregion
 
+        protected override void Initialize(RequestContext requestContext)
+        {
+            var ci = new CultureInfo("ro");
+            Thread.CurrentThread.CurrentUICulture = ci;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+            base.Initialize(requestContext);
+        }
     }
 }

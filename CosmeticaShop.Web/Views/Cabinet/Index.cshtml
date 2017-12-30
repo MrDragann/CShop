@@ -21,7 +21,8 @@
 
 <div class="col-md-12 white-container marginB-heigth-10">
     <div class="default-text navigation">
-        <a href="@Url.Action("Index","Home")"> Principală </a> > <a href="@Url.Action("Index","Cabinet")"> <span class="pink-darkk-text">Profilul meu</span></a>
+        <a href="@Url.Action("Index","Home")"> Principală </a> > 
+        <a href="@Url.Action("Index","Cabinet")"> <span class="pink-darkk-text">Profilul meu</span></a>
     </div>
 </div>
 
@@ -33,7 +34,7 @@
                     <a href="@Url.Action("Index")"><span class="active"> Datele personale</span></a>
                 </li>
                 <li>
-                    <a href="@Url.Action("HistoryOrders")"> <span >Comenzile mele</span></a>
+                    <a href="@Url.Action("HistoryOrders")"> <span>@Resource.MyOrders</span></a>
                 </li>
             </ul>
         </div>
@@ -48,7 +49,7 @@
         <div class="col-md-4  item-form">
             <div class="form-group">
                 <div>
-                    <label>Nume:</label>
+                    <label>@Resource.FirstName:</label>
                 </div>
                 <div class="col-md-12">
                     <input name="FirstName" type="text" data-bind="textInput:FirstName" class="form-control" />
@@ -57,7 +58,7 @@
 
             <div class="form-group">
                 <div>
-                    <label>Prenume:</label>
+                    <label>@Resource.LastName:</label>
                 </div>
                 <div class="col-md-12">
                     <input name="LastName" type="text"  data-bind="textInput:LastName" class="form-control" />

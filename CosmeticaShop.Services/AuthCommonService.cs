@@ -9,6 +9,7 @@ using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Responses;
 using CosmeticaShop.IServices.Models.User;
+using Resources;
 
 namespace CosmeticaShop.Services
 {
@@ -139,7 +140,7 @@ namespace CosmeticaShop.Services
                 if (user != null)
                 {
                     if (user.Status != (int)EnumStatusUser.Active)
-                        return new BaseResponse<UserBaseModel>(EnumResponseStatus.ValidationError, "Пользователь не активирован");
+                        return new BaseResponse<UserBaseModel>(EnumResponseStatus.ValidationError, Resource.ConfirmRegistrationSite);
                     var webUser = new UserBaseModel
                     {
                         Id = user.Id,

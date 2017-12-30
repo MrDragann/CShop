@@ -40,7 +40,7 @@
 @Html.Action("SliderPartial", "Home")
 
 <section>
-    <div class="section-name">BRANDS</div>
+    <div class="section-name">@Resource.Brands</div>
     <div class="row brand-list">
         @foreach (var brand in Model.Brands)
         {

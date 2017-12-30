@@ -15,7 +15,7 @@
             <!-- Основное содержимое модального окна -->
             <div class="modal-body" data-bind="with:UserModel">
                 <!--ko if:$parent.IsSuccessRegister()-->
-                <label>Înregistrarea a avut succes, o scrisoare de confirmare a fost trimisă la oficiul poștal</label>
+                <label>@Resource.CompleteRegistration</label>
                 <!--/ko-->
                 <!--ko ifnot:$parent.IsSuccessRegister()-->
                 <div class="form-group">
@@ -23,11 +23,11 @@
                     <input type="email" data-bind="textInput:Email" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label>Name:</label>
+                    <label>@Resource.FirstName:</label>
                     <input type="text" data-bind="textInput:FirstName" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label>Prenume:</label>
+                    <label>@Resource.LastName:</label>
                     <input type="text" data-bind="textInput:LastName" class="form-control" />
                 </div>
                 <div class="form-group">

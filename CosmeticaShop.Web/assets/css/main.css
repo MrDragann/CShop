@@ -115,6 +115,10 @@ ul {
     background-repeat: no-repeat;
 }
 
+.icon-logo-dois:hover {
+    transition: 0.3s linear 0.2s;
+    background-image: url('/assets/img/icons/logo-dois-hover.png');
+}
 
 .icon-product-cart {
     display: inline-block;

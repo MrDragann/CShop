@@ -9,6 +9,7 @@ using CosmeticaShop.Services;
 using CosmeticaShop.Services.Static;
 using CosmeticaShop.Web.Infrastructure;
 using CosmeticaShop.Web.Models;
+using Resources;
 
 namespace CosmeticaShop.Web.Controllers
 {
@@ -60,7 +61,7 @@ namespace CosmeticaShop.Web.Controllers
             var model = _sitePageSevice.GetSlides();
             return PartialView("~/Views/Shared/Partial/SitePage/Slider.cshtml", model);
         }
-        
+
         #endregion
 
         #region [ Страницы с информацией ]
@@ -69,7 +70,7 @@ namespace CosmeticaShop.Web.Controllers
         {
             var model = _sitePageSevice.GetSitePageModel(EnumSitePage.Contacts);
             SetSitePageSettings(model);
-            return View("~/Views/Information/Index.cshtml",model);
+            return View("~/Views/Information/Index.cshtml", model);
         }
 
         public ActionResult DespreNoi()
@@ -170,10 +171,11 @@ namespace CosmeticaShop.Web.Controllers
             var registeredStatus = _authCommonService.Register(model, token);
             if (registeredStatus.IsSuccess)
             {
-
-                var mailResponse = _authCommonService.SendMail("Подтвердите регистрацию", model.Email, $@"Для завершения регистрации перейдите по 
-                 <a href='{Url.Action("Confrimed", "Home", new { token = token, email = model.Email }, Request.Url.Scheme)}'
-                 title='Подтвердить регистрацию'>ссылке</a>");
+                var responseText = string.Format(Resource.RegistrationSuccess,
+                    $"<a href='{Url.Action("Confrimed", "Home", new {token = token, email = model.Email}, Request.Url.Scheme)}' title='{Resource.ConfirmRegistration}'>",
+                    "</a>");
+                var mailResponse = _authCommonService.SendMail(Resource.ConfirmRegistration, model.Email,
+                    responseText);
                 if (mailResponse.IsSuccess)
                 {
                     return Json(mailResponse);

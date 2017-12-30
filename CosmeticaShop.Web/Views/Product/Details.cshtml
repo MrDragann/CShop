@@ -29,7 +29,9 @@
 
 <div class="col-md-12 white-container marginB-heigth-10">
     <div class="default-text navigation">
-        <a href="@Url.Action("Index","Home")"> Principală </a> >  <a href="@Url.Action("Index","Home")"> Branduri </a> > <a href="@Url.Action("Contacts","Home")"> <span class="pink-darkk-text">Contacte</span></a>
+        <a href="@Url.Action("Index","Home")"> Principală </a> >  
+        <a href="@Url.Action("Index","Home")"> @Resource.Product </a> > 
+        <a href="@Url.Action("Contacts","Home")"> <span class="pink-darkk-text" data-bind="text:ViewModel.Model().Name"></span></a>
     </div>
 </div>
 

@@ -5,7 +5,8 @@
 
 <div class="col-md-12 white-container marginB-heigth-10">
     <div class="default-text navigation">
-        <a href="@Url.Action("Index","Home")"> Principală </a> > <a href="@Url.Action("Index","Cabinet")"> <span class="pink-darkk-text">Profilul meu</span></a>
+        <a href="@Url.Action("Index","Home")"> Principală </a> > 
+        <a href="@Url.Action("Index","Cabinet")"> <span class="pink-darkk-text">Profilul meu</span></a>
     </div>
 </div>
 
@@ -18,7 +19,7 @@
                     <a href="@Url.Action("Index")"><span>Datele personale</span></a>
                 </li>
                 <li>
-                    <a href="@Url.Action("HistoryOrders")"> <span class="active">Comenzile mele</span></a>
+                    <a href="@Url.Action("HistoryOrders")"> <span class="active">@Resource.MyOrders</span></a>
                 </li>
             </ul>
         </div>
@@ -32,10 +33,10 @@
         <li>
             <div class="title col-md-12">
                 <div class="col-md-6">
-                    Дата заказа
+                    @Resource.OrderDate
                 </div>
                 <div class="col-md-6">
-                    Сумма заказов
+                    @Resource.OrderAmount
                 </div>
             </div>
         </li>
