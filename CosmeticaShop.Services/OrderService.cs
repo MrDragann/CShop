@@ -361,9 +361,9 @@ namespace CosmeticaShop.Services
                         user.LastName = "";
                         user.ConfirmationToken = token;
                         db.SaveChanges();
-                        return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Success, "Заказ успешно совершен", new AddOrderResponse { IsNewUser = true, Token = token, Password = password });
+                        return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Success, "Заказ успешно совершен", new AddOrderResponse { IsNewUser = true, Token = token, Password = password, Order = new OrderHeaderModel { Amount = order.Amount} });
                     }
-                    return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Success, "Заказ успешно совершен", new AddOrderResponse { IsNewUser = false, Token = null });
+                    return new BaseResponse<AddOrderResponse>(EnumResponseStatus.Success, "Заказ успешно совершен", new AddOrderResponse { IsNewUser = false, Token = null ,Order = new OrderHeaderModel{Amount =  order.Amount}});
                 }
             }
             catch (Exception e)
