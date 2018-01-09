@@ -328,13 +328,13 @@ ul {
 /* Футер */
 @media (max-width: 1000px) {
     footer .row, footer .white-footer {
-        display: inline-flex;
+        /*display: inline-flex;*/
     }
 }
 
 footer {
     padding-top: 10px;
-    height: 215px;
+    /*height: 215px;*/
     background-color: #ffaecb;
     width: 100%;
 }
@@ -550,7 +550,15 @@ footer {
     margin: 150px 0;
 }
 
+.max-width img {
+    max-width: 100% !important;
+}
 
+@media (max-width: 420px) {
+    .col-xs-6 {
+        width: 100%;
+    }
+}
 
 /* Слик слайдер */
 .main-slider {
@@ -559,7 +567,7 @@ footer {
 
 .item-slider {
     height: 250px !important;
-    background-color: red;
+    background-color: transparent;
     margin: 0 5px;
 }
 
