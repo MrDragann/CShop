@@ -85,6 +85,7 @@ namespace CosmeticaShop.Services
             using (var db = new DataContext())
             {
                 var wishList = db.WishLists.Where(x => x.UserId == userId).ToList();
+                var products = db.Products.ToList();
                 HttpCookie cookieReq = HttpContext.Current.Request.Cookies["UserWish"];
                 if (cookieReq == null || string.IsNullOrWhiteSpace(cookieReq.Values["productId"]))
                 {
@@ -110,7 +111,9 @@ namespace CosmeticaShop.Services
                     {
                         if (wishList.Any(x => x.ProductId == cookieProducts[i]))
                             continue;
-                        cookieWish.Add(new WishList { ProductId = cookieProducts[i], DateCreate = DateTime.Now, UserId = userId });
+                        var product = products.FirstOrDefault(x => x.Id == cookieProducts[i]);
+                        if (product != null)
+                            cookieWish.Add(new WishList { ProductId = cookieProducts[i], DateCreate = DateTime.Now, UserId = userId });
                     }
                     db.WishLists.AddRange(cookieWish);
                     db.SaveChanges();

@@ -137,13 +137,13 @@ namespace CosmeticaShop.Services
                 if (product == null)
                     return new List<ProductBaseModel>();
                 var similarProducts = product.SimilarProducts;
-                var products = similarProducts.Select(ConvertToProductBaseModel).ToList();           
+                var products = similarProducts.Select(ConvertToProductBaseModel).ToList();
                 var productsRandom = CalculationService.GetRandomProducts(products, 4);
                 if (productsRandom.Count < 4)
                 {
                     var categoriesId = product.Categories.Select(x => x.Id);
                     var similarCategories = allProducts.Where(x => categoriesId.Any(m => x.Categories.Any(c => c.Id == m))).ToList();
-                    var similarCategoriesRandom = CalculationService.GetRandomProducts(similarCategories.Select(ConvertToProductBaseModel).ToList(), 4-productsRandom.Count);
+                    var similarCategoriesRandom = CalculationService.GetRandomProducts(similarCategories.Select(ConvertToProductBaseModel).ToList(), 4 - productsRandom.Count);
                     productsRandom.AddRange(similarCategoriesRandom);
                 }
                 productsRandom.ForEach(x =>
@@ -719,7 +719,7 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var product = db.Products.Include(x=>x.SimilarProducts).Include(x=>x.Products)
+                    var product = db.Products.Include(x => x.SimilarProducts).Include(x => x.Products)
                         .FirstOrDefault(x => x.Id == productId);
                     if (product == null)
                         return new BaseResponse(EnumResponseStatus.Error, "Товар не найден");
