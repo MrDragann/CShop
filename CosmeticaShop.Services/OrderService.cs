@@ -80,7 +80,13 @@ namespace CosmeticaShop.Services
                             UserId = user.Id,
                             DateCreate = DateTime.Now,
                             Status = (int)EnumStatusOrder.Cart,
-                            Address = JsonConvert.SerializeObject(new { Address = user.UserAddress.Address, City = user.UserAddress.City, Country = user.UserAddress.Country, Phone = user.UserAddress.Phone }),
+                            Address = JsonConvert.SerializeObject(new
+                            {
+                                Address = user.UserAddress?.Address,
+                                City = user.UserAddress?.City,
+                                Country = user.UserAddress?.Country,
+                                Phone = user.UserAddress?.Phone
+                            }),
                             Amount = CalculationService.GetDiscountPrice(product.Price, product.Discount) * quantity,
                             OrderProducts = new List<OrderProduct>()
                         };

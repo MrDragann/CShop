@@ -41,6 +41,10 @@ ul {
     padding-top: 30px !important;
 }
 
+.mb-10 {
+    margin-bottom: 10px;
+}
+
 .padding-0 {
     padding: 0;
 }
@@ -420,12 +424,13 @@ footer {
 
     .brand-list .col-md-3, .product-list .col-md-3 {
         padding: 0px;
+        margin-bottom: 10px;
     }
 
     .product-list .item {
-        height: 390px;
+        /*height: 390px;*/
         border: 1px solid #ddd3d8;
-        margin: 0px 3px 10px 3px;
+        /*margin: 0px 3px 10px 3px;*/
         padding: 0 3px;
         width: calc(100% - 6px);
         background-color: #fff;
@@ -435,12 +440,21 @@ footer {
     }
 
 .item .product-content {
-    padding-bottom: 35px;
+    padding-bottom: 30%;
+}
+
+.item a.product-content {
+    display: block;
+}
+
+.row-flex {
+    display: flex;
+    flex-flow: row wrap;
 }
 
 .product-content .product-description {
     padding: 0px 11%;
-    height: 47px;
+    /*height: 47px;*/
 }
 
     .product-content .product-description.title {
@@ -452,7 +466,7 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 35px;
+    /*height: 35px;*/
     color: #636363;
     font-family: FuturaPTMedium;
     font-size: 20px;
@@ -461,10 +475,15 @@ footer {
 
 .product-list .col-md-4 {
     padding: 0px;
+    margin-bottom: 10px;
 }
 
 .product-list .item .product-img {
-    margin: 10px 0;
+    /*margin: 10px 0;*/
+}
+
+.product-img img {
+    max-width: 100%;
 }
 
 .product-list .item .pink-text {
@@ -683,6 +702,16 @@ footer {
             padding: 3px 15px !important;
         }
 }
+
+.dropdown-menu li.second-cat a {
+    color: #ff669e;
+    font-weight: bold;
+}
+
+.dropdown-menu li.second-cat a:hover {
+    color: #ff669e;
+}
+
 /*Конец выпадающего списка*/
 
 /*Модальные окна*/

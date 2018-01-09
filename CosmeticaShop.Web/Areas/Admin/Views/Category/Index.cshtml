@@ -88,7 +88,7 @@
             <!--ko text:console.log($parent)-->
             <!--/ko-->
             <i class="jstree-icon jstree-ocl" data-bind="click:FormModel.CollapseChildrens.bind($data)"></i>
-            <a title="редактировать" data-bind="attr:{'href':'@Url.Action("EditCategory","Category")/'+Id(),'id':'category-'+Id(),'data-Id':'category-'+Id()}" aria-expanded="true" class="jstree-anchor dropdown-toggle" data-toggle="dropdown">
+            <a title="редактировать" data-bind="attr:{'href':'@Url.Action("EditCategory","Category")/'+Id(),'id':'category-'+Id(),'data-Id':'category-'+Id()}" aria-expanded="true" class="jstree-anchor">
                 <i class="jstree-icon jstree-themeicon icon-layers jstree-themeicon-custom" style="left: -7px;"></i>
                 <span data-bind="text:Name()"></span>
             </a>

@@ -40,7 +40,7 @@ namespace CosmeticaShop.Web.Controllers
                     PageSize = products.Count / take
                 },
                 Filter = request,
-                Categories = _categoryService.GetCategories(),
+                Categories = _categoryService.GetAllCategories(),
                 Tags = _productService.GetTagsForFilter(products)
             };
             model.Products = model.Products.Skip(model.Pagination.Skip).Take(model.Pagination.Take).ToList();

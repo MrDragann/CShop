@@ -14,6 +14,7 @@
     Category.CategoryEditFormModel = function (theParams) {
         theParams = theParams || {};
         this.UrlSaveChanges = theParams.UrlSaveChanges;
+        this.UrlDelete = theParams.UrlDelete;
         this.UrlBackToList = theParams.UrlBackToList;
 
         this.Category = new Category.CategoryModel(theParams.Model.Category);
@@ -40,6 +41,24 @@
                 else
                     bootbox.alert(res.Message);
             });
+    }
+
+    Category.CategoryEditFormModel.prototype.Delete = function (data) {
+        var self = this;
+        bootbox.confirm('Вы действительно хотите удалить категорию: ' + self.Category.Name() + '?', function (result) {
+            if (!result)
+                return;
+            $.post(self.UrlDelete, { id: self.Category.Id() })
+                .success(function (res) {
+
+                    if (res.IsSuccess) {
+                        location.href = self.UrlBackToList;
+                    } else if (res.Status === Enums.EnumResponseStatus.Exception)
+                        console.log("ex:", res.Message);
+                    else
+                        bootbox.alert(res.Message);
+                });
+        });
     }
 
 })();

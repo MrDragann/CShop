@@ -1,4 +1,5 @@
-﻿@using Newtonsoft.Json
+﻿@using CosmeticaShop.IServices.Models.Category
+@using Newtonsoft.Json
 @model CosmeticaShop.Web.Models.ProductsViewModel
 @{
     ViewBag.Title = "Produsele";
@@ -21,16 +22,40 @@
     </script>
 }
 
+@helper SubMenu(List<CategoryModel> categories, int ml)
+    {
+        foreach (var category in categories)
+        {
+            if (category.ChildCategories != null && category.ChildCategories.Any())
+            {
+                <div style="margin-left: @(ml)px;">
+                    <input type="checkbox" name="category" data-bind="checked:CategoriesId" id="@category.Id-@category.Name" value="@category.Id.ToString()" />
+                    <label for="@category.Id-@category.Name"><span></span>@category.Name</label>
+                </div>
+                if (category.ChildCategories != null && category.ChildCategories.Any())
+                {
+                    @SubMenu(category.ChildCategories, ml+15)
+                }
+            }
+            else
+            {
+                <div style="margin-left: @(ml)px;">
+                    <input type="checkbox" name="category" data-bind="checked:CategoriesId" id="@category.Id-@category.Name" value="@category.Id.ToString()" />
+                    <label for="@category.Id-@category.Name"><span></span>@category.Name</label>
+                </div>
+            }
+        }
+}
 
 <div class="col-md-12 white-container marginB-heigth-10">
     <div class="default-text navigation">
-        <a href="@Url.Action("Index","Home")"> Principală </a> >  
+        <a href="@Url.Action("Index","Home")"> Principală </a> >
         <span class="pink-darkk-text">Produsele</span>
     </div>
 </div>
 
 
-<div class="col-md-3 white-container" data-bind="with:ViewModel">
+<div class="col-md-3 white-container mb-10" data-bind="with:ViewModel">
 
 
     <ul class="sidebar-filter" data-bind="with:Filter">
@@ -55,20 +80,21 @@
                 @Resource.Categories
             </div>
             <div class="content">
-                @foreach (var category in Model.Categories)
-                {
-                    <div>
-                        <input type="checkbox" name="category" data-bind="checked:CategoriesId" id="@category.Id @category.Name" value="@category.Id.ToString()"/>
-                        <label for="@category.Id @category.Name"><span></span>@category.Name</label>
-                    </div>
-                    foreach (var child in category.ChildCategories)
-                    {
-                        <div style="margin-left: 25px;">
-                            <input name="category" type="checkbox" data-bind="checked:CategoriesId" id="@child.Id @child.Name" value="@child.Id.ToString()"/>
-                            <label for="@child.Id @child.Name"><span></span>@child.Name</label>
-                        </div>
-                    }
-                }
+                @SubMenu(Model.Categories, 0)
+                @*@foreach (var category in Model.Categories)
+        {
+            <div>
+                <input type="checkbox" name="category" data-bind="checked:CategoriesId" id="@category.Id-@category.Name" value="@category.Id.ToString()" />
+                <label for="@category.Id-@category.Name"><span></span>@category.Name</label>
+            </div>
+            foreach (var child in category.ChildCategories)
+            {
+                <div style="margin-left: 25px;">
+                    <input name="category" type="checkbox" data-bind="checked:CategoriesId" id="@child.Id-@child.Name" value="@child.Id.ToString()" />
+                    <label for="@child.Id-@child.Name"><span></span>@child.Name</label>
+                </div>
+            }
+        }*@
 
             </div>
         </li>
@@ -80,7 +106,7 @@
                 @foreach (var tag in Model.Tags)
                 {
                     <div>
-                        <input type="checkbox" name="tag"  data-bind="checked:TagsId" id="@tag.Id@tag.Name" value="@tag.Id.ToString()" />
+                        <input type="checkbox" name="tag" data-bind="checked:TagsId" id="@tag.Id@tag.Name" value="@tag.Id.ToString()" />
                         <label for="@tag.Id@tag.Name"><span></span>@tag.Name</label>
                     </div>
                 }
@@ -96,48 +122,44 @@
 <div class="col-md-9 padding-0 col-md-9-content">
     <div class="product-list" data-bind="with:ViewModel">
 
-        <div class="product-list-content" data-bind="foreach:Products">
+        <div class="product-list-content row-flex" data-bind="foreach:Products">
             <div class="col-md-4">
                 <div class="item">
-                    <div class="product-content">
-                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
-                            <div class="product-img">
-                                <img data-bind="attr:{src:PhotoUrl}" />
-                                <!--ko if:DiscountPercent()!==0-->
-                                <div class="discount" style="visibility:hidden;" data-bind="style:{visibility:DiscountPercent()!==0 ?'visible': 'hidden'}">
-                                    reducere  <div>
-                                        -<span data-bind="text:DiscountPercent">35</span>%
-                                    </div>
+                    <a class="product-content" data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <div class="product-img">
+                            <img data-bind="attr:{src:PhotoUrl}" />
+                            <!--ko if:DiscountPercent()!==0-->
+                            <div class="discount" style="visibility:hidden;" data-bind="style:{visibility:DiscountPercent()!==0 ?'visible': 'hidden'}">
+                                reducere  <div>
+                                    -<span data-bind="text:DiscountPercent">35</span>%
                                 </div>
+                            </div>
+                            <!--/ko-->
+                        </div>
+
+                    </a>
+                    <div class="product-footer">
+                        <a data-bind="attr:{href:'@Url.Action("Details", "Product")?id='+Id()}">
+                            <div class="product-description title">
+                                <span class="pink-text" data-bind="text:BrandName">
+                                </span>
+                            </div>
+                            <div class="product-description">
+                                <span class="grey-text" data-bind="text:Name"></span>
+                            </div>
+
+                            <div class="product-description">
+                                <!--ko if:DiscountPercent()!==0-->
+                                <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>
+                                <div>
+                                    <span class="pink-price" data-bind="text:DiscountPrice()+' lei'"></span>
+                                </div>
+                                <!--/ko-->
+                                <!--ko if:DiscountPercent()===0-->
+                                <span class="grey-price" data-bind="text:Price()+' lei'"></span>
                                 <!--/ko-->
                             </div>
                         </a>
-                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
-                            <div class="product-description title">
-                                <span class="pink-text" data-bind="text:Name">
-
-                                </span>
-                            </div>
-                        </a>
-                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
-                            <div class="product-description">
-                                <span class="grey-text" data-bind="text:Description"></span>
-                            </div>
-                        </a>
-
-                        <div class="product-description">
-                            <!--ko if:DiscountPercent()!==0-->
-                            <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>
-                            <div>
-                                <span class="pink-price" data-bind="text:DiscountPrice()+' lei'"></span>
-                            </div>
-                            <!--/ko-->
-                            <!--ko if:DiscountPercent()===0-->
-                            <span class="grey-price" data-bind="text:Price()+' lei'"></span>
-                            <!--/ko-->
-                        </div>
-                    </div>
-                    <div class="product-footer">
                         <!--ko if:IsWish-->
                         <div class="pull-left" data-bind="click:DeleteWish">
                             <i class="icon-pink-like "></i>

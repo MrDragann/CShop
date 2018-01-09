@@ -14,6 +14,7 @@
         var params = {}
         params.UrlEdit = '@Url.Action("EditPersonData","Cabinet")';
         params.Model = @Html.Raw(JsonConvert.SerializeObject(Model.User));
+        params.Model.Country = '@Resource.Romania';
         params.Cities =   @Html.Raw(JsonConvert.SerializeObject(Model.Cities));
         var FormModel = new Cabinet.PersonalFormModel(params);
     </script>

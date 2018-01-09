@@ -207,7 +207,13 @@
   <data name="RegistrationSuccess" xml:space="preserve">
     <value>Bună ziua! Vă mulțumim pentru înregistrarea pe site-ul cosmeticashop.ro. Pentru încheierea înregistrării accesați {0}link-ul{1}</value>
   </data>
+  <data name="Romania" xml:space="preserve">
+    <value>Romania</value>
+  </data>
   <data name="TotalOrderAmount" xml:space="preserve">
     <value>Suma totală a comenzii</value>
+  </data>
+  <data name="WrongEmailOrPassword" xml:space="preserve">
+    <value>Email-ul sau parola sunt greșite</value>
   </data>
 </root>

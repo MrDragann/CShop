@@ -76,7 +76,7 @@ namespace CosmeticaShop.Services
                 var cookieUser = Guid.Parse(cookieReq.Value);
                 var user = db.Users.FirstOrDefault(x => x.Id == cookieUser && x.Status != (int)EnumStatusUser.Unauthorized);
                 if (user == null)
-                    return new BaseResponse<UserBaseModel>(EnumResponseStatus.Error,"Пользователь не найден");
+                    return new BaseResponse<UserBaseModel>(EnumResponseStatus.Error, "Пользователь не найден");
                 return new BaseResponse<UserBaseModel>(EnumResponseStatus.Success, "Успешно", new UserBaseModel()
                 {
                     Email = user.Email,
@@ -105,11 +105,24 @@ namespace CosmeticaShop.Services
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
                     user.Email = model.Email;
-                    user.UserAddress.Address = model.Address;
-                    user.UserAddress.City = model.City;
-                    user.UserAddress.Country = model.Country;
-                    user.UserAddress.Phone = model.Phone;
                     user.DateBirth = model.DateBirth;
+                    if (user.UserAddress == null)
+                    {
+                        user.UserAddress = new UserAddress
+                        {
+                            Address = model.Address,
+                            City = model.City,
+                            Country = model.Country,
+                            Phone = model.Phone
+                        };
+                    }
+                    else
+                    {
+                        user.UserAddress.Address = model.Address;
+                        user.UserAddress.City = model.City;
+                        user.UserAddress.Country = model.Country;
+                        user.UserAddress.Phone = model.Phone;
+                    }
                     if (model.Password != null)
                     {
                         user.PasswordHash = model.Password.GetHashString();

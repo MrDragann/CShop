@@ -13,6 +13,8 @@
 
     <script>
         var params = {};
+        urlAddProductCart = '@Url.Action("AddInCart","Product")';
+        urlAddProductWish = '@Url.Action("AddInWish","Product")';
         params.UrlPreparationOrder = '@Url.Action("PreparationOrder","Cart")';
         params.UrlAcceptCoupon = '@Url.Action("AcceptCoupon","Cart")';
         params.UrlOrder = '@Url.Action("Index","Order")';
@@ -171,56 +173,52 @@
 <div class="row">
     <section>
         <div class="section-name">Reduceri</div>
-        <div class="row product-list" data-bind="foreach:DiscountsModel.Products">
+        <div class="row product-list row-flex" data-bind="foreach:DiscountsModel.Products">
 
             <div class="col-md-3">
                 <div class="item">
-                    <div class="product-content">
-                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
-                            <div class="product-img">
-                                <img data-bind="attr:{src:PhotoUrl}" />
-                                <!--ko if:DiscountPercent()!==0-->
-                                <div class="discount" style="visibility:hidden;" data-bind="style:{visibility:DiscountPercent()!==0 ?'visible': 'hidden'}">
-                                    reducere  <div>
-                                        -<span data-bind="text:DiscountPercent">35</span>%
-                                    </div>
+                    <a class="product-content" data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <div class="product-img">
+                            <img data-bind="attr:{src:PhotoUrl}" />
+                            <!--ko if:DiscountPercent()!==0-->
+                            <div class="discount" style="visibility:hidden;" data-bind="style:{visibility:DiscountPercent()!==0 ?'visible': 'hidden'}">
+                                reducere  <div>
+                                    -<span data-bind="text:DiscountPercent">35</span>%
                                 </div>
-                                <!--/ko-->
                             </div>
-                        </a>
-                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                            <!--/ko-->
+                        </div>
+
+                    </a>
+                    <div class="product-footer">
+                        <a data-bind="attr:{href:'@Url.Action("Details", "Product")?id='+Id()}">
                             <div class="product-description title">
                                 <span class="pink-text" data-bind="text:BrandName">
-
                                 </span>
                             </div>
-                        </a>
-                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
                             <div class="product-description">
                                 <span class="grey-text" data-bind="text:Name"></span>
                             </div>
-                        </a>
 
-                        <div class="product-description">
-                            <!--ko if:DiscountPercent()!==0-->
-                            <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>
-                            <div>
-                                <span class="pink-price" data-bind="text:DiscountPrice()+' lei'"></span>
+                            <div class="product-description">
+                                <!--ko if:DiscountPercent()!==0-->
+                                <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>
+                                <div>
+                                    <span class="pink-price" data-bind="text:DiscountPrice()+' lei'"></span>
+                                </div>
+                                <!--/ko-->
+                                <!--ko if:DiscountPercent()===0-->
+                                <span class="grey-price" data-bind="text:Price()+' lei'"></span>
+                                <!--/ko-->
                             </div>
-                            <!--/ko-->
-                            <!--ko if:DiscountPercent()===0-->
-                            <span class="grey-price" data-bind="text:Price()+' lei'"></span>
-                            <!--/ko-->
-                        </div>
-                    </div>
-                    <div class="product-footer">
+                        </a>
                         <!--ko if:IsWish-->
                         <div class="pull-left" data-bind="click:DeleteWish">
                             <i class="icon-pink-like "></i>
                         </div>
                         <!--/ko-->
                         <!--ko ifnot:IsWish-->
-                        <div class="pull-left" data-bind="click:AddProductWish.bind($data,'pageWish')">
+                        <div class="pull-left" data-bind="click:AddProductWish">
                             <i class="icon-like "></i>
                         </div>
                         <!--/ko-->

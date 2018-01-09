@@ -719,7 +719,8 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var product = db.Products.FirstOrDefault(x => x.Id == productId);
+                    var product = db.Products.Include(x=>x.SimilarProducts).Include(x=>x.Products)
+                        .FirstOrDefault(x => x.Id == productId);
                     if (product == null)
                         return new BaseResponse(EnumResponseStatus.Error, "Товар не найден");
                     db.Products.Remove(product);

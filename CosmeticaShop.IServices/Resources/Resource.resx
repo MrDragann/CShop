@@ -207,7 +207,13 @@
   <data name="RegistrationSuccess" xml:space="preserve">
     <value>Добрый день! Благодарим вас за регистрацию на сайте cosmeticashop.ro. Для завершения регистрации перейдите по {0}ссылке{1}</value>
   </data>
+  <data name="Romania" xml:space="preserve">
+    <value>Румыния</value>
+  </data>
   <data name="TotalOrderAmount" xml:space="preserve">
     <value>Общая сумма заказа</value>
+  </data>
+  <data name="WrongEmailOrPassword" xml:space="preserve">
+    <value>Введен неверный Email или пароль</value>
   </data>
 </root>

@@ -16,7 +16,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span class="active">@(Model.Category.Id==0?"Добавление":"Редактирование")</span>
+            <span class="active">@(Model.Category.Id == 0 ? "Добавление" : "Редактирование")</span>
         </li>
     </ul>
 }
@@ -27,8 +27,16 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-green sbold uppercase">@((Model.Category.Id==0?"Добавление":"Редактирование")+" категории")</span>
+                    <span class="caption-subject font-green sbold uppercase">@((Model.Category.Id == 0 ? "Добавление" : "Редактирование") + " категории")</span>
                 </div>
+                @if (Model.Category.Id != 0)
+                {
+                    <div class="actions">
+                        <button data-bind="click:FormModel.Delete.bind(FormModel)" title="Удалить категорию" class="btn btn-danger">
+                            <i class="icon-trash"></i>
+                        </button>
+                    </div>
+                }
             </div>
             <div class="portlet-body">
                 <div class="tabbable-line">
@@ -61,7 +69,7 @@
                                     <label class="col-md-2 control-label">Видимость</label>
                                     <div class="col-md-10">
                                         <div class="md-checkbox">
-                                            <input type="checkbox" data-bind="checked:IsActive" class="md-check" id="IsActive" name="IsActive"/>
+                                            <input type="checkbox" data-bind="checked:IsActive" class="md-check" id="IsActive" name="IsActive" />
                                             <label for="IsActive">
                                                 <span class="inc"></span>
                                                 <span class="check"></span>
@@ -72,7 +80,7 @@
                                     </div>
                                 </div>
                             </div>
-                                
+
                         </div>
                         <div class="form-group form-md-line-input">
                             <div class="col-md-offset-2 col-md-10">
@@ -89,8 +97,8 @@
 @section scripts
 {
     <script src="~/Scripts/jquery.liTranslit.js"></script>
-<script src="~/Areas/Admin/assets/js/Form/Category/CategoryModel.js"></script>
-<script src="~/Areas/Admin/assets/js/Form/Category/CategoryEditFormModel.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Category/CategoryModel.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Category/CategoryEditFormModel.js"></script>
     <script>
         $(function() {
             $('#Name').liTranslit({
@@ -101,6 +109,7 @@
         var params = {};
         params.Model = @Html.Raw(JsonConvert.SerializeObject(Model));
         params.UrlSaveChanges = '@Url.Action("UpdateCategory","Category")';
+        params.UrlDelete = '@Url.Action("DeleteCategory","Category")';
         params.UrlBackToList = '@Url.Action("Index","Category")';
         var FormModel = new Category.CategoryEditFormModel(params);
     </script>

@@ -152,7 +152,7 @@ namespace CosmeticaShop.Services
 
                     return new BaseResponse<UserBaseModel>(webUser);
                 }
-                return new BaseResponse<UserBaseModel>(EnumResponseStatus.ValidationError, "Введен неверный Email или пароль");
+                return new BaseResponse<UserBaseModel>(EnumResponseStatus.ValidationError, Resource.WrongEmailOrPassword);
             }
         }
 

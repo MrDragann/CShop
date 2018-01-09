@@ -23,16 +23,20 @@
                         <ul>
                             @foreach (var child in navItem.Items)
                             {
-                                <li><a href="@Url.Action("Index","Product",new {CategoriesId=child.Id})">@child.Name</a></li>
+                                <li class="second-cat"><a href="@Url.Action("Index","Product",new {CategoriesId=child.Id})">@child.Name</a></li>
+                                foreach (var subChild in child.ChildItems)
+                                {
+                                    <li><a href="@Url.Action("Index","Product",new {CategoriesId=subChild.Id})">@subChild.Name</a></li>
+                                }
                             }
                         </ul>
                     </li>
                 </ul>
             </li>
         }
-        
+
         <li class="dropdown dropdown-large">
-            <a class="hight-menu"  href="@Url.Action("Index","Product",new { Discount = true })">Reduceri</a>            
+            <a class="hight-menu" href="@Url.Action("Index","Product",new { Discount = true })">Reduceri</a>
         </li>
     </ul>
 </div>

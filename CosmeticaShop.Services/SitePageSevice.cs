@@ -49,14 +49,22 @@ namespace CosmeticaShop.Services
                         Items = brands
                     };
                     var parentCategories = db.Categories.AsNoTracking().Include(x => x.ChildCategories)
-                        .Where(x => !x.ParentId.HasValue).Select(x => new NavigationModel
+                        .Where(x => !x.ParentId.HasValue).ToList().OrderBy(x=>x.Priority)
+                        .Select(x => new NavigationModel
                         {
                             Title = x.Name,
-                            Items = x.ChildCategories.Select(c=>new NavigationItemModel
+                            Items = x.ChildCategories.OrderBy(c => c.Priority).Select(c=>new NavigationItemModel
                             {
                                 Id = c.Id,
                                 Name = c.Name,
-                                KeyUrl = c.KeyUrl
+                                KeyUrl = c.KeyUrl,
+                                ChildItems = db.Categories.AsNoTracking().Where(child=> child.ParentId== c.Id)
+                                    .OrderBy(child => child.Priority).Select(child => new NavigationItemModel
+                                {
+                                    Id = child.Id,
+                                    Name = child.Name,
+                                    KeyUrl = child.KeyUrl
+                                }).ToList()
                             }).ToList()
                         }).ToList();
                     model.Categories = parentCategories;
