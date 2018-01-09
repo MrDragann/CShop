@@ -5,6 +5,8 @@
     Cart.CartModel = function (theParams) {
         theParams = theParams || {};
         var self = this;
+        if (!theParams.Product)
+            theParams.Product = {};
         this.Id = ko.observable(theParams.Id || "");
         this.ProductId = ko.observable(theParams.ProductId || 0);
         this.Name = ko.observable(theParams.Product.Name || "");
