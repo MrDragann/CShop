@@ -76,6 +76,11 @@ namespace CosmeticaShop.Data.Models
         /// </summary>
         public bool IsActive { get; set; }
 
+        /// <summary>
+        /// Признак удаления
+        /// </summary>
+        public DateTime? IsDelete { get; set; }
+
         #endregion
 
         #region [ Связанные объекты]

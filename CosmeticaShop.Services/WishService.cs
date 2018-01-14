@@ -56,6 +56,7 @@ namespace CosmeticaShop.Services
             }
             using (var db = new DataContext())
             {
+                //todo:нахера ты достаешь все товары
                 var products = db.Products.Include(x => x.Brand).ToList();
                 foreach (var wishModel in cookieWish)
                 {
@@ -85,6 +86,7 @@ namespace CosmeticaShop.Services
             using (var db = new DataContext())
             {
                 var wishList = db.WishLists.Where(x => x.UserId == userId).ToList();
+                //todo:нахера ты достаешь все товары
                 var products = db.Products.ToList();
                 HttpCookie cookieReq = HttpContext.Current.Request.Cookies["UserWish"];
                 if (cookieReq == null || string.IsNullOrWhiteSpace(cookieReq.Values["productId"]))

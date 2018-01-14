@@ -219,6 +219,7 @@ namespace CosmeticaShop.Services
                             return new BaseResponse<int>(EnumResponseStatus.Error, "Cuponul nu a fost găsit");
                         couponFind = true;
                     }
+                    //todo:нахера ты достаешь все товары
                     var products = db.Products.ToList();
                     var order = db.OrderHeaders.Include(x => x.OrderProducts).FirstOrDefault(x => x.UserId == userId && x.Status == (int)EnumStatusOrder.Cart);
                     if (order == null)
@@ -312,6 +313,7 @@ namespace CosmeticaShop.Services
                             return new BaseResponse<decimal>(EnumResponseStatus.Error, "Cuponul nu a fost găsit");
                         couponFind = true;
                     }
+                    //todo:нахера ты достаешь все товары
                     var products = db.Products.ToList();
                     var order = db.OrderHeaders.Include(x => x.OrderProducts).FirstOrDefault(x => x.UserId == userId && x.Status == (int)EnumStatusOrder.Cart);
                     if (order == null)
@@ -397,6 +399,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
+                //todo:нахера ты достаешь все товары
                 var products = db.Products.ToList();
                 var order = db.OrderHeaders.Include(x => x.OrderProducts).FirstOrDefault(x => x.Id == orderId);
                 foreach (var product in order.OrderProducts)

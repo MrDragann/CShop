@@ -74,6 +74,10 @@
     <Compile Include="Migrations\201712251933595_citiesSimularProdCodeIsRecomended.Designer.cs">
       <DependentUpon>201712251933595_citiesSimularProdCodeIsRecomended.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801141618124_productsIsDeleteProp.cs" />
+    <Compile Include="Migrations\201801141618124_productsIsDeleteProp.Designer.cs">
+      <DependentUpon>201801141618124_productsIsDeleteProp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Category.cs" />
@@ -115,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712251933595_citiesSimularProdCodeIsRecomended.resx">
       <DependentUpon>201712251933595_citiesSimularProdCodeIsRecomended.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801141618124_productsIsDeleteProp.resx">
+      <DependentUpon>201801141618124_productsIsDeleteProp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

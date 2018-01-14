@@ -37,7 +37,8 @@ namespace CosmeticaShop.Services
             using (var db = new DataContext())
             {
                 //todo:?наверное лучше сделать decimal?
-                var query = db.Products.Include(x => x.Brand).Where(x => x.Discount > 0) as IQueryable<Product>;
+                var query = db.Products.Include(x => x.Brand)
+                    .Where(x => !x.IsDelete.HasValue && x.IsActive && x.Discount > 0) as IQueryable<Product>;
                 request.Load(query);
 
                 var products = query.Select(ConvertToProductBaseModel).ToList();
@@ -57,7 +58,8 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories).Include(x => x.ProductTags).ToList();
+                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories).Include(x => x.ProductTags)
+                    .Where(x=> !x.IsDelete.HasValue && x.IsActive).ToList();
                 if (request?.BrandiesId?.Count > 0)
                 {
                     query = query.Where(x => request.BrandiesId.Any(m => m == x.BrandId)).ToList();
@@ -95,7 +97,8 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories).Where(x => x.IsRecommended).ToList();
+                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories)
+                    .Where(x => !x.IsDelete.HasValue && x.IsActive&& x.IsRecommended).ToList();
                 var products = query.Select(ConvertToProductBaseModel).ToList();
                 var productsRandom = CalculationService.GetRandomProducts(products, take);
                 productsRandom.ForEach(x =>
@@ -113,7 +116,8 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories).Where(x => x.Discount > 0).ToList();
+                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories)
+                    .Where(x => !x.IsDelete.HasValue && x.IsActive&& x.Discount > 0).ToList();
                 var products = query.Select(ConvertToProductBaseModel).ToList();
                 var productsRandom = CalculationService.GetRandomProducts(products, 4);
                 productsRandom.ForEach(x =>
@@ -132,7 +136,8 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var allProducts = db.Products.Include(x => x.Brand).Include(x => x.Categories).Include(x => x.SimilarProducts).ToList();
+                var allProducts = db.Products.Include(x => x.Brand).Include(x => x.Categories).Include(x => x.SimilarProducts)
+                    .Where(x=> !x.IsDelete.HasValue && x.IsActive).ToList();
                 var product = allProducts.FirstOrDefault(x => x.Id == productId);
                 if (product == null)
                     return new List<ProductBaseModel>();
@@ -519,7 +524,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var query = db.Products.AsNoTracking()
+                var query = db.Products.AsNoTracking().Where(x=> !x.IsDelete.HasValue)
                     .OrderByDescending(x => x.DateCreate) as IQueryable<Product>;
 
                 //if (request.CategoryId.HasValue)
@@ -723,9 +728,10 @@ namespace CosmeticaShop.Services
                         .FirstOrDefault(x => x.Id == productId);
                     if (product == null)
                         return new BaseResponse(EnumResponseStatus.Error, "Товар не найден");
-                    db.Products.Remove(product);
+                    //db.Products.Remove(product);
+                    product.IsDelete = DateTime.Now;
                     db.SaveChanges();
-                    FileManager.DeleteDirectory(EnumDirectoryType.Product, product.Id.ToString());
+                    //FileManager.DeleteDirectory(EnumDirectoryType.Product, product.Id.ToString());
                     return new BaseResponse(EnumResponseStatus.Success, "Товар успешно удален");
                 }
             }

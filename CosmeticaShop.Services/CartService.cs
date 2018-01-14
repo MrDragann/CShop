@@ -27,6 +27,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
+                //todo:нахера ты достаешь все товары
                 var products = db.Products.Include(x => x.Brand).ToList();
                 var order = db.OrderHeaders.Include(x => x.OrderProducts).FirstOrDefault(x => x.UserId == userId && x.Status == (int)EnumStatusOrder.Cart);
                 if (order == null)
@@ -66,6 +67,7 @@ namespace CosmeticaShop.Services
             }
             using (var db = new DataContext())
             {
+                //todo:нахера ты достаешь все товары
                 var products = db.Products.Include(x => x.Brand).ToList();
                 foreach (var cartModel in cookieCart)
                 {
@@ -123,6 +125,7 @@ namespace CosmeticaShop.Services
                     {
                         var cookieProducts = cookieReq.Values["productId"].Split(',').Select(int.Parse).ToList();
                         var cookieQuantity = cookieReq.Values["quantity"].Split(',').Select(int.Parse).ToList();
+                        //todo:нахера ты достаешь все товары
                         var products = db.Products.ToList();
                         List<OrderProduct> cookieCart = new List<OrderProduct>();
                         for (int i = 0; i < cookieProducts.Count(); i++)
