@@ -21,6 +21,7 @@
         this.Filter.TagsId.subscribe(function () {            
             self.UpdateProducts();
         });
+        console.log('categoriesId:',this.Filter.CategoriesId());
         return this;
     };
 

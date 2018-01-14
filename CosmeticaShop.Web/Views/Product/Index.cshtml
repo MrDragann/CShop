@@ -21,28 +21,36 @@
 
     </script>
 }
+@section styles{
+    <style>
+    </style>
+}
 
-@helper SubMenu(List<CategoryModel> categories, int ml)
+@helper SubMenu(List<CategoryModel> categories, bool first)
     {
         foreach (var category in categories)
         {
             if (category.ChildCategories != null && category.ChildCategories.Any())
             {
-                <div style="margin-left: @(ml)px;">
+                <li class="category-item">
+                    <a data-target="#cat-@category.Id" role="button" data-toggle="collapse" aria-expanded="@(first?"true":category.ChildCategories.Any(x=>Model.Filter.CategoriesId.Contains(x.Id))?"true":"false")" aria-controls="collapseOne"></a>
                     <input type="checkbox" name="category" data-bind="checked:CategoriesId" id="@category.Id-@category.Name" value="@category.Id.ToString()" />
                     <label for="@category.Id-@category.Name"><span></span>@category.Name</label>
-                </div>
-                if (category.ChildCategories != null && category.ChildCategories.Any())
-                {
-                    @SubMenu(category.ChildCategories, ml+15)
-                }
+                    @if (category.ChildCategories != null && category.ChildCategories.Any())
+                    {
+                        <ul id="cat-@category.Id" class="collapse @(first?"in":category.ChildCategories.Any(x=>Model.Filter.CategoriesId.Contains(x.Id))?"in":"")">
+                            @SubMenu(category.ChildCategories, false)
+                        </ul>
+                    }
+                </li>
+
             }
             else
             {
-                <div style="margin-left: @(ml)px;">
+                <li>
                     <input type="checkbox" name="category" data-bind="checked:CategoriesId" id="@category.Id-@category.Name" value="@category.Id.ToString()" />
                     <label for="@category.Id-@category.Name"><span></span>@category.Name</label>
-                </div>
+                </li>
             }
         }
 }
@@ -80,21 +88,24 @@
                 @Resource.Categories
             </div>
             <div class="content">
-                @SubMenu(Model.Categories, 0)
+                <ul class="list-unstyled filter-categories">
+                    @SubMenu(Model.Categories, true)
+                </ul>
+
                 @*@foreach (var category in Model.Categories)
-        {
-            <div>
-                <input type="checkbox" name="category" data-bind="checked:CategoriesId" id="@category.Id-@category.Name" value="@category.Id.ToString()" />
-                <label for="@category.Id-@category.Name"><span></span>@category.Name</label>
-            </div>
-            foreach (var child in category.ChildCategories)
-            {
-                <div style="margin-left: 25px;">
-                    <input name="category" type="checkbox" data-bind="checked:CategoriesId" id="@child.Id-@child.Name" value="@child.Id.ToString()" />
-                    <label for="@child.Id-@child.Name"><span></span>@child.Name</label>
-                </div>
-            }
-        }*@
+                    {
+                        <div>
+                            <input type="checkbox" name="category" data-bind="checked:CategoriesId" id="@category.Id-@category.Name" value="@category.Id.ToString()" />
+                            <label for="@category.Id-@category.Name"><span></span>@category.Name</label>
+                        </div>
+                        foreach (var child in category.ChildCategories)
+                        {
+                            <div style="margin-left: 25px;">
+                                <input name="category" type="checkbox" data-bind="checked:CategoriesId" id="@child.Id-@child.Name" value="@child.Id.ToString()" />
+                                <label for="@child.Id-@child.Name"><span></span>@child.Name</label>
+                            </div>
+                        }
+                    }*@
 
             </div>
         </li>

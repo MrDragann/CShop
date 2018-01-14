@@ -26,6 +26,8 @@ namespace CosmeticaShop.Web.Controllers
     
             if (!page.HasValue)
                 page = 1;
+            if(request.CategoriesId==null)
+                request.CategoriesId = new List<int>();
             var model = new ProductsViewModel()
             {
 

@@ -1031,6 +1031,40 @@ input[type="checkbox"] {
     input[type="checkbox"]:checked + label span {
         background-image: url('/assets/img/checkbox-select.png');
     }
+
+ul.filter-categories .category-item a {
+    color: #fda6c5;
+    cursor: pointer;
+}
+
+ul.filter-categories .category-item a:before {
+    content: "";
+    position: relative;
+    top: 3px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    float: right;
+    transition: transform .25s linear;
+    -webkit-transition: -webkit-transform .25s linear;
+}
+
+ul.filter-categories .category-item a[aria-expanded="true"]:before {
+    content: "\2212";
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+ul.filter-categories .category-item a[aria-expanded="false"]:before {
+    content: "\002b";
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
 /*Конец чекбокса*/
 .sidebar-filter {
     padding: 5px;
