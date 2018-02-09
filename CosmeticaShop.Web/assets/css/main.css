@@ -245,8 +245,8 @@ ul {
         }
 
 .head {
-    height: 100px;
-    padding: 35px;
+    /*height: 100px;*/
+    padding: 35px 0;
 }
 
     .head i {
@@ -255,7 +255,7 @@ ul {
         top: -10px;
     }
 
-.head-number {
+.head-number span {
     font-size: 18px;
     color: #ff73ab;
     font-family: FuturaPTDemi;
@@ -308,8 +308,8 @@ ul {
     }
 
 .menu-search {
-    padding-top: 6px;
-    margin-top: -20px;
+    /*padding-top: 6px;
+    margin-top: -20px;*/
 }
 
     .menu-search input {
@@ -318,6 +318,7 @@ ul {
         border-radius: 15px;
         color: #aaa9a9;
         text-align: center;
+        margin-top: 8px;
     }
 
         .menu-search input:focus {
@@ -622,11 +623,11 @@ footer {
 }
 
 .dropdown-menu-large {
-    margin-left: 16px;
-    margin-right: 16px;
-    padding: 15px 10px 40px 0;
-    left: 5%;
-    top: 10px;
+    /*margin-left: 16px;*/
+    /*margin-right: 16px;*/
+    padding: 15px 10px 10px;
+    /*left: 5%;*/
+    /*top: 10px;*/
     text-align: left;
     width: 320px;
     border: none;
@@ -1553,8 +1554,8 @@ button.slick-next {
     background-color: #ff669e;
     border-radius: 15px;
     border: 2px solid #fff;
-    top: 11px;
-    right: 23px;
+    top: 20px;
+    right: 10px;
     text-align: center;
     font-size: 15px;
     color: #fff;
@@ -1654,8 +1655,8 @@ button.slick-next {
 
 #dropdown-cart-head {
     display: inline-block;
-    height: 85px;
-    width: 65px;
+    /*height: 85px;*/
+    /*width: 65px;*/
 }
 
 .history-orders {
@@ -1776,3 +1777,92 @@ button.slick-next {
         width: 100% !important;
         margin: 15px 0 !important;
     }
+
+/* Мобильное меню */
+
+header.navbar {
+    background-color: #fda6c5;
+    box-shadow: inset 0 0 20px 2px rgba(0,0,0,.08);
+    min-height: 40px;
+    margin-bottom: 20px;
+    border-radius: 0;
+}
+
+    header.navbar a.hight-menu {
+        color: #636363 !important;
+        font-size: 18px;
+        font-family: FuturaPTBook;
+        /*margin-top: -27px;*/
+        cursor: pointer;
+        padding-top: 7px;
+        padding-bottom: 5px;
+    }
+
+        header.navbar a.hight-menu:hover, header.navbar li.open a {
+            background-color: transparent;
+        }
+
+        header.navbar a.hight-menu:focus {
+            color: #636363 !important;
+            background-color: transparent !important;
+        }
+
+.head-auth + a.max-width {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+header span.icon-bar {
+    background-color: #fff;
+}
+
+@media(max-width: 768px) {
+    .dropdown-menu-large::after {
+        display: none;
+    }
+
+    .dropdown-large {
+        text-align: center;
+    }
+    .navbar-collapse-number {
+        display: inline-block;
+        font-size: 18px;
+        color: #fff;
+        font-family: FuturaPTDemi;
+        padding: 12px 25px;
+    }
+    div.head-number {
+        display: none !important;
+    }
+    .head {
+        padding: 20px 0;
+    }
+    .count-cart {
+        width: 15px;
+        height: 15px;
+        top: 24px;
+        right: 10px;
+        font-size: 8px;
+    }
+    .item .pull-right {
+        padding-top: 10px;
+    }
+    .item .pull-right img {
+        width: 25px;
+    }
+    .menu-search input {
+        margin-top: 0;
+        margin-bottom: 8px;
+        width: 100%;
+    }
+    #dropdown-cart {
+        display: none !important;
+    }
+}
+
+@media(min-width: 768px) {
+    .navbar-collapse-number {
+        display: none;
+    }
+}
+

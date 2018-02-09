@@ -18,7 +18,16 @@
             autoplay: true,
             autoplaySpeed: 2000,
             prevArrow: '<span  class="slick-prev-pink"> </span>',
-            nextArrow: '<span class="slick-next-pink"> </span>'
+            nextArrow: '<span class="slick-next-pink"> </span>',
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
         });
     </script>
     <script>
