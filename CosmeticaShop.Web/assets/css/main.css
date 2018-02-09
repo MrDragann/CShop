@@ -201,7 +201,7 @@ ul {
     cursor: pointer;
     width: 65px;
     height: 56px;
-    background-image: url('../img/icons/free-delivery.png');
+    background-image: url('/assets/img/icons/free-delivery.png');
     background-repeat: no-repeat;
 }
 
