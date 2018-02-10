@@ -4,7 +4,16 @@
 @{
     ViewBag.Title = "Index";
 }
-
+@section Styles {
+    <style>
+        .oldPrice {
+            position: absolute;
+            font-size: 16px;
+            top: -20px;            
+            left: 60px;
+        }
+    </style>
+    }
 @section Scripts {
     <script src="~/assets/js/Product/ProductModel.js"></script>
     <script src="~/assets/js/Product/ProductLineView.js"></script>
@@ -121,7 +130,7 @@
                 <div class="row" style="display: none" data-bind="style:{display: ViewModel.AmountCoupon()>0 ? 'block' : 'none'}">
                     <div class="col-md-7">
                         <div class="pull-right">
-                            Цена с купоном:
+                            Prețul cu reducere:
                         </div>
                     </div>
                     <div class="col-md-4 col-md-offset-1">
@@ -136,7 +145,7 @@
                         <input class="form-control" data-bind="textInput:ViewModel.CouponCode" />
                     </div>
                     <div style=" display: none;" data-bind="style:{display:ViewModel.CouponCode()==='' ? 'none' : 'block'}">
-                        <button style="margin-top: 15px;" class="btn-pink" data-bind="click:ViewModel.AcceptCoupon.bind(ViewModel)">Применить купон</button>
+                        <button style="margin-top: 15px;" class="btn-pink" data-bind="click:ViewModel.AcceptCoupon.bind(ViewModel)">Aplică</button>
                     </div>
                 </div>
                 <div class="cart-footer">
