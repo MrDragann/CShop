@@ -33,7 +33,7 @@
         var model =  {
             search: this.Search(),
             BrandiesId: this.BrandiesId(),
-            page: this.Page(),
+            Page: this.Page(),
             CategoriesId: this.CategoriesId(),
             TagsId:this.TagsId()
         }

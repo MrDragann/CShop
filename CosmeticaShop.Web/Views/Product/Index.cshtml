@@ -195,14 +195,14 @@
             <div class="pagination product-list-pagination">
                 @if (Model.Pagination.PageNumber > 1)
                 {
-                    <a href="@Url.Action("Index", "Product", new {page = Model.Pagination.PageNumber - 1})">
+                    <a data-bind="attr:{href:GetLocation('@(Model.Pagination.PageNumber - 1)')}">
                         <span class="prev icon-arrow-left-mini"></span>
                     </a>
                 }
                 <div class="content">
                     @for (int i = 1; i <= Model.Pagination.PageSize; i++)
                     {
-                        <a href="@Url.Action("Index", "Product", new {page = i})">
+                        <a data-bind="attr:{href:GetLocation('@(i)')}">
                             <div class="block-pagination">
                                 @if (Model.Pagination.PageNumber == i)
                                 {
@@ -219,7 +219,7 @@
                 </div>
                 @if (Model.Pagination.PageSize > Model.Pagination.PageNumber)
                 {
-                    <a href="@Url.Action("Index", "Product", new {page = Model.Pagination.PageNumber + 1})">
+                    <a data-bind="attr:{href:GetLocation('@(Model.Pagination.PageNumber + 1)')}">
                         <span class="next icon-arrow-right-mini"></span>
                     </a>
                 }
