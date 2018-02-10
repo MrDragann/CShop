@@ -235,12 +235,12 @@ namespace CosmeticaShop.Web.Controllers
                 {
                     // Отправка письма с ссылкой на сброс пароля
                     _authCommonService.SendMail("Восстановление пароля", email,
-                        $@"Для восстановления  пароля перейдите по 
+                        $@"Pentru resetarea parolei accesați 
                  <a href='{
                                 Url.Action("Index", "Home", new { token = token.Value.Value, email = email },
                                     Request.Url.Scheme)
                             }'
-                 title='Востоновления пароля'>ссылке</a>");
+                 title='Resetarea parolei'>link-ul</a>");
                 }
                 return Json(new { IsSuccess = true });
             }

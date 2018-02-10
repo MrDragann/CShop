@@ -14,6 +14,7 @@
         this.Amount = ko.observable(theParams.Amount / theParams.Quantity || 0);
         this.BrandName = ko.observable(theParams.Product.BrandName || "");
         this.Decimal = ko.observable(theParams.Decimal || 0);
+        this.Discount = ko.observable(theParams.Discount || 0);
         this.PhotoUrl = ko.observable(theParams.Product.PhotoUrl || "");
         this.DateCreate = ko.observable(theParams.DateCreate || "");
         this.DateCreateView = ko.observable(theParams.DateCreateView || "");
