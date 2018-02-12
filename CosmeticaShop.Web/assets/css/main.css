@@ -645,13 +645,16 @@ footer {
     .dropdown-menu-large > li > ul {
         padding: 0;
         margin: 0;
+        columns: 2;
+        -webkit-columns: 2;
+        -moz-columns: 2;
     }
 
 
         .dropdown-menu-large > li > ul > li {
             list-style: none;
-            display: inline-block;
-            width: 48%;
+            display: block;
+            /*width: 48%;*/
         }
 
             .dropdown-menu-large > li > ul > li > a {
