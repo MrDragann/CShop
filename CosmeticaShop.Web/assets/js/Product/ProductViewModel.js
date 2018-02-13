@@ -47,12 +47,17 @@
     /**
     * Получить параметры для фильтрации
     */
-    Product.ProductViewModel.prototype.GetLocation = function () {
+    Product.ProductViewModel.prototype.GetLocation = function (page) {
         var self = this;
         var paramsLocations = [];
         var model = this.Filter.GetData();
         for (item in model) {
             if (model.hasOwnProperty(item)) {
+                if (item === "Page" && page) {
+                    paramsLocations.push("&" + item + "=" + page);
+                    continue;
+                }
+
                 if (model[item] !== "" && model[item] !== null) {
                     if (Array.isArray(model[item]) && model[item].length === 0) {
                         continue;

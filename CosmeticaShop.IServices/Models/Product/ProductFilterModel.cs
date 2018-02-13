@@ -8,6 +8,7 @@ namespace CosmeticaShop.IServices.Models.Product
 {
     public class ProductFilterModel
     {
+        public int? Page { get; set; }
         /// <summary>
         /// Список брэндов
         /// </summary>

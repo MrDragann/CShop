@@ -19,13 +19,13 @@ namespace CosmeticaShop.Web.Controllers
         /// Страница с списоком товаров
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index(int? page, ProductFilterModel request)
+        public ActionResult Index(ProductFilterModel request)
         {
             const int take = 21;
             var products = _productService.GetProducts(request);
     
-            if (!page.HasValue)
-                page = 1;
+            if (!request.Page.HasValue)
+                request.Page = 1;
             if(request.CategoriesId==null)
                 request.CategoriesId = new List<int>();
             var model = new ProductsViewModel()
@@ -36,9 +36,9 @@ namespace CosmeticaShop.Web.Controllers
                 Pagination = new PaginationModel(take)
                 {
                     Count = products.Count,
-                    Skip = ((int)page - 1) * take,
+                    Skip = ((int)request.Page - 1) * take,
                     Take = take,
-                    PageNumber = (int)page,
+                    PageNumber = (int)request.Page,
                     PageSize = products.Count / take
                 },
                 Filter = request,
