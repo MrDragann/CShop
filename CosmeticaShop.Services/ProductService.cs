@@ -1045,7 +1045,7 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var brand = db.Brands.FirstOrDefault(x => x.Id == brandId);
+                    var brand = db.Brands.Include(x=>x.Products).FirstOrDefault(x => x.Id == brandId);
                     if (brand == null)
                         return new BaseResponse(EnumResponseStatus.Error, "Бренд не найден");
 
