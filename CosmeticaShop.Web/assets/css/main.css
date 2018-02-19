@@ -567,7 +567,7 @@ footer {
 }
 
 .item-slider {
-    height: 250px !important;
+    /*height: 250px !important;*/
     background-color: transparent;
     margin: 0 5px;
 }
@@ -583,10 +583,10 @@ footer {
 .slick-prev-pink {
     display: block;
     cursor: pointer;
-    position: relative;
+    position: absolute;
     width: 40px !important;
-    top: 150px;
-    left: -55px;
+    top: 40%;
+    left: 0;
     height: 40px !important;
     border: none;
     background-image: url(/assets/img/arrow-left.png);
@@ -595,11 +595,10 @@ footer {
 
 .slick-next-pink {
     cursor: pointer;
-    float: right;
-    position: relative;
+    position: absolute;
     width: 40px !important;
-    top: -150px;
-    left: 55px;
+    top: 40%;
+    right: 0;
     height: 40px !important;
     border: none;
     background-image: url(/assets/img/arrow-right.png);

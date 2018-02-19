@@ -39,7 +39,7 @@ namespace CosmeticaShop.Web.Controllers
                     Skip = ((int)request.Page - 1) * take,
                     Take = take,
                     PageNumber = (int)request.Page,
-                    PageSize = products.Count / take
+                    PageSize = products.Count / take+1
                 },
                 Filter = request,
                 Categories = _categoryService.GetAllCategories(),

@@ -7,6 +7,7 @@ using CosmeticaShop.IServices.Models.User;
 using CosmeticaShop.Services;
 using CosmeticaShop.Web.Infrastructure;
 using CosmeticaShop.Web.Models;
+using Resources;
 
 namespace CosmeticaShop.Web.Controllers
 {
@@ -54,7 +55,7 @@ namespace CosmeticaShop.Web.Controllers
                 var res = _orderService.AddOrder(orderId, address, email, user.UserId);
                 if (res.IsSuccess)
                 {
-                    _authCommonService.SendMail("Заказ", email, $@"Vă mulțumim pentru comanda Dumneavoastră în sumă de {res.Value.Order.Amount}  lei.Vă vom contacta în scurt timp."); 
+                    _authCommonService.SendMail("Comanda", email, $@"Vă mulțumim pentru comanda Dumneavoastră în sumă de {res.Value.Order.Amount}  lei.Vă vom contacta în scurt timp."); 
                 }
                 return Json(res);
             }
@@ -63,9 +64,7 @@ namespace CosmeticaShop.Web.Controllers
                 var res = _orderService.AddOrder(orderId, address, email, null);
                 if (res.IsSuccess && res.Value.IsNewUser)
                 {
-                    var mailResponse = _authCommonService.SendMail("Подтвердите регистрацию", email, $@"Vă mulțumim pentru comanda Dumneavoastră în sumă de {res.Value.Order.Amount}  lei.Vă vom contacta în scurt timp. Ваш пароль от интрнет магазина:'{res.Value.Password}'.Для завершения регистрации перейдите по 
-                 <a href='{Url.Action("Confrimed", "Home", new { token = res.Value.Token, email = email }, Request.Url.Scheme)}'
-                 title='Подтвердить регистрацию'>ссылке</a>");
+                    var mailResponse = _authCommonService.SendMail(Resource.ConfirmRegistration, email, $@"Vă mulțumim pentru comanda Dumneavoastră în sumă de {res.Value.Order.Amount}  lei.Vă vom contacta în scurt timp. Parola Dvs. de la internet magazin:'{res.Value.Password}'. Pentru a finaliza înregistrarea, accesați <a href='{Url.Action("Confrimed", "Home", new { token = res.Value.Token, email = email }, Request.Url.Scheme)}' title='Confirma înregistrarea'>link-ul</a>");
                     return Json(mailResponse);
                 }
                 return Json(res);
