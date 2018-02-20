@@ -49,9 +49,11 @@ ul {
     padding: 0;
 }
 
-.col-md-9-content {
-    width: 74%;
-    margin-left: 1%;
+@media(min-width: 992px){
+    .col-md-9-content {
+        width: 74%;
+        margin-left: 1%;
+    }
 }
 
 .default-text {
