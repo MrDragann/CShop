@@ -190,8 +190,9 @@ namespace CosmeticaShop.Services
         /// Получить список всех категорий
         /// </summary>
         /// <param name="parentId">Ид родителя</param>
+        /// <param name="parentsId"></param>
         /// <returns></returns>
-        public List<CategoryModel> GetAllCategories(int? parentId = null)
+        public List<CategoryModel> GetAllCategories(int? parentId = null, List<int> parentsId = null)
         {
             using (var db = new DataContext())
             {
@@ -207,6 +208,8 @@ namespace CosmeticaShop.Services
                     }).ToList();
                 var parentCategories = parentId.HasValue
                     ? allCategories.Where(_ => _.ParentId == parentId).OrderBy(x => x.Priority).ToList()
+                    : parentsId!=null 
+                    ? allCategories.Where(x=>parentsId.Contains(x.Id)).ToList()
                     : allCategories.Where(_ => !_.ParentId.HasValue).OrderBy(x => x.Priority).ToList();
                 if (!parentCategories.Any() && parentId.HasValue)
                     parentCategories = allCategories.Where(x => x.Id == parentId.Value).OrderBy(x => x.Priority).ToList();

@@ -42,8 +42,9 @@ namespace CosmeticaShop.IServices.Interfaces
         /// Получить список всех категорий
         /// </summary>
         /// <param name="parentId">Ид родителя</param>
+        /// <param name="parentsId"></param>
         /// <returns></returns>
-        List<CategoryModel> GetAllCategories(int? parentId = null);
+        List<CategoryModel> GetAllCategories(int? parentId = null, List<int> parentsId = null);
 
         /// <summary>
         /// Удалить категорию

@@ -10,6 +10,7 @@ using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.Brand;
+using CosmeticaShop.IServices.Models.Category;
 using CosmeticaShop.IServices.Models.Coupon;
 using CosmeticaShop.IServices.Models.Product;
 using CosmeticaShop.IServices.Models.Requests;
@@ -21,6 +22,8 @@ namespace CosmeticaShop.Services
 {
     public class ProductService : IProductService
     {
+        private ICategoryService _categoryService = new CategoryService();
+
         #region [ Публичная часть ]
 
         #region [ Товары ]
@@ -58,15 +61,20 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var query = db.Products.Include(x => x.Brand).Include(x => x.Categories).Include(x => x.ProductTags)
-                    .Where(x=> !x.IsDelete.HasValue && x.IsActive).ToList();
+                var query = db.Products.AsNoTracking()
+                    .Include(x => x.Brand).Include(x => x.Categories).Include(x => x.ProductTags)
+                    .Where(x => !x.IsDelete.HasValue && x.IsActive).ToList();
                 if (request?.BrandiesId?.Count > 0)
                 {
                     query = query.Where(x => request.BrandiesId.Any(m => m == x.BrandId)).ToList();
                 }
                 if (request?.CategoriesId?.Count > 0)
                 {
-                    query = query.Where(x => request.CategoriesId.Any(m => x.Categories.Any(c => c.Id == m))).ToList();
+                    var allcategories = _categoryService.GetAllCategories(parentsId: request.CategoriesId);
+                    var childsId = request.CategoriesId.Select(x => x).ToList();
+                    GetChildCategories(allcategories, childsId);
+                    childsId = childsId.Distinct().ToList();
+                    query = query.Where(x => childsId.Any(m => x.Categories.Any(c => c.Id == m))).ToList();
                 }
                 if (!string.IsNullOrEmpty(request?.Search))
                 {
@@ -88,6 +96,23 @@ namespace CosmeticaShop.Services
                 return products;
             }
         }
+
+        /// <summary>
+        /// Получить дочерние категории
+        /// </summary>
+        /// <param name="categories"></param>
+        /// <param name="childList"></param>
+        private void GetChildCategories(List<CategoryModel> categories, List<int> childList)
+        {
+            foreach (var item in categories)
+            {
+                childList.Add(item.Id);
+                if (item.ChildCategories != null)
+                {
+                    GetChildCategories(item.ChildCategories, childList);
+                }
+            }
+        }
         /// <summary>
         /// Получить рекомендованные товары
         /// </summary>
@@ -98,7 +123,7 @@ namespace CosmeticaShop.Services
             using (var db = new DataContext())
             {
                 var query = db.Products.Include(x => x.Brand).Include(x => x.Categories)
-                    .Where(x => !x.IsDelete.HasValue && x.IsActive&& x.IsRecommended).ToList();
+                    .Where(x => !x.IsDelete.HasValue && x.IsActive && x.IsRecommended).ToList();
                 var products = query.Select(ConvertToProductBaseModel).ToList();
                 var productsRandom = CalculationService.GetRandomProducts(products, take);
                 productsRandom.ForEach(x =>
@@ -117,7 +142,7 @@ namespace CosmeticaShop.Services
             using (var db = new DataContext())
             {
                 var query = db.Products.Include(x => x.Brand).Include(x => x.Categories)
-                    .Where(x => !x.IsDelete.HasValue && x.IsActive&& x.Discount > 0).ToList();
+                    .Where(x => !x.IsDelete.HasValue && x.IsActive && x.Discount > 0).ToList();
                 var products = query.Select(ConvertToProductBaseModel).ToList();
                 var productsRandom = CalculationService.GetRandomProducts(products, 4);
                 productsRandom.ForEach(x =>
@@ -137,7 +162,7 @@ namespace CosmeticaShop.Services
             using (var db = new DataContext())
             {
                 var allProducts = db.Products.Include(x => x.Brand).Include(x => x.Categories).Include(x => x.SimilarProducts)
-                    .Where(x=> !x.IsDelete.HasValue && x.IsActive).ToList();
+                    .Where(x => !x.IsDelete.HasValue && x.IsActive).ToList();
                 var product = allProducts.FirstOrDefault(x => x.Id == productId);
                 if (product == null)
                     return new List<ProductBaseModel>();
@@ -524,7 +549,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var query = db.Products.AsNoTracking().Where(x=> !x.IsDelete.HasValue)
+                var query = db.Products.AsNoTracking().Where(x => !x.IsDelete.HasValue)
                     .OrderByDescending(x => x.DateCreate) as IQueryable<Product>;
 
                 //if (request.CategoryId.HasValue)
@@ -597,7 +622,7 @@ namespace CosmeticaShop.Services
                 product.Photos = FileManager.GetFileUrls(EnumDirectoryType.Product, productId.ToString());
                 product.SimilarProducts.ForEach(x =>
                 {
-                    x.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, productId.ToString());
+                    x.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, x.Id.ToString());
                 });
                 return new BaseResponse<ProductEditModel>(EnumResponseStatus.Success, product);
             }
@@ -1045,7 +1070,7 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var brand = db.Brands.Include(x=>x.Products).FirstOrDefault(x => x.Id == brandId);
+                    var brand = db.Brands.Include(x => x.Products).FirstOrDefault(x => x.Id == brandId);
                     if (brand == null)
                         return new BaseResponse(EnumResponseStatus.Error, "Бренд не найден");
 
