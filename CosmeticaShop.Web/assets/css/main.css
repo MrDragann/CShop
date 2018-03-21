@@ -337,6 +337,7 @@ ul {
 
 footer {
     padding-top: 10px;
+    padding-bottom: 10px;
     /*height: 215px;*/
     background-color: #ffaecb;
     width: 100%;
@@ -371,7 +372,7 @@ footer {
                 }
 
     footer .white-footer {
-        margin-top: 15px;
+        margin-top: 10px;
         color: #ffffff;
         font-family: FuturaPTBook;
         font-size: 14px;

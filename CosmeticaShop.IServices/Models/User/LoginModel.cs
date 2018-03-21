@@ -1,6 +1,6 @@
 ﻿namespace CosmeticaShop.IServices.Models.User
 {
-    public class UserLoginModel
+    public class LoginModel
     {
         /// <summary>
         /// Почта пользователя

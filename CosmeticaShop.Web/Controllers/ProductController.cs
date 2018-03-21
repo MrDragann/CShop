@@ -28,6 +28,12 @@ namespace CosmeticaShop.Web.Controllers
                 request.Page = 1;
             if(request.CategoriesId==null)
                 request.CategoriesId = new List<int>();
+            // если не существует такой страницы
+            if (request.Page > products.Count / take + 1)
+            {
+                request.Page = 1;
+            }
+                
             var model = new ProductsViewModel()
             {
 

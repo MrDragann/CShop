@@ -119,7 +119,7 @@
     <Compile Include="Models\User\ChangePasswordModel.cs" />
     <Compile Include="Models\User\UserBaseModel.cs" />
     <Compile Include="Models\User\UserDetailModel.cs" />
-    <Compile Include="Models\User\UserLoginModel.cs" />
+    <Compile Include="Models\User\LoginModel.cs" />
     <Compile Include="Models\Wish\WishModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs">

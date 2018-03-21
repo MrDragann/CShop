@@ -22,13 +22,40 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             var user = new WebUser();
             if (user.IsAdmin)
                 return RedirectToAction("Index", "Dashboard");
-
-            return View(new UserLoginModel());
+            if (!(Session["UserSession"] is LoginModel))
+            {
+                var data = Request.Cookies["UserData"];
+                if (data != null)
+                {
+                    var model = AuthCommonService.Decrypt(data.Value);
+                    if (model != null)
+                    {
+                        var loginStatus = _authCommonService.Login(model.Email, model.Password);
+                        if (loginStatus.IsSuccess)
+                        {
+                            var webUser = new WebUser
+                            {
+                                UserId = loginStatus.Value.Id,
+                                Email = loginStatus.Value.Email,
+                                Roles = loginStatus.Value.Roles,
+                                IsAuthorized = true
+                            };
+                            HttpContext.Session["UserSession"] = webUser;
+                            var returnUrl = HttpContext.Request.UrlReferrer?.AbsoluteUri;
+                            if (!string.IsNullOrEmpty(returnUrl))
+                                return Redirect(returnUrl);
+                            return RedirectToAction("Index");
+                        }
+                        LogOut();
+                    }
+                }
+            }
+            return View(new LoginModel());
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Index(UserLoginModel model)
+        public ActionResult Index(LoginModel model)
         {
             var passwordHash = model.Password.GetHashString();
             var loginStatus = _authCommonService.Login(model.Email, passwordHash);
@@ -42,16 +69,28 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
                     IsAuthorized = true
                 };
                 HttpContext.Session["UserSession"] = webUser;
-                var returnUrl = HttpContext.Request.UrlReferrer.AbsoluteUri.Replace("/Admin/Home/Index?returnUrl=", "");
+                if (model.IsRemember)
+                    Response.Cookies.Add(new HttpCookie("UserData")
+                    {
+                        Value = AuthCommonService.Encrypt(new LoginModel
+                        {
+                            Email = model.Email,
+                            Password = passwordHash
+                        }),
+                        Expires = DateTime.Now.AddDays(7)
+                    });
+
+                var returnUrl = HttpContext.Request.UrlReferrer?.AbsoluteUri.Replace("/Admin/Home/Index?returnUrl=", "");
                 return Redirect(returnUrl);
             }
-            return View(new UserLoginModel());
+            return View(new LoginModel());
         }
 
         [AllowAnonymous]
         public ActionResult LogOut()
         {
             HttpContext.Session.Remove("UserSession");
+            Response.Cookies.Add(new HttpCookie("UserData") { Expires = DateTime.Now.AddDays(-1) });
             return RedirectToAction("Index");
         }
     }
