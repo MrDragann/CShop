@@ -112,9 +112,16 @@
                         <div class="col-md-8 description">
                             Livrarea
                         </div>
+                        <!--ko if: ViewModel.Amount() >= 150-->
                         <div class="col-md-4 value-menu">
                             GRATIS
                         </div>
+                        <!--/ko-->
+                        <!--ko if: ViewModel.Amount() < 150-->
+                        <div class="col-md-4 value-menu">
+                            17.1 lei
+                        </div>
+                        <!--/ko-->
                     </div>
                 </div>
                 <div class="row">
@@ -124,7 +131,8 @@
                         </div>
                     </div>
                     <div class="col-md-4 col-md-offset-1">
-                        <span data-bind="text:ViewModel.Amount"></span> lei
+                        <span data-bind="text:ViewModel.Amount"></span> lei 
+
                     </div>
                 </div>
                 <div class="row" style="display: none" data-bind="style:{display: ViewModel.AmountCoupon()>0 ? 'block' : 'none'}">

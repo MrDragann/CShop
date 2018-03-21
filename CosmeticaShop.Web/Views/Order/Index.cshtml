@@ -134,9 +134,27 @@
                     <div class="item-form">
                         <div class="title-item-form">@Resource.DeliveryCriteria:</div>
                         <div class="form-group col-md-12 info-form">
-                            <div class="margin-bottom-10">Curier - <span class="pink-darkk-text">GRATIS</span></div>
-                            <div>Condițiile de livrare:</div>
-                            <div>Due to high volume, your order might experience up to 8 business days delay. Flash 2 Day shipping might experience a 1 business day delay. 2 Day, 1 Day and Flash 1 Day shipping will not be affected.</div>
+                            <div class="margin-bottom-10">
+                                Curier -
+                                <!--ko if: Amount() >= 150-->
+                                <span class="pink-darkk-text">GRATIS</span>
+                                <!--/ko-->
+                                <!--ko if: Amount() < 150-->
+                                <span class="pink-darkk-text">  17.1 lei</span>
+                                <!--/ko-->
+                            </div>
+                            Dragi clienti, Livrarea coletelor se face intr-un interval cuprins intre o zi si patru zile lucratoare, in functie de momentul in care coletul pleaca din sediul Exclusiv Cristina SRL (nu de la plasarea comenzii).
+
+                            Tarifele practicate de societatea noastra pentru expedieri sunt dupa cum urmeaza.
+
+                            Livrare prin curier rapid in Bucuresti: Fan Courier
+
+                            Fan Courier: Taxa de transport in Bucuresti este de 12.83
+                            +TVA RON, la o comanda de peste 150 RON, transportul este Gratuit.
+
+                            Livrare prin curier rapid in Romania: Fan Courier.
+
+                            Taxa de transport este de 17.10+TVA lei, indiferent de greutatea coletului, la o comanda de peste 150 lei transportul este GRATUIT.
                         </div>
                     </div>
 
@@ -154,6 +172,9 @@
                         <div class="title-item-form " align="center">
                             <div><span class="p-error" data-bind="text:$parent.ErrorMessage"></span></div>
                             @Resource.PaymentAmount <span data-bind="text:Amount"></span> lei.
+                            <!--ko if: Amount() < 150-->
+                                                    <span class="pink-darkk-text"> + Curier 17.1 lei</span>                      
+                            <!--/ko-->
                         </div>
                     </div>
 
