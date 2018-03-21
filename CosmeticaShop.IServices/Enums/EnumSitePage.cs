@@ -25,10 +25,10 @@ namespace CosmeticaShop.IServices.Enums
         [Description("Despre noi")]
         About = 3,
         /// <summary>
-        /// Информация
+        /// Использование куков
         /// </summary>
-        [Description("Informație")]
-        Information = 4,
+        [Description("Politica de utilizare Cookie-uri")]
+        PoliticaCookie = 4,
         /// <summary>
         /// Оптовые продажи
         /// </summary>

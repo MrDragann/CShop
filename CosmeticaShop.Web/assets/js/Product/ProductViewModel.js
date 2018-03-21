@@ -53,6 +53,10 @@
         var model = this.Filter.GetData();
         for (item in model) {
             if (model.hasOwnProperty(item)) {
+
+                if (item === "search") {
+                    continue;
+                }
                 if (item === "Page" && page) {
                     paramsLocations.push("&" + item + "=" + page);
                     continue;

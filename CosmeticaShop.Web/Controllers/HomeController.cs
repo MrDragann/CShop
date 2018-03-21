@@ -80,9 +80,9 @@ namespace CosmeticaShop.Web.Controllers
             return View("~/Views/Information/Index.cshtml", model);
         }
 
-        public ActionResult Informatie()
+        public ActionResult PoliticaCookie()
         {
-            var model = _sitePageSevice.GetSitePageModel(EnumSitePage.Information);
+            var model = _sitePageSevice.GetSitePageModel(EnumSitePage.PoliticaCookie);
             SetSitePageSettings(model);
             return View("~/Views/Information/Index.cshtml", model);
         }

@@ -13,6 +13,7 @@
                 this.Sort = new Components.Sort({Sort:params.Sort});
                 this.ModalClass = params.ModalClass;             
                 this.Pagination.bind("onChangePage", this.onChangePage.bind(this));
+                this.IsLoading = ko.observable(false);
                 this.Refresh();
                 return this;
             };
@@ -26,14 +27,22 @@
              * @returns {} 
              */
             Components.Table.prototype.Refresh = function () {
+                var self = this;
+                self.IsLoading(true);
 	            var data = this.getData();
                 $.ajax({
                     type: "POST",
-                    url: this.Url,                    
+                    url: self.Url,
                     dataType: 'json',
                     data: data,
-                    success: this.RefreshSuccess.bind(this),
-                    error: this.RefreshError
+                    success: function (res) {
+                        self.RefreshSuccess(res);
+                        self.IsLoading(false);
+                    },
+                    error: function(res) {
+                        self.RefreshError(res);
+                        self.IsLoading(false);
+                    } 
                 });
             };
             Components.Table.prototype.RefreshError = function (param) {

@@ -161,7 +161,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var allProducts = db.Products.Include(x => x.Brand).Include(x => x.Categories).Include(x => x.SimilarProducts)
+                var allProducts = db.Products.AsNoTracking().Include(x => x.Brand).Include(x => x.Categories).Include(x => x.SimilarProducts)
                     .Where(x => !x.IsDelete.HasValue && x.IsActive).ToList();
                 var product = allProducts.FirstOrDefault(x => x.Id == productId);
                 if (product == null)
@@ -175,6 +175,12 @@ namespace CosmeticaShop.Services
                     var similarCategories = allProducts.Where(x => categoriesId.Any(m => x.Categories.Any(c => c.Id == m))).ToList();
                     var similarCategoriesRandom = CalculationService.GetRandomProducts(similarCategories.Select(ConvertToProductBaseModel).ToList(), 4 - productsRandom.Count);
                     productsRandom.AddRange(similarCategoriesRandom);
+                    // если похожих все еще меньше 4, то борем любой случайный товар
+                    if (productsRandom.Count < 4)
+                    {
+                        var randomProducts = CalculationService.GetRandomProducts(allProducts.Select(ConvertToProductBaseModel).ToList(), 4 - productsRandom.Count);
+                        productsRandom.AddRange(randomProducts);
+                    }
                 }
                 productsRandom.ForEach(x =>
                 {

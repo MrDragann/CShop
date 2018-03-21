@@ -2,11 +2,11 @@
     <!--ko if:Count()==0-->
         <div data-bind="text:localize().noItems"></div>
     <!--/ko-->
-    <div class="col-md-5">
+    <div class="col-md-4">
         <label data-bind="text: localize().pageSize"></label>
         <select class="form-control showPagesCounts " data-bind="options: showPagesCounts, selectedOptions: pageSize, event:{change:ToPage.bind($data,1)}"></select>
     </div>
-    <div class="col-md-7" style="text-align:right;">
+    <div class="col-md-8" style="text-align:right;">
         <ul class="pagination">
             <!--ko if:maxPage()>1-->
             <!--ko if:currentPage()!=1-->
