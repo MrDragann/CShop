@@ -1250,13 +1250,13 @@ input.review, input.review:focus {
     }
 
 .slider-single {
-    height: 300px;
+    max-height: 300px;
     background-color: white;
 }
 
     .slider-single img {
         max-width: 400px;
-        height: 300px;
+        /*height: 300px;*/
         width: auto;
         margin: 0 auto;
     }
@@ -1871,3 +1871,6 @@ header span.icon-bar {
     }
 }
 
+.row-products {
+    padding:0 4px;
+}
