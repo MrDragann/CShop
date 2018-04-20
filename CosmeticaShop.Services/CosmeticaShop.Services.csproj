@@ -61,6 +61,7 @@
     <Compile Include="SitePageSevice.cs" />
     <Compile Include="Static\CalculationService.cs" />
     <Compile Include="Static\CryptographyService.cs" />
+    <Compile Include="Static\CurrentSetting.cs" />
     <Compile Include="Static\EnumService.cs" />
     <Compile Include="Static\FileManager.cs" />
     <Compile Include="ProductService.cs" />

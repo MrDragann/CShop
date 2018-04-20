@@ -140,7 +140,7 @@
                                 <span class="pink-darkk-text">GRATIS</span>
                                 <!--/ko-->
                                 <!--ko if: Amount() < 150-->
-                                <span class="pink-darkk-text">  17.1 lei</span>
+                                <span class="pink-darkk-text">  @CurrentSetting.DeliveryPrice lei</span>
                                 <!--/ko-->
                             </div>
                             Dragi clienti, Livrarea coletelor se face intr-un interval cuprins intre o zi si patru zile lucratoare, in functie de momentul in care coletul pleaca din sediul Exclusiv Cristina SRL (nu de la plasarea comenzii).
@@ -154,7 +154,7 @@
 
                             Livrare prin curier rapid in Romania: Fan Courier.
 
-                            Taxa de transport este de 17.10+TVA lei, indiferent de greutatea coletului, la o comanda de peste 150 lei transportul este GRATUIT.
+                            Taxa de transport este de @CurrentSetting.DeliveryPrice+TVA lei, indiferent de greutatea coletului, la o comanda de peste 150 lei transportul este GRATUIT.
                         </div>
                     </div>
 
@@ -173,7 +173,7 @@
                             <div><span class="p-error" data-bind="text:$parent.ErrorMessage"></span></div>
                             @Resource.PaymentAmount <span data-bind="text:Amount"></span> lei.
                             <!--ko if: Amount() < 150-->
-                                                    <span class="pink-darkk-text"> + Curier 17.1 lei</span>                      
+                                                    <span class="pink-darkk-text"> + Curier @CurrentSetting.DeliveryPrice lei</span>                      
                             <!--/ko-->
                         </div>
                     </div>

@@ -2,7 +2,7 @@
 @using Newtonsoft.Json
 @model CosmeticaShop.Web.Models.CartViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Coșul meu";
 }
 @section Styles {
     <style>
@@ -119,7 +119,7 @@
                         <!--/ko-->
                         <!--ko if: ViewModel.Amount() < 150-->
                         <div class="col-md-4 value-menu">
-                            17.1 lei
+                            @CurrentSetting.DeliveryPrice lei
                         </div>
                         <!--/ko-->
                     </div>
@@ -175,7 +175,7 @@
                     <div class="col-md-12 description pink-text">
                         contactează-ne
                         <div>
-                            074 611 4001
+                            <a href="tel:0746114001">@CurrentSetting.PhoneNumber</a>
                         </div>
                     </div>
                 </div>
