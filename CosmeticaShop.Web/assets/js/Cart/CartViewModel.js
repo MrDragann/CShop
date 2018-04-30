@@ -10,7 +10,9 @@
         this.UrlPreparationOrder = theParams.UrlPreparationOrder;
         this.UrlAcceptCoupon = theParams.UrlAcceptCoupon;
       
-        this.Model = ko.observableArray(theParams.Model ? theParams.Model.map(function (item) { return new Cart.CartModel(item) }) : []);
+        this.Model = ko.observableArray(theParams.Model ? theParams.Model.map(function(item) {
+            return new Cart.CartModel(item);
+        }) : []);
         if (!theParams.Model)
             theParams.Model = this.GetCart();
         this.Amount = ko.observable(theParams.Amount || 0);

@@ -139,60 +139,67 @@ namespace CosmeticaShop.Services
         /// <returns></returns>
         public BaseResponse AddProductInCoockieCart(int productId, int quantity, bool isAuth)
         {
-            HttpCookie cookieUser = HttpContext.Current.Request.Cookies["User"];
-            var userId = Guid.NewGuid();
-            if (string.IsNullOrWhiteSpace(cookieUser?.Value))
+            try
             {
-                HttpCookie aCookie = new HttpCookie("User")
+                HttpCookie cookieUser = HttpContext.Current.Request.Cookies["User"];
+                var userId = Guid.NewGuid();
+                if (string.IsNullOrWhiteSpace(cookieUser?.Value))
                 {
-                    Value = userId.ToString(),
-                    Expires = DateTime.Now.AddDays(30)
-                };
-                HttpContext.Current.Response.Cookies.Add(aCookie);
-            }
-            else
-            {
-                userId = Guid.Parse(cookieUser.Value);
-            }
-            var response = new BaseResponse(EnumResponseStatus.Success, "Успешно");
-            if (!isAuth)
-            {
-                response = AddProductInCart(productId, userId, quantity, true);
-            }
-            if (response.IsSuccess)
-            {
-                HttpCookie cookieReq = HttpContext.Current.Request.Cookies["UserCart"];
-                if (string.IsNullOrWhiteSpace(cookieReq?.Values["productId"]))
-                {
-                    HttpCookie aCookie = new HttpCookie("UserCart");
-
-                    aCookie.Values["productId"] = productId.ToString();
-                    aCookie.Values["quantity"] = quantity.ToString();
-
-                    aCookie.Expires = DateTime.Now.AddDays(30);
+                    HttpCookie aCookie = new HttpCookie("User")
+                    {
+                        Value = userId.ToString(),
+                        Expires = DateTime.Now.AddDays(30)
+                    };
                     HttpContext.Current.Response.Cookies.Add(aCookie);
                 }
                 else
                 {
-                    var cookieProducts = cookieReq.Values["productId"].Split(',').Select(int.Parse).ToList();
-                    var cookieQuantity = cookieReq.Values["quantity"].Split(',').Select(int.Parse).ToList();
-                    if (cookieProducts.Contains(productId))
+                    userId = Guid.Parse(cookieUser.Value);
+                }
+                var response = new BaseResponse(EnumResponseStatus.Success, "Успешно");
+                if (!isAuth)
+                {
+                    response = AddProductInCart(productId, userId, quantity, true);
+                }
+                if (response.IsSuccess)
+                {
+                    HttpCookie cookieReq = HttpContext.Current.Request.Cookies["UserCart"];
+                    if (string.IsNullOrWhiteSpace(cookieReq?.Values["productId"]))
                     {
-                        var productIndex = cookieProducts.FindIndex(x => x == productId);
-                        cookieQuantity[productIndex] += 1;
-                        cookieReq.Values["quantity"] = string.Join(",", cookieQuantity.ToArray());
-                        HttpContext.Current.Response.Cookies.Add(cookieReq);
+                        HttpCookie aCookie = new HttpCookie("UserCart");
+
+                        aCookie.Values["productId"] = productId.ToString();
+                        aCookie.Values["quantity"] = quantity.ToString();
+
+                        aCookie.Expires = DateTime.Now.AddDays(30);
+                        HttpContext.Current.Response.Cookies.Add(aCookie);
                     }
                     else
                     {
-                        cookieReq.Values["productId"] += "," + productId;
-                        cookieReq.Values["quantity"] += "," + quantity;
-                        HttpContext.Current.Response.Cookies.Add(cookieReq);
+                        var cookieProducts = cookieReq.Values["productId"].Split(',').Select(int.Parse).ToList();
+                        var cookieQuantity = cookieReq.Values["quantity"].Split(',').Select(int.Parse).ToList();
+                        if (cookieProducts.Contains(productId))
+                        {
+                            var productIndex = cookieProducts.FindIndex(x => x == productId);
+                            cookieQuantity[productIndex] += 1;
+                            cookieReq.Values["quantity"] = string.Join(",", cookieQuantity.ToArray());
+                            HttpContext.Current.Response.Cookies.Add(cookieReq);
+                        }
+                        else
+                        {
+                            cookieReq.Values["productId"] += "," + productId;
+                            cookieReq.Values["quantity"] += "," + quantity;
+                            HttpContext.Current.Response.Cookies.Add(cookieReq);
+                        }
                     }
+                    return new BaseResponse(EnumResponseStatus.Success, "Товар успешно добавлен в желаемое");
                 }
-                return new BaseResponse(EnumResponseStatus.Success, "Товар успешно добавлен в желаемое");
+                return response;
             }
-            return response;
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception);
+            }
         }
         /// <summary>
         /// Подготовка заказа
