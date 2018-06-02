@@ -31,6 +31,10 @@ namespace CosmeticaShop.IServices.Enums
         /// <summary>
         /// Баннер
         /// </summary>
-        Bilbord
+        Bilbord,
+        /// <summary>
+        /// Блог
+        /// </summary>
+        Blog
     }
 }

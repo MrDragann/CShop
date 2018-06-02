@@ -1,0 +1,32 @@
+﻿@model List<CosmeticaShop.IServices.Models.Blog.BlogModel>
+
+<div class="col-md-12 white-container marginB-heigth-10">
+    <div class="default-text navigation">
+        <a href="@Url.Action("Index","Home")"> Principală </a> >
+        <span class="pink-darkk-text">Blog</span>
+    </div>
+</div>
+
+<div class="blog-container mb-50">
+    @foreach (var item in Model)
+    {
+        <a href="@Url.Action("Detail","Blog",new{keyUrl=item.KeyUrl})" class="blog-item">
+            <div class="row">
+                <div class="col-sm-4 col-md-2">
+                    <div class="img-block">
+                        <img src="@item.PhotoUrl" />
+                    </div>
+                </div>
+
+                <div class="col-sm-8 col-md-10">
+                    <div class="preview-content">
+                        <h4 class="bold">@item.Title</h4>
+                        <p>@item.PreviewContent</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
+
+
+</div>

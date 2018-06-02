@@ -1,0 +1,122 @@
+﻿@using Newtonsoft.Json
+@model CosmeticaShop.Web.Models.BlogDetailViewModel
+@section Scripts {
+    <script src="~/assets/js/Product/ProductModel.js"></script>
+    <script src="~/assets/js/Product/ProductLineView.js"></script>
+    <script>
+        urlAddProductCart = '@Url.Action("AddInCart","Product")';
+        urlAddProductWish = '@Url.Action("AddInWish","Product")';
+        var urlDeleteWish = '@Url.Action("DeleteWish","Favorites")';
+        var paramsRecomends = {};
+        paramsRecomends.Products = @Html.Raw(JsonConvert.SerializeObject(Model.Products));
+        var RecomendtsModel = new Product.ProductLineView(paramsRecomends);
+    </script>
+}
+
+<div class="col-md-12 white-container marginB-heigth-10">
+    <div class="default-text navigation">
+        <a href="@Url.Action("Index","Home")"> Principală </a> >
+        <a href="@Url.Action("Index","Blog")"> Blog </a> >
+        <span class="pink-darkk-text">@Model.Blog.Title</span>
+    </div>
+</div>
+
+<div class="blog-container mb-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="blog-content">
+                <h4 class="bold">@Model.Blog.Title</h4>
+                @Html.Raw(Model.Blog.Content)
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="row-products">
+    <div class="section-name">Recomended</div>
+    <div class="row product-list row-flex" data-bind="foreach:RecomendtsModel.Products">
+
+        <div class="col-xs-6 col-sm-4 col-md-3">
+            <div class="item">
+                <a class="product-content" data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                    <div class="product-img">
+                        <img data-bind="attr:{src:PhotoUrl}" />
+                        <!--ko if:DiscountPercent()!==0-->
+                        <div class="discount" style="visibility:hidden;" data-bind="style:{visibility:DiscountPercent()!==0 ?'visible': 'hidden'}">
+                            reducere  <div>
+                                -<span data-bind="text:DiscountPercent">35</span>%
+                            </div>
+                        </div>
+                        <!--/ko-->
+                    </div>
+
+                </a>
+                <div class="product-footer">
+                    <a data-bind="attr:{href:'@Url.Action("Details", "Product")?id='+Id()}">
+                        <div class="product-description title">
+                            <span class="pink-text" data-bind="text:BrandName">
+                            </span>
+                        </div>
+                        <div class="product-description">
+                            <span class="grey-text" data-bind="text:Name"></span>
+                        </div>
+
+                        <div class="product-description">
+                            <!--ko if:DiscountPercent()!==0-->
+                            <span class="grey-price crossOut-pink" data-bind="text:Price()+' lei'"></span>
+                            <div>
+                                <span class="pink-price" data-bind="text:DiscountPrice()+' lei'"></span>
+                            </div>
+                            <!--/ko-->
+                            <!--ko if:DiscountPercent()===0-->
+                            <span class="grey-price" data-bind="text:Price()+' lei'"></span>
+                            <!--/ko-->
+                        </div>
+                    </a>
+                    <!--ko if:IsWish-->
+                    <div class="pull-left" data-bind="click:DeleteWish">
+                        <i class="icon-pink-like "></i>
+                    </div>
+                    <!--/ko-->
+                    <!--ko ifnot:IsWish-->
+                    <div class="pull-left" data-bind="click:AddProductWish">
+                        <i class="icon-like "></i>
+                    </div>
+                    <!--/ko-->
+                    <div class="pull-right" data-bind="click:AddProductCart">
+                        <span style="cursor: pointer;">iau!</span> <i class="icon-product-cart"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+<section class="blog">
+    <div class="section-name">Alte articole</div>
+    <div class="blog-container mb-50">
+        @foreach (var item in Model.Blogs)
+        {
+            <a href="@Url.Action("Detail", "Blog", new {keyUrl = item.KeyUrl})" class="blog-item">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="img-block">
+                            <img src="@item.PhotoUrl"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-10">
+                        <div class="preview-content">
+                            <h4 class="bold">@item.Title</h4>
+                            <p>@item.PreviewContent</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+
+
+    </div>
+</section>

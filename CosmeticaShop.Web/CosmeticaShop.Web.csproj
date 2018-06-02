@@ -128,12 +128,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BlogController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\SitePageController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\CabinetController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\FavoritesController.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Infrastructure\AuthorizeViewPage.cs" />
     <Compile Include="Infrastructure\ConstRoles.cs" />
     <Compile Include="Infrastructure\WebUser.cs" />
+    <Compile Include="Models\BlogDetailViewModel.cs" />
     <Compile Include="Models\CabinetViewModel.cs" />
     <Compile Include="Models\CartViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
@@ -162,6 +165,8 @@
     <Content Include="Areas\Admin\assets\js\Enums\EnumResponseStatus.js" />
     <Content Include="Areas\Admin\assets\js\Form\Address\AddressModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Base\BaseFilterModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Blog\BlogFormModel.js" />
+    <Content Include="Areas\Admin\assets\js\Form\Blog\BlogModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Order\OrderEditFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Order\OrderFormModel.js" />
     <Content Include="Areas\Admin\assets\js\Form\Order\OrderProductModel.js" />
@@ -293,6 +298,8 @@
     <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Select\_selectModal.cshtml" />
     <Content Include="Areas\Admin\Views\SitePage\City.cshtml" />
+    <Content Include="Areas\Admin\Views\Blog\AddBlog.cshtml" />
+    <Content Include="Areas\Admin\Views\Blog\Index.cshtml" />
     <None Include="Properties\PublishProfiles\CosmeticaShopRegRu.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Areas\Admin\assets\js\Components\TablePaginationAjax\content\Pagination.css" />
@@ -345,6 +352,8 @@
     <Content Include="Views\Shared\Popup\Wish.cshtml" />
     <Content Include="Views\Shared\Popup\Cart.cshtml" />
     <Content Include="Views\Information\Index.cshtml" />
+    <Content Include="Views\Blog\Index.cshtml" />
+    <Content Include="Views\Blog\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,8 +1,10 @@
-﻿@model CosmeticaShop.IServices.Models.Responses.BaseResponse<CosmeticaShop.IServices.Models.Brand.BrandModel>
+﻿@model CosmeticaShop.IServices.Models.Blog.BlogModel
 @{
-    ViewBag.Title = (Model.Value.Id == 0 ? "Добавление" : "Редактирование") + " бренда";
+    ViewBag.Title = (Model.Id == 0 ? "Добавление" : "Редактирование") + " поста в блоге";
 }
-
+@section scripts
+{
+}
 @section breadcrumb
 {
     <ul class="page-breadcrumb breadcrumb">
@@ -11,11 +13,11 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span class="active">Бренды</span>
+            <span class="active">Блог</span>
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span class="active">@(Model.Value.Id==0?"Добавление":"Редактирование")</span>
+            <span class="active">@(Model.Id == 0 ? "Добавление" : "Редактирование")</span>
         </li>
     </ul>
 }
@@ -34,7 +36,7 @@
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a href="#brand" data-toggle="tab">
-                                Бренд
+                                Пост
                             </a>
                         </li>
                         <li>
@@ -43,17 +45,16 @@
                             </a>
                         </li>
                     </ul>
-                    @using (Html.BeginForm("BrandUpdate", "Product", new { Area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    @using (Html.BeginForm("BlogPostUpdate", "Blog", new { Area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
                         <div class="form-body form-horizontal">
                             <div class="tab-content">
-                                <input name="Id" type="hidden" value="@Model.Value.Id">
-                                <input maxlength="128" id="key_url" name="KeyUrl" type="hidden" value="@Model.Value.KeyUrl">
+                                <input name="Id" type="hidden" value="@Model.Id">
                                 <div class="tab-pane fade active in" id="brand">
                                     <div class="form-group form-md-line-input">
                                         <label class="col-md-2 control-label" for="Name">Наименование</label>
                                         <div class="col-md-10">
-                                            <input maxlength="128" class="form-control input-lg" id="Name" name="Name" required="required" type="text" value="@Model.Value.Name">
+                                            <input maxlength="128" class="form-control input-lg" id="Title" name="Title" required="required" type="text" value="@Model.Title">
                                             <div class="form-control-focus">
                                             </div>
                                         </div>
@@ -63,10 +64,10 @@
                                         <div class="col-md-8">
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 100%; height: 160px;">
-                                                    @if (!string.IsNullOrEmpty(Model.Value.PhotoUrl))
-                                                    {
-                                                        <img src="@Model.Value.PhotoUrl" />
-                                                    }
+                                                    @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+                    {
+                                <img src="@Model.PhotoUrl" />
+}
                                                 </div>
                                                 <div>
                                                     <span class="btn blue btn-file">
@@ -85,12 +86,26 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label class="col-md-2 control-label" for="PreviewContent">Превью контент</label>
+                                        <div class="col-md-10">
+                                            <textarea class="form-control" id="PreviewContent" name="PreviewContent" rows="5">@Model.PreviewContent</textarea>
+                                            <div class="form-control-focus">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2" for="Content">Контент</label>
+                                        <div class="col-md-10">
+                                            <textarea class="form-control ckeditor" name="Content" id="Content">@Model.Content</textarea>
+                                        </div>
+                                    </div>
 
                                     <div class="form-group form-md-checkboxes">
                                         <label class="col-md-2 control-label">Видимость</label>
                                         <div class="col-md-10">
                                             <div class="md-checkbox">
-                                                @Html.CheckBoxFor(x => x.Value.IsActive, new { @class = "md-check", @id = "IsActive", Name = "IsActive" })
+                                                @Html.CheckBoxFor(x => x.IsActive, new { @class = "md-check", @id = "IsActive", Name = "IsActive" })
                                                 <label for="IsActive">
                                                     <span class="inc"></span>
                                                     <span class="check"></span>
@@ -101,12 +116,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="tab-pane fade" id="seo">
                                     <div class="form-group form-md-line-input">
                                         <label class="col-md-2 control-label" for="SeoKeywords">Keywords</label>
                                         <div class="col-md-10">
-                                            <textarea maxlength="256" class="form-control" id="SeoKeywords" name="SeoKeywords" rows="3" placeholder="">@Model.Value.SeoKeywords</textarea>
+                                            <textarea maxlength="256" class="form-control" id="SeoKeywords" name="SeoKeywords" rows="3" placeholder="">@Model.SeoKeywords</textarea>
                                             <div class="form-control-focus">
                                             </div>
                                         </div>
@@ -114,7 +129,7 @@
                                     <div class="form-group form-md-line-input">
                                         <label class="col-md-2 control-label" for="SeoDescription">Description</label>
                                         <div class="col-md-10">
-                                            <textarea maxlength="256" class="form-control" id="SeoDescription" name="SeoDescription" rows="3" placeholder="">@Model.Value.SeoDescription</textarea>
+                                            <textarea maxlength="256" class="form-control" id="SeoDescription" name="SeoDescription" rows="3" placeholder="">@Model.SeoDescription</textarea>
                                             <div class="form-control-focus">
                                             </div>
                                         </div>
@@ -133,20 +148,3 @@
         </div>
     </div>
 </div>
-
-@section scripts
-{
-<script src="~/Scripts/jquery.liTranslit.js"></script>
-    @if (!Model.IsSuccess)
-    {
-        <script>bootbox.alert('@Model.Message')</script>
-    }
-    <script>
-        $(function() {
-            $('#Name').liTranslit({
-        elAlias: $('#key_url'),
-                reg: '" "="-"'
-            });
-        });
-    </script>
-}

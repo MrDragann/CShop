@@ -2,13 +2,16 @@
 <div class="site-navigation">
     <ul class="nav navbar-nav">
         <li class="dropdown dropdown-large">
+            <a href="@Url.Action("Index","Blog")" class="hight-menu">Blog</a>
+        </li>
+        <li class="dropdown dropdown-large">
             <a class="hight-menu" data-toggle="dropdown">@Model.Brand.Title</a>
             <ul class="dropdown-menu dropdown-menu-large row">
                 <li>
                     <ul>
                         @foreach (var navItem in Model.Brand.Items)
                         {
-                            <li><a href="@Url.Action("Index","Product",new {BrandiesId=navItem.Id})">@navItem.Name</a></li>
+                            <li><a href="@Url.Action("Index", "Product", new {BrandiesId = navItem.Id})">@navItem.Name</a></li>
                         }
                     </ul>
                 </li>
@@ -23,10 +26,10 @@
                         <ul>
                             @foreach (var child in navItem.Items)
                             {
-                                <li class="second-cat"><a href="@Url.Action("Index","Product",new {CategoriesId=child.Id})">@child.Name</a></li>
+                                <li class="second-cat"><a href="@Url.Action("Index", "Product", new {CategoriesId = child.Id})">@child.Name</a></li>
                                 foreach (var subChild in child.ChildItems)
                                 {
-                                    <li><a href="@Url.Action("Index","Product",new {CategoriesId=subChild.Id})">@subChild.Name</a></li>
+                                    <li><a href="@Url.Action("Index", "Product", new {CategoriesId = subChild.Id})">@subChild.Name</a></li>
                                 }
                             }
                         </ul>
@@ -36,7 +39,7 @@
         }
 
         <li class="dropdown dropdown-large">
-            <a class="hight-menu" href="@Url.Action("Index","Product",new { Discount = true })">Reduceri</a>
+            <a class="hight-menu" href="@Url.Action("Index", "Product", new {Discount = true})">Reduceri</a>
         </li>
     </ul>
 </div>

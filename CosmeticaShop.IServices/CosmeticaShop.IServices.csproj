@@ -80,6 +80,7 @@
     <Compile Include="Enums\EnumStatusUser.cs" />
     <Compile Include="Enums\EnumUserRole.cs" />
     <Compile Include="Interfaces\IAuthCommonService.cs" />
+    <Compile Include="Interfaces\IBlogService.cs" />
     <Compile Include="Interfaces\ICartService.cs" />
     <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Interfaces\IOrderService.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="IWishService.cs" />
     <Compile Include="Models\Base\BaseFilter.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
+    <Compile Include="Models\Blog\BlogModel.cs" />
     <Compile Include="Models\Brand\BrandModel.cs" />
     <Compile Include="Models\Category\CategoryEditModel.cs" />
     <Compile Include="Models\Category\CategoryModel.cs" />

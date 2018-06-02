@@ -1637,14 +1637,14 @@ button.slick-next {
             margin-top: 8px;
         }
 
-        .dropdown-cart .footer .item-btn a {
-            display: block;
-            cursor: pointer;
-        }
-
-            .dropdown-cart .footer a:hover, .dropdown-cart .footer a:focus .dropdown-cart .footer a:active .dropdown-cart .footer a:visited {
-                color: #fff;
+            .dropdown-cart .footer .item-btn a {
+                display: block;
+                cursor: pointer;
             }
+
+        .dropdown-cart .footer a:hover, .dropdown-cart .footer a:focus .dropdown-cart .footer a:active .dropdown-cart .footer a:visited {
+            color: #fff;
+        }
 
         .dropdown-cart .footer .input-group input {
             border-radius: 0;
@@ -1930,6 +1930,71 @@ a.disabled, button.disabled, a[disabled], button[disabled] {
         cursor: not-allowed;
     }
 
-    .bold {
-        font-weight: bold;
+.bold {
+    font-weight: bold;
+}
+
+.mb-50 {
+    margin-bottom: 50px !important;
+}
+
+/* Blog */
+
+.blog-container {
+    background-color: #fff;
+    border: 1px solid #d9cad3;
+}
+
+    .blog-container .blog-item {
+        display: block;
+        padding: 30px 20px 20px;
+        border-bottom: 1px solid #B0B0B0;
+        transition: 0.4s background-color linear;
     }
+
+        .blog-container .blog-item:hover {
+            cursor: pointer;
+            background-color: rgba(253, 166, 197, 0.5);
+        }
+
+        .blog-container .blog-item:last-child {
+            border: none;
+        }
+
+    .blog-container, .blog-container h4 {
+        font-family: FuturaPTBook;
+    }
+
+        .blog-container .img-block {
+            padding-bottom: 10px;
+        }
+
+            .blog-container .img-block img {
+                width: 100%;
+            }
+
+        .blog-container .preview-content {
+            font-size: 18px;
+        }
+
+            .blog-container .preview-content h4 {
+                color: #414141;
+                margin-top: 0;
+            }
+
+            .blog-container .preview-content p {
+                color: #636363;
+            }
+
+        .blog-container .blog-content {
+            padding: 15px 30px 20px;
+        }
+
+            .blog-container .blog-content img {
+                max-width: 100%;
+            }
+
+        .blog-container .blog-content {
+            font-family: FuturaPTBook;
+            font-size: 18px;
+        }

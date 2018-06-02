@@ -54,5 +54,10 @@ namespace CosmeticaShop.IServices.Enums
         /// </summary>
         [Description("Oferta publică")]
         OfertaPublic = 9,
+        /// <summary>
+        /// Блог
+        /// </summary>
+        [Description("Blog")]
+        Blog = 10,
     }
 }

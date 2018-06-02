@@ -21,5 +21,17 @@ namespace CosmeticaShop.Services.Static
                     return newStr;
             }
         }
+
+        /// <summary>
+        /// Сформировать KeyUrl
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string FormKeyUrl(string name)
+        {
+            var str = name.Replace(".", "");
+            str = str.Replace(" ", "-");
+            return str;
+        }
     }
 }

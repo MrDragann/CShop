@@ -175,15 +175,6 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml", model);
         }
 
-        [HttpPost]
-        public ActionResult AddBrand(BrandModel model)
-        {
-            var response = _productService.AddBrand(model);
-            if (response.IsSuccess)
-                return RedirectToAction("Brands");
-            return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml", (BaseResponse<BrandModel>)response);
-        }
-
         public ActionResult EditBrand(int id)
         {
             var model = _productService.GetBrandModel(id);
@@ -193,11 +184,13 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBrand(BrandModel model)
+        public ActionResult BrandUpdate(BrandModel model)
         {
-            var response = _productService.AddBrand(model);
+            var response = model.Id == 0
+                ? _productService.AddBrand(model)
+                : _productService.EditBrand(model);
             if (response.IsSuccess)
-                return RedirectToAction("Brands");
+                return RedirectToAction("EditBrand",new{id=response.Value.Id});
             return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml", (BaseResponse<BrandModel>)response);
         }
 

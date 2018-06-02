@@ -1,16 +1,16 @@
 ﻿
 @{
-    ViewBag.Title = "Список брендов";
+    ViewBag.Title = "Список постов блога";
 }
 
 @section scripts{
-    <script src="~/Areas/Admin/assets/js/Form/Brand/BrandModel.js"></script>
-    <script src="~/Areas/Admin/assets/js/Form/Brand/BrandFormModel.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Blog/BlogModel.js"></script>
+    <script src="~/Areas/Admin/assets/js/Form/Blog/BlogFormModel.js"></script>
     <script>
         var params = {};
-        params.UrlLoadItems = '@Url.Action("GetFilteredBrands","Product")';
-        params.UrlDelete = '@Url.Action("DeleteBrand","Product")';
-        var FormModel = new Brand.BrandFormModel(params);
+        params.UrlLoadItems = '@Url.Action("GetFilteredBlogPosts","Blog")';
+        params.UrlDelete = '@Url.Action("DeleteBlog","Blog")';
+        var FormModel = new Blog.BlogFormModel(params);
     </script>
 }
 <div class="row">
@@ -55,13 +55,13 @@
                             <td>
                                 <img data-bind="attr:{src:PhotoUrl()}" width="80">
                             </td>
-                            <td data-bind="text:Name"></td>
+                            <td data-bind="text:Title"></td>
                             <td>
                                 <i data-bind="css:(IsActive()?'fa-check':'fa-close')" class="fa false-icon"></i>
                             </td>
                             <td>
-                                <a data-bind="attr:{href:'@Url.Action("EditBrand","Product")/'+Id()}" class="fa fa-pencil btn btn-sm blue"></a>
-                                <button data-bind="click:FormModel.DeleteBrand.bind(FormModel)" type="button" class="fa fa-remove btn btn-sm red"></button>
+                                <a data-bind="attr:{href:'@Url.Action("EditBlogPost","Blog")/'+Id()}" class="fa fa-pencil btn btn-sm blue"></a>
+                                <button data-bind="click:FormModel.DeleteBlog.bind(FormModel)" type="button" class="fa fa-remove btn btn-sm red"></button>
                             </td>
                         </tr>
                         </tbody>

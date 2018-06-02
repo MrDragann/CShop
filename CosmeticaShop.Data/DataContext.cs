@@ -78,6 +78,11 @@ namespace CosmeticaShop.Data
         /// </summary>
         public DbSet<City> Cities { get; set; }
 
+        /// <summary>
+        /// Таблица блогов
+        /// </summary>
+        public DbSet<Blog> Blogs { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder mb)
         {
             #region User
@@ -135,6 +140,16 @@ namespace CosmeticaShop.Data
             mb.Entity<ProductTag>().Property(_ => _.Name).HasMaxLength(128);
             mb.Entity<ProductTag>().Property(_ => _.Name).IsRequired();
 
+            #endregion
+
+            #region Blog
+
+            mb.Entity<Blog>().HasKey(_ => _.Id);
+            mb.Entity<Blog>().Property(_ => _.Title).HasMaxLength(128);
+            mb.Entity<Blog>().Property(_ => _.KeyUrl).HasMaxLength(128);
+            mb.Entity<Blog>().Property(_ => _.PhotoUrl).HasMaxLength(128);
+            mb.Entity<Blog>().Property(_ => _.SeoDescription).HasMaxLength(256);
+            mb.Entity<Blog>().Property(_ => _.SeoKeywords).HasMaxLength(256);
             #endregion
 
             #region Category

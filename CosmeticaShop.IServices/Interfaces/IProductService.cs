@@ -210,7 +210,7 @@ namespace CosmeticaShop.IServices.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        BaseResponse AddBrand(BrandModel model);
+        BaseResponse<BrandModel> AddBrand(BrandModel model);
 
         /// <summary>
         /// Получить модель бренда

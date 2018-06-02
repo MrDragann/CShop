@@ -958,7 +958,7 @@ namespace CosmeticaShop.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public BaseResponse AddBrand(BrandModel model)
+        public BaseResponse<BrandModel> AddBrand(BrandModel model)
         {
             if (model.PhotoFile == null)
                 return new BaseResponse<BrandModel>(EnumResponseStatus.ValidationError, "Изображение не выбрано", model);
@@ -985,12 +985,12 @@ namespace CosmeticaShop.Services
                             Guid.NewGuid().ToString());
                         db.SaveChanges();
                     }
-
-                    return new BaseResponse(EnumResponseStatus.Success);
+                    model.Id = brand.Id;
+                    return new BaseResponse<BrandModel>(EnumResponseStatus.Success, model);
                 }
                 catch (Exception ex)
                 {
-                    return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+                    return new BaseResponse<BrandModel>(EnumResponseStatus.Exception, ex.Message, model);
                 }
             }
         }
@@ -1039,7 +1039,7 @@ namespace CosmeticaShop.Services
                     var brand = db.Brands.FirstOrDefault(x => x.Id == model.Id);
 
                     if (brand == null)
-                        return new BaseResponse<BrandModel>(EnumResponseStatus.Error, "Бренд не найден");
+                        return new BaseResponse<BrandModel>(EnumResponseStatus.Error, "Бренд не найден",model);
 
                     var allKeyUrls = db.Brands.AsNoTracking().Where(x => x.Id != model.Id).Select(x => x.KeyUrl).ToList();
 
@@ -1056,11 +1056,11 @@ namespace CosmeticaShop.Services
                             Guid.NewGuid().ToString());
                     }
                     db.SaveChanges();
-                    return new BaseResponse<BrandModel>(EnumResponseStatus.Success, "Бренд успешно обновлен");
+                    return new BaseResponse<BrandModel>(EnumResponseStatus.Success, "Бренд успешно обновлен",model);
                 }
                 catch (Exception ex)
                 {
-                    return new BaseResponse<BrandModel>(EnumResponseStatus.Exception, ex.Message);
+                    return new BaseResponse<BrandModel>(EnumResponseStatus.Exception, ex.Message,model);
                 }
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CosmeticaShop.IServices.Models.Blog;
 using CosmeticaShop.IServices.Models.Product;
 
 namespace CosmeticaShop.Services.Static
@@ -65,6 +66,35 @@ namespace CosmeticaShop.Services.Static
                 }
             }
             return productsRandom;
+        }
+
+        /// <summary>
+        /// Получить случайные статьи
+        /// </summary>
+        /// <param name="blogs"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public static List<BlogModel> GetRandomBlogs(List<BlogModel> blogs, int take)
+        {
+            var randomList = new List<BlogModel>();
+            int k;
+            var rand = new Random();
+            var count = take;
+            if (blogs.Count < take)
+                count = blogs.Count;
+            for (var i = 0; i < count; i++)
+            {
+                while (true)
+                {
+                    k = rand.Next(blogs.Count);
+                    if (randomList.All(x => blogs[k].Id != x.Id))
+                    {
+                        randomList.Add(blogs[k]);
+                        break;
+                    }
+                }
+            }
+            return randomList;
         }
     }
 }

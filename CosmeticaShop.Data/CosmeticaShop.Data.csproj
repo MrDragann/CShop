@@ -78,7 +78,12 @@
     <Compile Include="Migrations\201801141618124_productsIsDeleteProp.Designer.cs">
       <DependentUpon>201801141618124_productsIsDeleteProp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806011626169_blogTable.cs" />
+    <Compile Include="Migrations\201806011626169_blogTable.Designer.cs">
+      <DependentUpon>201806011626169_blogTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Blog.cs" />
     <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\City.cs" />
@@ -122,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801141618124_productsIsDeleteProp.resx">
       <DependentUpon>201801141618124_productsIsDeleteProp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806011626169_blogTable.resx">
+      <DependentUpon>201806011626169_blogTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

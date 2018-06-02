@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthCommonService.cs" />
+    <Compile Include="BlogService.cs" />
     <Compile Include="CartService.cs" />
     <Compile Include="CategoryService.cs" />
     <Compile Include="OrderService.cs" />
