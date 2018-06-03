@@ -82,6 +82,7 @@ namespace CosmeticaShop.Services
                             DiscountPrice = CalculationService.GetDiscountPrice(product.Price, product.Discount),
                             Name = product.Name,
                             Id = product.Id,
+                            KeyUrl = product.KeyUrl,
                             PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product,
                                 cartModel.ProductId.ToString())
                         };
@@ -240,6 +241,7 @@ namespace CosmeticaShop.Services
             {
                 Amount = m.Amount,
                 ProductId = m.ProductId,
+                KeyUrl = product.KeyUrl,
                 Price = m.Price,
                 IsDelete = m.IsDelete,
                 OrderId = m.OrderId,
@@ -254,6 +256,7 @@ namespace CosmeticaShop.Services
             return new ProductBaseModel
             {
                 Id = m.Id,
+                KeyUrl = m.KeyUrl,
                 Name = m.Name,
                 BrandName = m.Brand?.Name,
                 Price = m.Price,

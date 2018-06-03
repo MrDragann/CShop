@@ -116,6 +116,30 @@ namespace CosmeticaShop.Web.Controllers
             return View(model);
         }
         /// <summary>
+        /// Детальная страница товара
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Detail(string productKeyUrl)
+        {
+            var product = _productService.GetProductByKeyUrl(productKeyUrl);
+            if (!product.IsSuccess)
+                return RedirectToAction("Index", "Home");
+            var user = new WebUser();
+            var possibilityReview = false;
+            if (user.IsAuthorized)
+            {
+                possibilityReview = _productService.ValidationReview(user.UserId, product.Value.Id).IsSuccess;
+            }
+            var model = new ProductDetailsView()
+            {
+                Product = product.Value,
+                PossibilityReview = possibilityReview,
+                SimilarProduct = _productService.GetSimilarProducts(product.Value.Id)
+            };
+            SetSitePageSettings(model.Product.Name, model.Product.SeoKeywords, model.Product.SeoDescription);
+            return View("~/Views/Product/Details.cshtml",model);
+        }
+        /// <summary>
         /// Добавить отзыв
         /// </summary>
         /// <param name="message">Сообщение отзыва</param>

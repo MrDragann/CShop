@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
@@ -199,6 +200,12 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         {
             var response = _productService.DeleteBrand(brandId);
             return Json(response);
+        }
+
+        public ActionResult TestProductUpdateKeyUrls()
+        {
+            var response = ProductService.UpdateProductKeyUrl();
+            return Json(response,JsonRequestBehavior.AllowGet);
         }
 
         #endregion

@@ -5,6 +5,7 @@
     Product.ProductModel = function (theParams) {
         theParams = theParams || {};
         this.Id = ko.observable(theParams.Id || "");
+        this.KeyUrl = ko.observable(theParams.KeyUrl || "");
         this.Name = ko.observable(theParams.Name || "");
         this.Description = ko.observable(theParams.Description || "");
         this.Price = ko.observable(theParams.Price || 0);

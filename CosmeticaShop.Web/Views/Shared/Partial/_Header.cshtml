@@ -37,10 +37,10 @@
                         <!--ko if:Model().length>0-->
                         <ul data-bind="foreach:Model" class="list-unstyled cart-list">
                             <li>
-                                <a class="img-link" data-bind="attr:{href:'@Url.Action("Details","Product")?id='+ProductId()}">
+                                <a class="img-link" data-bind="attr:{href:'@Url.Action("Detail","Product")/'+KeyUrl()}">
                                     <img data-bind="attr:{src:PhotoUrl}" />
                                 </a>
-                                <a class="title-product" data-bind="text:Name,attr:{href:'@Url.Action("Details","Product")?id='+ProductId()}"></a>
+                                <a class="title-product" data-bind="text:Name,attr:{href:'@Url.Action("Detail","Product")/'+KeyUrl()}"></a>
                                 <div class="text-right">
                                     <span style="float: left;" data-bind="text:BrandName"></span>
                                     <span class="bold" data-bind="text:Amount()+' x '+Quantity()"></span>

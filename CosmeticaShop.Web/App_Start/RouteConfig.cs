@@ -11,7 +11,16 @@ namespace CosmeticaShop.Web
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            routes.LowercaseUrls = true;
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "ProductDetail",
+                url: "produs/{productKeyUrl}",
+                defaults: new { controller = "Product", action = "Detail", productKeyUrl = UrlParameter.Optional },
+                namespaces: new[] { "CosmeticaShop.Web.Controllers" }
+            );
 
             routes.MapRoute(
                 name: "Blog",

@@ -63,7 +63,7 @@
                                 <div class="col-xs-6 col-sm-4 col-md-3">
                                     <div class="item">
                                         <div class="product-content">
-                                            <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                                            <a data-bind="attr:{href:'@Url.Action("Detail","Product")/'+KeyUrl()}">
                                                 <div class="product-img">
                                                     <img data-bind="attr:{src:PhotoUrl}" />
                                                     <!--ko if:DiscountPercent()!==0-->
@@ -75,14 +75,14 @@
                                                     <!--/ko-->
                                                 </div>
                                             </a>
-                                            <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                                            <a data-bind="attr:{href:'@Url.Action("Detail","Product")/'+KeyUrl()}">
                                                 <div class="product-description title">
                                                     <span class="pink-text" data-bind="text:Name">
 
                                                     </span>
                                                 </div>
                                             </a>
-                                            <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                                            <a data-bind="attr:{href:'@Url.Action("Detail","Product")/'+KeyUrl()}">
                                                 <div class="product-description">
                                                     <span class="grey-text" data-bind="text:Description"></span>
                                                 </div>
@@ -129,7 +129,7 @@
             <div class="col-xs-6 col-sm-4 col-md-3">
                 <div class="item">
                     <div class="product-content">
-                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <a data-bind="attr:{href:'@Url.Action("Detail","Product")/'+KeyUrl()}">
                             <div class="product-img">
                                 <img data-bind="attr:{src:PhotoUrl}" />
                                 <!--ko if:DiscountPercent()!==0-->
@@ -141,14 +141,14 @@
                                 <!--/ko-->
                             </div>
                         </a>
-                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <a data-bind="attr:{href:'@Url.Action("Detail","Product")/'+KeyUrl()}">
                             <div class="product-description title">
                                 <span class="pink-text" data-bind="text:BrandName">
 
                                 </span>
                             </div>
                         </a>
-                        <a data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                        <a data-bind="attr:{href:'@Url.Action("Detail","Product")/'+KeyUrl()}">
                             <div class="product-description">
                                 <span class="grey-text" data-bind="text:Name"></span>
                             </div>

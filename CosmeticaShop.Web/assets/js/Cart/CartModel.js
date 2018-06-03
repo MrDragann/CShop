@@ -7,8 +7,9 @@
         var self = this;
         if (!theParams.Product)
             theParams.Product = {};
-        this.Id = ko.observable(theParams.Id || "");
+        this.Id = ko.observable(theParams.Id || ""); 
         this.ProductId = ko.observable(theParams.ProductId || 0);
+        this.KeyUrl = ko.observable(theParams.Product.KeyUrl || "");
         this.Name = ko.observable(theParams.Product.Name || "");
         this.Price = ko.observable(theParams.Price || 0);
         this.Amount = ko.observable(theParams.Amount / theParams.Quantity || 0);

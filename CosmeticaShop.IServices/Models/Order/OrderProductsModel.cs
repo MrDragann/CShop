@@ -22,6 +22,11 @@ namespace CosmeticaShop.IServices.Models.Order
         /// Ид товара
         /// </summary>
         public int ProductId { get; set; }
+
+        /// <summary>
+        /// Url товара
+        /// </summary>
+        public string KeyUrl { get; set; }
         /// <summary>
         /// Количество
         /// </summary>

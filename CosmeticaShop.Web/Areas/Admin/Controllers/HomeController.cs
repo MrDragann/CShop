@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Base;
 using CosmeticaShop.IServices.Models.User;
@@ -17,7 +18,7 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         private IAuthCommonService _authCommonService = new AuthCommonService();
 
         [AllowAnonymous]
-        public ActionResult Index()
+        public ActionResult Index(string returnUrl)
         {
             var user = new WebUser();
             if (user.IsAdmin)
@@ -41,7 +42,7 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
                                 IsAuthorized = true
                             };
                             HttpContext.Session["UserSession"] = webUser;
-                            var returnUrl = HttpContext.Request.UrlReferrer?.AbsoluteUri;
+                            //var sreturnUrl = HttpContext.Request.UrlReferrer?.AbsoluteUri;
                             if (!string.IsNullOrEmpty(returnUrl))
                                 return Redirect(returnUrl);
                             return RedirectToAction("Index");
@@ -92,6 +93,25 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             HttpContext.Session.Remove("UserSession");
             Response.Cookies.Add(new HttpCookie("UserData") { Expires = DateTime.Now.AddDays(-1) });
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Создает перемнную в которой находится путь для сохранения файла и далее выполняет метод сохраняющий изображения 
+        /// </summary>
+        /// <param name="upload">Файл</param>
+        /// <param name="ckEditorFuncNum">Идентификационный номер анонимной функции обратного вызова после загрузки</param>
+        /// <returns></returns>
+        public ActionResult UploadImage(HttpPostedFileBase upload, string ckEditorFuncNum)
+        {
+            var host = HttpContext.Request.Url?.Authority;
+            var fileName = Guid.NewGuid() + System.IO.Path.GetFileNameWithoutExtension(upload.FileName);
+            var filePath = FileManager.SaveImage(upload, EnumDirectoryType.Upload, fileName);
+
+            var url = $"http://{host}/{ filePath}";
+            var message = "Ваше изображение успешно загружено";
+            // Ajax запрос для передачи изображения
+            var output = $"<html><body><script>window.parent.CKEDITOR.tools.callFunction({ckEditorFuncNum}, \"{url}\", \"{message}\");</script></body></html>";
+            return Content(output);
         }
     }
 }

@@ -70,6 +70,7 @@ namespace CosmeticaShop.Services
                             DiscountPrice = CalculationService.GetDiscountPrice(product.Price, product.Discount),
                             Name = product.Name,
                             Id = product.Id,
+                            KeyUrl = product.KeyUrl,
                             PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, wishModel.ProductId.ToString())
                         };
                 }
@@ -182,6 +183,7 @@ namespace CosmeticaShop.Services
                     BrandName = m.Product?.Name,
                     DiscountPercent = m.Product.Discount,
                     Id = m.Product.Id,
+                    KeyUrl = m.Product?.KeyUrl,
                     Price = m.Product.Price,
                     PhotoUrl = m.Product?.PhotoUrl,
                     Name = m.Product?.Name,

@@ -4,7 +4,7 @@
 }
 <div class="col-md-12 white-container marginB-heigth-10">
     <div class="default-text navigation">
-        <a href="@Url.Action("Index","Home")"> Principală </a> > 
+        <a href="@Url.Action("Index","Home")"> Principală </a> >
         <a href="@Url.Action("Index","Cabinet")"> <span class="pink-darkk-text">Profilul meu</span></a>
     </div>
 </div>
@@ -51,24 +51,28 @@
         {
             <li>
                 <div class="content detail col-md-12 ">
-                    <div class="col-md-6 row">
-                        <a href="@Url.Action("Details","Product", new {id = products.Product.Id})">
-                            <div class="col-md-3 image">
-                                <img src="@products.Product.PhotoUrl" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <a href="@Url.Action("Detail","Product", new {productKeyUrl = products.Product.KeyUrl})">
+                                    <div class="col-md-3 image">
+                                        <img src="@products.Product.PhotoUrl" />
+                                    </div>
+                                    <div class="col-md-9 name">
+                                        @products.Product.Name
+                                    </div>
+                                </a>
                             </div>
-                            <div class="col-md-9 name">
-                              @products.Product.Name
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-2">
-                        @products.Price Lei
-                    </div>
-                    <div class="col-md-2">
-                        @products.Quantity
-                    </div>
-                    <div class="col-md-2">
-                        @products.Amount Lei
+                        </div>
+                        <div class="col-md-2">
+                            @products.Price Lei
+                        </div>
+                        <div class="col-md-2">
+                            @products.Quantity
+                        </div>
+                        <div class="col-md-2">
+                            @products.Amount Lei
+                        </div>
                     </div>
                 </div>
             </li>
@@ -81,7 +85,7 @@
                 @Resource.TotalOrderAmount:
             </span>
             <span>
-               @Model.Amount Lei
+                @Model.Amount Lei
             </span>
         </div>
     </div>

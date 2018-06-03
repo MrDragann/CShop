@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace CosmeticaShop.Services.Static
 {
@@ -29,8 +30,9 @@ namespace CosmeticaShop.Services.Static
         /// <returns></returns>
         public static string FormKeyUrl(string name)
         {
-            var str = name.Replace(".", "");
-            str = str.Replace(" ", "-");
+            var str = Regex.Replace(name, @"(\s+|@|&|'|\(|\)|<|>|#|[.])", "-");
+            str = Regex.Replace(str, @"(%|[+])", "");
+            str = Regex.Replace(str, "-+", "-");
             return str;
         }
     }

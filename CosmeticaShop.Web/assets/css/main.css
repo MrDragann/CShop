@@ -377,10 +377,21 @@ footer {
         font-family: FuturaPTBook;
         font-size: 14px;
     }
+
+@media(min-width: 767px) {
+    footer .footer-social {
+        text-align: center;
+    }
+}
+
+@media(max-width: 768px) {
+    footer {
+        padding-bottom: 35px;
+    }
+}
+
+
 /* Конец футера */
-
-
-
 .section-name {
     height: 40px;
     background-color: #feabc9;
@@ -1717,8 +1728,8 @@ button.slick-next {
     }
 
     .history-orders .content {
-        height: 100px;
-        padding: 40px 0;
+        /*height: 100px;*/
+        padding: 20px 15px 20px 10px;
         font-size: 18px;
         font-family: FuturaPTBook;
         color: #232323;
@@ -1739,7 +1750,7 @@ button.slick-next {
     }
 
     .history-orders .content.detail {
-        height: 100px;
+        /*height: 100px;*/
     }
 
     .history-orders .content a {
@@ -1752,8 +1763,8 @@ button.slick-next {
     }
 
     .history-orders .content.detail .image {
-        position: relative;
-        top: -25px;
+        /*position: relative;
+        top: -25px;*/
     }
 
 .date-order {
@@ -1988,13 +1999,14 @@ a.disabled, button.disabled, a[disabled], button[disabled] {
 
         .blog-container .blog-content {
             padding: 15px 30px 20px;
+            font-family: FuturaPTBook;
+            font-size: 18px;
         }
 
             .blog-container .blog-content img {
                 max-width: 100%;
             }
 
-        .blog-container .blog-content {
-            font-family: FuturaPTBook;
-            font-size: 18px;
-        }
+            .blog-container .blog-content iframe {
+                max-width: 100%;
+            }

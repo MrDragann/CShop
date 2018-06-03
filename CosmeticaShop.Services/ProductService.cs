@@ -28,6 +28,66 @@ namespace CosmeticaShop.Services
 
         #region [ Товары ]
 
+        /// <summary>
+        /// Обновить ссылку товаров
+        /// </summary>
+        /// <returns></returns>
+        public static BaseResponse UpdateProductKeyUrl()
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var products = db.Products.Include(x => x.Categories).OrderBy(x=>x.Name).ToList();
+                    foreach (var product in products)
+                    {
+                        var allKeyUrls = products.Where(x=>x.Id!=product.Id).Select(x => x.KeyUrl).ToList();
+                        var newKeyUrl =
+                            $"{(product.Categories.Any() ? StringHelper.FormKeyUrl(product.Categories.FirstOrDefault()?.Name) + "-" : "")}" +
+                            $"{StringHelper.FormKeyUrl(product.Name)}";
+                        var newUniqueKeyUrl = StringHelper.GetUrl(newKeyUrl, allKeyUrls);
+                        product.KeyUrl = newUniqueKeyUrl.ToLower();
+                    }
+                    db.SaveChanges();
+                    return new BaseResponse(EnumResponseStatus.Success);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Получить KeyUrl товара
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        private BaseResponse<string> GetProductKeyUrl(int productId, DataContext db)
+        {
+            try
+            {
+                var product = db.Products.AsNoTracking().Where(x => x.Id == productId)
+                    .Include(x => x.Categories).FirstOrDefault();
+                if(product==null)
+                    return new BaseResponse<string>(EnumResponseStatus.Error);
+
+                var productCategoryName = product.Categories
+                    .Select(x => x.Name)
+                    .FirstOrDefault() ?? "";
+                var allKeyUrls = db.Products.Where(x => x.Id != productId).Select(x => x.KeyUrl).ToList();
+                var newKeyUrl =
+                    ($"{(!string.IsNullOrEmpty(productCategoryName)? StringHelper.FormKeyUrl(productCategoryName) + "-":"")}" +
+                    $"{StringHelper.FormKeyUrl(product.Name)}").ToLower();
+                var newUniqueKeyUrl = StringHelper.GetUrl(newKeyUrl, allKeyUrls);
+                return new BaseResponse<string>(newUniqueKeyUrl);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(EnumResponseStatus.Exception,ex.Message);
+            }
+        }
 
         //todo:небольшой пример0))0
         /// <summary>
@@ -201,6 +261,7 @@ namespace CosmeticaShop.Services
                 var query = orders.GroupBy(x => x.ProductId).Select(x => new ProductBaseModel
                 {
                     Id = x.Key,
+                    KeyUrl = x.Select(p => p.Product).First().KeyUrl,
                     Name = x.Select(p => p.Product).First().Name,
                     Price = x.Select(p => p.Product).First().Price,
                     BrandName = x.Select(p => p.Product).First().Brand?.Name,
@@ -262,7 +323,36 @@ namespace CosmeticaShop.Services
                 return model;
             }
         }
-
+        /// <summary>
+        /// Получить товар по keyUrl
+        /// </summary>
+        /// <param name="keyUrl">keyUrl товара</param>
+        /// <returns></returns>
+        public BaseResponse<ProductEditModel> GetProductByKeyUrl(string keyUrl)
+        {
+            using (var db = new DataContext())
+            {
+                var users = db.Users.ToList();
+                var product = db.Products.Include(x => x.Brand).Include(x => x.ProductReviews)
+                    .FirstOrDefault(x => x.KeyUrl == keyUrl);
+                if(product==null)
+                    return new BaseResponse<ProductEditModel>(EnumResponseStatus.Error);
+                foreach (var productProductReview in product.ProductReviews)
+                {
+                    var user = users.FirstOrDefault(x => x.Id == productProductReview.UserId);
+                    if (user == null)
+                        productProductReview.User = new User();
+                    else
+                    {
+                        productProductReview.User = user;
+                    }
+                }
+                var model = ConvertToProductEditModel(product);
+                model.Photos = FileManager.GetFileUrls(EnumDirectoryType.Product, product.Id.ToString());
+                //model.PhotoUrl = FileManager.GetPreviewImage(EnumDirectoryType.Product, model.Id.ToString());
+                return new BaseResponse<ProductEditModel>(model);
+            }
+        }
 
         #region [ Конвертирование ]
 
@@ -271,6 +361,7 @@ namespace CosmeticaShop.Services
             return new ProductBaseModel
             {
                 Id = m.Id,
+                KeyUrl = m.KeyUrl,
                 Name = m.Name,
                 BrandName = m.Brand?.Name,
                 Price = m.Price,
@@ -647,7 +738,6 @@ namespace CosmeticaShop.Services
 
                 using (var db = new DataContext())
                 {
-                    var allKeyUrls = db.Products.AsNoTracking().Select(x => x.KeyUrl).ToList();
                     var newProduct = new Product
                     {
                         Name = model.Name,
@@ -660,7 +750,6 @@ namespace CosmeticaShop.Services
                         IsActive = model.IsActive,
                         SeoDescription = model.SeoDescription,
                         SeoKeywords = model.SeoKeywords,
-                        KeyUrl = StringHelper.GetUrl(model.KeyUrl, allKeyUrls),
                         Price = model.Price,
                         Discount = model.Discount
                     };
@@ -676,6 +765,16 @@ namespace CosmeticaShop.Services
                     db.Products.Add(newProduct);
 
                     db.SaveChanges();
+                    var formKeyUrl = GetProductKeyUrl(newProduct.Id, db);
+                    if (formKeyUrl.IsSuccess)
+                    {
+                        newProduct.KeyUrl = formKeyUrl.Value;
+                    }
+                    else
+                    {
+                        var allKeyUrls = db.Products.AsNoTracking().Select(x => x.KeyUrl).ToList();
+                        newProduct.KeyUrl = StringHelper.GetUrl(newProduct.Name, allKeyUrls);
+                    }
                     //newProduct.PhotoUrl = FileManager.SaveImage(model.PhotoFile, EnumDirectoryType.Product,
                     //    Guid.NewGuid().ToString(), newProduct.Id.ToString());
                     db.SaveChanges();
@@ -704,8 +803,6 @@ namespace CosmeticaShop.Services
                     if (old == null)
                         return new BaseResponse<int>(EnumResponseStatus.Error, "Товар не найден");
 
-                    var allKeyUrls = db.Products.Where(x => x.Id != model.Id).Select(x => x.KeyUrl).ToList();
-
                     old.Name = model.Name;
                     old.Code = model.Code;
                     old.BrandId = model.BrandId;
@@ -714,7 +811,6 @@ namespace CosmeticaShop.Services
                     old.IsRecommended = model.IsRecommended;
                     old.IsInStock = model.IsInStock;
                     old.IsActive = model.IsActive;
-                    old.KeyUrl = StringHelper.GetUrl(model.KeyUrl, allKeyUrls);
                     old.Description = model.Description;
                     old.Price = model.Price;
                     old.Discount = model.Discount;
@@ -734,6 +830,17 @@ namespace CosmeticaShop.Services
                         FileManager.DeleteFile(EnumDirectoryType.Product, old.Id.ToString(), old.PhotoUrl);
                         old.PhotoUrl = FileManager.SaveImage(model.PhotoFile, EnumDirectoryType.Product,
                             Guid.NewGuid().ToString(), old.Id.ToString());
+                    }
+                    db.SaveChanges();
+                    var formKeyUrl = GetProductKeyUrl(old.Id, db);
+                    if (formKeyUrl.IsSuccess)
+                    {
+                        old.KeyUrl = formKeyUrl.Value;
+                    }
+                    else
+                    {
+                        var allKeyUrls = db.Products.AsNoTracking().Select(x => x.KeyUrl).ToList();
+                        old.KeyUrl = StringHelper.GetUrl(old.Name, allKeyUrls);
                     }
                     db.SaveChanges();
                     return new BaseResponse<int>(EnumResponseStatus.Success, "Товар успешно изменен", old.Id);
@@ -1039,7 +1146,7 @@ namespace CosmeticaShop.Services
                     var brand = db.Brands.FirstOrDefault(x => x.Id == model.Id);
 
                     if (brand == null)
-                        return new BaseResponse<BrandModel>(EnumResponseStatus.Error, "Бренд не найден",model);
+                        return new BaseResponse<BrandModel>(EnumResponseStatus.Error, "Бренд не найден", model);
 
                     var allKeyUrls = db.Brands.AsNoTracking().Where(x => x.Id != model.Id).Select(x => x.KeyUrl).ToList();
 
@@ -1056,11 +1163,11 @@ namespace CosmeticaShop.Services
                             Guid.NewGuid().ToString());
                     }
                     db.SaveChanges();
-                    return new BaseResponse<BrandModel>(EnumResponseStatus.Success, "Бренд успешно обновлен",model);
+                    return new BaseResponse<BrandModel>(EnumResponseStatus.Success, "Бренд успешно обновлен", model);
                 }
                 catch (Exception ex)
                 {
-                    return new BaseResponse<BrandModel>(EnumResponseStatus.Exception, ex.Message,model);
+                    return new BaseResponse<BrandModel>(EnumResponseStatus.Exception, ex.Message, model);
                 }
             }
         }

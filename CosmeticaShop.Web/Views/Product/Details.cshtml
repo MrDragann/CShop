@@ -159,7 +159,7 @@
 
         <div class="col-md-3">
             <div class="item">
-                <a class="product-content" data-bind="attr:{href:'@Url.Action("Details","Product")?id='+Id()}">
+                <a class="product-content" data-bind="attr:{href:'@Url.Action("Detail","Product",new{productKeyUrl=""})/'+KeyUrl()}">
                     <div class="product-img">
                         <img data-bind="attr:{src:PhotoUrl}" />
                         <!--ko if:DiscountPercent()!==0-->
@@ -173,7 +173,7 @@
 
                 </a>
                 <div class="product-footer">
-                    <a data-bind="attr:{href:'@Url.Action("Details", "Product")?id='+Id()}">
+                    <a data-bind="attr:{href:'@Url.Action("Detail", "Product",new{productKeyUrl=""})/'+KeyUrl()}">
                         <div class="product-description title">
                             <span class="pink-text" data-bind="text:BrandName">
                             </span>

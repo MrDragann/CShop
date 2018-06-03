@@ -65,6 +65,13 @@ namespace CosmeticaShop.IServices.Interfaces
         ProductEditModel GetProduct(int id);
 
         /// <summary>
+        /// Получить товар по keyUrl
+        /// </summary>
+        /// <param name="keyUrl">keyUrl товара</param>
+        /// <returns></returns>
+        BaseResponse<ProductEditModel> GetProductByKeyUrl(string keyUrl);
+
+        /// <summary>
         /// Получить товары c фильтрацией
         /// </summary>
         /// <param name="request"></param>

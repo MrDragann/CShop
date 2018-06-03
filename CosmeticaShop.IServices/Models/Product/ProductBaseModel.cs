@@ -11,6 +11,11 @@ namespace CosmeticaShop.IServices.Models.Product
         public int Id { get; set; }
 
         /// <summary>
+        /// Url товара
+        /// </summary>
+        public string KeyUrl { get; set; }
+
+        /// <summary>
         /// Наименование
         /// </summary>
         public string Name { get; set; }

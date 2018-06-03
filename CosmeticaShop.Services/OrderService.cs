@@ -665,6 +665,7 @@ namespace CosmeticaShop.Services
             return new ProductBaseModel
             {
                 Id = m.Id,
+                KeyUrl = m.KeyUrl,
                 Name = m.Name,
                 BrandName = m.Brand?.Name,
                 Price = m.Price,
