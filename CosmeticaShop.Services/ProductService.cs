@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using System.Web;
+using System.Web.Configuration;
+using System.Xml.Linq;
 using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
@@ -22,6 +24,22 @@ namespace CosmeticaShop.Services
 {
     public class ProductService : IProductService
     {
+        private string _host
+        {
+            get
+            {
+                try
+                {
+                    var host = WebConfigurationManager.AppSettings["host"];
+                    return host;
+                }
+                catch (Exception e)
+                {
+                    return "http://cosmeticashop.ro/";
+                }
+            }
+        }
+
         private ICategoryService _categoryService = new CategoryService();
 
         #region [ Публичная часть ]
@@ -38,10 +56,10 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var products = db.Products.Include(x => x.Categories).OrderBy(x=>x.Name).ToList();
+                    var products = db.Products.Include(x => x.Categories).OrderBy(x => x.Name).ToList();
                     foreach (var product in products)
                     {
-                        var allKeyUrls = products.Where(x=>x.Id!=product.Id).Select(x => x.KeyUrl).ToList();
+                        var allKeyUrls = products.Where(x => x.Id != product.Id).Select(x => x.KeyUrl).ToList();
                         var newKeyUrl =
                             $"{(product.Categories.Any() ? StringHelper.FormKeyUrl(product.Categories.FirstOrDefault()?.Name) + "-" : "")}" +
                             $"{StringHelper.FormKeyUrl(product.Name)}";
@@ -70,7 +88,7 @@ namespace CosmeticaShop.Services
             {
                 var product = db.Products.AsNoTracking().Where(x => x.Id == productId)
                     .Include(x => x.Categories).FirstOrDefault();
-                if(product==null)
+                if (product == null)
                     return new BaseResponse<string>(EnumResponseStatus.Error);
 
                 var productCategoryName = product.Categories
@@ -78,14 +96,14 @@ namespace CosmeticaShop.Services
                     .FirstOrDefault() ?? "";
                 var allKeyUrls = db.Products.Where(x => x.Id != productId).Select(x => x.KeyUrl).ToList();
                 var newKeyUrl =
-                    ($"{(!string.IsNullOrEmpty(productCategoryName)? StringHelper.FormKeyUrl(productCategoryName) + "-":"")}" +
+                    ($"{(!string.IsNullOrEmpty(productCategoryName) ? StringHelper.FormKeyUrl(productCategoryName) + "-" : "")}" +
                     $"{StringHelper.FormKeyUrl(product.Name)}").ToLower();
                 var newUniqueKeyUrl = StringHelper.GetUrl(newKeyUrl, allKeyUrls);
                 return new BaseResponse<string>(newUniqueKeyUrl);
             }
             catch (Exception ex)
             {
-                return new BaseResponse<string>(EnumResponseStatus.Exception,ex.Message);
+                return new BaseResponse<string>(EnumResponseStatus.Exception, ex.Message);
             }
         }
 
@@ -221,18 +239,27 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var allProducts = db.Products.AsNoTracking().Include(x => x.Brand).Include(x => x.Categories).Include(x => x.SimilarProducts)
+                var allProducts = db.Products.AsNoTracking()
+                    .Include(x => x.Brand)
+                    .Include(x => x.Categories)
+                    .Include(x => x.SimilarProducts)
                     .Where(x => !x.IsDelete.HasValue && x.IsActive).ToList();
                 var product = allProducts.FirstOrDefault(x => x.Id == productId);
                 if (product == null)
                     return new List<ProductBaseModel>();
+                var parentCategories = db.Products.AsNoTracking().Where(x => x.Id == productId)
+                    .SelectMany(x => x.Categories.Select(s => (int?)s.Parent.Id)).ToList();
+                var allcategories = _categoryService.GetAllCategories(
+                    parentsId:parentCategories.Where(x=>x.HasValue).Select(x=>x.Value).ToList());
+                var categoriesId = product.Categories.Select(x => x.Id).ToList();
+                GetChildCategories(allcategories, categoriesId);
                 var similarProducts = product.SimilarProducts;
                 var products = similarProducts.Select(ConvertToProductBaseModel).ToList();
                 var productsRandom = CalculationService.GetRandomProducts(products, 4);
                 if (productsRandom.Count < 4)
                 {
-                    var categoriesId = product.Categories.Select(x => x.Id);
-                    var similarCategories = allProducts.Where(x => categoriesId.Any(m => x.Categories.Any(c => c.Id == m))).ToList();
+                    var similarCategories = allProducts
+                        .Where(x => categoriesId.Any(m => x.Categories.Any(c => c.Id == m) && x.Id!=product.Id)).ToList();
                     var similarCategoriesRandom = CalculationService.GetRandomProducts(similarCategories.Select(ConvertToProductBaseModel).ToList(), 4 - productsRandom.Count);
                     productsRandom.AddRange(similarCategoriesRandom);
                     // если похожих все еще меньше 4, то борем любой случайный товар
@@ -335,7 +362,7 @@ namespace CosmeticaShop.Services
                 var users = db.Users.ToList();
                 var product = db.Products.Include(x => x.Brand).Include(x => x.ProductReviews)
                     .FirstOrDefault(x => x.KeyUrl == keyUrl);
-                if(product==null)
+                if (product == null)
                     return new BaseResponse<ProductEditModel>(EnumResponseStatus.Error);
                 foreach (var productProductReview in product.ProductReviews)
                 {
@@ -1342,6 +1369,40 @@ namespace CosmeticaShop.Services
             catch (Exception ex)
             {
                 return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region [ XML ]
+
+        /// <summary>
+        /// Сгенерировать Sitemap
+        /// </summary>
+        /// <returns></returns>
+        public string GenerateSitemap()
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var products = db.Products.AsNoTracking().Select(x => x.KeyUrl).ToList();
+                    var host = _host;
+                    var catalog = "produs";
+                    var xml = new XDocument(
+                        new XElement("root",
+                            products.Select(x =>
+                        new XElement("url",
+                            new XElement("loc", $"{host}{catalog}/{x}"),
+                            new XElement("changefreq", "daily"),
+                            new XElement("priority", "0.9")))
+                    ));
+                    return xml.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                return e.Message;
             }
         }
 

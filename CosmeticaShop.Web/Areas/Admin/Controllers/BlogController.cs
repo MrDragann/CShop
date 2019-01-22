@@ -69,6 +69,12 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
             return Json(response);
         }
 
+        public ActionResult TestBlogUpdateKeyUrls()
+        {
+            var response = BlogService.UpdateBlogKeyUrl();
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
     }
 }

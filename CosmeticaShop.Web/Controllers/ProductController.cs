@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models.Pagination;
 using CosmeticaShop.Services;
@@ -16,11 +18,12 @@ namespace CosmeticaShop.Web.Controllers
         private readonly IOrderService _orderService = new OrderService();
         private readonly ICategoryService _categoryService = new CategoryService();
         /// <summary>
-        /// Страница с списоком товаров
+        /// Страница со списоком товаров
         /// </summary>
         /// <returns></returns>
         public ActionResult Index(ProductFilterModel request)
         {
+            SetSitePageSettings(EnumSitePage.Products);
             const int take = 21;
             var products = _productService.GetProducts(request);
     
@@ -45,7 +48,7 @@ namespace CosmeticaShop.Web.Controllers
                     Skip = ((int)request.Page - 1) * take,
                     Take = take,
                     PageNumber = (int)request.Page,
-                    PageSize = products.Count / take+1
+                    PageSize = (int)Math.Round(products.Count / Convert.ToDecimal(take))
                 },
                 Filter = request,
                 Categories = _categoryService.GetAllCategories(),

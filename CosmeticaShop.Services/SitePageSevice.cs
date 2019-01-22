@@ -20,7 +20,7 @@ using Resources;
 
 namespace CosmeticaShop.Services
 {
-    public class SitePageSevice: ISitePageSevice
+    public class SitePageSevice : ISitePageSevice
     {
         #region [ Публичная ]
 
@@ -49,22 +49,22 @@ namespace CosmeticaShop.Services
                         Items = brands
                     };
                     var parentCategories = db.Categories.AsNoTracking().Include(x => x.ChildCategories)
-                        .Where(x => !x.ParentId.HasValue).ToList().OrderBy(x=>x.Priority)
+                        .Where(x => !x.ParentId.HasValue).ToList().OrderBy(x => x.Priority)
                         .Select(x => new NavigationModel
                         {
                             Title = x.Name,
-                            Items = x.ChildCategories.OrderBy(c => c.Priority).Select(c=>new NavigationItemModel
+                            Items = x.ChildCategories.OrderBy(c => c.Priority).Select(c => new NavigationItemModel
                             {
                                 Id = c.Id,
                                 Name = c.Name,
                                 KeyUrl = c.KeyUrl,
-                                ChildItems = db.Categories.AsNoTracking().Where(child=> child.ParentId== c.Id)
+                                ChildItems = db.Categories.AsNoTracking().Where(child => child.ParentId == c.Id)
                                     .OrderBy(child => child.Priority).Select(child => new NavigationItemModel
-                                {
-                                    Id = child.Id,
-                                    Name = child.Name,
-                                    KeyUrl = child.KeyUrl
-                                }).ToList()
+                                    {
+                                        Id = child.Id,
+                                        Name = child.Name,
+                                        KeyUrl = child.KeyUrl
+                                    }).ToList()
                             }).ToList()
                         }).ToList();
                     model.Categories = parentCategories;
@@ -139,12 +139,12 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var slides = db.Sliders.AsNoTracking().Where(x=>x.IsActive)
-                        .OrderBy(x=>x.Priority).Select(x => new SliderModel
-                    {
-                        Id = x.Id,
-                        PhotoUrl = x.PhotoUrl
-                    }).ToList();
+                    var slides = db.Sliders.AsNoTracking().Where(x => x.IsActive)
+                        .OrderBy(x => x.Priority).Select(x => new SliderModel
+                        {
+                            Id = x.Id,
+                            PhotoUrl = x.PhotoUrl
+                        }).ToList();
                     return slides;
                 }
             }
@@ -173,7 +173,7 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var sitePage = db.SitePages.AsNoTracking().Where(x => x.Id == (int) page).Select(x => new SitePageModel
+                    var sitePage = db.SitePages.AsNoTracking().Where(x => x.Id == (int)page).Select(x => new SitePageModel
                     {
                         Id = (EnumSitePage)x.Id,
                         Title = x.Title,
@@ -181,7 +181,7 @@ namespace CosmeticaShop.Services
                         SeoDescription = x.SeoDescription,
                         Content = x.Content,
                         ExtraContent = x.ExtraContent
-                    }).FirstOrDefault() ?? new SitePageModel();
+                    }).FirstOrDefault() ?? new SitePageModel { Id = page };
                     return sitePage;
                 }
             }
@@ -203,9 +203,14 @@ namespace CosmeticaShop.Services
             {
                 using (var db = new DataContext())
                 {
-                    var sitePage = db.SitePages.FirstOrDefault(x => x.Id == (int) model.Id);
-                    if(sitePage==null)
-                        return new BaseResponse(EnumResponseStatus.Error,"Страница не найдена");
+                    var sitePage = db.SitePages.FirstOrDefault(x => x.Id == (int)model.Id);
+                    if (sitePage == null)
+                    {
+                        sitePage = new SitePage();
+                        sitePage.Id = (int) model.Id;
+                        db.SitePages.Add(sitePage);
+                    }
+                        //return new BaseResponse(EnumResponseStatus.Error, "Страница не найдена");
                     sitePage.Title = model.Title;
                     sitePage.SeoKeywords = model.SeoKeywords;
                     sitePage.SeoDescription = model.SeoDescription;
@@ -217,7 +222,7 @@ namespace CosmeticaShop.Services
             }
             catch (Exception ex)
             {
-                return new BaseResponse(EnumResponseStatus.Exception,ex.Message);
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
             }
         }
 
@@ -236,7 +241,7 @@ namespace CosmeticaShop.Services
             {
                 var query = db.Sliders.AsNoTracking()
                     .OrderByDescending(x => x.DateCreate) as IQueryable<Slider>;
-                
+
                 var model = new PaginationResponse<SliderEditModel> { Count = query.Count() };
                 if (request.Skip.HasValue)
                     query = query.Skip(request.Skip.Value);
@@ -261,7 +266,7 @@ namespace CosmeticaShop.Services
         {
             using (var db = new DataContext())
             {
-                var product = db.Sliders.AsNoTracking().Where(x => x.Id == id).OrderBy(x=>x.Priority)
+                var product = db.Sliders.AsNoTracking().Where(x => x.Id == id).OrderBy(x => x.Priority)
                     .Select(x => new SliderEditModel
                     {
                         Id = x.Id,
@@ -325,11 +330,11 @@ namespace CosmeticaShop.Services
                     var old = db.Sliders.FirstOrDefault(x => x.Id == model.Id);
                     if (old == null)
                         return new BaseResponse<int>(EnumResponseStatus.Error, "Слайд не найден");
-                    
+
                     old.IsActive = model.IsActive;
                     if (model.PhotoFile != null)
                     {
-                        FileManager.DeleteFile(EnumDirectoryType.Slider, fileName:old.PhotoUrl);
+                        FileManager.DeleteFile(EnumDirectoryType.Slider, fileName: old.PhotoUrl);
                         old.PhotoUrl = FileManager.SaveImage(model.PhotoFile, EnumDirectoryType.Slider,
                             Guid.NewGuid().ToString());
                     }
@@ -371,7 +376,7 @@ namespace CosmeticaShop.Services
         #endregion
 
         #region [ Города ]
-        
+
         /// <summary>
         /// Получить список городов
         /// </summary>

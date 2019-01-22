@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 using CosmeticaShop.Data;
 using CosmeticaShop.Data.Models;
 using CosmeticaShop.IServices.Enums;
@@ -18,6 +19,34 @@ namespace CosmeticaShop.Services
     public class BlogService : IBlogService
     {
         #region [ Публичная ]
+
+        /// <summary>
+        /// Обновить ссылку блогов
+        /// </summary>
+        /// <returns></returns>
+        public static BaseResponse UpdateBlogKeyUrl()
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var items = db.Blogs.OrderBy(x => x.Title).ToList();
+                    foreach (var item in items)
+                    {
+                        var allKeyUrls = items.Where(x => x.Id != item.Id).Select(x => x.KeyUrl).ToList();
+                        var newKeyUrl = StringHelper.FormKeyUrl(item.Title);
+                        var newUniqueKeyUrl = StringHelper.GetUrl(newKeyUrl, allKeyUrls);
+                        item.KeyUrl = newUniqueKeyUrl.ToLower();
+                    }
+                    db.SaveChanges();
+                    return new BaseResponse(EnumResponseStatus.Success);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse(EnumResponseStatus.Exception, ex.Message);
+            }
+        }
 
         /// <summary>
         /// Получить список постов блога

@@ -30,9 +30,9 @@ namespace CosmeticaShop.Services.Static
         /// <returns></returns>
         public static string FormKeyUrl(string name)
         {
-            var str = Regex.Replace(name, @"(\s+|@|&|'|\(|\)|<|>|#|[.])", "-");
-            str = Regex.Replace(str, @"(%|[+])", "");
-            str = Regex.Replace(str, "-+", "-");
+            var str = Regex.Replace(name, @"(\s+|@|&|'|\(|\)|<|>|:|#|[.]|,|[„]|[”])", "-");
+            str = Regex.Replace(str, @"(%|[+]|[?]|-$)", "");
+            str = Regex.Replace(str, "[-]+", "-");
             return str;
         }
     }

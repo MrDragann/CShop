@@ -281,6 +281,16 @@ namespace CosmeticaShop.IServices.Interfaces
 
         #endregion
 
+        #region [ XML ]
+
+        /// <summary>
+        /// Сгенерировать Sitemap
+        /// </summary>
+        /// <returns></returns>
+        string GenerateSitemap();
+
+        #endregion
+
         #endregion
     }
 }

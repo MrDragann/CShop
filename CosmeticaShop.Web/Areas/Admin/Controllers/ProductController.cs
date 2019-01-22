@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Xml.Linq;
 using CosmeticaShop.IServices.Enums;
 using CosmeticaShop.IServices.Interfaces;
 using CosmeticaShop.IServices.Models;
@@ -191,7 +192,7 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
                 ? _productService.AddBrand(model)
                 : _productService.EditBrand(model);
             if (response.IsSuccess)
-                return RedirectToAction("EditBrand",new{id=response.Value.Id});
+                return RedirectToAction("EditBrand", new { id = response.Value.Id });
             return View("~/Areas/Admin/Views/Brand/AddBrand.cshtml", (BaseResponse<BrandModel>)response);
         }
 
@@ -205,7 +206,7 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         public ActionResult TestProductUpdateKeyUrls()
         {
             var response = ProductService.UpdateProductKeyUrl();
-            return Json(response,JsonRequestBehavior.AllowGet);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -267,6 +268,16 @@ namespace CosmeticaShop.Web.Areas.Admin.Controllers
         {
             var response = _productService.CouponDelete(couponId);
             return Json(response);
+        }
+
+        #endregion
+
+        #region [ XML ]
+
+        public ActionResult GenerateXml()
+        {
+            var xml = _productService.GenerateSitemap();
+            return Content(xml, "text/xml");
         }
 
         #endregion
